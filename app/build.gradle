@@ -24,15 +24,16 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:26.+'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    testCompile 'junit:junit:4.12'
 
     // parse-heroku server dependencies
+    compile 'com.android.support:appcompat-v7:26.+'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.parse.bolts:bolts-android:1.4.0'
     compile 'com.parse:parse-android:1.15.1'
     compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
 
     // AsyncHTTP for network requests
     compile 'com.loopj.android:android-async-http:1.4.9'
+    
+    testCompile 'junit:junit:4.12'
 }
