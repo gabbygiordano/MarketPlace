@@ -27,4 +27,9 @@ dependencies {
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
+
+    // parse-heroku server dependencies
+    compile 'com.parse.bolts:bolts-android:1.4.0'
+    compile 'com.parse:parse-android:1.15.1'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
 }
