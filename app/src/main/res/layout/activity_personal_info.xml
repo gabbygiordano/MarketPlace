@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     tools:context="com.example.gabbygiordano.marketplace.PersonalInfoActivity">
 
-
+    <View
+        android:id="@+id/view"
+        android:layout_width="fill_parent"
+        android:layout_height="450dp"
+        android:layout_alignParentBottom="true"
+        android:alpha="0"
+        android:background="#DDDDDD"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true" />
 
 </RelativeLayout>
