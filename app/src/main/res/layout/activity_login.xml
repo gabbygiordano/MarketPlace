@@ -27,6 +27,8 @@
         android:layout_below="@+id/etPassword"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="34dp"
+        android:clickable="true"
+        android:onClick="onLoginSuccess"
         android:text="Log In" />
 
     <EditText
