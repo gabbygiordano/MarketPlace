@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="planets_array">
+        <item>Choose your school</item>
+        <item>Howard Univeristy</item>
+        <item>Harvey Mudd</item>
+        <item>Caltech</item>
+    </string-array>
+</resources>
