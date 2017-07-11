@@ -32,4 +32,7 @@ dependencies {
     compile 'com.parse.bolts:bolts-android:1.4.0'
     compile 'com.parse:parse-android:1.15.1'
     compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
+
+    // AsyncHTTP for network requests
+    compile 'com.loopj.android:android-async-http:1.4.9'
 }
