@@ -33,7 +33,6 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onLoginSuccess(View view){
         // if username and password are accepted, start new activity
-        // note: Intent is currently commented out until we create the HomeActivity class
 
         Intent i = new Intent(this, HomeActivity.class);
         startActivity(i);
