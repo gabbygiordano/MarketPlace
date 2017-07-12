@@ -48,7 +48,7 @@
         android:inputType="textPersonName" />
 
     <RatingBar
-        android:id="@+id/ratingBar"
+        android:id="@+id/rbCondition"
         style="@style/Widget.AppCompat.RatingBar.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -65,7 +65,7 @@
         android:layout_below="@+id/etItemPrice"
         android:text="Choose Item Condition"
         android:textSize="18sp"
-        android:layout_toStartOf="@+id/ratingBar"
+        android:layout_toStartOf="@+id/rbCondition"
         android:layout_alignRight="@+id/etItemPrice"
         android:layout_alignEnd="@+id/etItemPrice" />
 
@@ -73,12 +73,14 @@
         android:id="@+id/ibPostItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/homeicon"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_toEndOf="@+id/tvCondition"
         android:layout_toRightOf="@+id/tvCondition"
-        android:layout_toEndOf="@+id/tvCondition" />
+        android:clickable="true"
+        android:onClick="onPostSuccess"
+        app:srcCompat="@drawable/homeicon" />
 
     <TextView
         android:id="@+id/tvPostItem"
