@@ -48,7 +48,8 @@ public class HomeActivity extends AppCompatActivity {
                         break;
 
                     case R.id.action_search:
-                        Toast.makeText(HomeActivity.this, "Search Tab Selected", Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(HomeActivity.this, "Search Tab Selected", Toast.LENGTH_SHORT).show();
+                        onSearchClick();
                         break;
 
                     case R.id.action_add:
@@ -57,7 +58,8 @@ public class HomeActivity extends AppCompatActivity {
                         break;
 
                     case R.id.action_notifications:
-                        Toast.makeText(HomeActivity.this, "Notifications Tab Selected", Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(HomeActivity.this, "Notifications Tab Selected", Toast.LENGTH_SHORT).show();
+                        onNotificationsClick();
                         break;
 
                     case R.id.action_profile:
@@ -73,6 +75,16 @@ public class HomeActivity extends AppCompatActivity {
 
     public void onAddItemClick(){
         Intent i = new Intent(this, AddItemActivity.class);
+        startActivity(i);
+    }
+
+    public void onSearchClick(){
+        Intent i = new Intent(this, SearchActivity.class);
+        startActivity(i);
+    }
+
+    public void onNotificationsClick(){
+        Intent i = new Intent(this, NotificationsActivity.class);
         startActivity(i);
     }
 }
