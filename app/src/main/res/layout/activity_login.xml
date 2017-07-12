@@ -27,6 +27,8 @@
         android:layout_below="@+id/etPassword"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="34dp"
+        android:clickable="true"
+        android:onClick="onLoginSuccess"
         android:text="Log In" />
 
     <EditText
@@ -51,12 +53,12 @@
         android:text="Forgot Password?" />
 
     <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="285dp"
-        android:layout_height="285dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:adjustViewBounds="false"
-        app:srcCompat="@drawable/logo2" />
+    android:id="@+id/imageView2"
+    android:layout_width="285dp"
+    android:layout_height="285dp"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true"
+    android:adjustViewBounds="false"
+    app:srcCompat="@drawable/logo2" />
 
 </RelativeLayout>

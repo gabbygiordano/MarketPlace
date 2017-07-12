@@ -90,7 +90,11 @@ public class SignUpActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spinner.setAdapter(adapter);
+    }
 
 
+    public void onRegisterClicked(View view) {
+        Intent intent = new Intent(this, PersonalInfoActivity.class);
+        startActivity(intent);
     }
 }
