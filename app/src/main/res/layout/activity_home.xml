@@ -7,13 +7,15 @@
     tools:context="com.example.gabbygiordano.marketplace.HomeActivity">
 
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:text="test"
-        android:textSize="18sp" />
+        android:layout_alignParentBottom="true"
+        app:itemBackground="@color/colorPrimary"
+        app:itemIconTint="@drawable/item_color_state"
+        app:itemTextColor="@drawable/item_color_state"
+        app:menu="@menu/bottom_navigation_main"
+        />
+
 </RelativeLayout>
