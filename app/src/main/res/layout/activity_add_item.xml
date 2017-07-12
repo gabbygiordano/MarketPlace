@@ -12,7 +12,15 @@
         android:layout_height="75dp"
         app:srcCompat="@android:drawable/ic_menu_camera"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="-2dp" />
+        tools:layout_editor_absoluteY="-2dp"
+        android:onClick="takeItemPhoto"/>
+
+    <ImageView
+        android:id="@+id/ivItemPhoto"
+        android:layout_width="75dp"
+        android:layout_height="70dp"
+        android:layout_margin="5dp"
+        android:layout_toRightOf="@+id/ibAddImage" />
 
     <EditText
         android:id="@+id/etItemName"
