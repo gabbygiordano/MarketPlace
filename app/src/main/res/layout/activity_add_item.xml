@@ -84,7 +84,6 @@
         android:id="@+id/ibPostItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-<<<<<<< HEAD
         android:clickable="true"
         android:onClick="onPostSuccess"
         app:srcCompat="@drawable/homeicon"
@@ -92,8 +91,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="31dp" />
-=======
-        android:layout_alignParentBottom="true"
+
+        <!--android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_toEndOf="@+id/tvCondition"
@@ -101,8 +100,8 @@
         android:onClick="onPostSuccess"
         app:srcCompat="@drawable/homeicon"
         android:layout_alignLeft="@+id/tvPostItem"
-        android:layout_alignStart="@+id/tvPostItem" />
->>>>>>> master
+        android:layout_alignStart="@+id/tvPostItem" />-->
+
 
     <TextView
         android:id="@+id/tvPostItem"
@@ -114,7 +113,6 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
-<<<<<<< HEAD
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottomNavigation"
@@ -126,7 +124,7 @@
         app:itemTextColor="@drawable/item_color_state"
         app:menu="@menu/bottom_navigation_main"
         />
-=======
+
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
@@ -149,7 +147,6 @@
         android:layout_toRightOf="@+id/tvCondition"
         android:layout_toEndOf="@+id/tvCondition" />
 
->>>>>>> master
 
 </RelativeLayout>
 

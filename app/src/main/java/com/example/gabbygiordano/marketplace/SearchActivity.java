@@ -53,7 +53,9 @@ public class SearchActivity extends AppCompatActivity {
                         break;
 
                     case R.id.action_profile:
-                        Toast.makeText(SearchActivity.this, "Profile Tab Selected", Toast.LENGTH_SHORT).show();
+                        Intent i_profile = new Intent(SearchActivity.this, ProfileActivity.class);
+                        startActivity(i_profile);
+                        //Toast.makeText(SearchActivity.this, "Profile Tab Selected", Toast.LENGTH_SHORT).show();
                         break;
                 }
 

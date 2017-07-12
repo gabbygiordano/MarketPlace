@@ -70,8 +70,9 @@ public class HomeActivity extends AppCompatActivity {
                         break;
 
                     case R.id.action_profile:
+                        Intent i_profile = new Intent(HomeActivity.this, ProfileActivity.class);
+                        startActivity(i_profile);
                         // Toast.makeText(HomeActivity.this, "Profile Tab Selected", Toast.LENGTH_SHORT).show();
-                        onProfileClick();
                         break;
                 }
 
@@ -81,26 +82,4 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-<<<<<<< HEAD
-=======
-    public void onAddItemClick(){
-        Intent i = new Intent(this, AddItemActivity.class);
-        startActivity(i);
-    }
-
-    public void onSearchClick(){
-        Intent i = new Intent(this, SearchActivity.class);
-        startActivity(i);
-    }
-
-    public void onNotificationsClick(){
-        Intent i = new Intent(this, NotificationsActivity.class);
-        startActivity(i);
-    }
-
-    public void onProfileClick(){
-        Intent i = new Intent(this, ProfileActivity.class);
-        startActivity(i);
-    }
->>>>>>> master
 }

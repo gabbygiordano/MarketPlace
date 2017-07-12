@@ -65,7 +65,9 @@ public class NotificationsActivity extends AppCompatActivity {
                         break;
 
                     case R.id.action_profile:
-                        Toast.makeText(NotificationsActivity.this, "Profile Tab Selected", Toast.LENGTH_SHORT).show();
+                        Intent i_profile = new Intent(NotificationsActivity.this, ProfileActivity.class);
+                        startActivity(i_profile);
+                        //Toast.makeText(NotificationsActivity.this, "Profile Tab Selected", Toast.LENGTH_SHORT).show();
                         break;
                 }
 

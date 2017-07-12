@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.gabbygiordano.marketplace.AddItemActivity">
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,13 +13,6 @@
     android:layout_height="match_parent"
     tools:context="com.example.gabbygiordano.marketplace.SearchActivity">
 
-<<<<<<< HEAD
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="com.example.gabbygiordano.marketplace.HomeActivity">
 
 
     <android.support.design.widget.BottomNavigationView
@@ -26,14 +26,17 @@
         app:menu="@menu/bottom_navigation_main"
         />
 
+        <SearchView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true" />
+
     </RelativeLayout>
-</android.support.constraint.ConstraintLayout>
-=======
-    <SearchView
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
-</RelativeLayout>
->>>>>>> master
+
+</android.support.design.widget.CoordinatorLayout>
+
+
+
+

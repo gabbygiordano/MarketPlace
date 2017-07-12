@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -89,7 +90,9 @@ public class AddItemActivity extends AppCompatActivity {
                         break;
 
                     case R.id.action_profile:
-                        Toast.makeText(AddItemActivity.this, "Profile Tab Selected", Toast.LENGTH_SHORT).show();
+                        Intent i_profile = new Intent(AddItemActivity.this, ProfileActivity.class);
+                        startActivity(i_profile);
+                        //Toast.makeText(AddItemActivity.this, "Profile Tab Selected", Toast.LENGTH_SHORT).show();
                         break;
                 }
 
