@@ -26,7 +26,6 @@ dependencies {
     })
 
     // parse-heroku server dependencies
-    
 
     // AsyncHTTP for network requests
 
