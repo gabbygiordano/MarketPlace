@@ -1,5 +1,6 @@
 package com.example.gabbygiordano.marketplace.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,7 +14,11 @@ import com.example.gabbygiordano.marketplace.Item;
 import com.example.gabbygiordano.marketplace.ItemAdapter;
 import com.example.gabbygiordano.marketplace.R;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
+
+import static android.app.Activity.RESULT_OK;
 
 public class ItemsListFragment extends Fragment {
 
@@ -21,6 +26,8 @@ public class ItemsListFragment extends Fragment {
     ItemAdapter itemAdapter;
 
     RecyclerView rvItems;
+
+    int ADD_ITEM_REQUEST = 10;
 
     @Nullable
     @Override
@@ -40,6 +47,7 @@ public class ItemsListFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvItems.setLayoutManager(linearLayoutManager);
         rvItems.setAdapter(itemAdapter);
+        rvItems.setHasFixedSize(true);
 
         return v;
     }
@@ -48,4 +56,15 @@ public class ItemsListFragment extends Fragment {
         items.add(item);
         itemAdapter.notifyItemInserted(items.size() - 1);
     }
+
+    public void activityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == ADD_ITEM_REQUEST && resultCode == RESULT_OK) {
+            Item item = (Item) Parcels.unwrap(data.getParcelableExtra("item"));
+            items.add(item);
+            itemAdapter.notifyDataSetChanged();
+            //rvItems.scrollToPosition(0);
+        }
+    }
+
+    public void populate() {}
 }

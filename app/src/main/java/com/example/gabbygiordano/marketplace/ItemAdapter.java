@@ -34,7 +34,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        View itemView = inflater.inflate(R.layout.activity_item, parent, false);
+        View itemView = inflater.inflate(R.layout.item, parent, false);
         ViewHolder viewHolder = new ViewHolder(itemView);
 
         return viewHolder;
@@ -46,13 +46,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         // get the data according to position
         final Item item = mItems.get(position);
 
-        // populate the views according to this data
-//        holder.tvUserName.setText(item.user.name);
-//        holder.tvBody.setText(tweet.body);
-//        holder.tvHandle.setText(String.format("@" + tweet.user.screenName));
-//        holder.tvTimestamp.setText(getRelativeTimeAgo(tweet.createdAt));
-//        holder.tvRTCount.setText(tweet.retweet_count + "");
-//        holder.tvFavCount.setText(tweet.favorite_count + "");
+        // populate the views according to item data
+        holder.tvItemName.setText(item.itemName);
+        holder.tvPrice.setText(item.price);
+        holder.tvSeller.setText(item.user.name);
     }
 
     @Override

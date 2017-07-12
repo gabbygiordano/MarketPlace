@@ -1,13 +1,13 @@
 package com.example.gabbygiordano.marketplace;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import org.parceler.Parcel;
 
 /**
  * Created by gabbygiordano on 7/12/17.
  */
 
-public class User implements Parcelable {
+@Parcel
+public class User {
 
     public String name;
     public String username;
@@ -16,39 +16,19 @@ public class User implements Parcelable {
     public String college;
     public String phone;
 
-    protected User(Parcel in) {
-        name = in.readString();
-        username = in.readString();
-        email = in.readString();
-        password = in.readString();
-        college = in.readString();
-        phone = in.readString();
+    public User() {
     }
 
-    public static final Creator<User> CREATOR = new Creator<User>() {
-        @Override
-        public User createFromParcel(Parcel in) {
-            return new User(in);
-        }
+    public static User fromInput(String name, String username, String email, String password, String college, String phone) {
+        User user = new User();
 
-        @Override
-        public User[] newArray(int size) {
-            return new User[size];
-        }
-    };
+        user.name = name;
+        user.username = username;
+        user.email = email;
+        user.password = password;
+        user.college = college;
+        user.phone = phone;
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(name);
-        parcel.writeString(username);
-        parcel.writeString(email);
-        parcel.writeString(password);
-        parcel.writeString(college);
-        parcel.writeString(phone);
+        return user;
     }
 }
