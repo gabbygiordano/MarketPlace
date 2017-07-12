@@ -7,6 +7,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -26,6 +27,9 @@ public class HomeActivity extends AppCompatActivity {
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
+        Menu menu = bottomNavigationView.getMenu();
+        MenuItem menuitem = menu.getItem(0);
+        menuitem.setChecked(true);
 
         adapter = new ItemsPagerAdapter(getSupportFragmentManager(), this);
 
@@ -49,17 +53,20 @@ public class HomeActivity extends AppCompatActivity {
 
                     case R.id.action_search:
                         // Toast.makeText(HomeActivity.this, "Search Tab Selected", Toast.LENGTH_SHORT).show();
-                        onSearchClick();
+                        Intent i_search = new Intent(HomeActivity.this, SearchActivity.class);
+                        startActivity(i_search);
                         break;
 
                     case R.id.action_add:
+                        Intent i_add = new Intent(HomeActivity.this, AddItemActivity.class);
+                        startActivity(i_add);
                         // Toast.makeText(HomeActivity.this, "Add Tab Selected", Toast.LENGTH_SHORT).show();
-                        onAddItemClick();
                         break;
 
                     case R.id.action_notifications:
+                        Intent i_notifications = new Intent(HomeActivity.this, NotificationsActivity.class);
+                        startActivity(i_notifications);
                         // Toast.makeText(HomeActivity.this, "Notifications Tab Selected", Toast.LENGTH_SHORT).show();
-                        onNotificationsClick();
                         break;
 
                     case R.id.action_profile:
@@ -68,12 +75,14 @@ public class HomeActivity extends AppCompatActivity {
                         break;
                 }
 
-                return true;
+                return false;
             }
         });
 
     }
 
+<<<<<<< HEAD
+=======
     public void onAddItemClick(){
         Intent i = new Intent(this, AddItemActivity.class);
         startActivity(i);
@@ -93,4 +102,5 @@ public class HomeActivity extends AppCompatActivity {
         Intent i = new Intent(this, ProfileActivity.class);
         startActivity(i);
     }
+>>>>>>> master
 }

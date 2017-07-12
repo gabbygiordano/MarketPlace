@@ -40,4 +40,6 @@
         android:layout_toRightOf="@+id/ivProfileImage"
         android:text="Item Name"
         android:textStyle="bold" />
+
+
 </RelativeLayout>
