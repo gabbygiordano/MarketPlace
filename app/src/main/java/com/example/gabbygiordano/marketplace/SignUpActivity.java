@@ -30,18 +30,8 @@ public class SignUpActivity extends AppCompatActivity {
 
         spinner = (Spinner) findViewById(R.id.schoolOptions);
 
+        // get list of US universities
         getSchools();
-
-        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, getSchools());
-
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        // ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.planets_array, android.R.layout.simple_spinner_item);
-
-        // Specify the layout to use when the list of choices appears
-        // adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        // Apply the adapter to the spinner
-        // spinner.setAdapter(adapter);
     }
 
     public void goToLogin(View view) {
@@ -50,13 +40,17 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     public void getSchools() {
+        // make network request to get university list using API
         MarketPlaceClient.getSchoolList(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
                     size = response.getJSONObject("metadata").getInt("total");
-                    schools = new String[size];
-                    Log.e("Login", String.valueOf(size));
+                    Log.e("SIZE", String.valueOf(size));
+
+                    schools = new String[20];
+
+                    // add each school to list
                     for (int i = 0; i < 20; i++) {
                         schools[i] = response.getJSONArray("results").getJSONObject(i).getString("school.name");
                     }
@@ -85,10 +79,13 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     public void setupAdapter() {
+        // create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, schools);
 
+        // specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
+        // apply the adapter to the spinner
         spinner.setAdapter(adapter);
     }
 

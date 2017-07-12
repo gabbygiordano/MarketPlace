@@ -14,7 +14,10 @@ public class MarketPlaceClient {
 
     public static final String API_KEY = "api_key=1PVcYE59lhrYLGtQN2FhXppctGHkHE7KvFYgYcPu";
 
-    public static final String OPTION_PARAMS = "&_fields=school.name&_sort=school.name";
+    public static final String OPTION_PARAMS = "&school.region_id__not=9" +
+                                               "&school.carnegie_undergrad__range=5..15" +
+                                               "&_fields=school.name" +
+                                               "&_sort=school.name";
 
     public static void getSchoolList(AsyncHttpResponseHandler handler) {
         String url = GET_URL + ENDPOINT + FORMAT + API_KEY + OPTION_PARAMS;
