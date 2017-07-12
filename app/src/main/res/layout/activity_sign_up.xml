@@ -5,6 +5,7 @@
     android:layout_margin="10dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorLogoWhite"
     tools:context="com.example.gabbygiordano.marketplace.SignUpActivity">
 
     <View
@@ -15,6 +16,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:alpha="0"
+        android:paddingTop="5dp"
         android:background="#DDDDDD" />
 
     <EditText
@@ -23,8 +25,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Enter your school email address"
-        android:layout_centerHorizontal="true"
         android:inputType="textEmailAddress"
+        android:layout_marginBottom="29dp"
         android:layout_above="@+id/password"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -48,14 +50,14 @@
         android:id="@+id/schoolOptions"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="27dp"
         android:visibility="visible"
         android:layout_below="@+id/password"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <Button
-        android:id="@+id/loginButton"
+        android:id="@+id/registerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Register"
@@ -74,17 +76,18 @@
         android:gravity="center"
         android:clickable="true"
         android:onClick="goToLogin"
-        android:layout_below="@+id/loginButton"
+        android:layout_below="@+id/registerButton"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="265dp"
-        android:layout_height="265dp"
+        android:layout_width="285dp"
+        android:layout_height="285dp"
         android:adjustViewBounds="false"
         app:srcCompat="@drawable/logo2"
         android:layout_alignParentTop="true"
+        android:layout_marginBottom="15dp"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
