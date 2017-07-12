@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.gabbygiordano.marketplace.fragments.ItemsListFragment;
 import com.example.gabbygiordano.marketplace.fragments.ItemsPagerAdapter;
 
 public class HomeActivity extends AppCompatActivity {
@@ -19,6 +20,8 @@ public class HomeActivity extends AppCompatActivity {
 
     ViewPager viewPager;
     ItemsPagerAdapter adapter;
+
+    int ADD_ITEM_REQUEST = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +62,7 @@ public class HomeActivity extends AppCompatActivity {
 
                     case R.id.action_add:
                         Intent i_add = new Intent(HomeActivity.this, AddItemActivity.class);
-                        startActivity(i_add);
+                        startActivityForResult(i_add, ADD_ITEM_REQUEST);
                         // Toast.makeText(HomeActivity.this, "Add Tab Selected", Toast.LENGTH_SHORT).show();
                         break;
 
@@ -79,7 +82,11 @@ public class HomeActivity extends AppCompatActivity {
                 return false;
             }
         });
-
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        ItemsListFragment fragment = (ItemsListFragment) adapter.getRegisteredFragment(viewPager.getCurrentItem());
+        fragment.activityResult(requestCode, resultCode, data);
+    }
 }
