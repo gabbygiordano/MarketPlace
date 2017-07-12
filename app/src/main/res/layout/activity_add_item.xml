@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.gabbygiordano.marketplace.AddItemActivity">
+
+    <ImageButton
+        android:id="@+id/ibAddImage"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        app:srcCompat="@android:drawable/ic_menu_camera"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-2dp" />
+
+    <EditText
+        android:id="@+id/etItemName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/ibAddImage"
+        android:ems="10"
+        android:hint="Enter Item Name"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/etItemDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/etItemName"
+        android:ems="10"
+        android:hint="Enter Item Description"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/etItemPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/etItemDescription"
+        android:ems="10"
+        android:hint="Enter Item Price"
+        android:inputType="textPersonName" />
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        style="@style/Widget.AppCompat.RatingBar.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etItemPrice"
+        android:layout_toRightOf="@+id/etItemPrice"
+        android:layout_toEndOf="@+id/etItemPrice" />
+
+    <TextView
+        android:id="@+id/tvCondition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/etItemPrice"
+        android:text="Choose Item Condition"
+        android:textSize="18sp"
+        android:layout_toStartOf="@+id/ratingBar"
+        android:layout_alignRight="@+id/etItemPrice"
+        android:layout_alignEnd="@+id/etItemPrice" />
+
+    <ImageButton
+        android:id="@+id/ibPostItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/homeicon"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/tvCondition"
+        android:layout_toEndOf="@+id/tvCondition" />
+
+    <TextView
+        android:id="@+id/tvPostItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Post Item to Marketplace"
+        android:textStyle="bold"
+        android:layout_above="@+id/ibPostItem"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+</RelativeLayout>
