@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -51,7 +52,8 @@ public class HomeActivity extends AppCompatActivity {
                         break;
 
                     case R.id.action_add:
-                        Toast.makeText(HomeActivity.this, "Add Tab Selected", Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(HomeActivity.this, "Add Tab Selected", Toast.LENGTH_SHORT).show();
+                        onAddItemClick();
                         break;
 
                     case R.id.action_notifications:
@@ -67,5 +69,10 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void onAddItemClick(){
+        Intent i = new Intent(this, AddItemActivity.class);
+        startActivity(i);
     }
 }
