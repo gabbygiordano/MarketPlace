@@ -10,7 +10,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
-import android.widget.Toast;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -39,12 +40,25 @@ public class AddItemActivity extends AppCompatActivity {
         rbCondition = (RatingBar) findViewById(R.id.rbCondition);
         ibAddImage = (ImageButton) findViewById(R.id.ibAddImage);
         ibPostItem = (ImageButton) findViewById(R.id.ibPostItem);
-        imageLocation= (ImageView) findViewById(R.id.ivItemPhoto);
+        imageLocation = (ImageView) findViewById(R.id.ivItemPhoto);
     }
 
-    public void onPostSuccess(View view){
-        Intent i = new Intent(this, HomeActivity.class);
-        startActivity(i);
+    public void onPostSuccess(View view) {
+        String name = etItemName.getText().toString();
+        String description = etItemDescription.getText().toString();
+        String price = etItemPrice.getText().toString();
+        int condition = 0;
+
+        User user = User.fromInput("name", "username", "email", "password", "college", "phone");
+
+        Item item = Item.fromInput(name, description, price, condition, user);
+
+        Intent intent = new Intent();
+        intent.putExtra("item", Parcels.wrap(item));
+
+        // return to required activity
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
 

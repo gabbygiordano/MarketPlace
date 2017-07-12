@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.gabbygiordano.marketplace.fragments.ItemsListFragment;
 import com.example.gabbygiordano.marketplace.fragments.ItemsPagerAdapter;
 
 public class HomeActivity extends AppCompatActivity {
@@ -18,6 +19,8 @@ public class HomeActivity extends AppCompatActivity {
 
     ViewPager viewPager;
     ItemsPagerAdapter adapter;
+
+    int ADD_ITEM_REQUEST = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,12 +73,11 @@ public class HomeActivity extends AppCompatActivity {
                 return true;
             }
         });
-
     }
 
     public void onAddItemClick(){
         Intent i = new Intent(this, AddItemActivity.class);
-        startActivity(i);
+        startActivityForResult(i, ADD_ITEM_REQUEST);
     }
 
     public void onSearchClick(){
@@ -86,5 +88,11 @@ public class HomeActivity extends AppCompatActivity {
     public void onNotificationsClick(){
         Intent i = new Intent(this, NotificationsActivity.class);
         startActivity(i);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        ItemsListFragment fragment = (ItemsListFragment) adapter.getRegisteredFragment(viewPager.getCurrentItem());
+        fragment.activityResult(requestCode, resultCode, data);
     }
 }
