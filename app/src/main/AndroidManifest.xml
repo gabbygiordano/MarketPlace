@@ -26,7 +26,8 @@
         <activity android:name=".ItemActivity" />
         <activity android:name=".AddItemActivity" />
         <activity android:name=".SearchActivity" />
-        <activity android:name=".NotificationsActivity"></activity>
+        <activity android:name=".NotificationsActivity" />
+        <activity android:name=".ProfileActivity"></activity>
     </application>
 
 </manifest>

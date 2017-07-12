@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.gabbygiordano.marketplace.AddItemActivity">
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -31,7 +38,9 @@
         android:layout_below="@+id/ibAddImage"
         android:ems="10"
         android:hint="Enter Item Name"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <EditText
         android:id="@+id/etItemDescription"
@@ -42,7 +51,9 @@
         android:layout_below="@+id/etItemName"
         android:ems="10"
         android:hint="Enter Item Description"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <EditText
         android:id="@+id/etItemPrice"
@@ -53,16 +64,9 @@
         android:layout_below="@+id/etItemDescription"
         android:ems="10"
         android:hint="Enter Item Price"
-        android:inputType="textPersonName" />
-
-    <RatingBar
-        android:id="@+id/rbCondition"
-        style="@style/Widget.AppCompat.RatingBar.Small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/etItemPrice"
-        android:layout_toRightOf="@+id/etItemPrice"
-        android:layout_toEndOf="@+id/etItemPrice" />
+        android:inputType="textPersonName"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:id="@+id/tvCondition"
@@ -71,24 +75,33 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/etItemPrice"
-        android:text="Choose Item Condition"
+        android:layout_marginLeft="5dp"
+        android:text="Choose Item Condition:"
         android:textSize="18sp"
-        android:layout_toStartOf="@+id/rbCondition"
-        android:layout_alignRight="@+id/etItemPrice"
-        android:layout_alignEnd="@+id/etItemPrice" />
+        android:textStyle="bold" />
 
     <ImageButton
         android:id="@+id/ibPostItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:clickable="true"
+        android:onClick="onPostSuccess"
+        app:srcCompat="@drawable/homeicon"
+        android:layout_above="@+id/bottomNavigation"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="31dp" />
+
+        <!--android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_toEndOf="@+id/tvCondition"
-        android:layout_toRightOf="@+id/tvCondition"
         android:clickable="true"
         android:onClick="onPostSuccess"
-        app:srcCompat="@drawable/homeicon" />
+        app:srcCompat="@drawable/homeicon"
+        android:layout_alignLeft="@+id/tvPostItem"
+        android:layout_alignStart="@+id/tvPostItem" />-->
+
 
     <TextView
         android:id="@+id/tvPostItem"
@@ -99,4 +112,42 @@
         android:layout_above="@+id/ibPostItem"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:itemBackground="@color/colorPrimary"
+        app:itemIconTint="@drawable/item_color_state"
+        app:itemTextColor="@drawable/item_color_state"
+        app:menu="@menu/bottom_navigation_main"
+        />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tvCondition"
+        android:layout_marginLeft="5dp"
+        android:text="1 for poor condition, 5 for basically new"
+        android:textSize="10sp"
+        android:layout_toLeftOf="@+id/conditionOptions"
+        android:layout_toStartOf="@+id/conditionOptions" />
+
+    <Spinner
+        android:id="@+id/conditionOptions"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:layout_below="@+id/etItemPrice"
+        android:layout_toRightOf="@+id/tvCondition"
+        android:layout_toEndOf="@+id/tvCondition" />
+
+
 </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>
