@@ -24,6 +24,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
 
         adapter = new ItemsPagerAdapter(getSupportFragmentManager(), this);
 

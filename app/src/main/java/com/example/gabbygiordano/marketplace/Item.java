@@ -1,3 +1,5 @@
+package com.example.gabbygiordano.marketplace;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.widget.ImageView;
@@ -14,10 +16,15 @@ public class Item implements Parcelable {
     public ImageView itemImage;
 
 
-    protected Item(Parcel in) {
+    public Item(Parcel in) {
         itemName = in.readString();
         user = in.readParcelable(User.class.getClassLoader());
         price = in.readString();
+    }
+
+    public Item(String name, String p) {
+        itemName = name;
+        price = p;
     }
 
     public static final Creator<Item> CREATOR = new Creator<Item>() {
