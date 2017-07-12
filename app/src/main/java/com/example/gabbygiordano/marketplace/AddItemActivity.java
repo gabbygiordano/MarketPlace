@@ -10,11 +10,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RatingBar;
-import android.widget.Toast;
+import android.widget.Spinner;
 
 import java.util.ArrayList;
 
@@ -25,7 +25,6 @@ public class AddItemActivity extends AppCompatActivity {
     public EditText etItemName;
     public EditText etItemDescription;
     public EditText etItemPrice;
-    public RatingBar rbCondition;
     public ImageButton ibAddImage;
     public ImageButton ibPostItem;
     public ImageView imageLocation;
@@ -37,10 +36,18 @@ public class AddItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
 
+        Spinner spinner = (Spinner) findViewById(R.id.conditionOptions);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.condition_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
+
         etItemName = (EditText) findViewById(R.id.etItemName);
         etItemDescription = (EditText) findViewById(R.id.etItemDescription);
         etItemPrice = (EditText) findViewById(R.id.etItemPrice);
-        rbCondition = (RatingBar) findViewById(R.id.rbCondition);
         ibAddImage = (ImageButton) findViewById(R.id.ibAddImage);
         ibPostItem = (ImageButton) findViewById(R.id.ibPostItem);
         imageLocation= (ImageView) findViewById(R.id.ivItemPhoto);
