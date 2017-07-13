@@ -53,6 +53,15 @@
         android:layout_marginLeft="5dp"
         android:text="College" />
 
+    <TextView
+        android:id="@+id/tvPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/ivProfileImage"
+        android:text="Phone" />
+
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
@@ -63,5 +72,6 @@
         app:itemTextColor="@drawable/item_color_state"
         app:menu="@menu/bottom_navigation_main"
         />
+
 </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

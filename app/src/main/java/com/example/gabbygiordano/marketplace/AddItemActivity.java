@@ -14,11 +14,9 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RatingBar;
+import android.widget.Spinner;
 
 import org.parceler.Parcels;
-import android.widget.Spinner;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -110,7 +108,7 @@ public class AddItemActivity extends AppCompatActivity {
         String price = etItemPrice.getText().toString();
         int condition = 0;
 
-        User user = User.fromInput("name", "username", "email", "password", "college", "phone");
+        User user = User.fromInput("name", "username", "email", "password", "college", 123456789L, "jbvvs");
 
         Item item = Item.fromInput(name, description, price, condition, user);
 
