@@ -14,12 +14,13 @@ public class User {
     public String email;
     public String password;
     public String college;
-    public String phone;
+    public long phone;
+    public String contactMethod;
 
     public User() {
     }
 
-    public static User fromInput(String name, String username, String email, String password, String college, String phone) {
+    public static User fromInput(String name, String username, String email, String password, String college, long phone, String contact) {
         User user = new User();
 
         user.name = name;
@@ -28,6 +29,7 @@ public class User {
         user.password = password;
         user.college = college;
         user.phone = phone;
+        user.contactMethod = contact;
 
         return user;
     }
