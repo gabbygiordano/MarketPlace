@@ -59,6 +59,8 @@ public class AddItemActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView;
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
+        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
+
         Menu menu = bottomNavigationView.getMenu();
         MenuItem menuitem = menu.getItem(2);
         menuitem.setChecked(true);

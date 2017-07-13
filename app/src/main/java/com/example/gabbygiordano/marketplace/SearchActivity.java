@@ -1,13 +1,12 @@
 package com.example.gabbygiordano.marketplace;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -19,6 +18,8 @@ public class SearchActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView;
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
+        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
+
         Menu menu = bottomNavigationView.getMenu();
         MenuItem menuitem = menu.getItem(1);
         menuitem.setChecked(true);

@@ -60,9 +60,9 @@ public class ItemsListFragment extends Fragment {
     public void activityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ADD_ITEM_REQUEST && resultCode == RESULT_OK) {
             Item item = (Item) Parcels.unwrap(data.getParcelableExtra("item"));
-            items.add(item);
-            itemAdapter.notifyDataSetChanged();
-            //rvItems.scrollToPosition(0);
+            items.add(0, item);
+            itemAdapter.notifyItemInserted(0);
+            rvItems.scrollToPosition(0);
         }
     }
 

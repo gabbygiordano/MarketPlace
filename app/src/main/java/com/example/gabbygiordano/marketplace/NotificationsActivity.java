@@ -24,6 +24,7 @@ public class NotificationsActivity extends AppCompatActivity {
 
     int ADD_ITEM_REQUEST = 10;
 
+    Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +32,13 @@ public class NotificationsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notifications);
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
+        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
+
         Menu menu = bottomNavigationView.getMenu();
         MenuItem menuitem = menu.getItem(3);
         menuitem.setChecked(true);
+
+        mContext = ItemAdapter.getContext();
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
         {
@@ -56,7 +61,6 @@ public class NotificationsActivity extends AppCompatActivity {
 
                     case R.id.action_add:
                         // Toast.makeText(HomeActivity.this, "Add Tab Selected", Toast.LENGTH_SHORT).show();
-                        Context mContext = ItemAdapter.getContext();
                         Intent i_add = new Intent(NotificationsActivity.this, AddItemActivity.class);
                         ((HomeActivity) mContext).startActivityForResult(i_add, ADD_ITEM_REQUEST);
                         break;
