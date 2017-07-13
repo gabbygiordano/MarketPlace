@@ -7,6 +7,8 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,6 +21,7 @@ public class ProfileActivity extends AppCompatActivity {
     TextView tvUsername;
     TextView tvCollege;
     TextView tvPhone;
+    ImageButton ibLogOut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,7 @@ public class ProfileActivity extends AppCompatActivity {
         tvUsername = (TextView) findViewById(R.id.tvUsername);
         tvCollege = (TextView) findViewById(R.id.tvCollege);
         tvPhone = (TextView) findViewById(R.id.tvPhone);
+        ibLogOut = (ImageButton) findViewById(R.id.ibLogOut);
 
         // set text to user info
         ParseUser currentUser = ParseUser.getCurrentUser();
@@ -42,6 +46,17 @@ public class ProfileActivity extends AppCompatActivity {
         } else {
             // show the signup or login screen
         }
+
+        // log out if power button is clicked
+        ibLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ParseUser.logOut();
+                ParseUser currentUser = ParseUser.getCurrentUser();
+                Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(i);
+            }
+        });
 
         BottomNavigationView bottomNavigationView;
 
@@ -90,4 +105,6 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }

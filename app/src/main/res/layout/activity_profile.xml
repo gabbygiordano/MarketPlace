@@ -73,5 +73,14 @@
         app:menu="@menu/bottom_navigation_main"
         />
 
+    <ImageButton
+        android:id="@+id/ibLogOut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/bottomNavigation"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/bottomNavigation"
+        app:srcCompat="@android:drawable/ic_lock_power_off" />
+
 </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>
