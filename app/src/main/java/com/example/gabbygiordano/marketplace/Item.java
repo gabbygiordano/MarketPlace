@@ -16,13 +16,14 @@ public class Item {
     public String price;
     public int condition;
     public User user;
+    public String type;
 
     public Bitmap resource;
 
     public Item() {
     }
 
-    public static Item fromInput(String name, String description, String price, int condition, User user) {
+    public static Item fromInput(String name, String description, String price, int condition, User user, String type) {
         Item item = new Item();
 
         item.itemName = name;
@@ -30,6 +31,7 @@ public class Item {
         item.price = price;
         item.condition = condition;
         item.user = user;
+        item.type = type;
 
         return item;
     }

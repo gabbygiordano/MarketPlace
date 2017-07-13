@@ -3,7 +3,6 @@ package com.example.gabbygiordano.marketplace;
 import android.app.Application;
 
 import com.parse.Parse;
-import com.parse.ParseObject;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -37,9 +36,9 @@ public class ParseApplication extends Application {
                 .clientBuilder(builder)
                 .server("https://college-marketplace.herokuapp.com/parse/").build());
 
-        // New test creation of object below
-        ParseObject testObject = new ParseObject("TestObject");
-        testObject.put("foo", "bar");
-        testObject.saveInBackground();
+//        // New test creation of object below
+//        ParseObject testObject = new ParseObject("TestObject");
+//        testObject.put("foo", "bar");
+//        testObject.saveInBackground();
     }
 }

@@ -64,4 +64,15 @@ public class ItemsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getRegisteredFragment(int position) {
         return registeredFragments.get(position);
     }
+
+    public Fragment getRegisteredFragment(String title) {
+        int position = -1;
+        for (int i = 0; i < tabTitles.length; i++) {
+            if (tabTitles[i] == title){
+                position = i;
+                break;
+            }
+        }
+        return registeredFragments.get(position);
+    }
 }
