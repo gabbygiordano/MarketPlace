@@ -21,9 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
-        <activity android:name=".PersonalInfoActivity" />
         <activity android:name=".HomeActivity" />
-        <activity android:name=".ItemActivity" />
         <activity android:name=".AddItemActivity" />
         <activity android:name=".SearchActivity" />
         <activity android:name=".NotificationsActivity" />

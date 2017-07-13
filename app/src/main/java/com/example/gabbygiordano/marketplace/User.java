@@ -1,5 +1,7 @@
 package com.example.gabbygiordano.marketplace;
 
+import com.parse.ParseUser;
+
 import org.parceler.Parcel;
 
 /**
@@ -30,6 +32,20 @@ public class User {
         user.college = college;
         user.phone = phone;
         user.contactMethod = contact;
+
+        return user;
+    }
+
+    public static User fromParseUser(ParseUser parseUser) {
+        User user = new User();
+
+        user.name = parseUser.getString("name");
+        user.username = parseUser.getUsername();
+        user.email = parseUser.getEmail();
+        user.password = parseUser.getString("password");
+        user.college = parseUser.getString("college");
+        user.phone = parseUser.getLong("phone");
+        user.contactMethod = parseUser.getString("contact");
 
         return user;
     }

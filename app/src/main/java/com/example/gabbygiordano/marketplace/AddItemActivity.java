@@ -16,6 +16,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
+import com.parse.ParseUser;
+
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
@@ -107,10 +109,12 @@ public class AddItemActivity extends AppCompatActivity {
         String description = etItemDescription.getText().toString();
         String price = etItemPrice.getText().toString();
         int condition = 0;
+        String type = "all";
 
-        User user = User.fromInput("name", "username", "email", "password", "college", 123456789L, "jbvvs");
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        User user = User.fromParseUser(currentUser);
 
-        Item item = Item.fromInput(name, description, price, condition, user);
+        Item item = Item.fromInput(name, description, price, condition, user, type);
 
         Intent intent = new Intent();
         intent.putExtra("item", Parcels.wrap(item));

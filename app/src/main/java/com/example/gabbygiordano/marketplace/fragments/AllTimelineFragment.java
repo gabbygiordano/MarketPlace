@@ -20,7 +20,7 @@ public class AllTimelineFragment extends ItemsListFragment {
 
     @Override
     public void populate() {
-        Item item = Item.fromInput("name", "desc", "pr", 0, null);
+        Item item = Item.fromInput("name", "desc", "pr", 0, null, "all");
         addItem(item);
     }
 }
