@@ -22,6 +22,7 @@ public class HomeActivity extends AppCompatActivity {
     ItemsPagerAdapter adapter;
 
     int ADD_ITEM_REQUEST = 10;
+    int NOTIF_REQUEST = 20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

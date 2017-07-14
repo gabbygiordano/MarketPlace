@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.parse.ParseUser;
 
@@ -85,7 +86,7 @@ public class AddItemActivity extends AppCompatActivity {
                         break;
 
                     case R.id.action_add:
-                        // Toast.makeText(HomeActivity.this, "Add Tab Selected", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddItemActivity.this, "Add Tab Selected", Toast.LENGTH_SHORT).show();
                         break;
 
                     case R.id.action_notifications:
@@ -126,7 +127,6 @@ public class AddItemActivity extends AppCompatActivity {
         finish();
     }
 
-
     public void takeItemPhoto(View view)
     {
         Intent intent = new Intent();
@@ -134,6 +134,7 @@ public class AddItemActivity extends AppCompatActivity {
         startActivityForResult(intent, ACTIVITY_START_CAMERA);
     }
 
+    @Override
     protected void onActivityResult(int requestcode, int resultCode, Intent data)
     {
         if(requestcode == ACTIVITY_START_CAMERA && resultCode == RESULT_OK)
