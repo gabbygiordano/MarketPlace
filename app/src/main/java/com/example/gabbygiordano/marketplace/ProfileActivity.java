@@ -1,23 +1,68 @@
 package com.example.gabbygiordano.marketplace;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.parse.ParseUser;
 
 public class ProfileActivity extends AppCompatActivity {
+
+    ImageView ivProfileImage;
+    TextView tvName;
+    TextView tvUsername;
+    TextView tvCollege;
+    TextView tvPhone;
+    ImageButton ibLogOut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        // perform find view by id lookups
+        ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
+        tvName = (TextView) findViewById(R.id.tvName);
+        tvUsername = (TextView) findViewById(R.id.tvUsername);
+        tvCollege = (TextView) findViewById(R.id.tvCollege);
+        tvPhone = (TextView) findViewById(R.id.tvPhone);
+        ibLogOut = (ImageButton) findViewById(R.id.ibLogOut);
+
+        // set text to user info
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        if (currentUser != null) {
+            tvName.setText(currentUser.getString("name"));
+            tvUsername.setText(currentUser.getUsername());
+            tvCollege.setText(currentUser.getString("college"));
+            tvPhone.setText(String.valueOf(currentUser.getLong("phone")));
+        } else {
+            // show the signup or login screen
+        }
+
+        // log out if power button is clicked
+        ibLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ParseUser.logOut();
+                ParseUser currentUser = ParseUser.getCurrentUser();
+                Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(i);
+            }
+        });
+
         BottomNavigationView bottomNavigationView;
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
+        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
+
         Menu menu = bottomNavigationView.getMenu();
         MenuItem menuitem = menu.getItem(4);
         menuitem.setChecked(true);
@@ -62,4 +107,6 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }

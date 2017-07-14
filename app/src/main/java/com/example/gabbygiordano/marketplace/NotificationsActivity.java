@@ -1,6 +1,7 @@
 package com.example.gabbygiordano.marketplace;
 
 import android.app.Notification;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -19,21 +19,26 @@ public class NotificationsActivity extends AppCompatActivity {
     ItemAdapter itemAdapter;
     ArrayList<Notification> notifications;
     RecyclerView rvNotifications;
-    int REQUEST_CODE = 20;
 
+    BottomNavigationView bottomNavigationView;
 
+    int ADD_ITEM_REQUEST = 10;
+
+    Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notifications);
 
-        BottomNavigationView bottomNavigationView;
-
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
+        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
+
         Menu menu = bottomNavigationView.getMenu();
         MenuItem menuitem = menu.getItem(3);
         menuitem.setChecked(true);
+
+        mContext = ItemAdapter.getContext();
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
         {
@@ -57,7 +62,7 @@ public class NotificationsActivity extends AppCompatActivity {
                     case R.id.action_add:
                         // Toast.makeText(HomeActivity.this, "Add Tab Selected", Toast.LENGTH_SHORT).show();
                         Intent i_add = new Intent(NotificationsActivity.this, AddItemActivity.class);
-                        startActivity(i_add);
+                        ((HomeActivity) mContext).startActivityForResult(i_add, ADD_ITEM_REQUEST);
                         break;
 
                     case R.id.action_notifications:

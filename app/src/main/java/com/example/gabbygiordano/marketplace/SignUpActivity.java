@@ -5,10 +5,16 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,14 +27,63 @@ public class SignUpActivity extends AppCompatActivity {
     String[] schools;
     int size;
 
-    Spinner spinner;
+    Spinner schoolSpinner;
+    ArrayAdapter<String> schoolsAdapter;
+    String school;
+
+    Spinner contactOptions;
+    ArrayAdapter<CharSequence> contactsAdapter;
+    String preference;
+
+    EditText etSchoolEmail;
+    EditText etFullName;
+    EditText etUserName;
+    EditText etPhoneNumber;
+    EditText etPassword;
+    Button registerButton;
+    TextView tvGotoLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        if (currentUser != null) {
+            // do stuff with the user
+            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+            startActivity(intent);
+        }
+
         setContentView(R.layout.activity_sign_up);
 
-        spinner = (Spinner) findViewById(R.id.schoolOptions);
+        // perform find view by id lookups
+        schoolSpinner = (Spinner) findViewById(R.id.schoolOptions);
+        etSchoolEmail = (EditText) findViewById(R.id.etSchoolEmail);
+        etFullName = (EditText) findViewById(R.id.etFullName);
+        etUserName = (EditText) findViewById(R.id.etUserName);
+        etPhoneNumber = (EditText) findViewById(R.id.etPhoneNumber);
+        etPassword = (EditText) findViewById(R.id.etPassword);
+        registerButton = (Button) findViewById(R.id.registerButton);
+        tvGotoLogin = (TextView) findViewById(R.id.tvGotoLogin);
+
+        contactOptions = (Spinner) findViewById(R.id.contactOptions);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        contactsAdapter = ArrayAdapter.createFromResource(this, R.array.contact_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        contactsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        contactOptions.setAdapter(contactsAdapter);
+        contactOptions.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                CharSequence cs = (CharSequence) contactOptions.getSelectedItem();
+                preference = (String) cs;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
 
         // get list of US universities
         getSchools();
@@ -80,18 +135,63 @@ public class SignUpActivity extends AppCompatActivity {
 
     public void setupAdapter() {
         // create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, schools);
+        schoolsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, schools);
 
         // specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        schoolsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // apply the adapter to the spinner
-        spinner.setAdapter(adapter);
+        schoolSpinner.setAdapter(schoolsAdapter);
+
+        schoolSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                school = (String) schoolSpinner.getSelectedItem();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
     }
 
 
     public void onRegisterClicked(View view) {
-        Intent intent = new Intent(this, PersonalInfoActivity.class);
-        startActivity(intent);
+        String email = etSchoolEmail.getText().toString();
+        String name = etFullName.getText().toString();
+        String username = etUserName.getText().toString();
+        String password = etPassword.getText().toString();
+        long phone = Long.parseLong(etPhoneNumber.getText().toString());
+
+        User user = User.fromInput(name, username, email, password, school, phone, preference);
+
+        // Create the ParseUser
+        ParseUser parseUser = new ParseUser();
+
+        // Set core properties
+        parseUser.setUsername(user.username);
+        parseUser.setPassword(user.password);
+        parseUser.setEmail(user.email);
+
+        // Set custom properties
+        parseUser.put("name", user.name);
+        parseUser.put("phone", user.phone);
+        parseUser.put("college", user.college);
+        parseUser.put("contact", user.contactMethod);
+
+        // Invoke signUpInBackground
+        parseUser.signUpInBackground(new SignUpCallback() {
+            @Override
+            public void done(com.parse.ParseException e) {
+                if (e == null) {
+                    // Hooray! Let them use the app now.
+                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                    startActivity(intent);
+                } else {
+                    // Sign up didn't succeed. Look at the ParseException
+                    // to figure out what went wrong
+                }
+            }
+        });
     }
 }
