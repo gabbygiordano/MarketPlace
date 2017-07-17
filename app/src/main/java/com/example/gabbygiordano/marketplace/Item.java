@@ -2,37 +2,94 @@ package com.example.gabbygiordano.marketplace;
 
 import android.graphics.Bitmap;
 
-import org.parceler.Parcel;
+import com.parse.ParseClassName;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 /**
  * Created by gabbygiordano on 7/12/17.
  */
 
-@Parcel
-public class Item {
+@ParseClassName("Item")
+public class Item extends ParseObject {
 
-    public String itemName;
-    public String description;
-    public String price;
-    public int condition;
-    public User user;
-    public String type;
+//    public String itemName;
+//    public String description;
+//    public String price;
+//    public int condition;
+//    public User user;
+//    public String type;  // type of object - book, clothes, etc
+//
+//    public Bitmap resource;
 
-    public Bitmap resource;
-
+    // public default constructor for parse
     public Item() {
+        super();
     }
 
-    public static Item fromInput(String name, String description, String price, int condition, User user, String type) {
-        Item item = new Item();
+    // constructor
+    public Item(String name, String description, String price, int condition, ParseUser user, String type) {
+        setItemName(name);
+        setDescription(description);
+        setPrice(price);
+        setCondition(condition);
+        setOwner(user);
+        setType(type);
+    }
 
-        item.itemName = name;
-        item.description = description;
-        item.price = price;
-        item.condition = condition;
-        item.user = user;
-        item.type = type;
+    public String getItemName() {
+        return getString("item_name");
+    }
 
-        return item;
+    public void setItemName(String itemName) {
+        put("item_name", itemName);
+    }
+
+    public String getDescription() {
+        return getString("description");
+    }
+
+    public void setDescription(String description) {
+        put("description", description);
+    }
+
+    public String getPrice() {
+        return getString("price");
+    }
+
+    public void setPrice(String price) {
+        put("price", price);
+    }
+
+    public int getCondition() {
+        return getInt("condition");
+    }
+
+    public void setCondition(int condition) {
+        put("condition", condition);
+    }
+
+    public ParseUser getOwner() {
+        return getParseUser("owner");
+    }
+
+    public void setOwner(ParseUser user) {
+        put("owner", user);
+    }
+
+    public String getType() {
+        return getString("type");
+    }
+
+    public void setType(String type) {
+        put("type", type);
+    }
+
+    public Bitmap getResource() {
+        return (Bitmap) get("resource");
+    }
+
+    public void setResource(Bitmap resource) {
+        put("resource", resource);
     }
 }

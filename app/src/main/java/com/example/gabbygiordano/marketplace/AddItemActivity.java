@@ -7,6 +7,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,8 +19,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.parse.ParseUser;
-
-import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -112,15 +111,34 @@ public class AddItemActivity extends AppCompatActivity {
         String description = etItemDescription.getText().toString();
         String price = etItemPrice.getText().toString();
         int condition = 0;
-        String type = "all";
+        String type = "all";  // TODO: Ask user for type and update here
+
+        //User user = null;
 
         ParseUser currentUser = ParseUser.getCurrentUser();
-        User user = User.fromParseUser(currentUser);
+        if (currentUser != null) {
+//            //user = User.fromParseUser(currentUser);
+//            user = new User(currentUser.getString("name"), currentUser.getUsername(), currentUser.getEmail(),
+//                    "", currentUser.getString("college"), currentUser.getLong("phone"),
+//                    currentUser.getString("contact"));
 
-        Item item = Item.fromInput(name, description, price, condition, user, type);
+            // idk
+            Log.e("AddItem", "Current user is not null");
+        } else {
+            // TODO: Go to sign up or login if user null
+            // This line should never actually execute
+            // Because items cannot be added without being signed in
+            Log.e("AddItem", "Current user null");
+        }
+
+        Item item = new Item(name, description, price, condition, currentUser, type);
+        item.setOwner(ParseUser.getCurrentUser());
+
+        // save the item
+        item.saveInBackground();
 
         Intent intent = new Intent();
-        intent.putExtra("item", Parcels.wrap(item));
+        intent.putExtra("item_id", item.getObjectId());
 
         // return to required activity
         setResult(RESULT_OK, intent);
@@ -143,7 +161,6 @@ public class AddItemActivity extends AppCompatActivity {
             Bundle extras = data.getExtras();
             Bitmap photoCaptured = (Bitmap) extras.get("data");
             imageLocation.setImageBitmap(photoCaptured);
-
         }
     }
 }

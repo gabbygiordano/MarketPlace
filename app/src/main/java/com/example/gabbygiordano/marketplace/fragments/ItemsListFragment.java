@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +14,9 @@ import android.view.ViewGroup;
 import com.example.gabbygiordano.marketplace.Item;
 import com.example.gabbygiordano.marketplace.ItemAdapter;
 import com.example.gabbygiordano.marketplace.R;
-
-import org.parceler.Parcels;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 
@@ -59,12 +61,30 @@ public class ItemsListFragment extends Fragment {
 
     public void activityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ADD_ITEM_REQUEST && resultCode == RESULT_OK) {
-            Item item = (Item) Parcels.unwrap(data.getParcelableExtra("item"));
-            items.add(0, item);
-            itemAdapter.notifyItemInserted(0);
-            rvItems.scrollToPosition(0);
+
+            String id = data.getStringExtra("item_id");
+            ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
+
+            // TODO: FIND A WAY TO PULL ITEM USING OBJECT ID
+            if (id == null) {
+                Log.e("AGHHHHHHH", "ahh");
+            }
+
+            // Execute the query to find the object with ID
+            query.include("user");
+            query.include("owner");
+            query.getInBackground("sIjTtWzL5M", new GetCallback<Item>() {
+                public void done(Item item, ParseException e) {
+                    if (e == null) {
+                        // item was found
+                        items.add(0, item);
+                        itemAdapter.notifyItemInserted(0);
+                        rvItems.scrollToPosition(0);
+                    } else {
+                        Log.e("ItemsListFragment", e.getMessage());
+                    }
+                }
+            });
         }
     }
-
-    public void populate() {}
 }
