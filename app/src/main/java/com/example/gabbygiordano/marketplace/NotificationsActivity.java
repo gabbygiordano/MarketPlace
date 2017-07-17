@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -66,7 +67,7 @@ public class NotificationsActivity extends AppCompatActivity {
                         break;
 
                     case R.id.action_notifications:
-                        // Toast.makeText(HomeActivity.this, "Notifications Tab Selected", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(NotificationsActivity.this, "Notifications Tab Selected", Toast.LENGTH_SHORT).show();
                         break;
 
                     case R.id.action_profile:
@@ -79,8 +80,5 @@ public class NotificationsActivity extends AppCompatActivity {
                 return false;
             }
         });
-
     }
-
-
 }
