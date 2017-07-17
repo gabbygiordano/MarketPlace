@@ -2,6 +2,7 @@ package com.example.gabbygiordano.marketplace;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,14 +43,25 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     // bind values based on position of the element
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         // get the data according to position
         final Item item = mItems.get(position);
 
+        if (item == null) {
+            Log.e("ItemAdapter", "ITEM NULL");
+        } else {
+            Log.e("ItemAdapter", "Item not null");
+            if (item.getOwner() == null) {
+                Log.e("ItemAdapter", "USER NULL");
+            } else {
+                Log.e("ItemAdapter", "Nothing is nullllll");
+            }
+        }
+
         // populate the views according to item data
-        holder.tvItemName.setText(item.itemName);
-        holder.tvPrice.setText(item.price);
-        holder.tvSeller.setText(item.user.name);
+        holder.tvItemName.setText(item.getItemName());
+        holder.tvPrice.setText(item.getPrice());
+        holder.tvSeller.setText(item.getOwner().getString("name"));
     }
 
     @Override
