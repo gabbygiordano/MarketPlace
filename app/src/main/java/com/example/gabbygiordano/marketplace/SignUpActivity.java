@@ -163,21 +163,21 @@ public class SignUpActivity extends AppCompatActivity {
         String password = etPassword.getText().toString();
         long phone = Long.parseLong(etPhoneNumber.getText().toString());
 
-        User user = User.fromInput(name, username, email, password, school, phone, preference);
+        //User user = User.fromInput(name, username, email, password, school, phone, preference);
 
         // Create the ParseUser
         ParseUser parseUser = new ParseUser();
 
         // Set core properties
-        parseUser.setUsername(user.username);
-        parseUser.setPassword(user.password);
-        parseUser.setEmail(user.email);
+        parseUser.setUsername(username);
+        parseUser.setPassword(password);
+        parseUser.setEmail(email);
 
         // Set custom properties
-        parseUser.put("name", user.name);
-        parseUser.put("phone", user.phone);
-        parseUser.put("college", user.college);
-        parseUser.put("contact", user.contactMethod);
+        parseUser.put("name", name);
+        parseUser.put("phone", phone);
+        parseUser.put("college", school);
+        parseUser.put("contact", preference);
 
         // Invoke signUpInBackground
         parseUser.signUpInBackground(new SignUpCallback() {

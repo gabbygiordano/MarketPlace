@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 public class ItemsPagerAdapter extends FragmentPagerAdapter {
 
-    private String[] tabTitles = new String[] {"All", "Books"};
+    private String[] tabTitles = new String[] {"All", "Books", "Electronics", "Clothes", "Misc"};
     Context context;
 
     SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
@@ -26,7 +26,7 @@ public class ItemsPagerAdapter extends FragmentPagerAdapter {
     // return the total number of fragments
     @Override
     public int getCount() {
-        return 2;
+        return tabTitles.length;
     }
 
     // return fragment to use depending on position
@@ -36,6 +36,12 @@ public class ItemsPagerAdapter extends FragmentPagerAdapter {
             return new AllTimelineFragment();
         } else if (position == 1) {
             return new BooksTimelineFragment();
+        } else if (position == 2) {
+            return new ElectronicsTimelineFragment();
+        } else if (position == 3) {
+            return new ClothesTimelineFragment();
+        } else if (position == 4) {
+            return new MiscTimelineFragment();
         } else {
             return null;
         }
