@@ -61,8 +61,8 @@ public class ItemsListFragment extends Fragment {
 
     public void activityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ADD_ITEM_REQUEST && resultCode == RESULT_OK) {
-
             String id = data.getStringExtra("item_id");
+            String type = data.getStringExtra("type");
 
             // Execute the query to find the object with ID
             ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
