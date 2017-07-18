@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.gabbygiordano.marketplace.fragments.ItemsListFragment;
@@ -88,6 +89,11 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
+    public void seeDetails(View view) {
+        Intent i = new Intent(HomeActivity.this, ItemDetailsActivity.class);
+        startActivity(i);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         String type = data.getStringExtra("type");
@@ -96,4 +102,6 @@ public class HomeActivity extends AppCompatActivity {
         ItemsListFragment fragment = (ItemsListFragment) adapter.getRegisteredFragment(viewPager.getCurrentItem());
         fragment.activityResult(requestCode, resultCode, data);
     }
+
+
 }

@@ -24,8 +24,11 @@
             android:id="@+id/ivItemPhoto"
             android:layout_width="75dp"
             android:layout_height="70dp"
-            android:layout_margin="5dp"
-            android:layout_toRightOf="@+id/ibAddImage" />
+            android:layout_toRightOf="@+id/ibAddImage"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_toLeftOf="@+id/conditionOptions"
+            android:layout_toStartOf="@+id/conditionOptions" />
 
         <EditText
             android:id="@+id/etItemName"
@@ -88,7 +91,7 @@
             android:layout_alignParentRight="true"
             android:clickable="true"
             android:onClick="onPostSuccess"
-            app:srcCompat="@drawable/homeicon" />
+            app:srcCompat ="@drawable/homeicon" />
 
         <!--android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
