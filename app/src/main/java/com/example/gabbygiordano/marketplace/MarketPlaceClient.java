@@ -24,4 +24,12 @@ public class MarketPlaceClient {
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(url, null, handler);
     }
+
+    /* public void getHomeTimeline(AsyncHttpResponseHandler handler){
+        String apiUrl = T0DO;
+        RequestParams params = new RequestParams();
+        params.put("count", 30);
+        params.put("since_id", 1);
+        client.get(apiUrl, params, handler);
+    } */
 }
