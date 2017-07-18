@@ -21,18 +21,19 @@ public class ClothesTimelineFragment extends ItemsListFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        populateClothesTimeline();
+        populateTimeline();
     }
 
-    public void populateClothesTimeline() {
+    @Override
+    public void populateTimeline() {
         ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
         query.include("owner");
-        query.orderByDescending("_created_at");
         query.whereEqualTo("type", "Clothes");
+        query.orderByDescending("_created_at");
         query.findInBackground(new FindCallback<Item>() {
             public void done(List<Item> itemsList, ParseException e) {
                 if (e == null) {
-                    if (!itemsList.isEmpty()) {
+                    if (itemsList != null && !itemsList.isEmpty()) {
                         addItems(itemsList);
                     }
                 } else {
