@@ -27,6 +27,8 @@ dependencies {
 
     // parse-heroku server dependencies
     // AsyncHTTP for network requests
+
+    // parceler dependencies
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.parse.bolts:bolts-android:1.4.0'
@@ -35,8 +37,6 @@ dependencies {
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'com.android.support:design:26.+'
     compile 'com.android.support:support-v4:26.+'
-
-    // parceler dependencies
     compile 'org.parceler:parceler-api:1.1.6'
     annotationProcessor 'org.parceler:parceler:1.1.6'
 }
