@@ -28,12 +28,14 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class AddItemActivity extends AppCompatActivity {
 
-    private static final int ACTIVITY_START_CAMERA = 0;
-    private static final int ACTIVITY_SELECT_FILE = 0;
+    private static final int ACTIVITY_START_CAMERA = 1;
+    private static final int ACTIVITY_SELECT_FILE = 1;
 
     public EditText etItemName;
     public EditText etItemDescription;
@@ -195,7 +197,7 @@ public class AddItemActivity extends AppCompatActivity {
                 {
                     Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     intent.setType("image/*");
-                    startActivityForResult(intent.createChooser(intent, "Select File"),ACTIVITY_SELECT_FILE);
+                    startActivityForResult(intent, ACTIVITY_SELECT_FILE);
                 }
                 else if (items[i].equals("Cancel"))
                 {
@@ -227,10 +229,22 @@ public class AddItemActivity extends AppCompatActivity {
             }
             else if(requestCode == ACTIVITY_SELECT_FILE)
             {
-                Uri selectedImageUri = data.getData();
-                imageLocation.setImageURI(selectedImageUri);
-            }
+                try {
+                    Uri selectedImageUri = data.getData();
+                    InputStream imageStream = getContentResolver().openInputStream(selectedImageUri);
+                    Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                    imageLocation.setImageBitmap(selectedImage);
 
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    Toast.makeText(AddItemActivity.this, "Something went wrong", Toast.LENGTH_LONG).show();
+                }
+
+            }
+            else
+            {
+                Toast.makeText(AddItemActivity.this, "You haven't picked Image", Toast.LENGTH_LONG).show();
+            }
 
         }
     }
