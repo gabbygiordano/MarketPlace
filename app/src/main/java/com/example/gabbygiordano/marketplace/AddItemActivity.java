@@ -49,6 +49,15 @@ public class AddItemActivity extends AppCompatActivity {
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
 
+        Spinner itemType = (Spinner) findViewById(R.id.spItemType);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adaptertwo = ArrayAdapter.createFromResource(this,
+                R.array.itemType_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adaptertwo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        itemType.setAdapter(adaptertwo);
+
         etItemName = (EditText) findViewById(R.id.etItemName);
         etItemDescription = (EditText) findViewById(R.id.etItemDescription);
         etItemPrice = (EditText) findViewById(R.id.etItemPrice);
