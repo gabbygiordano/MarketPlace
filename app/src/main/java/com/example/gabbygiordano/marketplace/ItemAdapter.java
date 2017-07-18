@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import static com.example.gabbygiordano.marketplace.R.layout.item;
+
 /**
  * Created by tanvigupta on 7/12/17.
  */
@@ -35,7 +37,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        View itemView = inflater.inflate(R.layout.item, parent, false);
+        View itemView = inflater.inflate(item, parent, false);
         ViewHolder viewHolder = new ViewHolder(itemView);
 
         return viewHolder;
@@ -62,6 +64,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         holder.tvItemName.setText(item.getItemName());
         holder.tvPrice.setText(item.getPrice());
         holder.tvSeller.setText(item.getOwner().getString("name"));
+        holder.tvTimeAgo.setText(item.getOwner().getString("_created_at"));
+        Log.e(item.getOwner().getString("_created_at"), "printed");
+        // returns 07-18 15:04:16.993
     }
 
     @Override
@@ -97,6 +102,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         public TextView tvItemName;
         public TextView tvSeller;
         public TextView tvPrice;
+        public TextView tvTimeAgo;
 
         // constructor
         public ViewHolder(View itemView) {
@@ -106,6 +112,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             tvItemName = itemView.findViewById(R.id.tvItemName);
             tvSeller = itemView.findViewById(R.id.tvSeller);
             tvPrice = itemView.findViewById(R.id.tvPrice);
+            tvTimeAgo = itemView.findViewById(R.id.tvTimeAgo);
         }
     }
+
+
+
+
 }

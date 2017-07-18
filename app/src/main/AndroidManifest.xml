@@ -25,7 +25,9 @@
         <activity android:name=".AddItemActivity" />
         <activity android:name=".SearchActivity" />
         <activity android:name=".NotificationsActivity" />
-        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".InboxActivity"></activity>
     </application>
 
 </manifest>

@@ -96,4 +96,19 @@ public class HomeActivity extends AppCompatActivity {
         ItemsListFragment fragment = (ItemsListFragment) adapter.getRegisteredFragment(viewPager.getCurrentItem());
         fragment.activityResult(requestCode, resultCode, data);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu_home, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.miInbox) {
+            Intent i = new Intent(this, InboxActivity.class);
+            startActivityForResult(i, 1);
+        }
+        return true;
+    }
 }

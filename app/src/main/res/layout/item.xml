@@ -47,4 +47,13 @@
         android:layout_alignParentTop="true"
         android:layout_marginRight="5dp"
         android:text="$$" />
+
+    <TextView
+        android:id="@+id/tvTimeAgo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvSeller"
+        android:layout_alignStart="@+id/tvSeller"
+        android:layout_below="@+id/tvSeller"
+        android:text="Time Ago Posted" />
 </RelativeLayout>
