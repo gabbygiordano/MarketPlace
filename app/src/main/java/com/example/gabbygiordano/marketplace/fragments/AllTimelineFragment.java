@@ -20,26 +20,27 @@ public class AllTimelineFragment extends ItemsListFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        populateAllTimeline();
 
+        setRetainInstance(true);
+
+        populateTimeline();
     }
 
-    public void populateAllTimeline(){
+    @Override
+    public void populateTimeline() {
         ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
-        // query.whereEqualTo("playerName", "Dan Stemkoski");
         query.include("owner");
-        query.setLimit(200);
         query.orderByDescending("_created_at");
         query.findInBackground(new FindCallback<Item>() {
             public void done(List<Item> itemsList, ParseException e) {
                 if (e == null) {
-                    Log.d("items", "Retrieved " + itemsList.size() + " items");
-                    addItems(itemsList);
+                    if (itemsList != null && !itemsList.isEmpty()) {
+                        addItems(itemsList);
+                    }
                 } else {
-                    Log.d("items", "Error: " + e.getMessage());
+                    Log.d("AllFragment", e.getMessage());
                 }
             }
         });
     }
-
 }

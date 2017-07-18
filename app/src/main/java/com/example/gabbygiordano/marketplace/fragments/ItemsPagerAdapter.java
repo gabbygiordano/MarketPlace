@@ -74,7 +74,7 @@ public class ItemsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getRegisteredFragment(String title) {
         int position = -1;
         for (int i = 1; i < tabTitles.length; i++) {
-            if (tabTitles[i].equals(title)){
+            if (tabTitles[i] == title){
                 position = i;
                 break;
             }

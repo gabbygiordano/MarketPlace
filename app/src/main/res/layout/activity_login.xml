@@ -61,4 +61,13 @@
     android:adjustViewBounds="false"
     app:srcCompat="@drawable/logo2" />
 
+    <TextView
+        android:id="@+id/tvSignUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvForgot"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Don't have an account? Sign Up" />
+
 </RelativeLayout>
