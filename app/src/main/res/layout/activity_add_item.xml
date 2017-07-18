@@ -63,7 +63,7 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/etItemDescription"
             android:ems="10"
-            android:hint="Enter Item Price"
+            android:hint="Enter the cost"
             android:inputType="textPersonName" />
 
         <TextView
