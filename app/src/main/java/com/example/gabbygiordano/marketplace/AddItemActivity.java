@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -35,44 +36,67 @@ public class AddItemActivity extends AppCompatActivity {
     public ImageButton ibPostItem;
     public ImageView imageLocation;
 
+    BottomNavigationView bottomNavigationView;
+
+    Spinner spinner;
+    ArrayAdapter<CharSequence> adapter;
+    Spinner itemType;
+    ArrayAdapter<CharSequence> adaptertwo;
+
     final ArrayList<ImageView> addImage = new ArrayList<>();
+
+    String condition;
+    String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
 
-        Spinner spinner = (Spinner) findViewById(R.id.conditionOptions);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.condition_array, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
-
-        Spinner itemType = (Spinner) findViewById(R.id.spItemType);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adaptertwo = ArrayAdapter.createFromResource(this,
-                R.array.itemType_array, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adaptertwo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        itemType.setAdapter(adaptertwo);
-
+        // find view by id lookups
         etItemName = (EditText) findViewById(R.id.etItemName);
         etItemDescription = (EditText) findViewById(R.id.etItemDescription);
         etItemPrice = (EditText) findViewById(R.id.etItemPrice);
         ibAddImage = (ImageButton) findViewById(R.id.ibAddImage);
         ibPostItem = (ImageButton) findViewById(R.id.ibPostItem);
         imageLocation = (ImageView) findViewById(R.id.ivItemPhoto);
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
+
+        spinner = (Spinner) findViewById(R.id.conditionOptions);
+        adapter = ArrayAdapter.createFromResource(this, R.array.condition_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                CharSequence cs = (CharSequence) spinner.getSelectedItem();
+                condition = (String) cs;
+            }
 
 
         // etItemPrice.setText("$", TextView.BufferType.EDITABLE);
 
-        BottomNavigationView bottomNavigationView;
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
 
-        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
+        itemType = (Spinner) findViewById(R.id.spItemType);
+        adaptertwo = ArrayAdapter.createFromResource(this, R.array.itemType_array, android.R.layout.simple_spinner_item);
+        adaptertwo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        itemType.setAdapter(adaptertwo);
+        itemType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                CharSequence cs = (CharSequence) itemType.getSelectedItem();
+                type = (String) cs;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
+
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
 
         Menu menu = bottomNavigationView.getMenu();
@@ -126,8 +150,7 @@ public class AddItemActivity extends AppCompatActivity {
         String name = etItemName.getText().toString();
         String description = etItemDescription.getText().toString();
         String price = etItemPrice.getText().toString();
-        int condition = 0;    // TODO: Ask user for condition and update here
-        String type = "all";  // TODO: Ask user for type and update here
+        int con = Integer.parseInt(condition);
 
         ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser != null) {
@@ -139,7 +162,7 @@ public class AddItemActivity extends AppCompatActivity {
             Log.e("AddItem", "Current user null");
         }
 
-        final Item item = new Item(name, description, price, condition, currentUser, type);
+        final Item item = new Item(name, description, price, con, currentUser, type);
         item.setOwner(ParseUser.getCurrentUser());
 
         // save the item
@@ -149,6 +172,7 @@ public class AddItemActivity extends AppCompatActivity {
                 Intent intent = new Intent();
                 String id = item.getObjectId();
                 intent.putExtra("item_id", id);
+                intent.putExtra("type", item.getType());
 
                 // return to required activity
                 setResult(RESULT_OK, intent);
