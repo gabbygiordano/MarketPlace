@@ -7,7 +7,6 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -72,9 +71,6 @@ public class AddItemActivity extends AppCompatActivity {
                 CharSequence cs = (CharSequence) spinner.getSelectedItem();
                 condition = (String) cs;
             }
-
-
-        // etItemPrice.setText("$", TextView.BufferType.EDITABLE);
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -145,22 +141,12 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
     public void onPostSuccess(View view) {
-
-
         String name = etItemName.getText().toString();
         String description = etItemDescription.getText().toString();
         String price = etItemPrice.getText().toString();
         int con = Integer.parseInt(condition);
 
         ParseUser currentUser = ParseUser.getCurrentUser();
-        if (currentUser != null) {
-            Log.e("AddItem", "Current user is not null");
-        } else {
-            // TODO: Go to sign up or login if user null
-            // This line should never actually execute
-            // Because items cannot be added without being signed in
-            Log.e("AddItem", "Current user null");
-        }
 
         final Item item = new Item(name, description, price, con, currentUser, type);
         item.setOwner(ParseUser.getCurrentUser());

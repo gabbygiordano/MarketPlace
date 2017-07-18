@@ -92,8 +92,8 @@ public class HomeActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         String type = data.getStringExtra("type");
 
-        ItemsListFragment fragment = (ItemsListFragment) adapter.getRegisteredFragment(type);
-        //ItemsListFragment fragment = (ItemsListFragment) adapter.getRegisteredFragment(viewPager.getCurrentItem());
+        // ItemsListFragment fragment = (ItemsListFragment) adapter.getRegisteredFragment(type);
+        ItemsListFragment fragment = (ItemsListFragment) adapter.getRegisteredFragment(viewPager.getCurrentItem());
         fragment.activityResult(requestCode, resultCode, data);
     }
 }
