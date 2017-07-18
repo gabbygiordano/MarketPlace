@@ -1,11 +1,17 @@
 package com.example.gabbygiordano.marketplace;
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -28,6 +34,7 @@ import java.util.ArrayList;
 public class AddItemActivity extends AppCompatActivity {
 
     private static final int ACTIVITY_START_CAMERA = 0;
+    private static final int ACTIVITY_SELECT_FILE = 0;
 
     public EditText etItemName;
     public EditText etItemDescription;
@@ -181,22 +188,65 @@ public class AddItemActivity extends AppCompatActivity {
         });
     }
 
+    private void SelectImage()
+    {
+        final CharSequence[] items = {"Camera", "Gallery", "Cancel"};
+
+        AlertDialog.Builder builder= new AlertDialog.Builder(AddItemActivity.this);
+        builder.setTitle("Add Image");
+        builder.setItems(items, new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i)
+            {
+                if(items[i].equals("Camera"))
+                {
+                    Intent intent = new Intent();
+                    intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(intent, ACTIVITY_START_CAMERA);
+                }
+                else if(items[i].equals("Gallery"))
+                {
+                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    intent.setType("image/*");
+                    startActivityForResult(intent.createChooser(intent, "Select File"),ACTIVITY_SELECT_FILE);
+                }
+                else if (items[i].equals("Cancel"))
+                {
+                    dialogInterface.dismiss();
+                }
+            }
+        });
+        builder.show();
+    }
+
     public void takeItemPhoto(View view)
     {
-        Intent intent = new Intent();
-        intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, ACTIVITY_START_CAMERA);
+        SelectImage();
     }
 
     @Override
-    protected void onActivityResult(int requestcode, int resultCode, Intent data)
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        if(requestcode == ACTIVITY_START_CAMERA && resultCode == RESULT_OK)
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == Activity.RESULT_OK)
         {
-            //Toast.makeText(this, "picture was taken", Toast.LENGTH_SHORT).show();
-            Bundle extras = data.getExtras();
-            Bitmap photoCaptured = (Bitmap) extras.get("data");
-            imageLocation.setImageBitmap(photoCaptured);
+            if(requestCode == ACTIVITY_START_CAMERA)
+            {
+                //Toast.makeText(this, "picture was taken", Toast.LENGTH_SHORT).show();
+                Bundle extras = data.getExtras();
+                Bitmap photoCaptured = (Bitmap) extras.get("data");
+                imageLocation.setImageBitmap(photoCaptured);
+            }
+            else if(requestCode == ACTIVITY_SELECT_FILE)
+            {
+                Uri selectedImageUri = data.getData();
+                imageLocation.setImageURI(selectedImageUri);
+            }
+
+
         }
     }
+
 }
