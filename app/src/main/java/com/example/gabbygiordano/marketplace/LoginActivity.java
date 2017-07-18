@@ -18,6 +18,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText etUserName;
     EditText etPassword;
     TextView tvForgot;
+    TextView tvSignUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,15 @@ public class LoginActivity extends AppCompatActivity {
         etUserName = (EditText) findViewById(R.id.etUserName);
         etPassword = (EditText) findViewById(R.id.etPassword);
         tvForgot = (TextView) findViewById(R.id.tvForgot);
+        tvSignUp = (TextView) findViewById(R.id.tvSignUp);
+
+        tvSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), SignUpActivity.class);
+                startActivity(i);
+            }
+        });
     }
 
     public void onLoginSuccess(View view){
