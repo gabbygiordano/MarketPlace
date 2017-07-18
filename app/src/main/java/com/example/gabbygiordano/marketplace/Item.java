@@ -31,7 +31,7 @@ public class Item extends ParseObject {
     public Item(String name, String description, String price, int condition, ParseUser user, String type) {
         setItemName(name);
         setDescription(description);
-        setPrice(price);
+        setPrice("$" + price);
         setCondition(condition);
         setOwner(user);
         setType(type);

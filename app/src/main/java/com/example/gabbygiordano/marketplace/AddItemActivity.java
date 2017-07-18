@@ -73,6 +73,9 @@ public class AddItemActivity extends AppCompatActivity {
                 condition = (String) cs;
             }
 
+
+        // etItemPrice.setText("$", TextView.BufferType.EDITABLE);
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
@@ -142,6 +145,8 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
     public void onPostSuccess(View view) {
+
+
         String name = etItemName.getText().toString();
         String description = etItemDescription.getText().toString();
         String price = etItemPrice.getText().toString();
