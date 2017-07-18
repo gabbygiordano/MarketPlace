@@ -19,6 +19,7 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -59,10 +60,18 @@ public class ItemsListFragment extends Fragment {
         itemAdapter.notifyItemInserted(items.size() - 1);
     }
 
+    public void addItems(List<Item> list){
+        for(int i=0; i< list.size(); i++){
+            items.add(list.get(i));
+            itemAdapter.notifyItemInserted(items.size()-1);
+        }
+
+    }
+
     public void activityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ADD_ITEM_REQUEST && resultCode == RESULT_OK) {
-
             String id = data.getStringExtra("item_id");
+            String type = data.getStringExtra("type");
 
             // Execute the query to find the object with ID
             ParseQuery<Item> query = ParseQuery.getQuery(Item.class);

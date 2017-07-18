@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="condition_array">
-        <item>Condition 1 to 5</item>
+        <!--<item>Condition 1 to 5</item> -->
         <item>1</item>
         <item>2</item>
         <item>3</item>
