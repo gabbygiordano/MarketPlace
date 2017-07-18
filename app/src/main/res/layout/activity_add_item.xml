@@ -6,148 +6,165 @@
     android:layout_height="match_parent"
     tools:context="com.example.gabbygiordano.marketplace.AddItemActivity">
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.gabbygiordano.marketplace.AddItemActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.example.gabbygiordano.marketplace.AddItemActivity">
 
-    <ImageButton
-        android:id="@+id/ibAddImage"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        app:srcCompat="@android:drawable/ic_menu_camera"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="-2dp"
-        android:onClick="takeItemPhoto"/>
+        <ImageButton
+            android:id="@+id/ibAddImage"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:onClick="takeItemPhoto"
+            app:srcCompat="@android:drawable/ic_menu_camera"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="-2dp" />
 
-    <ImageView
-        android:id="@+id/ivItemPhoto"
-        android:layout_width="75dp"
-        android:layout_height="70dp"
-        android:layout_margin="5dp"
-        android:layout_toRightOf="@+id/ibAddImage" />
+        <ImageView
+            android:id="@+id/ivItemPhoto"
+            android:layout_width="75dp"
+            android:layout_height="70dp"
+            android:layout_margin="5dp"
+            android:layout_toRightOf="@+id/ibAddImage" />
 
-    <EditText
-        android:id="@+id/etItemName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/ibAddImage"
-        android:ems="10"
-        android:hint="Enter Item Name"
-        android:inputType="textPersonName"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        <EditText
+            android:id="@+id/etItemName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/ibAddImage"
+            android:ems="10"
+            android:hint="Enter Item Name"
+            android:inputType="textPersonName" />
 
-    <EditText
-        android:id="@+id/etItemDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/etItemName"
-        android:ems="10"
-        android:hint="Enter Item Description"
-        android:inputType="textPersonName"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        <EditText
+            android:id="@+id/etItemDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/etItemName"
+            android:ems="10"
+            android:hint="Enter Item Description"
+            android:inputType="textPersonName" />
 
-    <EditText
-        android:id="@+id/etItemPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/etItemDescription"
-        android:ems="10"
-        android:hint="Enter Item Price"
-        android:inputType="textPersonName"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        <EditText
+            android:id="@+id/etItemPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/etItemDescription"
+            android:ems="10"
+            android:hint="Enter Item Price"
+            android:inputType="textPersonName" />
 
-    <TextView
-        android:id="@+id/tvCondition"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/etItemPrice"
-        android:layout_marginLeft="5dp"
-        android:text="Choose Item Condition:"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/tvCondition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/etItemPrice"
+            android:layout_marginLeft="5dp"
+            android:text="Choose Item Condition:"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-    <ImageButton
-        android:id="@+id/ibPostItem"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:onClick="onPostSuccess"
-        app:srcCompat="@drawable/homeicon"
-        android:layout_above="@+id/bottomNavigation"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="31dp" />
+        <ImageButton
+            android:id="@+id/ibPostItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/bottomNavigation"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:clickable="true"
+            android:onClick="onPostSuccess"
+            app:srcCompat="@drawable/homeicon" />
 
         <!--android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_toEndOf="@+id/tvCondition"
-        android:clickable="true"
-        android:onClick="onPostSuccess"
-        app:srcCompat="@drawable/homeicon"
-        android:layout_alignLeft="@+id/tvPostItem"
-        android:layout_alignStart="@+id/tvPostItem" />-->
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_toEndOf="@+id/tvCondition"
+            android:clickable="true"
+            android:onClick="onPostSuccess"
+            app:srcCompat="@drawable/homeicon"
+            android:layout_alignLeft="@+id/tvPostItem"
+            android:layout_alignStart="@+id/tvPostItem" />-->
 
 
-    <TextView
-        android:id="@+id/tvPostItem"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Post Item to Marketplace"
-        android:textStyle="bold"
-        android:layout_above="@+id/ibPostItem"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        <TextView
+            android:id="@+id/tvPostItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Post Item to Marketplace"
+            android:textStyle="bold"
+            android:layout_above="@+id/ibPostItem"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
 
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bottomNavigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        app:itemBackground="@color/colorPrimary"
-        app:itemIconTint="@drawable/item_color_state"
-        app:itemTextColor="@drawable/item_color_state"
-        app:menu="@menu/bottom_navigation_main"
-        />
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/bottomNavigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            app:itemBackground="@color/colorPrimary"
+            app:itemIconTint="@drawable/item_color_state"
+            app:itemTextColor="@drawable/item_color_state"
+            app:menu="@menu/bottom_navigation_main" />
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/tvCondition"
-        android:layout_marginLeft="5dp"
-        android:text="1 for poor condition, 5 for basically new"
-        android:textSize="10sp"
-        android:layout_toLeftOf="@+id/conditionOptions"
-        android:layout_toStartOf="@+id/conditionOptions" />
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tvCondition"
+            android:layout_marginLeft="5dp"
+            android:layout_toLeftOf="@+id/conditionOptions"
+            android:layout_toStartOf="@+id/conditionOptions"
+            android:text="1 for poor condition, 5 for basically new"
+            android:textSize="10sp" />
 
-    <Spinner
-        android:id="@+id/conditionOptions"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:visibility="visible"
-        android:layout_below="@+id/etItemPrice"
-        android:layout_toRightOf="@+id/tvCondition"
-        android:layout_toEndOf="@+id/tvCondition" />
+        <Spinner
+            android:id="@+id/conditionOptions"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/etItemPrice"
+            android:layout_toEndOf="@+id/tvCondition"
+            android:layout_toRightOf="@+id/tvCondition"
+            android:visibility="visible" />
+
+        <Spinner
+            android:id="@+id/spItemType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView3"
+            android:layout_toRightOf="@+id/textView3"
+            android:layout_toEndOf="@+id/textView3" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView3"
+            android:layout_alignStart="@+id/textView3"
+            android:layout_below="@+id/textView3"
+            android:layout_toLeftOf="@+id/spItemType"
+            android:layout_toStartOf="@+id/spItemType"
+            android:text="Choose Item Category:"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
 
-</RelativeLayout>
+    </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>
