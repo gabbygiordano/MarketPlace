@@ -63,17 +63,11 @@ public class ItemsListFragment extends Fragment {
         if (requestCode == ADD_ITEM_REQUEST && resultCode == RESULT_OK) {
 
             String id = data.getStringExtra("item_id");
-            ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
-
-            // TODO: FIND A WAY TO PULL ITEM USING OBJECT ID
-            if (id == null) {
-                Log.e("AGHHHHHHH", "ahh");
-            }
 
             // Execute the query to find the object with ID
-            query.include("user");
+            ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
             query.include("owner");
-            query.getInBackground("sIjTtWzL5M", new GetCallback<Item>() {
+            query.getInBackground(id, new GetCallback<Item>() {
                 public void done(Item item, ParseException e) {
                     if (e == null) {
                         // item was found

@@ -18,7 +18,9 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 
@@ -119,19 +121,11 @@ public class AddItemActivity extends AppCompatActivity {
         String name = etItemName.getText().toString();
         String description = etItemDescription.getText().toString();
         String price = etItemPrice.getText().toString();
-        int condition = 0;
+        int condition = 0;    // TODO: Ask user for condition and update here
         String type = "all";  // TODO: Ask user for type and update here
-
-        //User user = null;
 
         ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser != null) {
-//            //user = User.fromParseUser(currentUser);
-//            user = new User(currentUser.getString("name"), currentUser.getUsername(), currentUser.getEmail(),
-//                    "", currentUser.getString("college"), currentUser.getLong("phone"),
-//                    currentUser.getString("contact"));
-
-            // idk
             Log.e("AddItem", "Current user is not null");
         } else {
             // TODO: Go to sign up or login if user null
@@ -140,18 +134,22 @@ public class AddItemActivity extends AppCompatActivity {
             Log.e("AddItem", "Current user null");
         }
 
-        Item item = new Item(name, description, price, condition, currentUser, type);
+        final Item item = new Item(name, description, price, condition, currentUser, type);
         item.setOwner(ParseUser.getCurrentUser());
 
         // save the item
-        item.saveInBackground();
+        item.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                Intent intent = new Intent();
+                String id = item.getObjectId();
+                intent.putExtra("item_id", id);
 
-        Intent intent = new Intent();
-        intent.putExtra("item_id", item.getObjectId());
-
-        // return to required activity
-        setResult(RESULT_OK, intent);
-        finish();
+                // return to required activity
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
     }
 
     public void takeItemPhoto(View view)
