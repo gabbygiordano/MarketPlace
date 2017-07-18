@@ -67,6 +67,9 @@ public class AddItemActivity extends AppCompatActivity {
         ibPostItem = (ImageButton) findViewById(R.id.ibPostItem);
         imageLocation = (ImageView) findViewById(R.id.ivItemPhoto);
 
+
+        // etItemPrice.setText("$", TextView.BufferType.EDITABLE);
+
         BottomNavigationView bottomNavigationView;
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
@@ -118,6 +121,8 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
     public void onPostSuccess(View view) {
+
+
         String name = etItemName.getText().toString();
         String description = etItemDescription.getText().toString();
         String price = etItemPrice.getText().toString();
