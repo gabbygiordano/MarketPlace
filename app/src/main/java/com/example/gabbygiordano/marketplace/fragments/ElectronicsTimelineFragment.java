@@ -21,18 +21,19 @@ public class ElectronicsTimelineFragment extends ItemsListFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        populateElectronicsTimeline();
+        populateTimeline();
     }
 
-    public void populateElectronicsTimeline() {
+    @Override
+    public void populateTimeline() {
         ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
         query.include("owner");
-        query.orderByDescending("_created_at");
         query.whereEqualTo("type", "Electronics");
+        query.orderByDescending("_created_at");
         query.findInBackground(new FindCallback<Item>() {
             public void done(List<Item> itemsList, ParseException e) {
                 if (e == null) {
-                    if (!itemsList.isEmpty()) {
+                    if (itemsList != null && !itemsList.isEmpty()) {
                         addItems(itemsList);
                     }
                 } else {

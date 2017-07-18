@@ -55,6 +55,15 @@ public class ItemsListFragment extends Fragment {
         return v;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        populateTimeline();
+    }
+
+    public void populateTimeline() {}
+
     public void addItem(Item item) {
         items.add(item);
         itemAdapter.notifyItemInserted(items.size() - 1);
