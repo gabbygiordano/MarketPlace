@@ -23,11 +23,11 @@
         <ImageView
             android:id="@+id/ivItemPhoto"
             android:layout_width="75dp"
-            android:layout_height="70dp"
-            android:layout_toRightOf="@+id/ibAddImage"
+            android:layout_height="75dp"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
             android:layout_toLeftOf="@+id/conditionOptions"
+            android:layout_toRightOf="@+id/ibAddImage"
             android:layout_toStartOf="@+id/conditionOptions" />
 
         <EditText
@@ -91,7 +91,7 @@
             android:layout_alignParentRight="true"
             android:clickable="true"
             android:onClick="onPostSuccess"
-            app:srcCompat ="@drawable/homeicon" />
+            app:srcCompat="@drawable/homeicon" />
 
         <!--android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
@@ -108,11 +108,11 @@
             android:id="@+id/tvPostItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Post Item to Marketplace"
-            android:textStyle="bold"
             android:layout_above="@+id/ibPostItem"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:text="Post Item to Marketplace"
+            android:textStyle="bold" />
 
 
         <android.support.design.widget.BottomNavigationView
@@ -152,8 +152,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textView3"
-            android:layout_toRightOf="@+id/textView3"
-            android:layout_toEndOf="@+id/textView3" />
+            android:layout_toEndOf="@+id/textView3"
+            android:layout_toRightOf="@+id/textView3" />
 
         <TextView
             android:id="@+id/textView"
