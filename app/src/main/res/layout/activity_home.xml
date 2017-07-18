@@ -27,5 +27,7 @@
         app:itemBackground="@color/colorPrimary"
         app:itemIconTint="@drawable/item_color_state"
         app:itemTextColor="@drawable/item_color_state"
-        app:menu="@menu/bottom_navigation_main" />
+        app:menu="@menu/bottom_navigation_main"
+        />
 </LinearLayout>
+
