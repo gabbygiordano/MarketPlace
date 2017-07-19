@@ -6,96 +6,102 @@
     android:layout_height="match_parent"
     tools:context="com.example.gabbygiordano.marketplace.AddItemActivity">
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.gabbygiordano.marketplace.ProfileActivity">
-
-    <ImageView
-        android:id="@+id/ivProfileImage"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        app:srcCompat="@drawable/ic_profile_tab"
-        tools:layout_editor_absoluteX="-2dp"
-        tools:layout_editor_absoluteY="2dp" />
-
-    <TextView
-        android:id="@+id/tvName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/ivProfileImage"
-        android:layout_toRightOf="@+id/ivProfileImage"
-        android:layout_marginLeft="5dp"
-        android:text="Name"
-        android:textSize="24sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/tvUsername"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvName"
-        android:layout_toEndOf="@+id/ivProfileImage"
-        android:layout_toRightOf="@+id/ivProfileImage"
-        android:layout_marginLeft="5dp"
-        android:text='"@username"' />
-
-    <TextView
-        android:id="@+id/tvCollege"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvUsername"
-        android:layout_toEndOf="@+id/ivProfileImage"
-        android:layout_toRightOf="@+id/ivProfileImage"
-        android:layout_marginLeft="5dp"
-        android:text="College" />
-
-    <TextView
-        android:id="@+id/tvPhone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/ivProfileImage"
-        android:layout_marginLeft="5dp"
-        android:text="Phone" />
-
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bottomNavigation"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        app:itemBackground="@color/colorPrimary"
-        app:itemIconTint="@drawable/item_color_state"
-        app:itemTextColor="@drawable/item_color_state"
-        app:menu="@menu/bottom_navigation_main"
-        />
+        android:layout_height="match_parent"
+        tools:context="com.example.gabbygiordano.marketplace.ProfileActivity">
 
-    <ImageButton
-        android:id="@+id/ibLogOut"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/bottomNavigation"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/bottomNavigation"
-        app:srcCompat="@android:drawable/ic_lock_power_off" />
+        <TextView
+            android:id="@+id/tvLogOut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ibLogOut"
+            android:layout_marginRight="5dp"
+            android:layout_alignParentRight="true"
+            android:text="Log Out" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/ivProfileImage"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            app:srcCompat="@drawable/ic_profile_tab"
+            tools:layout_editor_absoluteX="-2dp"
+            tools:layout_editor_absoluteY="2dp" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvProfileItems"
-            android:layout_width="match_parent"
-            android:layout_height="550dp"
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toEndOf="@+id/ivProfileImage"
+            android:layout_toRightOf="@+id/ivProfileImage"
+            android:text="Name"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvName"
+            android:layout_marginLeft="5dp"
+            android:layout_toEndOf="@+id/ivProfileImage"
+            android:layout_toRightOf="@+id/ivProfileImage"
+            android:text='"@username"' />
+
+        <TextView
+            android:id="@+id/tvCollege"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvUsername"
+            android:layout_marginLeft="5dp"
+            android:layout_toEndOf="@+id/ivProfileImage"
+            android:layout_toRightOf="@+id/ivProfileImage"
+            android:text="College" />
+
+        <TextView
+            android:id="@+id/tvPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/tvPhone"
-            android:layout_marginTop="115dp" />
-    </LinearLayout>
+            android:layout_below="@+id/ivProfileImage"
+            android:layout_marginLeft="5dp"
+            android:text="Phone" />
 
-</RelativeLayout>
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/bottomNavigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            app:itemBackground="@color/colorPrimary"
+            app:itemIconTint="@drawable/item_color_state"
+            app:itemTextColor="@drawable/item_color_state"
+            app:menu="@menu/bottom_navigation_main" />
+
+        <ImageButton
+            android:id="@+id/ibLogOut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/bottomNavigation"
+            android:layout_alignParentTop="true"
+            android:layout_alignRight="@+id/bottomNavigation"
+            app:srcCompat="@android:drawable/ic_lock_power_off" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvProfileItems"
+                android:layout_width="match_parent"
+                android:layout_height="550dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/tvPhone"
+                android:layout_marginTop="115dp" />
+        </LinearLayout>
+
+    </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

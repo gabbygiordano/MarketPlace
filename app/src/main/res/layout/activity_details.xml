@@ -24,7 +24,9 @@
         android:layout_below="@+id/imageView"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="ItemName" />
+        android:text="ItemName"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/etItemDescription"
@@ -44,7 +46,9 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/imageView"
         android:ems="10"
-        android:text="$$$" />
+        android:text="$$$"
+        android:layout_marginRight="5dp"
+        android:textAlignment="textEnd" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floatingActionButton5"
