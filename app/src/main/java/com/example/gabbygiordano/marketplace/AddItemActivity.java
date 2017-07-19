@@ -4,13 +4,11 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -28,8 +26,6 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 public class AddItemActivity extends AppCompatActivity {
@@ -62,9 +58,9 @@ public class AddItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_item);
 
         // find view by id lookups
-        etItemName = (EditText) findViewById(R.id.etItemName);
-        etItemDescription = (EditText) findViewById(R.id.etItemDescription);
-        etItemPrice = (EditText) findViewById(R.id.etItemPrice);
+        etItemName = (EditText) findViewById(R.id.tvItemName);
+        etItemDescription = (EditText) findViewById(R.id.tvItemDescription);
+        etItemPrice = (EditText) findViewById(R.id.tvItemPrice);
         ibAddImage = (ImageButton) findViewById(R.id.ibAddImage);
         ibPostItem = (ImageButton) findViewById(R.id.ibPostItem);
         imageLocation = (ImageView) findViewById(R.id.ivItemPhoto);
