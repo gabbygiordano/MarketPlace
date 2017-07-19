@@ -4,13 +4,11 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -28,8 +26,6 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 public class AddItemActivity extends AppCompatActivity {
@@ -84,24 +80,20 @@ public class AddItemActivity extends AppCompatActivity {
                 if (name.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Enter item name", Toast.LENGTH_LONG).show();
                     flag = true;
-                }
-                if (description.isEmpty()) {
+                } else if (description.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Enter item description", Toast.LENGTH_LONG).show();
                     flag = true;
-                }
-                if (price.isEmpty()) {
+                } else if (price.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Enter item price", Toast.LENGTH_LONG).show();
                     flag = true;
-                }
+                } else {
+                    int con = Integer.parseInt(condition);
 
-                int con = Integer.parseInt(condition);
+                    ParseUser currentUser = ParseUser.getCurrentUser();
 
-                ParseUser currentUser = ParseUser.getCurrentUser();
+                    item = new Item(name, description, price, con, currentUser, type);
+                    item.setOwner(ParseUser.getCurrentUser());
 
-                item = new Item(name, description, price, con, currentUser, type);
-                item.setOwner(ParseUser.getCurrentUser());
-
-                if (!flag) {
                     onPostSuccess();
                 }
             }
@@ -187,17 +179,6 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
     public void onPostSuccess() {
-//        String name = etItemName.getText().toString();
-//        String description = etItemDescription.getText().toString();
-//        String price = etItemPrice.getText().toString();
-//
-//        int con = Integer.parseInt(condition);
-//
-//        ParseUser currentUser = ParseUser.getCurrentUser();
-//
-//        item = new Item(name, description, price, con, currentUser, type);
-//        item.setOwner(ParseUser.getCurrentUser());
-
         // save the item
         item.saveInBackground(new SaveCallback() {
             @Override

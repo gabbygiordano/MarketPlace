@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Enter your school email address"
+        android:hint="School email address"
         android:inputType="textEmailAddress"
         android:layout_below="@id/imageView2"
         android:layout_alignParentLeft="true"
@@ -51,7 +51,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/etSchoolEmail"
         android:ems="10"
-        android:hint="Enter full name"
+        android:hint="Full name"
         android:inputType="textPersonName" />
 
     <EditText
@@ -64,17 +64,26 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/etFullName"
         android:ems="10"
-        android:hint="Enter a username"
-        android:inputType="textPersonName" />
+        android:hint="Username"
+        android:inputType="text" />
 
-    <Spinner
-        android:id="@+id/schoolOptions"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:visibility="visible"
+    <!--<Spinner-->
+        <!--android:id="@+id/schoolOptions"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:visibility="visible"-->
+        <!--android:layout_below="@+id/etUserName"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_alignParentStart="true" />-->
+
+    <AutoCompleteTextView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/tvAutocompleteCollege"
         android:layout_below="@+id/etUserName"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_width="fill_parent"
+        android:completionThreshold="3"
+        android:hint="College/University"
+        android:layout_height="wrap_content" />
 
     <EditText
         android:id="@+id/etPhoneNumber"
@@ -84,9 +93,9 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/schoolOptions"
+        android:layout_below="@+id/tvAutocompleteCollege"
         android:ems="10"
-        android:hint="Enter phone number"
+        android:hint="Phone number"
         android:inputType="phone" />
 
     <Spinner
@@ -108,7 +117,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/contactOptions"
         android:ems="10"
-        android:hint="Enter a password"
+        android:hint="Password"
         android:inputType="text|textPassword" />
 
     <Button
@@ -117,7 +126,6 @@
         android:layout_height="wrap_content"
         android:text="Register"
         android:textColor="#ffffff"
-        android:onClick="onRegisterClicked"
         android:layout_below="@+id/etPassword"
         android:layout_centerHorizontal="true" />
 

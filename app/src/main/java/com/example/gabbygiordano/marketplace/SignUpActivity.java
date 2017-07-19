@@ -7,10 +7,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.parse.ParseUser;
@@ -20,12 +22,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import cz.msebera.android.httpclient.Header;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    String[] schools;
+    List<String> schools = new ArrayList<String>();
     int size;
+    int records;
+    int page;
 
     Spinner schoolSpinner;
     ArrayAdapter<String> schoolsAdapter;
@@ -43,6 +50,10 @@ public class SignUpActivity extends AppCompatActivity {
     Button registerButton;
     TextView tvGotoLogin;
 
+    AutoCompleteTextView tvAutocompleteCollege;
+
+    ParseUser parseUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +68,7 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         // perform find view by id lookups
-        schoolSpinner = (Spinner) findViewById(R.id.schoolOptions);
+        // schoolSpinner = (Spinner) findViewById(R.id.schoolOptions);
         etSchoolEmail = (EditText) findViewById(R.id.etSchoolEmail);
         etFullName = (EditText) findViewById(R.id.etFullName);
         etUserName = (EditText) findViewById(R.id.etUserName);
@@ -65,6 +76,57 @@ public class SignUpActivity extends AppCompatActivity {
         etPassword = (EditText) findViewById(R.id.etPassword);
         registerButton = (Button) findViewById(R.id.registerButton);
         tvGotoLogin = (TextView) findViewById(R.id.tvGotoLogin);
+        tvAutocompleteCollege = (AutoCompleteTextView) findViewById(R.id.tvAutocompleteCollege);
+
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean flag = false;
+
+                String email = etSchoolEmail.getText().toString();
+                String name = etFullName.getText().toString();
+                String username = etUserName.getText().toString();
+                String password = etPassword.getText().toString();
+                String phone = etPhoneNumber.getText().toString();
+                String school = tvAutocompleteCollege.getText().toString();
+
+                if (email.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Enter email", Toast.LENGTH_LONG).show();
+                    flag = true;
+                } else if (name.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Enter name", Toast.LENGTH_LONG).show();
+                    flag = true;
+                } else if (username.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Enter username", Toast.LENGTH_LONG).show();
+                    flag = true;
+                } else if (password.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Enter password", Toast.LENGTH_LONG).show();
+                    flag = true;
+                } else if (phone.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Enter phone number", Toast.LENGTH_LONG).show();
+                    flag = true;
+                } else if (school.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Enter school", Toast.LENGTH_LONG).show();
+                    flag = true;
+                } else {
+                    // Create the ParseUser
+                    parseUser = new ParseUser();
+
+                    // Set core properties
+                    parseUser.setUsername(username);
+                    parseUser.setPassword(password);
+                    parseUser.setEmail(email);
+
+                    // Set custom properties
+                    parseUser.put("name", name);
+                    parseUser.put("phone", Long.parseLong(phone));
+                    parseUser.put("college", school);
+                    parseUser.put("contact", preference);
+
+                    onRegisterClicked();
+                }
+            }
+        });
 
         contactOptions = (Spinner) findViewById(R.id.contactOptions);
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -86,7 +148,9 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
         // get list of US universities
-        getSchools();
+        records = 0;
+        page = 0;
+        getSchools(false);
     }
 
     public void goToLogin(View view) {
@@ -94,23 +158,36 @@ public class SignUpActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void getSchools() {
+    public void getSchools(boolean finished) {
         // make network request to get university list using API
-        MarketPlaceClient.getSchoolList(new JsonHttpResponseHandler() {
+        MarketPlaceClient.getSchoolList(page, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
-                    size = response.getJSONObject("metadata").getInt("total");
-                    Log.e("SIZE", String.valueOf(size));
-
-                    schools = new String[20];
-
-                    // add each school to list
-                    for (int i = 0; i < 20; i++) {
-                        schools[i] = response.getJSONArray("results").getJSONObject(i).getString("school.name");
+                    if (page == 0) {
+                        size = response.getJSONObject("metadata").getInt("total");
+                        Log.e("Client", "Size = " + String.valueOf(size));
                     }
 
-                    setupAdapter();
+                    records += response.getJSONArray("results").length();
+                    Log.e("Client", "Records = " + String.valueOf(records));
+
+                    // add each school to list
+                    for (int i = 0; i < response.getJSONArray("results").length(); i++) {
+                        schools.add(response.getJSONArray("results").getJSONObject(i).getString("school.name"));
+                        Log.e("Client", response.getJSONArray("results").getJSONObject(i).getString("school.name"));
+                    }
+
+                    Log.e("Client", "heree");
+
+                    if (records < size) {
+                        page += 1;
+                        Log.e("Client", String.valueOf(page));
+                        getSchools(false);
+                    } else {
+                        Log.e("Client", "here");
+                        setupAdapter();
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -131,9 +208,10 @@ public class SignUpActivity extends AppCompatActivity {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
             }
         });
+        //setupAdapter();
     }
 
-    public void setupAdapter() {
+    public void setupSpinnerAdapter() {
         // create an ArrayAdapter using the string array and a default spinner layout
         schoolsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, schools);
 
@@ -155,30 +233,13 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
+    public void setupAdapter() {
+        Log.e("Client", "Setting up adapter");
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, schools);
+        tvAutocompleteCollege.setAdapter(adapter);
+    }
 
-    public void onRegisterClicked(View view) {
-        String email = etSchoolEmail.getText().toString();
-        String name = etFullName.getText().toString();
-        String username = etUserName.getText().toString();
-        String password = etPassword.getText().toString();
-        long phone = Long.parseLong(etPhoneNumber.getText().toString());
-
-        //User user = User.fromInput(name, username, email, password, school, phone, preference);
-
-        // Create the ParseUser
-        ParseUser parseUser = new ParseUser();
-
-        // Set core properties
-        parseUser.setUsername(username);
-        parseUser.setPassword(password);
-        parseUser.setEmail(email);
-
-        // Set custom properties
-        parseUser.put("name", name);
-        parseUser.put("phone", phone);
-        parseUser.put("college", school);
-        parseUser.put("contact", preference);
-
+    public void onRegisterClicked() {
         // Invoke signUpInBackground
         parseUser.signUpInBackground(new SignUpCallback() {
             @Override
