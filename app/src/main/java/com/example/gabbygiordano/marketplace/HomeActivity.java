@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.gabbygiordano.marketplace.fragments.ItemsListFragment;
@@ -20,6 +21,7 @@ public class HomeActivity extends AppCompatActivity {
 
     ViewPager viewPager;
     ItemsPagerAdapter adapter;
+    ImageView ivItemImage;
 
     int ADD_ITEM_REQUEST = 10;
     int NOTIF_REQUEST = 20;
@@ -28,6 +30,7 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
@@ -86,7 +89,10 @@ public class HomeActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -95,5 +101,20 @@ public class HomeActivity extends AppCompatActivity {
         // ItemsListFragment fragment = (ItemsListFragment) adapter.getRegisteredFragment(type);
         ItemsListFragment fragment = (ItemsListFragment) adapter.getRegisteredFragment(viewPager.getCurrentItem());
         fragment.activityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu_home, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.miInbox) {
+            Intent i = new Intent(this, InboxActivity.class);
+            startActivityForResult(i, 1);
+        }
+        return true;
     }
 }

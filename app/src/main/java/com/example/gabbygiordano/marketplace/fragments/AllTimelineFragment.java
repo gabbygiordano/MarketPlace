@@ -17,6 +17,8 @@ import java.util.List;
 
 public class AllTimelineFragment extends ItemsListFragment {
 
+
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +26,7 @@ public class AllTimelineFragment extends ItemsListFragment {
         setRetainInstance(true);
 
         populateTimeline();
+
     }
 
     @Override
