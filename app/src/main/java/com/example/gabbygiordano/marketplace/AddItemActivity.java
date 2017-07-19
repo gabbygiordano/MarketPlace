@@ -80,24 +80,20 @@ public class AddItemActivity extends AppCompatActivity {
                 if (name.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Enter item name", Toast.LENGTH_LONG).show();
                     flag = true;
-                }
-                if (description.isEmpty()) {
+                } else if (description.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Enter item description", Toast.LENGTH_LONG).show();
                     flag = true;
-                }
-                if (price.isEmpty()) {
+                } else if (price.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Enter item price", Toast.LENGTH_LONG).show();
                     flag = true;
-                }
+                } else {
+                    int con = Integer.parseInt(condition);
 
-                int con = Integer.parseInt(condition);
+                    ParseUser currentUser = ParseUser.getCurrentUser();
 
-                ParseUser currentUser = ParseUser.getCurrentUser();
+                    item = new Item(name, description, price, con, currentUser, type);
+                    item.setOwner(ParseUser.getCurrentUser());
 
-                item = new Item(name, description, price, con, currentUser, type);
-                item.setOwner(ParseUser.getCurrentUser());
-
-                if (!flag) {
                     onPostSuccess();
                 }
             }
@@ -183,17 +179,6 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
     public void onPostSuccess() {
-//        String name = etItemName.getText().toString();
-//        String description = etItemDescription.getText().toString();
-//        String price = etItemPrice.getText().toString();
-//
-//        int con = Integer.parseInt(condition);
-//
-//        ParseUser currentUser = ParseUser.getCurrentUser();
-//
-//        item = new Item(name, description, price, con, currentUser, type);
-//        item.setOwner(ParseUser.getCurrentUser());
-
         // save the item
         item.saveInBackground(new SaveCallback() {
             @Override
