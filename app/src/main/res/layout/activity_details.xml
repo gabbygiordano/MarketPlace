@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/ivItemImage"
         android:layout_width="wrap_content"
         android:layout_height="200dp"
         android:layout_alignParentLeft="true"
@@ -16,12 +16,12 @@
         android:layout_alignParentEnd="true" />
 
     <TextView
-        android:id="@+id/etItemName"
+        android:id="@+id/tvItemName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/imageView"
+        android:layout_below="@+id/ivItemImage"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="ItemName"
@@ -29,29 +29,29 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/etItemDescription"
+        android:id="@+id/tvItemDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/rtItemCondition"
+        android:layout_below="@+id/rbItemCondition"
         android:ems="10"
         android:text="Description" />
 
     <TextView
-        android:id="@+id/etItemPrice"
+        android:id="@+id/tvItemPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/imageView"
+        android:layout_below="@+id/ivItemImage"
         android:ems="10"
         android:text="$$$"
         android:layout_marginRight="5dp"
         android:textAlignment="textEnd" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButton5"
+        android:id="@+id/fabBuy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/bottomNavigation"
@@ -59,18 +59,18 @@
         android:layout_gravity="right"
         android:layout_marginBottom="15dp"
         android:layout_marginEnd="15dp"
-        android:src="@drawable/ic_interested"
         android:backgroundTint="#5c9fd6"
+        android:src="@drawable/ic_interested"
         app:background="@drawable/circle"
         app:borderWidth="0dp"
         app:elevation="12dp"
         app:fabSize="normal" />
 
     <RatingBar
-        android:id="@+id/rtItemCondition"
+        android:id="@+id/rbItemCondition"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/etItemName"
+        android:layout_below="@+id/tvItemName"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 

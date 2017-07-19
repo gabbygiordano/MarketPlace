@@ -104,6 +104,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         public TextView tvSeller;
         public TextView tvPrice;
         public TextView tvTimeAgo;
+        Item thisItem;
 
         // constructor
         public ViewHolder(View itemView) {
@@ -120,7 +121,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
         @Override
         public void onClick(View view) {
+            int position = getAdapterPosition();
+            if( position != RecyclerView.NO_POSITION){
+                thisItem = mItems.get(position);
+            }
+            String id = thisItem.getObjectId();
             Intent i = new Intent(context, ItemDetailsActivity.class);
+            i.putExtra("ID", id);
             context.startActivity(i);
         }
     }
