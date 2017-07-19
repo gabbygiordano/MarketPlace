@@ -54,7 +54,7 @@
             android:layout_below="@+id/etItemName"
             android:ems="10"
             android:hint="Enter Item Description"
-            android:inputType="textPersonName" />
+            android:inputType="textMultiLine" />
 
         <EditText
             android:id="@+id/etItemPrice"
@@ -65,10 +65,9 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/etItemDescription"
-            android:layout_toEndOf="@+id/editText"
             android:ems="10"
             android:hint="$ Enter Item Price"
-            android:inputType="textPersonName" />
+            android:inputType="number" />
 
         <TextView
             android:id="@+id/tvCondition"
@@ -78,7 +77,7 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/etItemPrice"
             android:layout_marginLeft="5dp"
-            android:text="Choose Item Condition:"
+            android:text="Condition:"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -90,7 +89,6 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:clickable="true"
-            android:onClick="onPostSuccess"
             app:srcCompat="@drawable/homeicon" />
 
         <!--android:layout_alignParentBottom="true"
@@ -133,10 +131,11 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/tvCondition"
             android:layout_marginLeft="5dp"
-            android:layout_toLeftOf="@+id/conditionOptions"
             android:layout_toStartOf="@+id/conditionOptions"
-            android:text="1 for poor condition, 5 for basically new"
-            android:textSize="10sp" />
+            android:text="1 = poor, 5 = like new"
+            android:textSize="10sp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
         <Spinner
             android:id="@+id/conditionOptions"
@@ -149,11 +148,12 @@
 
         <Spinner
             android:id="@+id/spItemType"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textView3"
             android:layout_toEndOf="@+id/textView3"
-            android:layout_toRightOf="@+id/textView3" />
+            android:layout_alignLeft="@+id/conditionOptions"
+            android:layout_alignStart="@+id/conditionOptions"/>
 
         <TextView
             android:id="@+id/textView"
@@ -162,9 +162,7 @@
             android:layout_alignLeft="@+id/textView3"
             android:layout_alignStart="@+id/textView3"
             android:layout_below="@+id/textView3"
-            android:layout_toLeftOf="@+id/spItemType"
-            android:layout_toStartOf="@+id/spItemType"
-            android:text="Choose Item Category:"
+            android:text="Category:"
             android:textSize="18sp"
             android:textStyle="bold" />
 
