@@ -13,6 +13,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -55,6 +56,7 @@ public class AddItemActivity extends AppCompatActivity {
 
     String condition;
     String type;
+    Bitmap resource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,7 +159,7 @@ public class AddItemActivity extends AppCompatActivity {
 
         ParseUser currentUser = ParseUser.getCurrentUser();
 
-        final Item item = new Item(name, description, price, con, currentUser, type);
+        final Item item = new Item(name, description, price, con, currentUser, type, resource);
         item.setOwner(ParseUser.getCurrentUser());
 
         // save the item
@@ -168,6 +170,7 @@ public class AddItemActivity extends AppCompatActivity {
                 String id = item.getObjectId();
                 intent.putExtra("item_id", id);
                 intent.putExtra("type", item.getType());
+                intent.putExtra("resource", item.getResource());
 
                 // return to required activity
                 setResult(RESULT_OK, intent);
@@ -225,6 +228,7 @@ public class AddItemActivity extends AppCompatActivity {
                 //Toast.makeText(this, "picture was taken", Toast.LENGTH_SHORT).show();
                 Bundle extras = data.getExtras();
                 Bitmap photoCaptured = (Bitmap) extras.get("data");
+                resource = photoCaptured;
                 imageLocation.setImageBitmap(photoCaptured);
             }
             else if(requestCode == ACTIVITY_SELECT_FILE)
@@ -234,6 +238,11 @@ public class AddItemActivity extends AppCompatActivity {
             }
 
         }
+    }
+
+    void createImageFile()
+    {
+
     }
 
 }

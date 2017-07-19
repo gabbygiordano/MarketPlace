@@ -20,7 +20,7 @@ public class Item extends ParseObject {
 //    public User user;
 //    public String type;  // type of object - book, clothes, etc
 //
-//    public Bitmap resource;
+      //public Bitmap resource;
 
     // public default constructor for parse
     public Item() {
@@ -28,13 +28,14 @@ public class Item extends ParseObject {
     }
 
     // constructor
-    public Item(String name, String description, String price, int condition, ParseUser user, String type) {
+    public Item(String name, String description, String price, int condition, ParseUser user, String type, Bitmap resource) {
         setItemName(name);
         setDescription(description);
         setPrice("$" + price);
         setCondition(condition);
         setOwner(user);
         setType(type);
+        setResource(resource);
     }
 
     public String getItemName() {
