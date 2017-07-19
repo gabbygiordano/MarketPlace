@@ -19,13 +19,17 @@
         android:id="@+id/tvItemName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/ivItemImage"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="ItemName"
-        android:textSize="18sp"
+        android:textAlignment="viewStart"
+        android:textSize="30sp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:textStyle="bold" />
 
     <TextView
@@ -36,7 +40,12 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/rbItemCondition"
         android:ems="10"
-        android:text="Description" />
+        android:textSize="18sp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/fabBuy" />
 
     <TextView
         android:id="@+id/tvItemPrice"
@@ -45,9 +54,8 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/ivItemImage"
-        android:ems="10"
-        android:text="$$$"
         android:layout_marginRight="5dp"
+        android:ems="10"
         android:textAlignment="textEnd" />
 
     <android.support.design.widget.FloatingActionButton
@@ -68,11 +76,15 @@
 
     <RatingBar
         android:id="@+id/rbItemCondition"
+        style="@android:style/Widget.DeviceDefault.Light.RatingBar.Indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvItemName"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tvItemName"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"/>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottomNavigation"
@@ -84,4 +96,27 @@
         app:itemTextColor="@drawable/item_color_state"
         app:menu="@menu/bottom_navigation_main"
         />
+
+    <TextView
+        android:id="@+id/tvItemOwner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:layout_below="@+id/textView8"
+        android:layout_alignLeft="@+id/textView8"
+        android:layout_alignStart="@+id/textView8"
+        android:layout_toLeftOf="@+id/fabBuy"
+        android:layout_toStartOf="@+id/fabBuy" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Contact Details"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@+id/tvItemDescription"
+        android:layout_alignLeft="@+id/tvItemDescription"
+        android:layout_alignStart="@+id/tvItemDescription" />
+
 </RelativeLayout>
