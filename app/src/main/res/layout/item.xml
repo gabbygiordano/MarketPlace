@@ -14,7 +14,6 @@
         android:layout_alignParentTop="true"
         app:srcCompat="@drawable/ic_add_item_tab"
         android:clickable="true"
-        android:onClick="seeDetails"
         tools:ignore="VectorDrawableCompat" />
 
     <TextView

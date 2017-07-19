@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.example.gabbygiordano.marketplace.Item;
 import com.example.gabbygiordano.marketplace.ItemAdapter;
@@ -27,6 +28,7 @@ public class ItemsListFragment extends Fragment {
 
     ArrayList<Item> items;
     ItemAdapter itemAdapter;
+    ImageView ivItemImage;
 
     RecyclerView rvItems;
 
@@ -52,7 +54,10 @@ public class ItemsListFragment extends Fragment {
         rvItems.setAdapter(itemAdapter);
         rvItems.setHasFixedSize(true);
 
+
+
         return v;
+
     }
 
     @Override
