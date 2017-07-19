@@ -1,6 +1,7 @@
 package com.example.gabbygiordano.marketplace;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;

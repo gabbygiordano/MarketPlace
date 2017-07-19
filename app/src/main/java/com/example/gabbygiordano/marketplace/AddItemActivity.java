@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.constraint.solver.SolverVariable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -57,6 +58,7 @@ public class AddItemActivity extends AppCompatActivity {
     String condition;
     String type;
     Bitmap resource;
+
 
     Item item;
 
@@ -187,18 +189,9 @@ public class AddItemActivity extends AppCompatActivity {
             }
         });
     }
-    public void onPostSuccess(View view) {
-        String name = etItemName.getText().toString();
-        String description = etItemDescription.getText().toString();
-        String price = etItemPrice.getText().toString();
-        int con = Integer.parseInt(condition);
+    public void onPostSuccess () {
 
-        ParseUser currentUser = ParseUser.getCurrentUser();
 
-        final Item item = new Item(name, description, price, con, currentUser, type, resource);
-        item.setOwner(ParseUser.getCurrentUser());
-
-        public void onPostSuccess () {
 //        String name = etItemName.getText().toString();
 //        String description = etItemDescription.getText().toString();
 //        String price = etItemPrice.getText().toString();
@@ -221,16 +214,13 @@ public class AddItemActivity extends AppCompatActivity {
                     intent.putExtra("type", item.getType());
                     intent.putExtra("resource", item.getResource());
 
-                    String type = item.getType();
-                    intent.putExtra("type", type);
-
                     // return to required activity
                     setResult(Activity.RESULT_OK, intent);
                     finish();
                 }
             });
         }
-    }
+
 
     private void SelectImage()
     {
@@ -281,13 +271,15 @@ public class AddItemActivity extends AppCompatActivity {
                 //Toast.makeText(this, "picture was taken", Toast.LENGTH_SHORT).show();
                 Bundle extras = data.getExtras();
                 Bitmap photoCaptured = (Bitmap) extras.get("data");
-                resource = photoCaptured;
                 imageLocation.setImageBitmap(photoCaptured);
+                resource = photoCaptured;
+
             }
             else if(requestCode == ACTIVITY_SELECT_FILE)
             {
                 Uri selectedImageUri = data.getData();
                 imageLocation.setImageURI(selectedImageUri);
+
             }
 
         }
