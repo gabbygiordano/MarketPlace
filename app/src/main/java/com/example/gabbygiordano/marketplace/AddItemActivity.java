@@ -1,5 +1,6 @@
 package com.example.gabbygiordano.marketplace;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -47,6 +48,8 @@ public class AddItemActivity extends AppCompatActivity {
     String condition;
     String type;
 
+    Item item;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +63,41 @@ public class AddItemActivity extends AppCompatActivity {
         ibPostItem = (ImageButton) findViewById(R.id.ibPostItem);
         imageLocation = (ImageView) findViewById(R.id.ivItemPhoto);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
+
+        ibPostItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean flag = false;
+
+                String name = etItemName.getText().toString();
+                String description = etItemDescription.getText().toString();
+                String price = etItemPrice.getText().toString();
+
+                if (name.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Enter item name", Toast.LENGTH_LONG).show();
+                    flag = true;
+                }
+                if (description.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Enter item description", Toast.LENGTH_LONG).show();
+                    flag = true;
+                }
+                if (price.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Enter item price", Toast.LENGTH_LONG).show();
+                    flag = true;
+                }
+
+                int con = Integer.parseInt(condition);
+
+                ParseUser currentUser = ParseUser.getCurrentUser();
+
+                item = new Item(name, description, price, con, currentUser, type);
+                item.setOwner(ParseUser.getCurrentUser());
+
+                if (!flag) {
+                    onPostSuccess();
+                }
+            }
+        });
 
         spinner = (Spinner) findViewById(R.id.conditionOptions);
         adapter = ArrayAdapter.createFromResource(this, R.array.condition_array, android.R.layout.simple_spinner_item);
@@ -140,16 +178,17 @@ public class AddItemActivity extends AppCompatActivity {
         });
     }
 
-    public void onPostSuccess(View view) {
-        String name = etItemName.getText().toString();
-        String description = etItemDescription.getText().toString();
-        String price = etItemPrice.getText().toString();
-        int con = Integer.parseInt(condition);
-
-        ParseUser currentUser = ParseUser.getCurrentUser();
-
-        final Item item = new Item(name, description, price, con, currentUser, type);
-        item.setOwner(ParseUser.getCurrentUser());
+    public void onPostSuccess() {
+//        String name = etItemName.getText().toString();
+//        String description = etItemDescription.getText().toString();
+//        String price = etItemPrice.getText().toString();
+//
+//        int con = Integer.parseInt(condition);
+//
+//        ParseUser currentUser = ParseUser.getCurrentUser();
+//
+//        item = new Item(name, description, price, con, currentUser, type);
+//        item.setOwner(ParseUser.getCurrentUser());
 
         // save the item
         item.saveInBackground(new SaveCallback() {
@@ -158,10 +197,11 @@ public class AddItemActivity extends AppCompatActivity {
                 Intent intent = new Intent();
                 String id = item.getObjectId();
                 intent.putExtra("item_id", id);
-                intent.putExtra("type", item.getType());
+                String type = item.getType();
+                intent.putExtra("type", type);
 
                 // return to required activity
-                setResult(RESULT_OK, intent);
+                setResult(Activity.RESULT_OK, intent);
                 finish();
             }
         });
