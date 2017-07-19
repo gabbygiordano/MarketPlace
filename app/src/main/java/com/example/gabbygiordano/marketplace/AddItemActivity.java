@@ -60,9 +60,9 @@ public class AddItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_item);
 
         // find view by id lookups
-        etItemName = (EditText) findViewById(R.id.etItemName);
-        etItemDescription = (EditText) findViewById(R.id.etItemDescription);
-        etItemPrice = (EditText) findViewById(R.id.etItemPrice);
+        etItemName = (EditText) findViewById(R.id.tvItemName);
+        etItemDescription = (EditText) findViewById(R.id.tvItemDescription);
+        etItemPrice = (EditText) findViewById(R.id.tvItemPrice);
         ibAddImage = (ImageButton) findViewById(R.id.ibAddImage);
         ibPostItem = (ImageButton) findViewById(R.id.ibPostItem);
         imageLocation = (ImageView) findViewById(R.id.ivItemPhoto);
