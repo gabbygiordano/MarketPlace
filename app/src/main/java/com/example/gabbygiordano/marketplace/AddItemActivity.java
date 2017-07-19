@@ -240,9 +240,6 @@ public class AddItemActivity extends AppCompatActivity {
         }
     }
 
-    void createImageFile()
-    {
 
-    }
 
 }
