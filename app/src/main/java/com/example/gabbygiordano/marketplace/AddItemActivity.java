@@ -94,7 +94,6 @@ public class AddItemActivity extends AppCompatActivity {
                     flag = true;
                 } else {
                     int con = Integer.parseInt(condition);
-
                     ParseUser currentUser = ParseUser.getCurrentUser();
 
                     item = new Item(name, description, price, con, currentUser, type, resource);
@@ -185,7 +184,6 @@ public class AddItemActivity extends AppCompatActivity {
             }
         });
     }
-
 
     public void onPostSuccess() {
         // save the item
