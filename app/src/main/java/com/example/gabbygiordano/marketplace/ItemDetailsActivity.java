@@ -1,5 +1,7 @@
 package com.example.gabbygiordano.marketplace;
 
+import android.graphics.PorterDuff;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +13,8 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
+import static com.example.gabbygiordano.marketplace.R.color.colorGold;
+
 public class ItemDetailsActivity extends AppCompatActivity {
 
     TextView tvItemName;
@@ -19,6 +23,7 @@ public class ItemDetailsActivity extends AppCompatActivity {
     RatingBar rbItemCondition;
     ImageView ivItemImage;
     FloatingActionButton fabBuy;
+    TextView tvItemOwner;
 
     MarketPlaceClient client;
     private Item item;
@@ -34,6 +39,10 @@ public class ItemDetailsActivity extends AppCompatActivity {
         rbItemCondition = (RatingBar) findViewById(R.id.rbItemCondition);
         ivItemImage = (ImageView) findViewById(R.id.ivItemImage);
         fabBuy = (FloatingActionButton) findViewById(R.id.fabBuy);
+        tvItemOwner = (TextView) findViewById(R.id.tvItemOwner);
+
+        LayerDrawable stars = (LayerDrawable) rbItemCondition.getProgressDrawable();
+        stars.getDrawable(2).setColorFilter(getResources().getColor(colorGold), PorterDuff.Mode.SRC_ATOP);
 
         //get item ID from Intent
         String itemId = getIntent().getStringExtra("ID");
@@ -49,6 +58,7 @@ public class ItemDetailsActivity extends AppCompatActivity {
                     tvItemDescription.setText(item.getDescription());
                     tvItemPrice.setText(item.getPrice());
                     rbItemCondition.setRating(item.getCondition());
+                    tvItemOwner.setText(item.getOwner().getUsername());
 
                 } else {
                     // something went wrong
