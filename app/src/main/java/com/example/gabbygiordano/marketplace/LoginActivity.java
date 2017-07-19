@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.LogInCallback;
 import com.parse.ParseException;
@@ -53,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(i);
                 } else {
                     // Signup failed. Look at the ParseException to see what happened.
+                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });

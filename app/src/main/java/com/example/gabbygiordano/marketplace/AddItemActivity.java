@@ -30,6 +30,8 @@ import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 
+import static com.example.gabbygiordano.marketplace.R.id.view;
+
 public class AddItemActivity extends AppCompatActivity {
 
     private static final int ACTIVITY_START_CAMERA = 1;
@@ -84,22 +86,20 @@ public class AddItemActivity extends AppCompatActivity {
                 if (name.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Enter item name", Toast.LENGTH_LONG).show();
                     flag = true;
-                }
-                if (description.isEmpty()) {
+                } else if (description.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Enter item description", Toast.LENGTH_LONG).show();
                     flag = true;
-                }
-                if (price.isEmpty()) {
+                } else if (price.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Enter item price", Toast.LENGTH_LONG).show();
                     flag = true;
+                } else {
+                    int con = Integer.parseInt(condition);
+
+                    ParseUser currentUser = ParseUser.getCurrentUser();
+
+                    item = new Item(name, description, price, con, currentUser, type, resource);
+                    item.setOwner(ParseUser.getCurrentUser());
                 }
-
-                int con = Integer.parseInt(condition);
-
-                ParseUser currentUser = ParseUser.getCurrentUser();
-
-                item = new Item(name, description, price, con, currentUser, type, resource);
-                item.setOwner(ParseUser.getCurrentUser());
 
                 if (!flag) {
                     onPostSuccess();
@@ -185,37 +185,26 @@ public class AddItemActivity extends AppCompatActivity {
             }
         });
     }
-    public void onPostSuccess () {
 
 
-//        String name = etItemName.getText().toString();
-//        String description = etItemDescription.getText().toString();
-//        String price = etItemPrice.getText().toString();
-//
-//        int con = Integer.parseInt(condition);
-//
-//        ParseUser currentUser = ParseUser.getCurrentUser();
-//
-//        item = new Item(name, description, price, con, currentUser, type);
-//        item.setOwner(ParseUser.getCurrentUser());
+    public void onPostSuccess() {
+        // save the item
+        item.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                Intent intent = new Intent();
+                String id = item.getObjectId();
+                intent.putExtra("item_id", id);
+                String type = item.getType();
+                intent.putExtra("type", type);
+                intent.putExtra("resource", item.getResource());
 
-
-            // save the item
-            item.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    Intent intent = new Intent();
-                    String id = item.getObjectId();
-                    intent.putExtra("item_id", id);
-                    intent.putExtra("type", item.getType());
-                    intent.putExtra("resource", item.getResource());
-
-                    // return to required activity
-                    setResult(Activity.RESULT_OK, intent);
-                    finish();
-                }
-            });
-        }
+                // return to required activity
+                setResult(Activity.RESULT_OK, intent);
+                finish();
+            }
+        });
+    }
 
 
     private void SelectImage()
@@ -280,7 +269,5 @@ public class AddItemActivity extends AppCompatActivity {
 
         }
     }
-
-
 
 }
