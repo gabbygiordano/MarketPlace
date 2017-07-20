@@ -11,8 +11,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.parse.ParseObject;
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
+import static com.example.gabbygiordano.marketplace.R.id.ivItemImage;
 import static com.example.gabbygiordano.marketplace.R.layout.item;
 
 /**
@@ -69,6 +73,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         holder.tvTimeAgo.setText(item.getOwner().getString("_created_at"));
         Log.e(item.getOwner().getString("_created_at"), "printed");
         // returns 07-18 15:04:16.993
+
     }
 
     @Override

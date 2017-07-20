@@ -242,17 +242,17 @@ public class AddItemActivity extends AppCompatActivity {
 
     public void onPostSuccess() {
         // save the item
+
         item.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                Intent intent = new Intent();
+                final Intent intent = new Intent();
                 String id = item.getObjectId();
                 intent.putExtra("item_id", id);
                 String type = item.getType();
                 intent.putExtra("type", type);
                 //intent.putExtra("resource", item.getResource());
 
-                // return to required activity
                 setResult(Activity.RESULT_OK, intent);
                 finish();
             }
