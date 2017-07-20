@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -31,8 +32,13 @@ public class ItemsListFragment extends Fragment {
     ImageView ivItemImage;
 
     RecyclerView rvItems;
+    SwipeRefreshLayout swipeContainer;
 
     int ADD_ITEM_REQUEST = 10;
+
+    int page;
+    final int limit = 20;
+    private RecyclerView.OnScrollListener scrollListener;
 
     @Nullable
     @Override
@@ -41,9 +47,13 @@ public class ItemsListFragment extends Fragment {
 
         // perform find view by id lookups
         rvItems = (RecyclerView) v.findViewById(R.id.rvItems);
+        swipeContainer = (SwipeRefreshLayout) v.findViewById(R.id.swipeContainer);
 
         // initialize arraylist
         items = new ArrayList<>();
+
+        // initialize page #
+        page = 0;
 
         //construct the adapter from the array list
         itemAdapter = new ItemAdapter(items, getContext());
@@ -54,7 +64,34 @@ public class ItemsListFragment extends Fragment {
         rvItems.setAdapter(itemAdapter);
         rvItems.setHasFixedSize(true);
 
+        // swipe to refresh setup
 
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                // Make sure you call swipeContainer.setRefreshing(false)
+                // once the network request has completed successfully.
+                fetchTimelineAsync(0);
+            }
+        });
+
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+        // set up infinite pagination
+        scrollListener = new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                populateTimeline();
+            }
+        };
+        // Adds the scroll listener to RecyclerView
+        rvItems.addOnScrollListener(scrollListener);
 
         return v;
 
@@ -69,17 +106,28 @@ public class ItemsListFragment extends Fragment {
 
     public void populateTimeline() {}
 
-    public void addItem(Item item) {
-        items.add(item);
-        itemAdapter.notifyItemInserted(items.size() - 1);
-    }
+    public void fetchTimelineAsync(int page) {}
 
     public void addItems(List<Item> list){
-        for(int i=0; i< list.size(); i++){
+        for (int i = 0; i < list.size(); i++) {
             items.add(list.get(i));
             itemAdapter.notifyItemInserted(items.size()-1);
         }
+        page += 1;
+    }
 
+    public void refreshItems(List<Item> list) {
+        itemAdapter.clear();
+
+        List<Item> new_items = new ArrayList<Item>();
+
+        for (int i = 0; i < list.size(); i++) {
+            new_items.add(list.get(i));
+        }
+
+        itemAdapter.addAll(new_items);
+
+        swipeContainer.setRefreshing(false);
     }
 
     public void activityResult(int requestCode, int resultCode, Intent data) {
