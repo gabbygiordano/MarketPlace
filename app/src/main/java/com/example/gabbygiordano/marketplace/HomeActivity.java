@@ -36,10 +36,6 @@ public class HomeActivity extends AppCompatActivity {
     ArrayList<Item> items;
     SearchView searchView;
 
-
-
-
-
     int ADD_ITEM_REQUEST = 10;
 
     @Override

@@ -94,7 +94,6 @@ public class ItemsListFragment extends Fragment {
         rvItems.addOnScrollListener(scrollListener);
 
         return v;
-
     }
 
     @Override

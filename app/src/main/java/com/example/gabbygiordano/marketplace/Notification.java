@@ -23,8 +23,8 @@ public class Notification extends ParseObject {
         setItem(item);
     }
 
-    public String getItem() {
-        return getString("item");
+    public Item getItem() {
+        return (Item) getParseObject("item");
     }
 
     public void setItem(Item item) {
