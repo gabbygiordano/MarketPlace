@@ -31,6 +31,12 @@ public class ItemDetailsActivity extends AppCompatActivity {
     RatingBar rbItemCondition;
     ImageView ivItemImage;
     TextView tvItemOwner;
+
+    Button btSeller;
+
+    MarketPlaceClient client;
+    private Item parseItem;
+
     Button btnInterested;
 
     BottomNavigationView bottomNavigationView;
@@ -39,6 +45,7 @@ public class ItemDetailsActivity extends AppCompatActivity {
 
     Item mItem;
     Notification notification;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +59,11 @@ public class ItemDetailsActivity extends AppCompatActivity {
         rbItemCondition = (RatingBar) findViewById(R.id.rbItemCondition);
         ivItemImage = (ImageView) findViewById(R.id.ivItemImage);
         tvItemOwner = (TextView) findViewById(R.id.tvItemOwner);
+
+        btSeller = (Button) findViewById(R.id.btSeller);
+
         btnInterested = (Button) findViewById(R.id.btnInterested);
+
 
         LayerDrawable stars = (LayerDrawable) rbItemCondition.getProgressDrawable();
         stars.getDrawable(2).setColorFilter(getResources().getColor(colorGold), PorterDuff.Mode.SRC_ATOP);
@@ -109,6 +120,8 @@ public class ItemDetailsActivity extends AppCompatActivity {
             }
         });
 
+
+
         //get item ID from Intent
         String itemId = getIntent().getStringExtra("ID");
 
@@ -125,12 +138,25 @@ public class ItemDetailsActivity extends AppCompatActivity {
                     tvItemPrice.setText(item.getPrice());
                     rbItemCondition.setRating(item.getCondition());
                     tvItemOwner.setText(item.getOwner().getUsername());
+                    parseItem = item;
+
 
                 } else {
                     // something went wrong
                 }
             }
         });
+
+        btSeller.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
+                i.putExtra("itemId", parseItem.getObjectId());
+                startActivity(i);
+            }
+        });
+
+
     }
 
     public void onInterestedClick(View view) {
