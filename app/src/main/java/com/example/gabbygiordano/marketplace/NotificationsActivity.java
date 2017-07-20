@@ -31,12 +31,13 @@ public class NotificationsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notifications);
+        getSupportActionBar().setTitle("Notifications");
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
 
         Menu menu = bottomNavigationView.getMenu();
-        MenuItem menuitem = menu.getItem(3);
+        MenuItem menuitem = menu.getItem(2);
         menuitem.setChecked(true);
 
         mContext = ItemAdapter.getContext();
@@ -52,12 +53,6 @@ public class NotificationsActivity extends AppCompatActivity {
                         //Toast.makeText(HomeActivity.this, "Home Tab Selected", Toast.LENGTH_SHORT).show();
                         Intent i_home = new Intent(NotificationsActivity.this, HomeActivity.class);
                         startActivity(i_home);
-                        break;
-
-                    case R.id.action_search:
-                        // Toast.makeText(HomeActivity.this, "Search Tab Selected", Toast.LENGTH_SHORT).show();
-                        Intent i_search = new Intent(NotificationsActivity.this, SearchActivity.class);
-                        startActivity(i_search);
                         break;
 
                     case R.id.action_add:

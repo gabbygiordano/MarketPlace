@@ -5,8 +5,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -14,6 +17,12 @@ import android.widget.Toast;
 
 import com.example.gabbygiordano.marketplace.fragments.ItemsListFragment;
 import com.example.gabbygiordano.marketplace.fragments.ItemsPagerAdapter;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -22,6 +31,12 @@ public class HomeActivity extends AppCompatActivity {
     ViewPager viewPager;
     ItemsPagerAdapter adapter;
     ImageView ivItemImage;
+
+    ItemAdapter itemAdapter;
+    ArrayList<Item> items;
+    SearchView searchView;
+
+
 
 
 
@@ -63,12 +78,6 @@ public class HomeActivity extends AppCompatActivity {
                         Toast.makeText(HomeActivity.this, "Home Tab Selected", Toast.LENGTH_SHORT).show();
                         break;
 
-                    case R.id.action_search:
-                        // Toast.makeText(HomeActivity.this, "Search Tab Selected", Toast.LENGTH_SHORT).show();
-                        Intent i_search = new Intent(HomeActivity.this, SearchActivity.class);
-                        startActivity(i_search);
-                        break;
-
                     case R.id.action_add:
                         Intent i_add = new Intent(HomeActivity.this, AddItemActivity.class);
                         startActivityForResult(i_add, ADD_ITEM_REQUEST);
@@ -108,8 +117,57 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu_home, menu);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(final String text) {
+                // perform query here
+                ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
+                query.include("owner");
+                query.whereContains("item_name", text);
+                query.orderByDescending("_created_at");
+                query.findInBackground(new FindCallback<Item>() {
+                    public void done(List<Item> itemsList, ParseException e) {
+                        if (e == null) {
+                            Intent i = new Intent(getApplicationContext(), SearchActivity.class);
+                            i.putExtra("query", text);
+                            startActivity(i);
+                        } else {
+                            Log.e("ItemsListFragment", e.getMessage());
+                        }
+                    }
+                });
+
+
+                // workaround to avoid issues with some emulators and keyboard devices firing twice if a keyboard enter is used
+                // see https://code.google.com/p/android/issues/detail?id=24599
+                searchView.clearFocus();
+
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+
+            // TODO: implement so the seach query changes as you type
+            // @Override
+            // public boolean onQueryTextChange(String newText) {
+            //   fetchBooks(newText);
+            //    return false;
+            //}
+
+        });
+        // return super.onCreateOptionsMenu(menu);
         return true;
+
+
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -117,7 +175,7 @@ public class HomeActivity extends AppCompatActivity {
             Intent i = new Intent(this, InboxActivity.class);
             startActivityForResult(i, 1);
         }
-        
+
         return true;
     }
 }
