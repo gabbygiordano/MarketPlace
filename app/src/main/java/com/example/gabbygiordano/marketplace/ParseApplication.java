@@ -3,7 +3,6 @@ package com.example.gabbygiordano.marketplace;
 import android.app.Application;
 
 import com.parse.Parse;
-import com.parse.ParseLiveQueryClient;
 import com.parse.ParseObject;
 
 import okhttp3.OkHttpClient;
@@ -45,6 +44,18 @@ public class ParseApplication extends Application {
                 .clientBuilder(builder)
                 .server("https://college-marketplace.herokuapp.com/parse/").build());
 
-        ParseLiveQueryClient parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
+//        ParseLiveQueryClient parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
+//
+//        ParseQuery<Notification> parseQuery = ParseQuery.getQuery(Notification.class);
+//
+//        final SubscriptionHandling<Notification> subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
+//
+//        subscriptionHandling.handleEvent(SubscriptionHandling.Event.CREATE, new SubscriptionHandling.HandleEventCallback<Notification>() {
+//            @Override
+//            public void onEvent(ParseQuery<Notification> query, Notification notification) {
+//                // HANDLING create event
+//
+//            }
+//        });
     }
 }
