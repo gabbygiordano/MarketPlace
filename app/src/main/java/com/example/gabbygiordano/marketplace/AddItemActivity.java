@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
+import com.parse.ParseFile;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.constraint.solver.SolverVariable;
@@ -36,9 +37,11 @@ import com.kosalgeek.android.photoutil.GalleryPhoto;
 import com.kosalgeek.android.photoutil.ImageBase64;
 import com.kosalgeek.android.photoutil.ImageLoader;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -330,14 +333,24 @@ public class AddItemActivity extends AppCompatActivity {
                 {
                     Bitmap bitmap = ImageLoader.init().from(photoPath).requestSize(512,512).getBitmap();
                     imageLocation.setImageBitmap(getRotatedBitmap(bitmap, 90));
-                    try {
-                        Bitmap bm = ImageLoader.init().from(selectedPhoto).requestSize(27,27).getBitmap();
-                        String encodedImage = ImageBase64.encode(bm);
-                        Log.d(TAG, encodedImage);
-                    } catch (FileNotFoundException e1)
-                    {
-                        Toast.makeText(getApplicationContext(), "Something went wrong while encoding photo", Toast.LENGTH_SHORT).show();
-                    }
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    byte[] image = stream.toByteArray();
+                    ParseFile file = new ParseFile("itemimage.png", image);
+                    file.saveInBackground();
+                    ParseObject imageUpload = new ParseObject("ImageUpload");
+                    imageUpload.put("ImageFile", file);
+                    imageUpload.saveInBackground();
+                    Toast.makeText(AddItemActivity.this, "Image Uploaded",
+                            Toast.LENGTH_SHORT).show();
+//                    try {
+//                        Bitmap bm = ImageLoader.init().from(selectedPhoto).requestSize(27,27).getBitmap();
+//                        String encodedImage = ImageBase64.encode(bm);
+//                        Log.d(TAG, encodedImage);
+//                    } catch (FileNotFoundException e1)
+//                    {
+//                        Toast.makeText(getApplicationContext(), "Something went wrong while encoding photo", Toast.LENGTH_SHORT).show();
+//                    }
                 }
                 catch (FileNotFoundException e)
                 {
