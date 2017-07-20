@@ -27,9 +27,16 @@ public class MarketPlaceClient {
 
     public static String PAGE_OPTIONS;
 
-    public static void getSchoolList(int page, AsyncHttpResponseHandler handler) {
+    public static String LOCATION_OPTIONS;
+
+    public static void getSchoolList(int page, String zip, boolean useLoc, AsyncHttpResponseHandler handler) {
         PAGE_OPTIONS = "&_page=" + page;
-        String url = GET_URL + ENDPOINT + FORMAT + API_KEY + OPTION_PARAMS + PAGE_OPTIONS;
+        if (useLoc) {
+            LOCATION_OPTIONS = "&_zip=" + zip + "&_distance=20mi";
+        } else {
+            LOCATION_OPTIONS = "";
+        }
+        String url = GET_URL + ENDPOINT + FORMAT + API_KEY + OPTION_PARAMS + PAGE_OPTIONS + LOCATION_OPTIONS;
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(url, null, handler);
     }

@@ -67,21 +67,12 @@
         android:hint="Username"
         android:inputType="text" />
 
-    <!--<Spinner-->
-        <!--android:id="@+id/schoolOptions"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:visibility="visible"-->
-        <!--android:layout_below="@+id/etUserName"-->
-        <!--android:layout_alignParentLeft="true"-->
-        <!--android:layout_alignParentStart="true" />-->
-
     <AutoCompleteTextView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/tvAutocompleteCollege"
         android:layout_below="@+id/etUserName"
         android:layout_width="fill_parent"
-        android:completionThreshold="3"
+        android:completionThreshold="1"
         android:hint="College/University"
         android:layout_height="wrap_content" />
 
