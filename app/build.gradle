@@ -29,6 +29,9 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     // parse-heroku server dependencies
+
+    compile 'com.parse:parse-livequery-android:1.0.2'
+
     // AsyncHTTP for network requests
     // parceler dependencies
     compile 'com.android.support:appcompat-v7:26.+'

@@ -83,6 +83,7 @@ public class AddItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
+        getSupportActionBar().setTitle("Add Item to Marketplace");
 
         cameraPhoto = new CameraPhoto(getApplicationContext());
         galleryPhoto = new GalleryPhoto(getApplicationContext());
@@ -179,11 +180,6 @@ public class AddItemActivity extends AppCompatActivity {
                         startActivity(i_home);
                         break;
 
-                    case R.id.action_search:
-                        // Toast.makeText(HomeActivity.this, "Search Tab Selected", Toast.LENGTH_SHORT).show();
-                        Intent i_search = new Intent(AddItemActivity.this, SearchActivity.class);
-                        startActivity(i_search);
-                        break;
 
                     case R.id.action_add:
                         Toast.makeText(AddItemActivity.this, "Add Tab Selected", Toast.LENGTH_SHORT).show();

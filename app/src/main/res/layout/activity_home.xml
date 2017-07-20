@@ -29,5 +29,7 @@
         app:itemTextColor="@drawable/item_color_state"
         app:menu="@menu/bottom_navigation_main"
         />
+
+
 </LinearLayout>
 

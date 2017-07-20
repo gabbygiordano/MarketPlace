@@ -1,10 +1,12 @@
 package com.example.gabbygiordano.marketplace;
 
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -32,6 +34,7 @@ public class ItemDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+        getSupportActionBar().setTitle("Item Details");
 
         tvItemName = (TextView) findViewById(R.id.tvItemName);
         tvItemDescription = (TextView) findViewById(R.id.tvItemDescription);
@@ -43,6 +46,14 @@ public class ItemDetailsActivity extends AppCompatActivity {
 
         LayerDrawable stars = (LayerDrawable) rbItemCondition.getProgressDrawable();
         stars.getDrawable(2).setColorFilter(getResources().getColor(colorGold), PorterDuff.Mode.SRC_ATOP);
+
+        tvItemOwner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), ChatActivity.class);
+                startActivity(i);
+            }
+        });
 
         //get item ID from Intent
         String itemId = getIntent().getStringExtra("ID");
