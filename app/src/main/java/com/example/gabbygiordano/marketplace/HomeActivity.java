@@ -23,6 +23,8 @@ public class HomeActivity extends AppCompatActivity {
     ItemsPagerAdapter adapter;
     ImageView ivItemImage;
 
+
+
     int ADD_ITEM_REQUEST = 10;
     int NOTIF_REQUEST = 20;
 
@@ -115,6 +117,7 @@ public class HomeActivity extends AppCompatActivity {
             Intent i = new Intent(this, InboxActivity.class);
             startActivityForResult(i, 1);
         }
+        
         return true;
     }
 }
