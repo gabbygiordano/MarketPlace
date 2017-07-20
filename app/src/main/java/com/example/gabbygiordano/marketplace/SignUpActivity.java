@@ -1,7 +1,13 @@
 package com.example.gabbygiordano.marketplace;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +20,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
@@ -22,8 +31,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -33,10 +44,6 @@ public class SignUpActivity extends AppCompatActivity {
     int size;
     int records;
     int page;
-
-    Spinner schoolSpinner;
-    ArrayAdapter<String> schoolsAdapter;
-    String school;
 
     Spinner contactOptions;
     ArrayAdapter<CharSequence> contactsAdapter;
@@ -53,6 +60,15 @@ public class SignUpActivity extends AppCompatActivity {
     AutoCompleteTextView tvAutocompleteCollege;
 
     ParseUser parseUser;
+
+    private FusedLocationProviderClient mFusedLocationClient;
+    double latitude;
+    double longitude;
+    Geocoder geocoder;
+    List<Address> addresses;
+    String postalCode;
+    final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOC = 1;
+    boolean useLoc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,10 +163,77 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
-        // get list of US universities
-        records = 0;
-        page = 0;
-        getSchools(false);
+        // get current location
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        int finePermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        if (finePermission != PackageManager.PERMISSION_GRANTED) {
+            Log.e("ZIP", "Location access denied");
+
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOC);
+        } else {
+            getLastLocation();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOC: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    getLastLocation();
+                } else {
+                    useLoc = false;
+
+                    // get list of US universities
+                    records = 0;
+                    page = 0;
+                    getSchools(false);
+                }
+            }
+        }
+    }
+
+    public void getLastLocation() {
+        //noinspection MissingPermission
+        mFusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        // Got last known location. In some rare situations this can be null.
+                        if (location != null) {
+                            latitude = location.getLatitude();
+                            longitude = location.getLongitude();
+
+                            // get zip
+                            geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+
+                            try {
+                                addresses = geocoder.getFromLocation(latitude, longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            postalCode = addresses.get(0).getPostalCode();
+                            Log.e("ZIP", postalCode);
+
+                            useLoc = true;
+
+                            // get list of US universities
+                            records = 0;
+                            page = 0;
+                            getSchools(false);
+                        } else {
+                            useLoc = false;
+
+                            // get list of US universities
+                            records = 0;
+                            page = 0;
+                            getSchools(false);
+                        }
+                    }
+                });
     }
 
     public void goToLogin(View view) {
@@ -159,8 +242,10 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     public void getSchools(boolean finished) {
+        // TODO: check if zip needs to be entered explicitly
+        Log.e("Client", "Getting schools...");
         // make network request to get university list using API
-        MarketPlaceClient.getSchoolList(page, new JsonHttpResponseHandler() {
+        MarketPlaceClient.getSchoolList(page, postalCode, useLoc, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
@@ -196,39 +281,23 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
+                Log.e("Client", "FAILURE 1");
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
+                try {
+                    Log.e("Client", "FAILURE 2 = " + statusCode + " " + errorResponse.getJSONArray("errors").getJSONObject(0).getString("message"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
-            }
-        });
-        //setupAdapter();
-    }
-
-    public void setupSpinnerAdapter() {
-        // create an ArrayAdapter using the string array and a default spinner layout
-        schoolsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, schools);
-
-        // specify the layout to use when the list of choices appears
-        schoolsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        // apply the adapter to the spinner
-        schoolSpinner.setAdapter(schoolsAdapter);
-
-        schoolSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                school = (String) schoolSpinner.getSelectedItem();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
+                Log.e("Client", "FAILURE 3");
             }
         });
     }
