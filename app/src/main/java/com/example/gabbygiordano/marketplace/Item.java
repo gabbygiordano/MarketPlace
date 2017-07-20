@@ -13,15 +13,6 @@ import com.parse.ParseUser;
 @ParseClassName("Item")
 public class Item extends ParseObject {
 
-//    public String itemName;
-//    public String description;
-//    public String price;
-//    public int condition;
-//    public User user;
-//    public String type;  // type of object - book, clothes, etc
-//
-//    public Bitmap resource;
-
     // public default constructor for parse
     public Item() {
         super();
