@@ -30,7 +30,10 @@ public class ParseApplication extends Application {
 
         // register subclass
         ParseObject.registerSubclass(Item.class);
+        ParseObject.registerSubclass(Notification.class);
         // ParseObject.registerSubclass(User.class);
+
+        // set up live queries
 
         // set applicationId, and server server based on the values in the Heroku settings.
         // clientKey is not needed unless explicitly configured
@@ -41,9 +44,18 @@ public class ParseApplication extends Application {
                 .clientBuilder(builder)
                 .server("https://college-marketplace.herokuapp.com/parse/").build());
 
-//        // New test creation of object below
-//        ParseObject testObject = new ParseObject("TestObject");
-//        testObject.put("foo", "bar");
-//        testObject.saveInBackground();
+//        ParseLiveQueryClient parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
+//
+//        ParseQuery<Notification> parseQuery = ParseQuery.getQuery(Notification.class);
+//
+//        final SubscriptionHandling<Notification> subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
+//
+//        subscriptionHandling.handleEvent(SubscriptionHandling.Event.CREATE, new SubscriptionHandling.HandleEventCallback<Notification>() {
+//            @Override
+//            public void onEvent(ParseQuery<Notification> query, Notification notification) {
+//                // HANDLING create event
+//
+//            }
+//        });
     }
 }
