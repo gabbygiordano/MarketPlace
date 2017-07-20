@@ -5,16 +5,42 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class SearchActivity extends AppCompatActivity {
+
+    RecyclerView rvSearch;
+    ItemAdapter itemAdapter;
+    MarketPlaceClient client;
+    ArrayList<Item> aitems;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
+        rvSearch = (RecyclerView) findViewById(R.id.rvSearch);
+        aitems = new ArrayList<>();
+
+        // initialize adapter
+        itemAdapter = new ItemAdapter(aitems, this);
+
+        // attatch adapter to recycler view
+        rvSearch.setAdapter(itemAdapter);
+
+        // set layout manager to position items
+        rvSearch.setLayoutManager(new LinearLayoutManager(this));
+
+
+
 
         BottomNavigationView bottomNavigationView;
 
@@ -66,4 +92,6 @@ public class SearchActivity extends AppCompatActivity {
         });
 
     }
+
+
 }
