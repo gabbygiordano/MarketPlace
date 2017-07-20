@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.gabbygiordano.marketplace.ChatActivity">
+
+    <EditText
+        android:id="@+id/etMessage"
+        android:layout_toLeftOf="@+id/btSend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/btSend"
+        android:gravity="top"
+        android:hint="@string/message_hint"
+        android:imeOptions="actionSend"/>
+    <Button
+        android:id="@+id/btSend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingRight="10dp"
+        android:layout_alignParentRight="true"
+        android:text="@string/send"
+        android:textSize="18sp" />
+
+
+</RelativeLayout>

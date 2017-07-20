@@ -91,7 +91,7 @@ public class SignUpActivity extends AppCompatActivity {
         etPhoneNumber = (EditText) findViewById(R.id.etPhoneNumber);
         etPassword = (EditText) findViewById(R.id.etPassword);
         registerButton = (Button) findViewById(R.id.registerButton);
-        tvGotoLogin = (TextView) findViewById(R.id.tvGotoLogin);
+        tvGotoLogin = (TextView) findViewById(R.id.tvAccount);
         tvAutocompleteCollege = (AutoCompleteTextView) findViewById(R.id.tvAutocompleteCollege);
 
         registerButton.setOnClickListener(new View.OnClickListener() {
