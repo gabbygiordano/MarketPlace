@@ -22,7 +22,6 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import static com.example.gabbygiordano.marketplace.R.color.colorGold;
-import static com.example.gabbygiordano.marketplace.R.layout.item;
 
 public class ItemDetailsActivity extends AppCompatActivity {
 
@@ -147,7 +146,6 @@ public class ItemDetailsActivity extends AppCompatActivity {
                 }
             }
         });
-<<<<<<< HEAD
 
         btSeller.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,10 +157,6 @@ public class ItemDetailsActivity extends AppCompatActivity {
         });
 
 
-
-
-=======
->>>>>>> master
     }
 
     public void onInterestedClick(View view) {
