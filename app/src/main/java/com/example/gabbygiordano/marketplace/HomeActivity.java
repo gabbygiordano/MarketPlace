@@ -24,13 +24,11 @@ public class HomeActivity extends AppCompatActivity {
     ImageView ivItemImage;
 
     int ADD_ITEM_REQUEST = 10;
-    int NOTIF_REQUEST = 20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);

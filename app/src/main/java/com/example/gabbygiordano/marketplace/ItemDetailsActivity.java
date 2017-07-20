@@ -4,16 +4,22 @@ import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import static com.example.gabbygiordano.marketplace.R.color.colorGold;
 
@@ -24,11 +30,15 @@ public class ItemDetailsActivity extends AppCompatActivity {
     TextView tvItemPrice;
     RatingBar rbItemCondition;
     ImageView ivItemImage;
-    FloatingActionButton fabBuy;
     TextView tvItemOwner;
+    Button btnInterested;
 
-    MarketPlaceClient client;
-    private Item item;
+    BottomNavigationView bottomNavigationView;
+
+    int ADD_ITEM_REQUEST = 10;
+
+    Item mItem;
+    Notification notification;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +50,55 @@ public class ItemDetailsActivity extends AppCompatActivity {
         tvItemPrice = (TextView) findViewById(R.id.tvItemPrice);
         rbItemCondition = (RatingBar) findViewById(R.id.rbItemCondition);
         ivItemImage = (ImageView) findViewById(R.id.ivItemImage);
-        fabBuy = (FloatingActionButton) findViewById(R.id.fabBuy);
         tvItemOwner = (TextView) findViewById(R.id.tvItemOwner);
+        btnInterested = (Button) findViewById(R.id.btnInterested);
 
         LayerDrawable stars = (LayerDrawable) rbItemCondition.getProgressDrawable();
         stars.getDrawable(2).setColorFilter(getResources().getColor(colorGold), PorterDuff.Mode.SRC_ATOP);
+
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
+        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
+        //BottomNavigationViewHelper.removeTextLabel(bottomNavigationView, );
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
+        {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item)
+            {
+                switch (item.getItemId())
+                {
+                    case R.id.action_home:
+                        Toast.makeText(ItemDetailsActivity.this, "Home Tab Selected", Toast.LENGTH_SHORT).show();
+                        break;
+
+                    case R.id.action_search:
+                        // Toast.makeText(HomeActivity.this, "Search Tab Selected", Toast.LENGTH_SHORT).show();
+                        Intent i_search = new Intent(ItemDetailsActivity.this, SearchActivity.class);
+                        startActivity(i_search);
+                        break;
+
+                    case R.id.action_add:
+                        Intent i_add = new Intent(ItemDetailsActivity.this, AddItemActivity.class);
+                        startActivityForResult(i_add, ADD_ITEM_REQUEST);
+                        // Toast.makeText(HomeActivity.this, "Add Tab Selected", Toast.LENGTH_SHORT).show();
+                        break;
+
+                    case R.id.action_notifications:
+                        Intent i_notifications = new Intent(ItemDetailsActivity.this, NotificationsActivity.class);
+                        startActivity(i_notifications);
+                        // Toast.makeText(HomeActivity.this, "Notifications Tab Selected", Toast.LENGTH_SHORT).show();
+                        break;
+
+                    case R.id.action_profile:
+                        Intent i_profile = new Intent(ItemDetailsActivity.this, ProfileActivity.class);
+                        startActivity(i_profile);
+                        // Toast.makeText(HomeActivity.this, "Profile Tab Selected", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+
+                return false;
+            }
+        });
 
         tvItemOwner.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +117,7 @@ public class ItemDetailsActivity extends AppCompatActivity {
         query.getInBackground(itemId, new GetCallback<Item>() {
             public void done(Item item, ParseException e) {
                 if (e == null) {
+                    mItem = item;
                     // now we have an item object, need to define fields
                     tvItemName.setText(item.getItemName());
                     tvItemDescription.setText(item.getDescription());
@@ -75,11 +130,20 @@ public class ItemDetailsActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-
-
     }
 
+    public void onInterestedClick(View view) {
+        ParseUser buyer = ParseUser.getCurrentUser();
+        ParseUser owner = mItem.getOwner();
+        notification = new Notification(owner, buyer, mItem);
 
+        // save the notification
+        notification.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                // make toast
+                Toast.makeText(getApplicationContext(), "Notification saved!", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 }

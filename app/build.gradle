@@ -52,4 +52,7 @@ dependencies {
     compile "com.android.support:appcompat-v7:${supportLibVersion}"
     compile "com.android.support:design:${supportLibVersion}"
     compile "com.android.support:recyclerview-v7:${supportLibVersion}"
+
+    // live queries
+    compile 'com.parse:parse-livequery-android:1.0.4'
 }

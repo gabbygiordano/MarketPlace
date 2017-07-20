@@ -3,6 +3,7 @@ package com.example.gabbygiordano.marketplace;
 import android.app.Application;
 
 import com.parse.Parse;
+import com.parse.ParseLiveQueryClient;
 import com.parse.ParseObject;
 
 import okhttp3.OkHttpClient;
@@ -30,7 +31,10 @@ public class ParseApplication extends Application {
 
         // register subclass
         ParseObject.registerSubclass(Item.class);
+        ParseObject.registerSubclass(Notification.class);
         // ParseObject.registerSubclass(User.class);
+
+        // set up live queries
 
         // set applicationId, and server server based on the values in the Heroku settings.
         // clientKey is not needed unless explicitly configured
@@ -41,9 +45,6 @@ public class ParseApplication extends Application {
                 .clientBuilder(builder)
                 .server("https://college-marketplace.herokuapp.com/parse/").build());
 
-//        // New test creation of object below
-//        ParseObject testObject = new ParseObject("TestObject");
-//        testObject.put("foo", "bar");
-//        testObject.saveInBackground();
+        ParseLiveQueryClient parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
     }
 }
