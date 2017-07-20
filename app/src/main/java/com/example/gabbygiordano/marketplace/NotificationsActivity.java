@@ -1,6 +1,5 @@
 package com.example.gabbygiordano.marketplace;
 
-import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,9 +7,14 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import com.parse.ParseLiveQueryClient;
+import com.parse.ParseQuery;
+import com.parse.SubscriptionHandling;
 
 import java.util.ArrayList;
 
@@ -73,6 +77,21 @@ public class NotificationsActivity extends AppCompatActivity {
                 }
 
                 return false;
+            }
+        });
+
+        ParseLiveQueryClient parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
+
+        ParseQuery<Notification> parseQuery = ParseQuery.getQuery(Notification.class);
+
+        final SubscriptionHandling<Notification> subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
+
+        subscriptionHandling.handleEvent(SubscriptionHandling.Event.CREATE, new SubscriptionHandling.HandleEventCallback<Notification>() {
+            @Override
+            public void onEvent(ParseQuery<Notification> query, Notification notification) {
+                // HANDLING create event
+                Log.e("NotificationsActivity", "OMG IT WORKS");
+                Toast.makeText(getApplicationContext(), notification.getObjectId(), Toast.LENGTH_LONG).show();
             }
         });
     }

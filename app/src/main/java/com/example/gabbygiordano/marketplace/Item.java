@@ -14,6 +14,7 @@ import com.parse.ParseUser;
 @ParseClassName("Item")
 public class Item extends ParseObject {
 
+<<<<<<< HEAD
     public String itemName;
     public String description;
     public String price;
@@ -23,6 +24,8 @@ public class Item extends ParseObject {
 //
       //public Bitmap resource;
 
+=======
+>>>>>>> 8fb767d0c60680bd57ab8ba05667345ecfbe616b
     // public default constructor for parse
     public Item() {
         super();
