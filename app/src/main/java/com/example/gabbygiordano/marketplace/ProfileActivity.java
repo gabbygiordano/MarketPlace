@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -38,6 +39,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     ArrayList<Item> items;
     ItemAdapter itemAdapter;
+    String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,16 +71,50 @@ public class ProfileActivity extends AppCompatActivity {
         tvPhone = (TextView) findViewById(R.id.tvPhone);
         ibLogOut = (ImageButton) findViewById(R.id.ibLogOut);
 
-        // set text to user info
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        if (currentUser != null) {
-            tvName.setText(currentUser.getString("name"));
-            tvUsername.setText(currentUser.getUsername());
-            tvCollege.setText(currentUser.getString("college"));
-            tvPhone.setText(String.valueOf(currentUser.getLong("phone")));
-        } else {
-            // show the signup or login screen
+        if( getIntent().hasExtra("itemId")){
+
+            id = getIntent().getStringExtra("itemId");
+
+            ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
+            query.include("owner");
+            query.whereContains("itemId", id);
+            query.orderByDescending("_created_at");
+            query.getInBackground(id, new GetCallback<Item>() {
+                public void done(Item item, ParseException e) {
+                    if (e == null) {
+                        // item was found
+                        tvName.setText(item.getOwner().getString("name"));
+                        tvUsername.setText(item.getOwner().getUsername());
+                        tvCollege.setText(item.getOwner().getString("college"));
+                        tvPhone.setText(" ");
+
+                        populateProfileTimeline(item.getOwner());
+
+                    } else {
+                        Log.e("ItemsListFragment", e.getMessage());
+                    }
+                }
+            });
+
+
         }
+        else{
+            // set text to current user info
+            ParseUser user = ParseUser.getCurrentUser();
+            if (user != null) {
+                tvName.setText(user.getString("name"));
+                tvUsername.setText(user.getUsername());
+                tvCollege.setText(user.getString("college"));
+                tvPhone.setText(String.valueOf(user.getLong("phone")));
+
+                populateProfileTimeline(user);
+
+            } else {
+                // show the signup or login screen
+            }
+
+        }
+
 
         // log out if power button is clicked
         ibLogOut.setOnClickListener(new View.OnClickListener() {
@@ -134,12 +170,11 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        populateProfileTimeline();
     }
 
-    public void populateProfileTimeline(){
+    public void populateProfileTimeline(ParseUser user){
         ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
-        query.whereEqualTo("owner", ParseUser.getCurrentUser());
+        query.whereEqualTo("owner", user);
         query.include("owner");
         query.setLimit(200);
         query.orderByDescending("_created_at");

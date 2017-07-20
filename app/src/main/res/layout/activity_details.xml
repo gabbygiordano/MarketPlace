@@ -119,4 +119,13 @@
         android:layout_alignLeft="@+id/tvItemDescription"
         android:layout_alignStart="@+id/tvItemDescription" />
 
+    <Button
+        android:id="@+id/btSeller"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tvItemOwner"
+        android:layout_centerHorizontal="true"
+        android:text="Seller Profile"
+        android:textSize="10sp" />
+
 </RelativeLayout>

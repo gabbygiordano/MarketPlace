@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 
 import static com.example.gabbygiordano.marketplace.R.color.colorGold;
+import static com.example.gabbygiordano.marketplace.R.layout.item;
 
 public class ItemDetailsActivity extends AppCompatActivity {
 
@@ -26,9 +28,10 @@ public class ItemDetailsActivity extends AppCompatActivity {
     ImageView ivItemImage;
     FloatingActionButton fabBuy;
     TextView tvItemOwner;
+    Button btSeller;
 
     MarketPlaceClient client;
-    private Item item;
+    private Item parseItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,7 @@ public class ItemDetailsActivity extends AppCompatActivity {
         ivItemImage = (ImageView) findViewById(R.id.ivItemImage);
         fabBuy = (FloatingActionButton) findViewById(R.id.fabBuy);
         tvItemOwner = (TextView) findViewById(R.id.tvItemOwner);
+        btSeller = (Button) findViewById(R.id.btSeller);
 
         LayerDrawable stars = (LayerDrawable) rbItemCondition.getProgressDrawable();
         stars.getDrawable(2).setColorFilter(getResources().getColor(colorGold), PorterDuff.Mode.SRC_ATOP);
@@ -54,6 +58,8 @@ public class ItemDetailsActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+
 
         //get item ID from Intent
         String itemId = getIntent().getStringExtra("ID");
@@ -70,10 +76,21 @@ public class ItemDetailsActivity extends AppCompatActivity {
                     tvItemPrice.setText(item.getPrice());
                     rbItemCondition.setRating(item.getCondition());
                     tvItemOwner.setText(item.getOwner().getUsername());
+                    parseItem = item;
+
 
                 } else {
                     // something went wrong
                 }
+            }
+        });
+
+        btSeller.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
+                i.putExtra("itemId", parseItem.getObjectId());
+                startActivity(i);
             }
         });
 
