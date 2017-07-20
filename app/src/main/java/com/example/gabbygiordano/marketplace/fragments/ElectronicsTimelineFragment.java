@@ -30,6 +30,8 @@ public class ElectronicsTimelineFragment extends ItemsListFragment {
         query.include("owner");
         query.whereEqualTo("type", "Electronics");
         query.orderByDescending("_created_at");
+        query.setLimit(limit); // 20 items per page
+        query.setSkip(page * limit); // skip first (page * 20) items
         query.findInBackground(new FindCallback<Item>() {
             public void done(List<Item> itemsList, ParseException e) {
                 if (e == null) {
@@ -38,6 +40,28 @@ public class ElectronicsTimelineFragment extends ItemsListFragment {
                     }
                 } else {
                     Log.d("ElectronicsFragment", e.getMessage());
+                }
+            }
+        });
+    }
+
+    @Override
+    public void fetchTimelineAsync(int page) {
+        ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
+        query.include("owner");
+        query.whereEqualTo("type", "Electronics");
+        query.orderByDescending("_created_at");
+        query.setLimit(limit); // 20 items per page
+        query.setSkip(page * limit); // skip first (page * 20) items
+        query.findInBackground(new FindCallback<Item>() {
+            public void done(List<Item> itemsList, ParseException e) {
+                if (e == null) {
+                    if (itemsList != null && !itemsList.isEmpty()) {
+                        refreshItems(itemsList);
+                    }
+                } else {
+                    Log.d("ElectronicsFragment", e.getMessage());
+                    swipeContainer.setRefreshing(false);
                 }
             }
         });
