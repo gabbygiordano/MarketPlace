@@ -14,12 +14,12 @@ import com.parse.ParseUser;
 @ParseClassName("Item")
 public class Item extends ParseObject {
 
-//    public String itemName;
-//    public String description;
-//    public String price;
-//    public int condition;
-//    public User user;
-//    public String type;  // type of object - book, clothes, etc
+    public String itemName;
+    public String description;
+    public String price;
+    public int condition;
+    public User user;
+    public String type;  // type of object - book, clothes, etc
 //
       //public Bitmap resource;
 
@@ -29,14 +29,14 @@ public class Item extends ParseObject {
     }
 
     // constructor
-    public Item(String name, String description, String price, int condition, ParseUser user, String type, Bitmap resource) {
+    public Item(String name, String description, String price, int condition, ParseUser user, String type) {
         setItemName(name);
         setDescription(description);
         setPrice("$" + price);
         setCondition(condition);
         setOwner(user);
         setType(type);
-        setResource(resource);
+        // setResource(resource);
     }
 
     public String getItemName() {
