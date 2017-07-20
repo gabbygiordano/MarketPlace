@@ -14,8 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -31,12 +30,17 @@ public class SearchActivity extends AppCompatActivity {
     MarketPlaceClient client;
     ArrayList<Item> items;
     SearchView searchView;
+    TextView tvIntro;
+    String search;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        getSupportActionBar().setTitle("Search");
+
+        tvIntro = (TextView) findViewById(R.id.tvIntro);
 
         rvItems = (RecyclerView) findViewById(R.id.rvItems);
         items = new ArrayList<>();
@@ -49,6 +53,33 @@ public class SearchActivity extends AppCompatActivity {
 
         // set layout manager to position items
         rvItems.setLayoutManager(new LinearLayoutManager(this));
+
+        if(items.size() != 0){
+            tvIntro.setText(" ");
+        }
+
+        search = getIntent().getStringExtra("query");
+
+        ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
+        query.include("owner");
+        query.whereContains("item_name", search);
+        query.orderByDescending("_created_at");
+        query.findInBackground(new FindCallback<Item>() {
+            public void done(List<Item> itemsList, ParseException e) {
+                if (e == null) {
+                    // item was found
+                    if (itemsList != null && !itemsList.isEmpty()) {
+                        addItems(itemsList);
+                        tvIntro.setText(" ");
+                    }
+                    else{
+                        tvIntro.setText("No items matched what you searched for. Try again.");
+                    }
+                } else {
+                    Log.e("ItemsListFragment", e.getMessage());
+                }
+            }
+        });
 
 
         BottomNavigationView bottomNavigationView;
@@ -68,10 +99,6 @@ public class SearchActivity extends AppCompatActivity {
                         //Toast.makeText(HomeActivity.this, "Home Tab Selected", Toast.LENGTH_SHORT).show();
                         Intent i_home = new Intent(SearchActivity.this, HomeActivity.class);
                         startActivity(i_home);
-                        break;
-
-                    case R.id.action_search:
-                        Toast.makeText(SearchActivity.this, "Search Tab Selected", Toast.LENGTH_SHORT).show();
                         break;
 
                     case R.id.action_add:
@@ -105,13 +132,7 @@ public class SearchActivity extends AppCompatActivity {
         menuInflater.inflate(R.menu.menu_search, menu);
         MenuItem searchItem = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        searchView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                searchView.clearFocus();
-                items.clear();
-            }
-        });
+
         searchView.setOnQueryTextListener(new OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String text) {
@@ -126,6 +147,10 @@ public class SearchActivity extends AppCompatActivity {
                             // item was found
                             if (itemsList != null && !itemsList.isEmpty()) {
                                 addItems(itemsList);
+                                tvIntro.setText(" ");
+                            }
+                            else{
+                                tvIntro.setText("No items matched what you searched for. Try again.");
                             }
                         } else {
                             Log.e("ItemsListFragment", e.getMessage());

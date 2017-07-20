@@ -34,6 +34,7 @@ public class ItemDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+        getSupportActionBar().setTitle("Item Details");
 
         tvItemName = (TextView) findViewById(R.id.tvItemName);
         tvItemDescription = (TextView) findViewById(R.id.tvItemDescription);

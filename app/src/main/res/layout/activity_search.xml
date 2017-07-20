@@ -29,15 +29,26 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvItems"
                 android:layout_width="match_parent"
-                android:layout_height="458dp"
+                android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
 
         </LinearLayout>
 
+    <TextView
+        android:id="@+id/tvIntro"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:text="Search for an Item!"
+        android:textAlignment="textStart"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
 
-    </RelativeLayout>
+</RelativeLayout>
 
 
 

@@ -43,6 +43,7 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        getSupportActionBar().setTitle("Profile");
 
         // perform find view by id lookups
         rvProfileItems = (RecyclerView) findViewById(R.id.rvProfileItems);
@@ -96,7 +97,7 @@ public class ProfileActivity extends AppCompatActivity {
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
 
         Menu menu = bottomNavigationView.getMenu();
-        MenuItem menuitem = menu.getItem(4);
+        MenuItem menuitem = menu.getItem(3);
         menuitem.setChecked(true);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
@@ -110,12 +111,6 @@ public class ProfileActivity extends AppCompatActivity {
                         //Toast.makeText(HomeActivity.this, "Home Tab Selected", Toast.LENGTH_SHORT).show();
                         Intent i_home = new Intent(ProfileActivity.this, HomeActivity.class);
                         startActivity(i_home);
-                        break;
-
-                    case R.id.action_search:
-                        // Toast.makeText(HomeActivity.this, "Search Tab Selected", Toast.LENGTH_SHORT).show();
-                        Intent i_search = new Intent(ProfileActivity.this, SearchActivity.class);
-                        startActivity(i_search);
                         break;
 
                     case R.id.action_add:
