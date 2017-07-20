@@ -6,22 +6,26 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.parse.ParseLiveQueryClient;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.parse.SubscriptionHandling;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class NotificationsActivity extends AppCompatActivity {
 
-
-    ItemAdapter itemAdapter;
+    NotificationAdapter notificationAdapter;
     ArrayList<Notification> notifications;
     RecyclerView rvNotifications;
 
@@ -31,11 +35,24 @@ public class NotificationsActivity extends AppCompatActivity {
 
     Context mContext;
 
+    ParseLiveQueryClient parseLiveQueryClient;
+    ParseQuery<Notification> parseQuery;
+    SubscriptionHandling<Notification> subscriptionHandling;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notifications);
         getSupportActionBar().setTitle("Notifications");
+
+        rvNotifications = (RecyclerView) findViewById(R.id.rvNotifications);
+        notifications = new ArrayList<>();
+        notificationAdapter = new NotificationAdapter(notifications, getApplicationContext());
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        rvNotifications.setLayoutManager(linearLayoutManager);
+        rvNotifications.setAdapter(notificationAdapter);
+        rvNotifications.setHasFixedSize(true);
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
@@ -80,11 +97,13 @@ public class NotificationsActivity extends AppCompatActivity {
             }
         });
 
-        ParseLiveQueryClient parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
+        // create new ParseQuery and subscribe to it
 
-        ParseQuery<Notification> parseQuery = ParseQuery.getQuery(Notification.class);
+        parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
 
-        final SubscriptionHandling<Notification> subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
+        parseQuery = ParseQuery.getQuery(Notification.class);
+
+        subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
 
         subscriptionHandling.handleEvent(SubscriptionHandling.Event.CREATE, new SubscriptionHandling.HandleEventCallback<Notification>() {
             @Override
@@ -92,6 +111,28 @@ public class NotificationsActivity extends AppCompatActivity {
                 // HANDLING create event
                 Log.e("NotificationsActivity", "OMG IT WORKS");
                 Toast.makeText(getApplicationContext(), notification.getObjectId(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+        // make the query
+        parseQuery.include("owner");
+        parseQuery.include("buyer");
+        parseQuery.include("item");
+        parseQuery.whereEqualTo("owner", ParseUser.getCurrentUser());
+        parseQuery.orderByDescending("_created_at");
+        parseQuery.findInBackground(new FindCallback<Notification>() {
+            public void done(List<Notification> notificationsList, ParseException e) {
+                if (e == null) {
+                    if (notificationsList != null && !notificationsList.isEmpty()) {
+                        // die
+                        for (int i = 0; i < notificationsList.size(); i++) {
+                            notifications.add(notificationsList.get(i));
+                            notificationAdapter.notifyItemInserted(notifications.size()-1);
+                        }
+                    }
+                } else {
+                    Log.d("NotificationsActivity", e.getMessage());
+                }
             }
         });
     }

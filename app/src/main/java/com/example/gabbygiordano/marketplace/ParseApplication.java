@@ -54,7 +54,8 @@ public class ParseApplication extends Application {
 //            @Override
 //            public void onEvent(ParseQuery<Notification> query, Notification notification) {
 //                // HANDLING create event
-//
+//                Log.e("NotificationsActivity", "OMG IT WORKS");
+//                Toast.makeText(getApplicationContext(), notification.getObjectId(), Toast.LENGTH_LONG).show();
 //            }
 //        });
     }
