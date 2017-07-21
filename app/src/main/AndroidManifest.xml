@@ -20,20 +20,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SignUpActivity">
+        <activity
+            android:name=".SignUpActivity"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
+        <activity
+            android:name=".LoginActivity"
+            android:noHistory="true" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".AddItemActivity" />
         <activity android:name=".SearchActivity" />
         <activity android:name=".NotificationsActivity" />
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".ItemDetailsActivity" />
+        <activity android:name=".DetailsActivity" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".InboxActivity" />
         <activity android:name=".ChatActivity"></activity>
