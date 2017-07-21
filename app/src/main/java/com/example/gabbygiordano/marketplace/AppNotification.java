@@ -8,16 +8,16 @@ import com.parse.ParseUser;
  * Created by tanvigupta on 7/20/17.
  */
 
-@ParseClassName("Notification")
-public class Notification extends ParseObject {
+@ParseClassName("AppNotification")
+public class AppNotification extends ParseObject {
 
     // public default constructor for parse
-    public Notification() {
+    public AppNotification() {
         super();
     }
 
     // constructor
-    public Notification(ParseUser owner, ParseUser buyer, Item item) {
+    public AppNotification(ParseUser owner, ParseUser buyer, Item item) {
         setOwner(owner);
         setBuyer(buyer);
         setItem(item);

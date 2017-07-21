@@ -16,16 +16,16 @@ import static com.example.gabbygiordano.marketplace.R.layout.notification;
  * Created by tanvigupta on 7/20/17.
  */
 
-public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewHolder> {
+public class AppNotificationAdapter extends RecyclerView.Adapter<AppNotificationAdapter.ViewHolder> {
 
-    private List<Notification> mNotifications;
+    private List<AppNotification> mAppNotifications;
 
     Context context;
     static Context mContext;
 
     // pass Items array into constructor
-    public NotificationAdapter(List<Notification> notifications, Context context) {
-        mNotifications = notifications;
+    public AppNotificationAdapter(List<AppNotification> appNotifications, Context context) {
+        mAppNotifications = appNotifications;
         mContext = context;
     }
 
@@ -46,33 +46,33 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         // get the data according to position
-        final Notification notification = mNotifications.get(position);
+        final AppNotification appNotification = mAppNotifications.get(position);
 
         // populate the views according to item data
-        holder.tvBuyerName.setText(notification.getBuyer().getString("name"));
-        holder.tvInterestItem.setText(notification.getItem().getString("item_name"));
+        holder.tvBuyerName.setText(appNotification.getBuyer().getString("name"));
+        holder.tvInterestItem.setText(appNotification.getItem().getString("item_name"));
     }
 
     @Override
     public int getItemCount() {
-        return mNotifications.size();
+        return mAppNotifications.size();
     }
 
     // Clean all elements of the recycler
     public void clear() {
-        mNotifications.clear();
+        mAppNotifications.clear();
         notifyDataSetChanged();
     }
 
     // Add a list of items -- change to type used
-    public void addAll(List<Notification> list) {
-        mNotifications.addAll(list);
+    public void addAll(List<AppNotification> list) {
+        mAppNotifications.addAll(list);
         notifyDataSetChanged();
     }
 
-    public void add(Notification notification) {
-        mNotifications.add(notification);
-        notifyItemInserted(mNotifications.size() - 1);
+    public void add(AppNotification appNotification) {
+        mAppNotifications.add(appNotification);
+        notifyItemInserted(mAppNotifications.size() - 1);
     }
 
     public static Context getContext() {

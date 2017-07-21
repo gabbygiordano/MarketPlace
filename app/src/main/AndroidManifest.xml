@@ -33,7 +33,7 @@
         <activity android:name=".HomeActivity" />
         <activity android:name=".AddItemActivity" />
         <activity android:name=".SearchActivity" />
-        <activity android:name=".NotificationsActivity" />
+        <activity android:name=".AppNotificationsActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".DetailsActivity" />
         <activity android:name=".SettingsActivity" />

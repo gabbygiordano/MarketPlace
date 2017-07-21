@@ -48,7 +48,7 @@ public class DetailsActivity extends AppCompatActivity {
     int ADD_ITEM_REQUEST = 10;
 
     Item mItem;
-    Notification notification;
+    AppNotification appNotification;
 
 
     @Override
@@ -108,7 +108,7 @@ public class DetailsActivity extends AppCompatActivity {
                         break;
 
                     case R.id.action_notifications:
-                        Intent i_notifications = new Intent(DetailsActivity.this, NotificationsActivity.class);
+                        Intent i_notifications = new Intent(DetailsActivity.this, AppNotificationsActivity.class);
                         startActivity(i_notifications);
                         // Toast.makeText(HomeActivity.this, "Notifications Tab Selected", Toast.LENGTH_SHORT).show();
                         break;
@@ -170,18 +170,18 @@ public class DetailsActivity extends AppCompatActivity {
     public void onInterestedClick(View view) {
         ParseUser buyer = ParseUser.getCurrentUser();
         ParseUser owner = mItem.getOwner();
-        notification = new Notification(owner, buyer, mItem);
+        appNotification = new AppNotification(owner, buyer, mItem);
 
         // make the query
-        ParseQuery<Notification> parseQuery = ParseQuery.getQuery(Notification.class);
+        ParseQuery<AppNotification> parseQuery = ParseQuery.getQuery(AppNotification.class);
         parseQuery.whereEqualTo("buyer", buyer);
         parseQuery.whereEqualTo("item", mItem);
-        parseQuery.findInBackground(new FindCallback<Notification>() {
-            public void done(List<Notification> notificationsList, ParseException e) {
+        parseQuery.findInBackground(new FindCallback<AppNotification>() {
+            public void done(List<AppNotification> notificationsList, ParseException e) {
                 if (e == null) {
                     if (notificationsList == null || notificationsList.isEmpty()) {
-                        // save the notification
-                        notification.saveInBackground(new SaveCallback() {
+                        // save the appNotification
+                        appNotification.saveInBackground(new SaveCallback() {
                             @Override
                             public void done(ParseException e) {
                                 // make toast
@@ -193,7 +193,7 @@ public class DetailsActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Item already requested", Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Log.d("NotificationsActivity", e.getMessage());
+                    Log.d("AppNotificationsActivity", e.getMessage());
                 }
             }
         });

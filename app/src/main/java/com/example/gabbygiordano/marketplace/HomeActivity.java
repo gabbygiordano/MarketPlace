@@ -75,7 +75,7 @@ public class HomeActivity extends AppCompatActivity {
 
 
                     case R.id.action_notifications:
-                        Intent i_notifications = new Intent(HomeActivity.this, NotificationsActivity.class);
+                        Intent i_notifications = new Intent(HomeActivity.this, AppNotificationsActivity.class);
                         startActivity(i_notifications);
                         // Toast.makeText(HomeActivity.this, "Notifications Tab Selected", Toast.LENGTH_SHORT).show();
                         break;

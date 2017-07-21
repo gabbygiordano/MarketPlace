@@ -13,7 +13,7 @@
         android:id="@+id/action_notifications"
         android:enabled="true"
         android:icon="@drawable/ic_notifications_tab"
-        android:title="@string/notifications" />
+        android:title="@string/appNotifications" />
 
     <item
         android:id="@+id/action_profile"
