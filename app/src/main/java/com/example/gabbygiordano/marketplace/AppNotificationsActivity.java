@@ -36,9 +36,10 @@ public class AppNotificationsActivity extends AppCompatActivity {
     int ADD_ITEM_REQUEST = 10;
 
     Context mContext;
+    Context context;
 
+    // live query vars
     ParseLiveQueryClient parseLiveQueryClient;
-    ParseQuery<AppNotification> parseQuery;
     SubscriptionHandling<AppNotification> subscriptionHandling;
 
     // Create a handler which can run code periodically
@@ -57,6 +58,8 @@ public class AppNotificationsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notifications);
         getSupportActionBar().setTitle("Notifications");
+
+        context = this;
 
         rvNotifications = (RecyclerView) findViewById(R.id.rvNotifications);
         appNotifications = new ArrayList<>();
@@ -84,9 +87,9 @@ public class AppNotificationsActivity extends AppCompatActivity {
                 switch (item.getItemId())
                 {
                     case R.id.action_home:
-                        //Toast.makeText(HomeActivity.this, "Home Tab Selected", Toast.LENGTH_SHORT).show();
                         Intent i_home = new Intent(AppNotificationsActivity.this, HomeActivity.class);
                         startActivity(i_home);
+                        finish();
                         break;
 
                     case R.id.action_notifications:
@@ -96,7 +99,7 @@ public class AppNotificationsActivity extends AppCompatActivity {
                     case R.id.action_profile:
                         Intent i_profile = new Intent(AppNotificationsActivity.this, ProfileActivity.class);
                         startActivity(i_profile);
-                        //Toast.makeText(AppNotificationsActivity.this, "Profile Tab Selected", Toast.LENGTH_SHORT).show();
+                        finish();
                         break;
                 }
 
@@ -104,49 +107,32 @@ public class AppNotificationsActivity extends AppCompatActivity {
             }
         });
 
+        // set up handler for continuous queries for notifications
+        // workaround since live queries are not working
         myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
 
         // create new ParseQuery and subscribe to it
-        parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
-
-        parseQuery = ParseQuery.getQuery(AppNotification.class);
-
-        subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
-
-        subscriptionHandling.handleEvent(SubscriptionHandling.Event.CREATE, new SubscriptionHandling.HandleEventCallback<AppNotification>() {
-            @Override
-            public void onEvent(ParseQuery<AppNotification> query, AppNotification appNotification) {
-                // HANDLING create event
-                Log.e("AppNotifications", "OMG IT WORKS");
-                Toast.makeText(getApplicationContext(), appNotification.getObjectId(), Toast.LENGTH_LONG).show();
-            }
-        });
-
-//        // make the query
-//        parseQuery.include("owner");
-//        parseQuery.include("buyer");
-//        parseQuery.include("item");
-//        parseQuery.whereEqualTo("owner", ParseUser.getCurrentUser());
-//        parseQuery.orderByDescending("_created_at");
-//        parseQuery.findInBackground(new FindCallback<AppNotification>() {
-//            public void done(List<AppNotification> notificationsList, ParseException e) {
-//                if (e == null) {
-//                    if (notificationsList != null && !notificationsList.isEmpty()) {
-//                        for (int i = 0; i < notificationsList.size(); i++) {
-//                            appNotifications.add(notificationsList.get(i));
-//                            appNotificationAdapter.notifyItemInserted(appNotifications.size()-1);
-//                        }
-//                    }
-//                } else {
-//                    Log.d("AppNotifications", e.getMessage());
-//                }
+        // live query code if server is set up
+//        parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
+//
+//        parseQuery = ParseQuery.getQuery(AppNotification.class);
+//
+//        subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
+//
+//        subscriptionHandling.handleEvent(SubscriptionHandling.Event.CREATE, new SubscriptionHandling.HandleEventCallback<AppNotification>() {
+//            @Override
+//            public void onEvent(ParseQuery<AppNotification> query, AppNotification appNotification) {
+//                // HANDLING create event
+//                Log.e("AppNotifications", "OMG IT WORKS");
+//                Toast.makeText(getApplicationContext(), appNotification.getObjectId(), Toast.LENGTH_LONG).show();
 //            }
 //        });
     }
 
-    // Query messages from Parse so we can load them into the chat adapter
     void refreshMessages() {
         // make the query
+        ParseQuery<AppNotification> parseQuery = ParseQuery.getQuery(AppNotification.class);;
+
         parseQuery.include("owner");
         parseQuery.include("buyer");
         parseQuery.include("item");
@@ -168,8 +154,9 @@ public class AppNotificationsActivity extends AppCompatActivity {
     }
 
     public void addItem(View view) {
-        Intent i_add = new Intent(AppNotificationsActivity.this, AddItemActivity.class);
-        startActivityForResult(i_add, ADD_ITEM_REQUEST);
+        Intent i_add = new Intent(context, AddItemActivity.class);
+        ((HomeActivity) mContext).startActivityForResult(i_add, ADD_ITEM_REQUEST);
+        finish();
     }
 
     @Override

@@ -84,39 +84,22 @@ public class DetailsActivity extends AppCompatActivity {
                 switch (item.getItemId())
                 {
                     case R.id.action_home:
-<<<<<<< HEAD
-                        Toast.makeText(DetailsActivity.this, "Home Tab Selected", Toast.LENGTH_SHORT).show();
-                        Intent i_home = new Intent(DetailsActivity.this, HomeActivity.class);
-                        startActivity(i_home);
-=======
                         Intent i_home = new Intent(DetailsActivity.this, HomeActivity.class);
                         i_home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(i_home);
-                        break;
-
-                    case R.id.action_search:
-                        // Toast.makeText(HomeActivity.this, "Search Tab Selected", Toast.LENGTH_SHORT).show();
-                        Intent i_search = new Intent(DetailsActivity.this, SearchActivity.class);
-                        startActivity(i_search);
-                        break;
-
-                    case R.id.action_add:
-                        Intent i_add = new Intent(DetailsActivity.this, AddItemActivity.class);
-                        startActivityForResult(i_add, ADD_ITEM_REQUEST);
-                        // Toast.makeText(HomeActivity.this, "Add Tab Selected", Toast.LENGTH_SHORT).show();
->>>>>>> c1ed7a4028c0d4f6bc59a8ad7c1650d7b3abb76c
+                        finish();
                         break;
 
                     case R.id.action_notifications:
                         Intent i_notifications = new Intent(DetailsActivity.this, AppNotificationsActivity.class);
                         startActivity(i_notifications);
-                        // Toast.makeText(HomeActivity.this, "Notifications Tab Selected", Toast.LENGTH_SHORT).show();
+                        finish();
                         break;
 
                     case R.id.action_profile:
                         Intent i_profile = new Intent(DetailsActivity.this, ProfileActivity.class);
                         startActivity(i_profile);
-                        // Toast.makeText(HomeActivity.this, "Profile Tab Selected", Toast.LENGTH_SHORT).show();
+                        finish();
                         break;
                 }
 
@@ -150,7 +133,6 @@ public class DetailsActivity extends AppCompatActivity {
                     tvItemOwner.setText(item.getOwner().getUsername());
                     parseItem = item;
 
-
                 } else {
                     // something went wrong
                 }
@@ -163,6 +145,7 @@ public class DetailsActivity extends AppCompatActivity {
                 Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
                 i.putExtra("itemId", parseItem.getObjectId());
                 startActivity(i);
+                finish();
             }
         });
     }
@@ -193,7 +176,7 @@ public class DetailsActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Item already requested", Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Log.d("AppNotificationsActivity", e.getMessage());
+                    Log.d("AppNotifications", e.getMessage());
                 }
             }
         });
