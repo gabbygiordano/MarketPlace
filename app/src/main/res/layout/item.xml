@@ -12,7 +12,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        app:srcCompat="@drawable/ic_add_item_tab"
         android:clickable="true"
         tools:ignore="VectorDrawableCompat" />
 

@@ -101,14 +101,8 @@ public class SearchActivity extends AppCompatActivity {
                         startActivity(i_home);
                         break;
 
-                    case R.id.action_add:
-                        Intent i_add = new Intent(SearchActivity.this, AddItemActivity.class);
-                        startActivity(i_add);
-                        // Toast.makeText(HomeActivity.this, "Add Tab Selected", Toast.LENGTH_SHORT).show();
-                        break;
-
                     case R.id.action_notifications:
-                        Intent i_notifications = new Intent(SearchActivity.this, NotificationsActivity.class);
+                        Intent i_notifications = new Intent(SearchActivity.this, AppNotificationsActivity.class);
                         startActivity(i_notifications);
                         // Toast.makeText(HomeActivity.this, "Notifications Tab Selected", Toast.LENGTH_SHORT).show();
                         break;
@@ -193,6 +187,9 @@ public class SearchActivity extends AppCompatActivity {
 
     }
 
-
-
+    @Override
+    public void onBackPressed() {
+        Intent i_home = new Intent(SearchActivity.this, HomeActivity.class);
+        i_home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i_home);    }
 }

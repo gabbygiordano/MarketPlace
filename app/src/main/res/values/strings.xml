@@ -3,7 +3,7 @@
     <string name="home">Home</string>
     <string name="search">Search</string>
     <string name="add">Add</string>
-    <string name="notifications">Notifications</string>
+    <string name="appNotifications">Notifications</string>
     <string name="profile">Profile</string>
 
     <string name="message_hint">Type message here</string>

@@ -9,18 +9,11 @@
         android:icon="@drawable/ic_home_tab"
         android:title="@string/home" />
 
-
-    <item
-        android:id="@+id/action_add"
-        android:enabled="true"
-        android:icon="@drawable/ic_add_item_tab"
-        android:title="@string/add" />
-
     <item
         android:id="@+id/action_notifications"
         android:enabled="true"
         android:icon="@drawable/ic_notifications_tab"
-        android:title="@string/notifications" />
+        android:title="@string/appNotifications" />
 
     <item
         android:id="@+id/action_profile"
