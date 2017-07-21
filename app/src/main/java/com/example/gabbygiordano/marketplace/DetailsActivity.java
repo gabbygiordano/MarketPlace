@@ -147,7 +147,7 @@ public class DetailsActivity extends AppCompatActivity {
                     tvItemDescription.setText(item.getDescription());
                     tvItemPrice.setText(item.getPrice());
                     rbItemCondition.setRating(item.getCondition());
-                    tvItemOwner.setText(item.getOwner().getUsername());
+                    tvItemOwner.setText(item.getOwner().getString("name"));
                     parseItem = item;
 
 

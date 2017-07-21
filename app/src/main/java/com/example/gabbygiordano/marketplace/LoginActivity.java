@@ -25,7 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        getSupportActionBar().setTitle("Login");
+        getSupportActionBar().setTitle("Login to Marketplace!");
 
         btLogIn = (Button) findViewById(R.id.btLogIn);
         etUserName = (EditText) findViewById(R.id.etUserName);

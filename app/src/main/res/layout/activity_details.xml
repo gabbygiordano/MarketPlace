@@ -55,9 +55,10 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/ivItemImage"
-        android:layout_marginRight="5dp"
+        android:layout_marginRight="8dp"
         android:ems="10"
-        android:textAlignment="textEnd" />
+        android:textAlignment="textEnd"
+        android:textSize="18sp" />
 
     <Button
         android:id="@+id/btnInterested"
