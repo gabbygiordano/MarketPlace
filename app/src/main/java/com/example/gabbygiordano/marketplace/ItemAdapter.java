@@ -2,6 +2,7 @@ package com.example.gabbygiordano.marketplace;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,8 +11,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.parse.ParseFile;
+import com.parse.ParseObject;
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
+import static com.example.gabbygiordano.marketplace.R.id.ivItemImage;
 import static com.example.gabbygiordano.marketplace.R.layout.item;
 
 /**
@@ -19,6 +25,8 @@ import static com.example.gabbygiordano.marketplace.R.layout.item;
  */
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
+
+
 
     private List<Item> mItems;
 
@@ -68,6 +76,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         holder.tvTimeAgo.setText(item.getOwner().getString("_created_at"));
         Log.e(item.getOwner().getString("_created_at"), "printed");
         // returns 07-18 15:04:16.993
+
     }
 
     @Override
@@ -106,6 +115,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         public TextView tvTimeAgo;
         Item thisItem;
 
+
         // constructor
         public ViewHolder(View itemView) {
             super(itemView);
@@ -116,6 +126,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             tvPrice = itemView.findViewById(R.id.tvPrice);
             tvTimeAgo = itemView.findViewById(R.id.tvTimeAgo);
 
+//            String internetUrl = "http://clipartix.com/wp-content/uploads/2016/04/Thumbs-up-clipart-cliparts-for-you-3.jpg";
+//
+//            Picasso
+//                    .with(context)
+//                    .load(internetUrl)
+//                    .into(ivItemImage);
+//
             itemView.setOnClickListener(this);
         }
 
@@ -129,6 +146,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             Intent i = new Intent(context, DetailsActivity.class);
             i.putExtra("ID", id);
             context.startActivity(i);
+
         }
     }
 }

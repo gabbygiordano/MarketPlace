@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
@@ -58,7 +59,7 @@ public class NotificationsActivity extends AppCompatActivity {
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
 
         Menu menu = bottomNavigationView.getMenu();
-        MenuItem menuitem = menu.getItem(2);
+        MenuItem menuitem = menu.getItem(1);
         menuitem.setChecked(true);
 
         mContext = ItemAdapter.getContext();
@@ -74,12 +75,6 @@ public class NotificationsActivity extends AppCompatActivity {
                         //Toast.makeText(HomeActivity.this, "Home Tab Selected", Toast.LENGTH_SHORT).show();
                         Intent i_home = new Intent(NotificationsActivity.this, HomeActivity.class);
                         startActivity(i_home);
-                        break;
-
-                    case R.id.action_add:
-                        // Toast.makeText(HomeActivity.this, "Add Tab Selected", Toast.LENGTH_SHORT).show();
-                        Intent i_add = new Intent(NotificationsActivity.this, AddItemActivity.class);
-                        ((HomeActivity) mContext).startActivityForResult(i_add, ADD_ITEM_REQUEST);
                         break;
 
                     case R.id.action_notifications:
@@ -136,9 +131,16 @@ public class NotificationsActivity extends AppCompatActivity {
         });
     }
 
+
+    public void addItem(View view) {
+        Intent i_add = new Intent(NotificationsActivity.this, AddItemActivity.class);
+        startActivityForResult(i_add, ADD_ITEM_REQUEST);
+    }
+
     @Override
     public void onBackPressed() {
         Intent i_home = new Intent(NotificationsActivity.this, HomeActivity.class);
         i_home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i_home);    }
+
 }

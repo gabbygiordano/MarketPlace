@@ -89,6 +89,23 @@
             android:layout_alignRight="@+id/bottomNavigation"
             app:srcCompat="@android:drawable/ic_lock_power_off" />
 
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/floatingActionButton5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="right"
+            android:layout_marginBottom="75dp"
+            android:layout_marginEnd="10dp"
+            android:onClick="addItem"
+            app:background="@drawable/circle"
+            app:backgroundTint="#5c9fd6"
+            app:borderWidth="0dp"
+            android:src="@drawable/ic_add_item"
+            app:elevation="12dp"
+            app:fabSize="normal" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">

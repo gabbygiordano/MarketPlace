@@ -167,7 +167,6 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
-
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

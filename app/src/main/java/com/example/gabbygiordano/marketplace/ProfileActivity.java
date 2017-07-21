@@ -41,6 +41,8 @@ public class ProfileActivity extends AppCompatActivity {
     ItemAdapter itemAdapter;
     String id;
 
+    int ADD_ITEM_REQUEST = 10;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -133,7 +135,7 @@ public class ProfileActivity extends AppCompatActivity {
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
 
         Menu menu = bottomNavigationView.getMenu();
-        MenuItem menuitem = menu.getItem(3);
+        MenuItem menuitem = menu.getItem(2);
         menuitem.setChecked(true);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
@@ -149,11 +151,6 @@ public class ProfileActivity extends AppCompatActivity {
                         startActivity(i_home);
                         break;
 
-                    case R.id.action_add:
-                        // Toast.makeText(HomeActivity.this, "Add Tab Selected", Toast.LENGTH_SHORT).show();
-                        Intent i_add = new Intent(ProfileActivity.this, AddItemActivity.class);
-                        startActivity(i_add);
-                        break;
 
                     case R.id.action_notifications:
                         Intent i_notifications = new Intent(ProfileActivity.this, NotificationsActivity.class);
@@ -217,6 +214,13 @@ public class ProfileActivity extends AppCompatActivity {
             startActivityForResult(i, 1);
         }
         return true;
+    }
+
+
+
+    public void addItem(View view) {
+        Intent i_add = new Intent(ProfileActivity.this, AddItemActivity.class);
+        startActivityForResult(i_add, ADD_ITEM_REQUEST);
     }
 
     @Override

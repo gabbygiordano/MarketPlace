@@ -1,16 +1,31 @@
 package com.example.gabbygiordano.marketplace;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
+
+import com.parse.GetCallback;
+import com.parse.GetDataCallback;
+import com.parse.ParseClassName;
+import com.parse.ParseFile;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.constraint.solver.SolverVariable;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,16 +37,35 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.kosalgeek.android.photoutil.CameraPhoto;
+import com.kosalgeek.android.photoutil.GalleryPhoto;
+import com.kosalgeek.android.photoutil.ImageBase64;
+import com.kosalgeek.android.photoutil.ImageLoader;
 import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import static com.example.gabbygiordano.marketplace.R.id.view;
+
 
 public class AddItemActivity extends AppCompatActivity {
 
-    private static final int ACTIVITY_START_CAMERA = 1;
-    private static final int ACTIVITY_SELECT_FILE = 0;
+    private static final int MY_PERMISSIONS_REQUEST_READ_MEDIA = 1 ;
+    final int ACTIVITY_START_CAMERA = 1100;
+    final int ACTIVITY_SELECT_FILE = 2200;
+    private final String TAG = this.getClass().getName();
+
+    CameraPhoto cameraPhoto;
+    GalleryPhoto galleryPhoto;
+    String selectedPhoto;
 
     public EditText etItemName;
     public EditText etItemDescription;
@@ -51,6 +85,7 @@ public class AddItemActivity extends AppCompatActivity {
 
     String condition;
     String type;
+    //Bitmap resource;
 
     Item item;
 
@@ -59,6 +94,9 @@ public class AddItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
         getSupportActionBar().setTitle("Add Item to Marketplace");
+
+        cameraPhoto = new CameraPhoto(getApplicationContext());
+        galleryPhoto = new GalleryPhoto(getApplicationContext());
 
         // find view by id lookups
         etItemName = (EditText) findViewById(R.id.tvItemName);
@@ -89,12 +127,14 @@ public class AddItemActivity extends AppCompatActivity {
                     flag = true;
                 } else {
                     int con = Integer.parseInt(condition);
-
                     ParseUser currentUser = ParseUser.getCurrentUser();
 
                     item = new Item(name, description, price, con, currentUser, type);
                     item.setOwner(ParseUser.getCurrentUser());
 
+                }
+
+                if (!flag) {
                     onPostSuccess();
                 }
             }
@@ -134,9 +174,6 @@ public class AddItemActivity extends AppCompatActivity {
 
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
 
-        Menu menu = bottomNavigationView.getMenu();
-        MenuItem menuitem = menu.getItem(2);
-        menuitem.setChecked(true);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
         {
@@ -151,10 +188,6 @@ public class AddItemActivity extends AppCompatActivity {
                         startActivity(i_home);
                         break;
 
-
-                    case R.id.action_add:
-                        Toast.makeText(AddItemActivity.this, "Add Tab Selected", Toast.LENGTH_SHORT).show();
-                        break;
 
                     case R.id.action_notifications:
                         Intent i_notifications = new Intent(AddItemActivity.this, NotificationsActivity.class);
@@ -172,25 +205,62 @@ public class AddItemActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
+
+            } else {
+
+
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        MY_PERMISSIONS_REQUEST_READ_MEDIA);
+
+            }
+        }
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_READ_MEDIA: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                } else {
+                    Toast.makeText(getApplicationContext(), "Permission Denied", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+        }
+    }
+
 
     public void onPostSuccess() {
         // save the item
+
         item.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                Intent intent = new Intent();
+                final Intent intent = new Intent();
                 String id = item.getObjectId();
                 intent.putExtra("item_id", id);
                 String type = item.getType();
                 intent.putExtra("type", type);
+                //intent.putExtra("resource", item.getResource());
 
-                // return to required activity
+
                 setResult(Activity.RESULT_OK, intent);
                 finish();
             }
         });
     }
+
 
     private void SelectImage()
     {
@@ -205,15 +275,20 @@ public class AddItemActivity extends AppCompatActivity {
             {
                 if(items[i].equals("Camera"))
                 {
-                    Intent intent = new Intent();
-                    intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(intent, ACTIVITY_START_CAMERA);
+
+                    try {
+                        startActivityForResult(cameraPhoto.takePhotoIntent(), ACTIVITY_START_CAMERA);
+                        cameraPhoto.addToGallery();
+                    } catch (IOException e) {
+                        Toast.makeText(getApplicationContext(), "Something went wrong while opening photo", Toast.LENGTH_SHORT).show();
+                    }
+
                 }
                 else if(items[i].equals("Gallery"))
                 {
-                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    intent.setType("image/*");
-                    startActivityForResult(Intent.createChooser(intent,"Select File"), ACTIVITY_SELECT_FILE);
+//                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                    intent.setType("image/*");
+                    startActivityForResult(galleryPhoto.openGalleryIntent(), ACTIVITY_SELECT_FILE);
                 }
                 else if (items[i].equals("Cancel"))
                 {
@@ -232,29 +307,76 @@ public class AddItemActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        super.onActivityResult(requestCode, resultCode, data);
 
         if(resultCode == Activity.RESULT_OK)
         {
             if(requestCode == ACTIVITY_START_CAMERA)
             {
                 //Toast.makeText(this, "picture was taken", Toast.LENGTH_SHORT).show();
-                Bundle extras = data.getExtras();
-                Bitmap photoCaptured = (Bitmap) extras.get("data");
-                imageLocation.setImageBitmap(photoCaptured);
+                String photoPath = cameraPhoto.getPhotoPath();
+                try {
+                    Bitmap bitmap = ImageLoader.init().from(photoPath).requestSize(512,512).getBitmap();
+                    imageLocation.setImageBitmap(bitmap);
+                } catch (FileNotFoundException e) {
+                    Toast.makeText(getApplicationContext(), "Something went wrong while uploading photo", Toast.LENGTH_SHORT).show();
+                }
+                Log.d(TAG, photoPath);
+                //resource = photoCaptured;
+
             }
             else if(requestCode == ACTIVITY_SELECT_FILE)
             {
-                Uri selectedImageUri = data.getData();
-                imageLocation.setImageURI(selectedImageUri);
+                Uri uri = data.getData();
+                galleryPhoto.setPhotoUri(uri);
+
+                String photoPath = galleryPhoto.getPath();
+                selectedPhoto = photoPath;
+                try
+                {
+                    Bitmap bitmap = ImageLoader.init().from(photoPath).requestSize(512,512).getBitmap();
+                    imageLocation.setImageBitmap(getRotatedBitmap(bitmap, 90));
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    byte[] image = stream.toByteArray();
+                    ParseFile file = new ParseFile("itemimage.png", image);
+                    file.saveInBackground();
+                    ParseObject imageUpload = new ParseObject("ImageUpload");
+                    imageUpload.put("ImageFile", file);
+                    imageUpload.saveInBackground();
+                    Toast.makeText(AddItemActivity.this, "Image Uploaded",
+                            Toast.LENGTH_SHORT).show();
+//                    try {
+//                        Bitmap bm = ImageLoader.init().from(selectedPhoto).requestSize(27,27).getBitmap();
+//                        String encodedImage = ImageBase64.encode(bm);
+//                        Log.d(TAG, encodedImage);
+//                    } catch (FileNotFoundException e1)
+//                    {
+//                        Toast.makeText(getApplicationContext(), "Something went wrong while encoding photo", Toast.LENGTH_SHORT).show();
+//                    }
+                }
+                catch (FileNotFoundException e)
+                {
+                    Toast.makeText(getApplicationContext(), "Something went wrong while uploading photo", Toast.LENGTH_SHORT).show();
+                }
+
             }
 
         }
     }
+
+    private Bitmap getRotatedBitmap(Bitmap source, float angle)
+    {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        Bitmap bitmap1 = Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
+        return bitmap1;
+    }
+
 
     @Override
     public void onBackPressed() {
         Intent i_home = new Intent(AddItemActivity.this, HomeActivity.class);
         i_home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i_home);    }
+
 }
