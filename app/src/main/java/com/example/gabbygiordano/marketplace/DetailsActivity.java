@@ -87,18 +87,19 @@ public class DetailsActivity extends AppCompatActivity {
                         Intent i_home = new Intent(DetailsActivity.this, HomeActivity.class);
                         i_home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(i_home);
+                        finish();
                         break;
 
                     case R.id.action_notifications:
                         Intent i_notifications = new Intent(DetailsActivity.this, AppNotificationsActivity.class);
                         startActivity(i_notifications);
-                        // Toast.makeText(HomeActivity.this, "Notifications Tab Selected", Toast.LENGTH_SHORT).show();
+                        finish();
                         break;
 
                     case R.id.action_profile:
                         Intent i_profile = new Intent(DetailsActivity.this, ProfileActivity.class);
                         startActivity(i_profile);
-                        // Toast.makeText(HomeActivity.this, "Profile Tab Selected", Toast.LENGTH_SHORT).show();
+                        finish();
                         break;
                 }
 
@@ -132,7 +133,6 @@ public class DetailsActivity extends AppCompatActivity {
                     tvItemOwner.setText(item.getOwner().getString("name"));
                     parseItem = item;
 
-
                 } else {
                     // something went wrong
                 }
@@ -145,6 +145,7 @@ public class DetailsActivity extends AppCompatActivity {
                 Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
                 i.putExtra("itemId", parseItem.getObjectId());
                 startActivity(i);
+                finish();
             }
         });
     }
@@ -175,7 +176,7 @@ public class DetailsActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Item already requested", Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Log.d("AppNotificationsActivity", e.getMessage());
+                    Log.d("AppNotifications", e.getMessage());
                 }
             }
         });

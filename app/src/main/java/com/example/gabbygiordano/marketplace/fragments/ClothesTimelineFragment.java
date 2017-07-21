@@ -21,6 +21,8 @@ public class ClothesTimelineFragment extends ItemsListFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setRetainInstance(true);
+
         populateTimeline();
     }
 

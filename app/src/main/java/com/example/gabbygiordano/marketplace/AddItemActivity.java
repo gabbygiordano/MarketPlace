@@ -2,31 +2,20 @@ package com.example.gabbygiordano.marketplace;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
-
-import com.parse.GetCallback;
-import com.parse.GetDataCallback;
-import com.parse.ParseClassName;
-import com.parse.ParseFile;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.constraint.solver.SolverVariable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Display;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -39,21 +28,17 @@ import android.widget.Toast;
 
 import com.kosalgeek.android.photoutil.CameraPhoto;
 import com.kosalgeek.android.photoutil.GalleryPhoto;
-import com.kosalgeek.android.photoutil.ImageBase64;
 import com.kosalgeek.android.photoutil.ImageLoader;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
-import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-
-import static com.example.gabbygiordano.marketplace.R.id.view;
 
 
 public class AddItemActivity extends AppCompatActivity {
@@ -243,19 +228,18 @@ public class AddItemActivity extends AppCompatActivity {
 
     public void onPostSuccess() {
         // save the item
-
         item.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                final Intent intent = new Intent();
+                Intent intent = new Intent();
+
                 String id = item.getObjectId();
                 intent.putExtra("item_id", id);
                 String type = item.getType();
                 intent.putExtra("type", type);
                 //intent.putExtra("resource", item.getResource());
 
-
-                setResult(Activity.RESULT_OK, intent);
+                setResult(RESULT_OK, intent);
                 finish();
             }
         });
