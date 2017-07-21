@@ -101,12 +101,6 @@ public class SearchActivity extends AppCompatActivity {
                         startActivity(i_home);
                         break;
 
-                    case R.id.action_add:
-                        Intent i_add = new Intent(SearchActivity.this, AddItemActivity.class);
-                        startActivity(i_add);
-                        // Toast.makeText(HomeActivity.this, "Add Tab Selected", Toast.LENGTH_SHORT).show();
-                        break;
-
                     case R.id.action_notifications:
                         Intent i_notifications = new Intent(SearchActivity.this, AppNotificationsActivity.class);
                         startActivity(i_notifications);

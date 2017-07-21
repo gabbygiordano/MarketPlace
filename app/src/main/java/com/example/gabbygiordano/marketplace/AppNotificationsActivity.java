@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
@@ -70,7 +71,7 @@ public class AppNotificationsActivity extends AppCompatActivity {
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
 
         Menu menu = bottomNavigationView.getMenu();
-        MenuItem menuitem = menu.getItem(2);
+        MenuItem menuitem = menu.getItem(1);
         menuitem.setChecked(true);
 
         mContext = ItemAdapter.getContext();
@@ -86,12 +87,6 @@ public class AppNotificationsActivity extends AppCompatActivity {
                         //Toast.makeText(HomeActivity.this, "Home Tab Selected", Toast.LENGTH_SHORT).show();
                         Intent i_home = new Intent(AppNotificationsActivity.this, HomeActivity.class);
                         startActivity(i_home);
-                        break;
-
-                    case R.id.action_add:
-                        // Toast.makeText(HomeActivity.this, "Add Tab Selected", Toast.LENGTH_SHORT).show();
-                        Intent i_add = new Intent(AppNotificationsActivity.this, AddItemActivity.class);
-                        ((HomeActivity) mContext).startActivityForResult(i_add, ADD_ITEM_REQUEST);
                         break;
 
                     case R.id.action_notifications:
@@ -172,7 +167,10 @@ public class AppNotificationsActivity extends AppCompatActivity {
         });
     }
 
-
+    public void addItem(View view) {
+        Intent i_add = new Intent(AppNotificationsActivity.this, AddItemActivity.class);
+        startActivityForResult(i_add, ADD_ITEM_REQUEST);
+    }
 
     @Override
     public void onBackPressed() {

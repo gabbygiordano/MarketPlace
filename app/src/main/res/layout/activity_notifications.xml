@@ -1,4 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.gabbygiordano.marketplace.HomeActivity">
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButton5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="right"
+        android:layout_marginBottom="75dp"
+        android:layout_marginEnd="10dp"
+        android:onClick="addItem"
+        app:background="@drawable/circle"
+        app:backgroundTint="#5c9fd6"
+        app:borderWidth="0dp"
+        android:src="@drawable/ic_add_item"
+        app:elevation="12dp"
+        app:fabSize="normal" />
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,6 +31,7 @@
     android:layout_height="match_parent"
     tools:context="com.example.gabbygiordano.marketplace.AppNotificationsActivity"
     android:weightSum="1">
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvNotifications"
@@ -28,3 +53,5 @@
         app:menu="@menu/bottom_navigation_main" />
 
 </LinearLayout>
+
+</RelativeLayout>

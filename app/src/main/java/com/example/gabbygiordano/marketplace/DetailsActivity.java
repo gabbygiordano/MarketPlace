@@ -84,6 +84,11 @@ public class DetailsActivity extends AppCompatActivity {
                 switch (item.getItemId())
                 {
                     case R.id.action_home:
+<<<<<<< HEAD
+                        Toast.makeText(DetailsActivity.this, "Home Tab Selected", Toast.LENGTH_SHORT).show();
+                        Intent i_home = new Intent(DetailsActivity.this, HomeActivity.class);
+                        startActivity(i_home);
+=======
                         Intent i_home = new Intent(DetailsActivity.this, HomeActivity.class);
                         i_home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(i_home);
@@ -99,6 +104,7 @@ public class DetailsActivity extends AppCompatActivity {
                         Intent i_add = new Intent(DetailsActivity.this, AddItemActivity.class);
                         startActivityForResult(i_add, ADD_ITEM_REQUEST);
                         // Toast.makeText(HomeActivity.this, "Add Tab Selected", Toast.LENGTH_SHORT).show();
+>>>>>>> c1ed7a4028c0d4f6bc59a8ad7c1650d7b3abb76c
                         break;
 
                     case R.id.action_notifications:
