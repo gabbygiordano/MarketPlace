@@ -157,7 +157,7 @@ public class AddItemActivity extends AppCompatActivity {
                         break;
 
                     case R.id.action_notifications:
-                        Intent i_notifications = new Intent(AddItemActivity.this, NotificationsActivity.class);
+                        Intent i_notifications = new Intent(AddItemActivity.this, AppNotificationsActivity.class);
                         startActivity(i_notifications);
                         // Toast.makeText(HomeActivity.this, "Notifications Tab Selected", Toast.LENGTH_SHORT).show();
                         break;
