@@ -131,8 +131,16 @@ public class NotificationsActivity extends AppCompatActivity {
         });
     }
 
+
     public void addItem(View view) {
         Intent i_add = new Intent(NotificationsActivity.this, AddItemActivity.class);
         startActivityForResult(i_add, ADD_ITEM_REQUEST);
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent i_home = new Intent(NotificationsActivity.this, HomeActivity.class);
+        i_home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i_home);    }
+
 }

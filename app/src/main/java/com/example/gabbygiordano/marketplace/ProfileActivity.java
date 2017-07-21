@@ -159,8 +159,14 @@ public class ProfileActivity extends AppCompatActivity {
                         break;
 
                     case R.id.action_profile:
-                        Toast.makeText(ProfileActivity.this, "Profile Tab Selected", Toast.LENGTH_SHORT).show();
-                        break;
+                        if(tvUsername.getText() != ParseUser.getCurrentUser().getUsername()){
+                            Intent i_profile = new Intent(ProfileActivity.this, ProfileActivity.class);
+                            startActivity(i_profile);
+                        }
+                        else {
+                            Toast.makeText(ProfileActivity.this, "Profile Tab Selected", Toast.LENGTH_SHORT).show();
+                            break;
+                        }
                 }
 
                 return false;
@@ -211,8 +217,16 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
 
+
     public void addItem(View view) {
         Intent i_add = new Intent(ProfileActivity.this, AddItemActivity.class);
         startActivityForResult(i_add, ADD_ITEM_REQUEST);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i_home = new Intent(ProfileActivity.this, HomeActivity.class);
+        i_home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i_home);
     }
 }

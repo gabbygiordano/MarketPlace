@@ -151,8 +151,6 @@ public class HomeActivity extends AppCompatActivity {
         return true;
     }
 
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.miInbox) {
@@ -163,8 +161,18 @@ public class HomeActivity extends AppCompatActivity {
         return true;
     }
 
+
     public void addItem(View view) {
         Intent i_add = new Intent(HomeActivity.this, AddItemActivity.class);
         startActivityForResult(i_add, ADD_ITEM_REQUEST);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent a = new Intent(Intent.ACTION_MAIN);
+        a.addCategory(Intent.CATEGORY_HOME);
+        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(a);
+
     }
 }

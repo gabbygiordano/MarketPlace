@@ -187,6 +187,9 @@ public class SearchActivity extends AppCompatActivity {
 
     }
 
-
-
+    @Override
+    public void onBackPressed() {
+        Intent i_home = new Intent(SearchActivity.this, HomeActivity.class);
+        i_home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i_home);    }
 }

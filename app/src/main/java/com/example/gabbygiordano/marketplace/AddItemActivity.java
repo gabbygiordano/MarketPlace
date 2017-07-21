@@ -372,4 +372,11 @@ public class AddItemActivity extends AppCompatActivity {
         return bitmap1;
     }
 
+
+    @Override
+    public void onBackPressed() {
+        Intent i_home = new Intent(AddItemActivity.this, HomeActivity.class);
+        i_home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i_home);    }
+
 }
