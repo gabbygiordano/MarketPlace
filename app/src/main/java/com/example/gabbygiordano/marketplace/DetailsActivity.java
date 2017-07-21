@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -15,15 +16,18 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.util.List;
+
 import static com.example.gabbygiordano.marketplace.R.color.colorGold;
 
-public class ItemDetailsActivity extends AppCompatActivity {
+public class DetailsActivity extends AppCompatActivity {
 
     TextView tvItemName;
     TextView tvItemDescription;
@@ -80,31 +84,31 @@ public class ItemDetailsActivity extends AppCompatActivity {
                 switch (item.getItemId())
                 {
                     case R.id.action_home:
-                        Toast.makeText(ItemDetailsActivity.this, "Home Tab Selected", Toast.LENGTH_SHORT).show();
-                        Intent i_home = new Intent(ItemDetailsActivity.this, HomeActivity.class);
+                        Toast.makeText(DetailsActivity.this, "Home Tab Selected", Toast.LENGTH_SHORT).show();
+                        Intent i_home = new Intent(DetailsActivity.this, HomeActivity.class);
                         startActivity(i_home);
                         break;
 
                     case R.id.action_search:
                         // Toast.makeText(HomeActivity.this, "Search Tab Selected", Toast.LENGTH_SHORT).show();
-                        Intent i_search = new Intent(ItemDetailsActivity.this, SearchActivity.class);
+                        Intent i_search = new Intent(DetailsActivity.this, SearchActivity.class);
                         startActivity(i_search);
                         break;
 
                     case R.id.action_add:
-                        Intent i_add = new Intent(ItemDetailsActivity.this, AddItemActivity.class);
+                        Intent i_add = new Intent(DetailsActivity.this, AddItemActivity.class);
                         startActivityForResult(i_add, ADD_ITEM_REQUEST);
                         // Toast.makeText(HomeActivity.this, "Add Tab Selected", Toast.LENGTH_SHORT).show();
                         break;
 
                     case R.id.action_notifications:
-                        Intent i_notifications = new Intent(ItemDetailsActivity.this, NotificationsActivity.class);
+                        Intent i_notifications = new Intent(DetailsActivity.this, NotificationsActivity.class);
                         startActivity(i_notifications);
                         // Toast.makeText(HomeActivity.this, "Notifications Tab Selected", Toast.LENGTH_SHORT).show();
                         break;
 
                     case R.id.action_profile:
-                        Intent i_profile = new Intent(ItemDetailsActivity.this, ProfileActivity.class);
+                        Intent i_profile = new Intent(DetailsActivity.this, ProfileActivity.class);
                         startActivity(i_profile);
                         // Toast.makeText(HomeActivity.this, "Profile Tab Selected", Toast.LENGTH_SHORT).show();
                         break;
@@ -121,8 +125,6 @@ public class ItemDetailsActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-
-
 
         //get item ID from Intent
         String itemId = getIntent().getStringExtra("ID");
@@ -157,8 +159,6 @@ public class ItemDetailsActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-
-
     }
 
     public void onInterestedClick(View view) {
@@ -166,12 +166,29 @@ public class ItemDetailsActivity extends AppCompatActivity {
         ParseUser owner = mItem.getOwner();
         notification = new Notification(owner, buyer, mItem);
 
-        // save the notification
-        notification.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                // make toast
-                Toast.makeText(getApplicationContext(), "Notification saved!", Toast.LENGTH_LONG).show();
+        // make the query
+        ParseQuery<Notification> parseQuery = ParseQuery.getQuery(Notification.class);
+        parseQuery.whereEqualTo("buyer", buyer);
+        parseQuery.whereEqualTo("item", mItem);
+        parseQuery.findInBackground(new FindCallback<Notification>() {
+            public void done(List<Notification> notificationsList, ParseException e) {
+                if (e == null) {
+                    if (notificationsList == null || notificationsList.isEmpty()) {
+                        // save the notification
+                        notification.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                // make toast
+                                Toast.makeText(getApplicationContext(), "Request sent!", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    } else {
+                        // already sent request!
+                        Toast.makeText(getApplicationContext(), "Item already requested", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Log.d("NotificationsActivity", e.getMessage());
+                }
             }
         });
     }

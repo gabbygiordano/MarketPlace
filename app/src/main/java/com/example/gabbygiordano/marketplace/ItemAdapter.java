@@ -143,7 +143,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
                 thisItem = mItems.get(position);
             }
             String id = thisItem.getObjectId();
-            Intent i = new Intent(context, ItemDetailsActivity.class);
+            Intent i = new Intent(context, DetailsActivity.class);
             i.putExtra("ID", id);
             context.startActivity(i);
 
