@@ -73,6 +73,7 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setTitle("Sign Up for Marketplace!");
 
         ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser != null) {
@@ -108,6 +109,9 @@ public class SignUpActivity extends AppCompatActivity {
 
                 if (email.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Enter email", Toast.LENGTH_LONG).show();
+                    flag = true;
+                } else if(!email.contains(".edu")){
+                    Toast.makeText(getApplicationContext(), "Email needs to be a .edu email", Toast.LENGTH_LONG).show();
                     flag = true;
                 } else if (name.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Enter name", Toast.LENGTH_LONG).show();

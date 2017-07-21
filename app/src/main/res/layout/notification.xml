@@ -30,17 +30,18 @@
         android:layout_below="@+id/tvBuyerName"
         android:layout_toEndOf="@+id/ivProfileImage"
         android:layout_toRightOf="@+id/ivProfileImage"
-        android:text="is interested in..." />
+        android:text="is interested in: " />
 
     <TextView
         android:id="@+id/tvInterestItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvInterested"
-        android:layout_toEndOf="@+id/ivProfileImage"
-        android:layout_toRightOf="@+id/ivProfileImage"
         android:text="Item Name"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_alignBaseline="@+id/tvInterested"
+        android:layout_alignBottom="@+id/tvInterested"
+        android:layout_toRightOf="@+id/tvInterested"
+        android:layout_toEndOf="@+id/tvInterested" />
 
 
 </RelativeLayout>
