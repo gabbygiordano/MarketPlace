@@ -174,9 +174,6 @@ public class AddItemActivity extends AppCompatActivity {
 
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
 
-        Menu menu = bottomNavigationView.getMenu();
-        MenuItem menuitem = menu.getItem(2);
-        menuitem.setChecked(true);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
         {
@@ -191,10 +188,6 @@ public class AddItemActivity extends AppCompatActivity {
                         startActivity(i_home);
                         break;
 
-
-                    case R.id.action_add:
-                        Toast.makeText(AddItemActivity.this, "Add Tab Selected", Toast.LENGTH_SHORT).show();
-                        break;
 
                     case R.id.action_notifications:
                         Intent i_notifications = new Intent(AddItemActivity.this, NotificationsActivity.class);
@@ -260,6 +253,7 @@ public class AddItemActivity extends AppCompatActivity {
                 String type = item.getType();
                 intent.putExtra("type", type);
                 //intent.putExtra("resource", item.getResource());
+
 
                 setResult(Activity.RESULT_OK, intent);
                 finish();

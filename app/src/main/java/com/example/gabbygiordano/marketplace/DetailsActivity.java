@@ -89,18 +89,6 @@ public class DetailsActivity extends AppCompatActivity {
                         startActivity(i_home);
                         break;
 
-                    case R.id.action_search:
-                        // Toast.makeText(HomeActivity.this, "Search Tab Selected", Toast.LENGTH_SHORT).show();
-                        Intent i_search = new Intent(DetailsActivity.this, SearchActivity.class);
-                        startActivity(i_search);
-                        break;
-
-                    case R.id.action_add:
-                        Intent i_add = new Intent(DetailsActivity.this, AddItemActivity.class);
-                        startActivityForResult(i_add, ADD_ITEM_REQUEST);
-                        // Toast.makeText(HomeActivity.this, "Add Tab Selected", Toast.LENGTH_SHORT).show();
-                        break;
-
                     case R.id.action_notifications:
                         Intent i_notifications = new Intent(DetailsActivity.this, NotificationsActivity.class);
                         startActivity(i_notifications);

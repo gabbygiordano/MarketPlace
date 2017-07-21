@@ -12,6 +12,7 @@ import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -72,11 +73,6 @@ public class HomeActivity extends AppCompatActivity {
                         Toast.makeText(HomeActivity.this, "Home Tab Selected", Toast.LENGTH_SHORT).show();
                         break;
 
-                    case R.id.action_add:
-                        Intent i_add = new Intent(HomeActivity.this, AddItemActivity.class);
-                        startActivityForResult(i_add, ADD_ITEM_REQUEST);
-                        // Toast.makeText(HomeActivity.this, "Add Tab Selected", Toast.LENGTH_SHORT).show();
-                        break;
 
                     case R.id.action_notifications:
                         Intent i_notifications = new Intent(HomeActivity.this, NotificationsActivity.class);
@@ -165,5 +161,10 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         return true;
+    }
+
+    public void addItem(View view) {
+        Intent i_add = new Intent(HomeActivity.this, AddItemActivity.class);
+        startActivityForResult(i_add, ADD_ITEM_REQUEST);
     }
 }

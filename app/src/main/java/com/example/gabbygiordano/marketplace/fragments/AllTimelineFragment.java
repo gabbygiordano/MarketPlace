@@ -44,6 +44,7 @@ public class AllTimelineFragment extends ItemsListFragment {
                 if (e == null) {
                     if (itemsList != null && !itemsList.isEmpty()) {
                         addItems(itemsList);
+
                     }
                 } else {
                     Log.d("AllFragment", e.getMessage());

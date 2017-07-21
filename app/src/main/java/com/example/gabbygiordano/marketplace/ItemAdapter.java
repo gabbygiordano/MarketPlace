@@ -126,14 +126,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             tvPrice = itemView.findViewById(R.id.tvPrice);
             tvTimeAgo = itemView.findViewById(R.id.tvTimeAgo);
 
-           // String internetUrl = "http://clipartix.com/wp-content/uploads/2016/04/Thumbs-up-clipart-cliparts-for-you-3.jpg";
-
+//            String internetUrl = "http://clipartix.com/wp-content/uploads/2016/04/Thumbs-up-clipart-cliparts-for-you-3.jpg";
+//
 //            Picasso
 //                    .with(context)
 //                    .load(internetUrl)
 //                    .into(ivItemImage);
 //
-//            itemView.setOnClickListener(this);
+            itemView.setOnClickListener(this);
         }
 
         @Override
