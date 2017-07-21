@@ -42,21 +42,7 @@ public class ParseApplication extends Application {
                 .applicationId("college_marketplace") // should correspond to APP_ID env variable
                 .clientKey(null)  // set explicitly unless clientKey is explicitly configured on Parse server
                 .clientBuilder(builder)
-                .server("https://college-marketplace.herokuapp.com/parse/").build());
-
-//        ParseLiveQueryClient parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
-//
-//        ParseQuery<Notification> parseQuery = ParseQuery.getQuery(Notification.class);
-//
-//        final SubscriptionHandling<Notification> subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
-//
-//        subscriptionHandling.handleEvent(SubscriptionHandling.Event.CREATE, new SubscriptionHandling.HandleEventCallback<Notification>() {
-//            @Override
-//            public void onEvent(ParseQuery<Notification> query, Notification notification) {
-//                // HANDLING create event
-//                Log.e("NotificationsActivity", "OMG IT WORKS");
-//                Toast.makeText(getApplicationContext(), notification.getObjectId(), Toast.LENGTH_LONG).show();
-//            }
-//        });
+                .server("https://college-marketplace.herokuapp.com/parse/")
+                .build());
     }
 }

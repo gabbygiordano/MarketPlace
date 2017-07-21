@@ -124,7 +124,6 @@ public class NotificationsActivity extends AppCompatActivity {
             public void done(List<Notification> notificationsList, ParseException e) {
                 if (e == null) {
                     if (notificationsList != null && !notificationsList.isEmpty()) {
-                        // die
                         for (int i = 0; i < notificationsList.size(); i++) {
                             notifications.add(notificationsList.get(i));
                             notificationAdapter.notifyItemInserted(notifications.size()-1);
