@@ -2,6 +2,7 @@ package com.example.gabbygiordano.marketplace;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,6 +11,10 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
+
+import com.parse.GetCallback;
+import com.parse.GetDataCallback;
+import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -38,8 +43,10 @@ import com.kosalgeek.android.photoutil.ImageBase64;
 import com.kosalgeek.android.photoutil.ImageLoader;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -47,6 +54,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import static com.example.gabbygiordano.marketplace.R.id.view;
+
 
 public class AddItemActivity extends AppCompatActivity {
 
@@ -78,7 +86,6 @@ public class AddItemActivity extends AppCompatActivity {
     String condition;
     String type;
     //Bitmap resource;
-
 
     Item item;
 
@@ -124,6 +131,7 @@ public class AddItemActivity extends AppCompatActivity {
 
                     item = new Item(name, description, price, con, currentUser, type);
                     item.setOwner(ParseUser.getCurrentUser());
+
                 }
 
                 if (!flag) {
@@ -277,10 +285,10 @@ public class AddItemActivity extends AppCompatActivity {
                     try {
                         startActivityForResult(cameraPhoto.takePhotoIntent(), ACTIVITY_START_CAMERA);
                         cameraPhoto.addToGallery();
-                    } catch (IOException e)
-                    {
-                            Toast.makeText(getApplicationContext(), "Something went wrong while taking photo", Toast.LENGTH_SHORT).show();
+                    } catch (IOException e) {
+                        Toast.makeText(getApplicationContext(), "Something went wrong while opening photo", Toast.LENGTH_SHORT).show();
                     }
+
                 }
                 else if(items[i].equals("Gallery"))
                 {

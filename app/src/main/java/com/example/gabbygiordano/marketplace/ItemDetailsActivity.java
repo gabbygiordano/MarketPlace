@@ -81,6 +81,8 @@ public class ItemDetailsActivity extends AppCompatActivity {
                 {
                     case R.id.action_home:
                         Toast.makeText(ItemDetailsActivity.this, "Home Tab Selected", Toast.LENGTH_SHORT).show();
+                        Intent i_home = new Intent(ItemDetailsActivity.this, HomeActivity.class);
+                        startActivity(i_home);
                         break;
 
                     case R.id.action_search:

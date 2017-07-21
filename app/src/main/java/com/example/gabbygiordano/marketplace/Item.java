@@ -21,7 +21,8 @@ public class Item extends ParseObject {
     public String price;
     public int condition;
     public User user;
-    public String type;  // type of object - book, clothes, etc
+    public String type;
+    //public Item resource;// type of object - book, clothes, etc
 //
       //public Bitmap resource;
 
@@ -90,11 +91,11 @@ public class Item extends ParseObject {
         put("type", type);
     }
 
-    public Bitmap getResource() {
-        return (Bitmap) get("resource");
+    public ParseObject getResource() {
+        return getParseObject("resource");
     }
 
-    public void setResource(Bitmap resource) {
+    public void setResource(ParseObject resource) {
         put("resource", resource);
     }
 }

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.squareup.picasso.Picasso;
 
@@ -24,6 +25,8 @@ import static com.example.gabbygiordano.marketplace.R.layout.item;
  */
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
+
+
 
     private List<Item> mItems;
 
@@ -112,6 +115,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         public TextView tvTimeAgo;
         Item thisItem;
 
+
         // constructor
         public ViewHolder(View itemView) {
             super(itemView);
@@ -122,7 +126,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             tvPrice = itemView.findViewById(R.id.tvPrice);
             tvTimeAgo = itemView.findViewById(R.id.tvTimeAgo);
 
-            itemView.setOnClickListener(this);
+           // String internetUrl = "http://clipartix.com/wp-content/uploads/2016/04/Thumbs-up-clipart-cliparts-for-you-3.jpg";
+
+//            Picasso
+//                    .with(context)
+//                    .load(internetUrl)
+//                    .into(ivItemImage);
+//
+//            itemView.setOnClickListener(this);
         }
 
         @Override
@@ -135,6 +146,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             Intent i = new Intent(context, ItemDetailsActivity.class);
             i.putExtra("ID", id);
             context.startActivity(i);
+
         }
     }
 }
