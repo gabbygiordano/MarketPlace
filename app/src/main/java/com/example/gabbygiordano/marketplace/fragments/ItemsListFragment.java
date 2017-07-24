@@ -36,7 +36,7 @@ public class ItemsListFragment extends Fragment {
 
     int ADD_ITEM_REQUEST = 10;
 
-    int page = 0;
+    int page;
     final int limit = 20;
     private RecyclerView.OnScrollListener scrollListener;
 

@@ -24,6 +24,8 @@ public class AllTimelineFragment extends ItemsListFragment {
 
         setRetainInstance(true);
 
+        page = 0;
+
         populateTimeline();
     }
 
@@ -38,9 +40,7 @@ public class AllTimelineFragment extends ItemsListFragment {
             public void done(List<Item> itemsList, ParseException e) {
                 if (e == null) {
                     if (itemsList != null && !itemsList.isEmpty()) {
-                        Log.e("All", String.valueOf(page));
                         addItems(itemsList);
-
                     }
                 } else {
                     Log.d("AllFragment", e.getMessage());

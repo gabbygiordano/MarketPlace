@@ -23,6 +23,8 @@ public class MiscTimelineFragment extends ItemsListFragment {
 
         setRetainInstance(true);
 
+        page = 0;
+
         populateTimeline();
     }
 

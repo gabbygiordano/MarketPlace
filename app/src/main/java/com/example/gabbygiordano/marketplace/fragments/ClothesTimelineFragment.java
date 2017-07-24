@@ -23,6 +23,8 @@ public class ClothesTimelineFragment extends ItemsListFragment {
 
         setRetainInstance(true);
 
+        page = 0;
+
         populateTimeline();
     }
 
