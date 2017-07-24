@@ -39,16 +39,6 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/tvChangeName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/textView6"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:text="change"
-        android:textStyle="bold" />
-
-    <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -80,27 +70,18 @@
         android:text="phone here"
         android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/tvChangePhone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/tvPhone"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:text="change"
-        android:textStyle="bold" />
-
     <EditText
         android:id="@+id/etName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/tvName"
-        android:layout_alignBottom="@+id/tvName"
-        android:layout_toEndOf="@+id/tvUploadProf"
         android:ems="10"
         android:hint="Enter New Name"
         android:inputType="textPersonName"
-        android:textSize="10sp" />
+        android:textSize="10sp"
+        android:layout_alignBaseline="@+id/tvName"
+        android:layout_alignBottom="@+id/tvName"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <EditText
         android:id="@+id/etPhone"
@@ -124,5 +105,15 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:text="Save Changes" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tvName"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:text="Change"
+        android:textStyle="bold" />
 
 </RelativeLayout>
