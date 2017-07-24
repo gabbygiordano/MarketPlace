@@ -163,7 +163,7 @@ public class ProfileActivity extends AppCompatActivity {
                         break;
 
                     case R.id.action_profile:
-                        if(tvUsername.getText() != ParseUser.getCurrentUser().getUsername()){
+                        if (!tvUsername.getText().toString().equals(ParseUser.getCurrentUser().getUsername())) {
                             Intent i_profile = new Intent(ProfileActivity.this, ProfileActivity.class);
                             startActivity(i_profile);
                             finish();

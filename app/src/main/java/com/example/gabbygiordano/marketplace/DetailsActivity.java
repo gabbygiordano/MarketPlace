@@ -23,6 +23,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.util.Date;
 import java.util.List;
 
 import static com.example.gabbygiordano.marketplace.R.color.colorGold;
@@ -153,7 +154,8 @@ public class DetailsActivity extends AppCompatActivity {
     public void onInterestedClick(View view) {
         ParseUser buyer = ParseUser.getCurrentUser();
         ParseUser owner = mItem.getOwner();
-        appNotification = new AppNotification(owner, buyer, mItem);
+        Date created = new Date();
+        appNotification = new AppNotification(owner, buyer, mItem, created);
 
         // make the query
         ParseQuery<AppNotification> parseQuery = ParseQuery.getQuery(AppNotification.class);
