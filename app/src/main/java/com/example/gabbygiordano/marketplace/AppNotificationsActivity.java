@@ -21,10 +21,8 @@ import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseLiveQueryClient;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.parse.SubscriptionHandling;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,9 +43,7 @@ public class AppNotificationsActivity extends AppCompatActivity {
 
     Date lastNotif;
 
-    // live query vars
-    ParseLiveQueryClient parseLiveQueryClient;
-    SubscriptionHandling<AppNotification> subscriptionHandling;
+    Intent mServiceIntent;
 
     // Create a handler which can run code periodically
     static final int POLL_INTERVAL = 1000; // milliseconds
@@ -143,24 +139,21 @@ public class AppNotificationsActivity extends AppCompatActivity {
 
         // set up handler for continuous queries for notifications
         // workaround since live queries are not working
-        myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
+        // myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
 
-        // create new ParseQuery and subscribe to it
-        // live query code if server is set up
-//        parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
+        // Using background services and broadcast receivers
+//        mServiceIntent = new Intent(this, NotificationService.class);
+//        mServiceIntent.putExtra("last", lastNotif);
+//        startService(mServiceIntent);
 //
-//        parseQuery = ParseQuery.getQuery(AppNotification.class);
+//        // Instantiates a new DownloadStateReceiver
+//        NotificationReceiver mDownloadStateReceiver = new NotificationReceiver();
 //
-//        subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
+//        // The filter's action is BROADCAST_ACTION
+//        IntentFilter statusIntentFilter = new IntentFilter(Constants.BROADCAST_ACTION);
 //
-//        subscriptionHandling.handleEvent(SubscriptionHandling.Event.CREATE, new SubscriptionHandling.HandleEventCallback<AppNotification>() {
-//            @Override
-//            public void onEvent(ParseQuery<AppNotification> query, AppNotification appNotification) {
-//                // HANDLING create event
-//                Log.e("AppNotifications", "OMG IT WORKS");
-//                Toast.makeText(getApplicationContext(), appNotification.getObjectId(), Toast.LENGTH_LONG).show();
-//            }
-//        });
+//        // Registers the DownloadStateReceiver and its intent filters
+//        LocalBroadcastManager.getInstance(this).registerReceiver(mDownloadStateReceiver, statusIntentFilter);
     }
 
     void refreshMessages() {
@@ -177,10 +170,6 @@ public class AppNotificationsActivity extends AppCompatActivity {
             public void done(List<AppNotification> notificationsList, ParseException e) {
                 if (e == null) {
                     if (notificationsList != null && !notificationsList.isEmpty()) {
-//                        appNotifications.clear();
-//                        appNotifications.addAll(notificationsList);
-//                        appNotificationAdapter.notifyDataSetChanged(); // update adapter
-
                         for (int i = 0; i < notificationsList.size(); i++) {
                             if (((Date) notificationsList.get(i).get("date")).after(lastNotif)) {
                                 appNotifications.add(notificationsList.get(i));

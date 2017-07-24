@@ -1,10 +1,15 @@
 package com.example.gabbygiordano.marketplace;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -21,8 +26,10 @@ import com.example.gabbygiordano.marketplace.fragments.ItemsPagerAdapter;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
@@ -39,6 +46,19 @@ public class HomeActivity extends AppCompatActivity {
 
     int ADD_ITEM_REQUEST = 10;
 
+    Date lastNotif = new Date();
+
+    // Create a handler which can run code periodically
+    static final int POLL_INTERVAL = 1000; // milliseconds
+    Handler myHandler = new Handler();  // android.os.Handler
+    Runnable mRefreshMessagesRunnable = new Runnable() {
+        @Override
+        public void run() {
+            refreshMessages();
+            myHandler.postDelayed(this, POLL_INTERVAL);
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,10 +72,6 @@ public class HomeActivity extends AppCompatActivity {
         Menu menu = bottomNavigationView.getMenu();
         MenuItem menuitem = menu.getItem(0);
         menuitem.setChecked(true);
-
-
-
-
 
         adapter = new ItemsPagerAdapter(getSupportFragmentManager(), this);
 
@@ -92,6 +108,8 @@ public class HomeActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
     }
 
 
@@ -176,5 +194,57 @@ public class HomeActivity extends AppCompatActivity {
         a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(a);
 
+    }
+
+    void refreshMessages() {
+        // make the query
+        ParseQuery<AppNotification> parseQuery = ParseQuery.getQuery(AppNotification.class);;
+
+        parseQuery.include("owner");
+        parseQuery.include("buyer");
+        parseQuery.include("item");
+        parseQuery.whereEqualTo("owner", ParseUser.getCurrentUser());
+        parseQuery.whereGreaterThan("date", lastNotif);
+        parseQuery.orderByDescending("_created_at");
+        parseQuery.findInBackground(new FindCallback<AppNotification>() {
+            public void done(List<AppNotification> notificationsList, ParseException e) {
+                if (e == null) {
+                    if (notificationsList != null && !notificationsList.isEmpty()) {
+                        for (int i = 0; i < notificationsList.size(); i++) {
+                            if (((Date) notificationsList.get(i).get("date")).after(lastNotif)) {
+                                // make push notification here
+                                NotificationCompat.Builder mBuilder =
+                                        new NotificationCompat.Builder(getApplicationContext())
+                                                .setSmallIcon(R.drawable.homeicon)
+                                                .setContentTitle("New item request!")
+                                                .setAutoCancel(true)
+                                                .setContentText("Tap to view");
+
+                                Intent resultIntent = new Intent(getApplicationContext(), AppNotificationsActivity.class);
+                                PendingIntent resultPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                                TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
+                                // Adds the back stack
+                                stackBuilder.addParentStack(AppNotificationsActivity.class);
+                                // Adds the Intent to the top of the stack
+                                stackBuilder.addNextIntent(resultIntent);
+
+                                mBuilder.setContentIntent(resultPendingIntent);
+
+                                // Sets an ID for the notification
+                                int mNotificationId = 1;
+                                // Gets an instance of the NotificationManager service
+                                NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                                // Builds the notification and issues it.
+                                mNotifyMgr.notify(mNotificationId, mBuilder.build());
+                            }
+                        }
+                        lastNotif = notificationsList.get(0).getCreatedAt();
+                        Log.e("AppNotifications", lastNotif.toString());
+                    }
+                } else {
+                    Log.d("AppNotifications", e.getMessage());
+                }
+            }
+        });
     }
 }
