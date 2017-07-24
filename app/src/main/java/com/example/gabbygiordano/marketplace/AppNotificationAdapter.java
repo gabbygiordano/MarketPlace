@@ -1,10 +1,13 @@
 package com.example.gabbygiordano.marketplace;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -51,6 +54,40 @@ public class AppNotificationAdapter extends RecyclerView.Adapter<AppNotification
         // populate the views according to item data
         holder.tvBuyerName.setText(appNotification.getBuyer().getString("name"));
         holder.tvInterestItem.setText(appNotification.getItem().getString("item_name"));
+
+        holder.ibEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("plain/text");
+
+                String buyerEmail = appNotification.getBuyer().getEmail();
+                String itemName = appNotification.getItem().getItemName();
+
+                intent.putExtra(Intent.EXTRA_EMAIL, new String[] {buyerEmail});
+                intent.putExtra(Intent.EXTRA_SUBJECT, "MarketPlace request for " + itemName);
+                intent.putExtra(Intent.EXTRA_TEXT, "");
+                if (intent.resolveActivity(context.getPackageManager()) != null) {
+                    context.startActivity(Intent.createChooser(intent, ""));
+                }
+            }
+        });
+
+        holder.ibMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String buyerPhone = appNotification.getBuyer().get("phone").toString();
+
+                Uri smsUri = Uri.parse("tel:" + buyerPhone);
+                Intent intent = new Intent(Intent.ACTION_VIEW, smsUri);
+                intent.putExtra("address", buyerPhone);
+                intent.putExtra("sms_body", "");
+                intent.setType("vnd.android-dir/mms-sms");
+                if (intent.resolveActivity(context.getPackageManager()) != null) {
+                    context.startActivity(intent);
+                }
+            }
+        });
     }
 
     @Override
@@ -86,6 +123,8 @@ public class AppNotificationAdapter extends RecyclerView.Adapter<AppNotification
         public TextView tvBuyerName;
         public TextView tvInterested;
         public TextView tvInterestItem;
+        public ImageButton ibEmail;
+        public ImageButton ibMessage;
 
         // constructor
         public ViewHolder(View itemView) {
@@ -95,6 +134,8 @@ public class AppNotificationAdapter extends RecyclerView.Adapter<AppNotification
             tvBuyerName = itemView.findViewById(R.id.tvBuyerName);
             tvInterested = itemView.findViewById(R.id.tvInterested);
             tvInterestItem = itemView.findViewById(R.id.tvInterestItem);
+            ibEmail = itemView.findViewById(R.id.ibEmail);
+            ibMessage = itemView.findViewById(R.id.ibMessage);
         }
     }
 }
