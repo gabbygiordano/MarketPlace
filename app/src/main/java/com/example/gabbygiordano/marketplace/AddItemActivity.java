@@ -31,6 +31,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -71,7 +72,7 @@ public class AddItemActivity extends AppCompatActivity {
     public EditText etItemDescription;
     public EditText etItemPrice;
     public ImageButton ibAddImage;
-    public ImageButton ibPostItem;
+    public Button ibPostItem;
     public ImageView imageLocation;
 
     BottomNavigationView bottomNavigationView;
@@ -103,7 +104,7 @@ public class AddItemActivity extends AppCompatActivity {
         etItemDescription = (EditText) findViewById(R.id.tvItemDescription);
         etItemPrice = (EditText) findViewById(R.id.tvItemPrice);
         ibAddImage = (ImageButton) findViewById(R.id.ibAddImage);
-        ibPostItem = (ImageButton) findViewById(R.id.ibPostItem);
+        ibPostItem = (Button) findViewById(R.id.ibPostItem);
         imageLocation = (ImageView) findViewById(R.id.ivItemPhoto);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
 

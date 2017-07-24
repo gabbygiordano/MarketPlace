@@ -82,7 +82,7 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <ImageButton
+        <Button
             android:id="@+id/ibPostItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -90,7 +90,9 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:clickable="true"
-            app:srcCompat="@drawable/homeicon" />
+            android:backgroundTint="#5c9fd6"
+            android:text="Add Item"
+            android:textColor="#ffffff"/>
 
         <!--android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
@@ -103,7 +105,7 @@
             android:layout_alignStart="@+id/tvPostItem" />-->
 
 
-        <TextView
+        <!--<TextView
             android:id="@+id/tvPostItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -111,7 +113,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:text="Post Item to Marketplace"
-            android:textStyle="bold" />
+            android:textStyle="bold" />-->
 
 
         <android.support.design.widget.BottomNavigationView
