@@ -212,11 +212,14 @@ public class HomeActivity extends AppCompatActivity {
                     if (notificationsList != null && !notificationsList.isEmpty()) {
                         for (int i = 0; i < notificationsList.size(); i++) {
                             if (((Date) notificationsList.get(i).get("date")).after(lastNotif)) {
+                                AppNotification appNotification = notificationsList.get(i);
+                                String name = appNotification.getBuyer().getString("name");
+
                                 // make push notification here
                                 NotificationCompat.Builder mBuilder =
                                         new NotificationCompat.Builder(getApplicationContext())
                                                 .setSmallIcon(R.drawable.homeicon)
-                                                .setContentTitle("New item request!")
+                                                .setContentTitle("New item request from " + name + "!")
                                                 .setAutoCancel(true)
                                                 .setContentText("Tap to view");
 
