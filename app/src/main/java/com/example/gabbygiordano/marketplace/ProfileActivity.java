@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -37,6 +38,8 @@ public class ProfileActivity extends AppCompatActivity {
     TextView tvPhone;
     ImageButton ibLogOut;
     RecyclerView rvProfileItems;
+
+    Button btFavorites;
 
     ArrayList<Item> items;
     ItemAdapter itemAdapter;
@@ -79,6 +82,16 @@ public class ProfileActivity extends AppCompatActivity {
         tvCollege = (TextView) findViewById(R.id.tvCollege);
         tvPhone = (TextView) findViewById(R.id.tvPhone);
         ibLogOut = (ImageButton) findViewById(R.id.ibLogOut);
+
+        btFavorites = (Button) findViewById(R.id.btFavorites);
+
+        btFavorites.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), FavoritesActivity.class);
+                startActivity(i);
+            }
+        });
 
         if( getIntent().hasExtra("itemId")){
 

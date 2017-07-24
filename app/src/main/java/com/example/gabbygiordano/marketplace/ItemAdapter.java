@@ -11,6 +11,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.parse.ParseUser;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.gabbygiordano.marketplace.R.layout.item;
@@ -126,11 +129,22 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
             ibFavoriteOff = itemView.findViewById(R.id.ibFavoriteOff);
             ibFavoriteOn = itemView.findViewById(R.id.ibFavoriteOn);
+            
 
             ibFavoriteOff.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     ibFavoriteOn.bringToFront();
+                    int position = getAdapterPosition();
+                    if(position != RecyclerView.NO_POSITION){
+                        thisItem = mItems.get(position);
+                    }
+                    ParseUser user = ParseUser.getCurrentUser();
+                    ArrayList<Item> tempList = new ArrayList<Item>();
+                    tempList = (ArrayList<Item>) user.get("favoritesList");
+                    tempList.add(thisItem);
+                    user.put("favoritesList", tempList);
+
                 }
             });
 
@@ -138,6 +152,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
                 @Override
                 public void onClick(View view) {
                     ibFavoriteOff.bringToFront();
+
                 }
             });
 
