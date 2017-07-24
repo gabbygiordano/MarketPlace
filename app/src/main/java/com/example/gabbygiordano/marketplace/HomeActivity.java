@@ -53,6 +53,10 @@ public class HomeActivity extends AppCompatActivity {
         MenuItem menuitem = menu.getItem(0);
         menuitem.setChecked(true);
 
+
+
+
+
         adapter = new ItemsPagerAdapter(getSupportFragmentManager(), this);
 
         // set up the adapter for the pager
