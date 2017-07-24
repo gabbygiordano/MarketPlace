@@ -39,16 +39,6 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/tvChangeName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/textView6"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:text="change"
-        android:textStyle="bold" />
-
-    <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -57,6 +47,18 @@
         android:layout_below="@+id/textView4"
         android:layout_marginTop="28dp"
         android:text="Phone Number: "
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView6"
+        android:layout_marginTop="28dp"
+        android:text="Email Address: "
         android:textSize="18sp"
         android:textStyle="bold" />
 
@@ -80,27 +82,29 @@
         android:text="phone here"
         android:textSize="18sp" />
 
+
     <TextView
-        android:id="@+id/tvChangePhone"
+        android:id="@+id/tvEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/tvPhone"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:text="change"
-        android:textStyle="bold" />
+        android:layout_alignBottom="@+id/textView7"
+        android:layout_toEndOf="@+id/textView7"
+        android:layout_toRightOf="@+id/textView7"
+        android:text="email here"
+        android:textSize="18sp" />
 
     <EditText
         android:id="@+id/etName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/tvName"
-        android:layout_alignBottom="@+id/tvName"
-        android:layout_toEndOf="@+id/tvUploadProf"
         android:ems="10"
         android:hint="Enter New Name"
         android:inputType="textPersonName"
-        android:textSize="10sp" />
+        android:textSize="10sp"
+        android:layout_alignBaseline="@+id/tvName"
+        android:layout_alignBottom="@+id/tvName"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <EditText
         android:id="@+id/etPhone"
@@ -116,6 +120,18 @@
         android:inputType="phone"
         android:textSize="10sp" />
 
+    <EditText
+        android:id="@+id/etEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Enter New Email"
+        android:inputType="text"
+        android:textSize="10sp"
+        android:layout_alignBottom="@+id/tvEmail"
+        android:layout_alignLeft="@+id/etPhone"
+        android:layout_alignStart="@+id/etPhone" />
+
     <Button
         android:id="@+id/btSaveChanges"
         android:layout_width="wrap_content"
@@ -124,5 +140,6 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:text="Save Changes" />
+
 
 </RelativeLayout>
