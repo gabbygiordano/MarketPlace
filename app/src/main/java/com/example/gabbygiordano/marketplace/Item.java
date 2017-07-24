@@ -1,8 +1,5 @@
 package com.example.gabbygiordano.marketplace;
 
-import android.graphics.Bitmap;
-import android.net.Uri;
-
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -33,13 +30,14 @@ public class Item extends ParseObject {
     }
 
     // constructor
-    public Item(String name, String description, String price, int condition, ParseUser user, String type) {
+    public Item(String name, String description, String price, int condition, ParseUser user, String type, ParseFile image) {
         setItemName(name);
         setDescription(description);
         setPrice("$" + price);
         setCondition(condition);
         setOwner(user);
         setType(type);
+        setImage(image);
         // setResource(resource);
     }
 
@@ -98,5 +96,13 @@ public class Item extends ParseObject {
     public void setResource(ParseObject resource)
     {
         put("resource", resource);
+    }
+
+    public void setImage(ParseFile image) {
+        put("image", image);
+    }
+
+    public ParseFile getImage() {
+        return getParseFile("image");
     }
 }

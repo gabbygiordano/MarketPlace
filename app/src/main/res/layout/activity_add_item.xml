@@ -8,93 +8,90 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="com.example.gabbygiordano.marketplace.AddItemActivity">
+        android:layout_height="match_parent">
 
-        <ImageButton
-            android:id="@+id/ibAddImage"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:onClick="takeItemPhoto"
-            app:srcCompat="@android:drawable/ic_menu_camera"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="-2dp" />
-
-        <ImageView
-            android:id="@+id/ivItemPhoto"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_toLeftOf="@+id/conditionOptions"
-            android:layout_toRightOf="@+id/ibAddImage"
-            android:layout_toStartOf="@+id/conditionOptions" />
-
-        <EditText
-            android:id="@+id/tvItemName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
+        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/ibAddImage"
-            android:ems="10"
-            android:hint="Enter Item Name"
-            android:inputType="textPersonName" />
+            android:layout_alignParentStart="true">
 
-        <EditText
-            android:id="@+id/tvItemDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/tvItemName"
-            android:ems="10"
-            android:hint="Enter Item Description"
-            android:inputType="textMultiLine" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.example.gabbygiordano.marketplace.AddItemActivity">
 
-        <EditText
-            android:id="@+id/tvItemPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/tvItemDescription"
-            android:layout_toEndOf="@+id/editText"
-            android:ems="10"
-            android:hint="$ Enter Item Price"
-            android:inputType="number" />
+                <ImageButton
+                    android:id="@+id/ibAddImage"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:onClick="takeItemPhoto"
+                    app:srcCompat="@android:drawable/ic_menu_camera"
+                    tools:layout_editor_absoluteX="0dp"
+                    tools:layout_editor_absoluteY="-2dp" />
 
-        <TextView
-            android:id="@+id/tvCondition"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/tvItemPrice"
-            android:layout_marginLeft="5dp"
-            android:text="Condition:"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+                <ImageView
+                    android:id="@+id/ivItemPhoto"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/ibAddImage"
+                    android:layout_toEndOf="@+id/ibAddImage" />
 
-        <Button
-            android:id="@+id/ibPostItem"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/bottomNavigation"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:clickable="true"
-            android:backgroundTint="#5c9fd6"
-            android:text="Add Item"
-            android:textColor="#ffffff"/>
+                <EditText
+                    android:id="@+id/tvItemName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/ibAddImage"
+                    android:ems="10"
+                    android:hint="Enter Item Name"
+                    android:inputType="textPersonName" />
 
-        <!--android:layout_alignParentBottom="true"
+                <EditText
+                    android:id="@+id/tvItemDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/tvItemName"
+                    android:ems="10"
+                    android:hint="Enter Item Description"
+                    android:inputType="textMultiLine" />
+
+                <EditText
+                    android:id="@+id/tvItemPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/tvItemDescription"
+                    android:layout_toEndOf="@+id/editText"
+                    android:ems="10"
+                    android:hint="$ Enter Item Price"
+                    android:inputType="numberDecimal" />
+
+                <TextView
+                    android:id="@+id/tvCondition"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/tvItemPrice"
+                    android:layout_marginLeft="5dp"
+                    android:text="Condition:"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <!--android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_toEndOf="@+id/tvCondition"
@@ -105,16 +102,73 @@
             android:layout_alignStart="@+id/tvPostItem" />-->
 
 
-        <!--<TextView
+                <!--<TextView
             android:id="@+id/tvPostItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/ibPostItem"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:text="Post Item to Marketplace"
             android:textStyle="bold" />-->
 
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/tvCondition"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toStartOf="@+id/conditionOptions"
+                    android:text="1 = poor, 5 = like new"
+                    android:textSize="10sp" />
+
+                <Spinner
+                    android:id="@+id/conditionOptions"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvItemPrice"
+                    android:layout_toEndOf="@+id/tvCondition"
+                    android:layout_toRightOf="@+id/tvCondition"
+                    android:visibility="visible" />
+
+                <Spinner
+                    android:id="@+id/spItemType"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/conditionOptions"
+                    android:layout_alignStart="@+id/conditionOptions"
+                    android:layout_below="@+id/textView3"
+                    android:layout_toEndOf="@+id/textView3" />
+
+                <Button
+                    android:id="@+id/ibPostItem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#5c9fd6"
+                    android:clickable="true"
+                    android:text="Add Item"
+                    android:textColor="#ffffff"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toRightOf="@+id/ivItemPhoto"
+                    android:layout_toEndOf="@+id/ivItemPhoto"
+                    android:layout_below="@+id/spItemType"/>
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/textView3"
+                    android:layout_alignStart="@+id/textView3"
+                    android:layout_below="@+id/textView3"
+                    android:text="Category:"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+        </ScrollView>
 
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/bottomNavigation"
@@ -125,49 +179,6 @@
             app:itemIconTint="@drawable/item_color_state"
             app:itemTextColor="@drawable/item_color_state"
             app:menu="@menu/bottom_navigation_main" />
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/tvCondition"
-            android:layout_marginLeft="5dp"
-            android:layout_toStartOf="@+id/conditionOptions"
-            android:text="1 = poor, 5 = like new"
-            android:textSize="10sp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
-
-        <Spinner
-            android:id="@+id/conditionOptions"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tvItemPrice"
-            android:layout_toEndOf="@+id/tvCondition"
-            android:layout_toRightOf="@+id/tvCondition"
-            android:visibility="visible" />
-
-        <Spinner
-            android:id="@+id/spItemType"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView3"
-            android:layout_toEndOf="@+id/textView3"
-            android:layout_alignLeft="@+id/conditionOptions"
-            android:layout_alignStart="@+id/conditionOptions"/>
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/textView3"
-            android:layout_alignStart="@+id/textView3"
-            android:layout_below="@+id/textView3"
-            android:text="Category:"
-            android:textSize="18sp"
-            android:textStyle="bold" />
 
     </RelativeLayout>
 

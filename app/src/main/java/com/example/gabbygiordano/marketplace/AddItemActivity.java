@@ -2,31 +2,20 @@ package com.example.gabbygiordano.marketplace;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
-
-import com.parse.GetCallback;
-import com.parse.GetDataCallback;
-import com.parse.ParseClassName;
-import com.parse.ParseFile;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.constraint.solver.SolverVariable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Display;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -40,21 +29,17 @@ import android.widget.Toast;
 
 import com.kosalgeek.android.photoutil.CameraPhoto;
 import com.kosalgeek.android.photoutil.GalleryPhoto;
-import com.kosalgeek.android.photoutil.ImageBase64;
 import com.kosalgeek.android.photoutil.ImageLoader;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
-import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-
-import static com.example.gabbygiordano.marketplace.R.id.view;
 
 
 public class AddItemActivity extends AppCompatActivity {
@@ -86,7 +71,7 @@ public class AddItemActivity extends AppCompatActivity {
 
     String condition;
     String type;
-    //Bitmap resource;
+    ParseFile file;
 
     Item item;
 
@@ -126,13 +111,18 @@ public class AddItemActivity extends AppCompatActivity {
                 } else if (price.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Enter item price", Toast.LENGTH_LONG).show();
                     flag = true;
+                } else if (Double.valueOf(price) > 5000.0) {
+                    Toast.makeText(getApplicationContext(), "Maximum price $5000", Toast.LENGTH_LONG).show();
+                    flag = true;
+                } else if (file == null ) {
+                    Toast.makeText(getApplicationContext(), "Upload image file", Toast.LENGTH_LONG).show();
+                    flag = true;
                 } else {
                     int con = Integer.parseInt(condition);
                     ParseUser currentUser = ParseUser.getCurrentUser();
 
-                    item = new Item(name, description, price, con, currentUser, type);
+                    item = new Item(name, description, price, con, currentUser, type, file);
                     item.setOwner(ParseUser.getCurrentUser());
-
                 }
 
                 if (!flag) {
@@ -244,19 +234,18 @@ public class AddItemActivity extends AppCompatActivity {
 
     public void onPostSuccess() {
         // save the item
-
         item.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                final Intent intent = new Intent();
+                Intent intent = new Intent();
+
                 String id = item.getObjectId();
                 intent.putExtra("item_id", id);
                 String type = item.getType();
                 intent.putExtra("type", type);
                 //intent.putExtra("resource", item.getResource());
 
-
-                setResult(Activity.RESULT_OK, intent);
+                setResult(RESULT_OK, intent);
                 finish();
             }
         });
@@ -339,7 +328,7 @@ public class AddItemActivity extends AppCompatActivity {
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
                     byte[] image = stream.toByteArray();
-                    ParseFile file = new ParseFile("itemimage.png", image);
+                    file = new ParseFile("itemimage.png", image);
                     file.saveInBackground();
                     ParseObject imageUpload = new ParseObject("ImageUpload");
                     imageUpload.put("ImageFile", file);

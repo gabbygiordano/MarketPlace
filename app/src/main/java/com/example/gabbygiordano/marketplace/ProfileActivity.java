@@ -1,5 +1,6 @@
 package com.example.gabbygiordano.marketplace;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -43,11 +44,16 @@ public class ProfileActivity extends AppCompatActivity {
 
     int ADD_ITEM_REQUEST = 10;
 
+    Context mContext;
+    Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         getSupportActionBar().setTitle("Profile");
+
+        context = this;
 
         // perform find view by id lookups
         rvProfileItems = (RecyclerView) findViewById(R.id.rvProfileItems);
@@ -58,12 +64,13 @@ public class ProfileActivity extends AppCompatActivity {
         //construct the adapter from the array list
         itemAdapter = new ItemAdapter(items, getContext());
 
+        mContext = itemAdapter.getContext();
+
         // RecyclerView setup (layout manager, use adapter)
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvProfileItems.setLayoutManager(linearLayoutManager);
         rvProfileItems.setAdapter(itemAdapter);
         rvProfileItems.setHasFixedSize(true);
-
 
         // perform find view by id lookups
         ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
@@ -97,8 +104,6 @@ public class ProfileActivity extends AppCompatActivity {
                     }
                 }
             });
-
-
         }
         else{
             // set text to current user info
@@ -116,7 +121,6 @@ public class ProfileActivity extends AppCompatActivity {
             }
 
         }
-
 
         // log out if power button is clicked
         ibLogOut.setOnClickListener(new View.OnClickListener() {
@@ -146,22 +150,23 @@ public class ProfileActivity extends AppCompatActivity {
                 switch (item.getItemId())
                 {
                     case R.id.action_home:
-                        //Toast.makeText(HomeActivity.this, "Home Tab Selected", Toast.LENGTH_SHORT).show();
                         Intent i_home = new Intent(ProfileActivity.this, HomeActivity.class);
                         startActivity(i_home);
+                        finish();
                         break;
 
 
                     case R.id.action_notifications:
                         Intent i_notifications = new Intent(ProfileActivity.this, AppNotificationsActivity.class);
                         startActivity(i_notifications);
-                        // Toast.makeText(HomeActivity.this, "Notifications Tab Selected", Toast.LENGTH_SHORT).show();
+                        finish();
                         break;
 
                     case R.id.action_profile:
-                        if(tvUsername.getText() != ParseUser.getCurrentUser().getUsername()){
+                        if (!tvUsername.getText().toString().equals(ParseUser.getCurrentUser().getUsername())) {
                             Intent i_profile = new Intent(ProfileActivity.this, ProfileActivity.class);
                             startActivity(i_profile);
+                            finish();
                         }
                         else {
                             Toast.makeText(ProfileActivity.this, "Profile Tab Selected", Toast.LENGTH_SHORT).show();
@@ -172,7 +177,6 @@ public class ProfileActivity extends AppCompatActivity {
                 return false;
             }
         });
-
     }
 
     public void populateProfileTimeline(ParseUser user){
@@ -216,11 +220,10 @@ public class ProfileActivity extends AppCompatActivity {
         return true;
     }
 
-
-
     public void addItem(View view) {
-        Intent i_add = new Intent(ProfileActivity.this, AddItemActivity.class);
-        startActivityForResult(i_add, ADD_ITEM_REQUEST);
+        Intent i_add = new Intent(context, AddItemActivity.class);
+        ((HomeActivity) mContext).startActivityForResult(i_add, ADD_ITEM_REQUEST);
+        finish();
     }
 
     @Override

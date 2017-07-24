@@ -53,6 +53,10 @@ public class HomeActivity extends AppCompatActivity {
         MenuItem menuitem = menu.getItem(0);
         menuitem.setChecked(true);
 
+
+
+
+
         adapter = new ItemsPagerAdapter(getSupportFragmentManager(), this);
 
         // set up the adapter for the pager
@@ -77,13 +81,11 @@ public class HomeActivity extends AppCompatActivity {
                     case R.id.action_notifications:
                         Intent i_notifications = new Intent(HomeActivity.this, AppNotificationsActivity.class);
                         startActivity(i_notifications);
-                        // Toast.makeText(HomeActivity.this, "Notifications Tab Selected", Toast.LENGTH_SHORT).show();
                         break;
 
                     case R.id.action_profile:
                         Intent i_profile = new Intent(HomeActivity.this, ProfileActivity.class);
                         startActivity(i_profile);
-                        // Toast.makeText(HomeActivity.this, "Profile Tab Selected", Toast.LENGTH_SHORT).show();
                         break;
                 }
 

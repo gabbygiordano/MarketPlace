@@ -1,11 +1,15 @@
 package com.example.gabbygiordano.marketplace;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +27,7 @@ import com.parse.ParseUser;
 import com.parse.SubscriptionHandling;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class AppNotificationsActivity extends AppCompatActivity {
@@ -36,9 +41,12 @@ public class AppNotificationsActivity extends AppCompatActivity {
     int ADD_ITEM_REQUEST = 10;
 
     Context mContext;
+    Context context;
 
+    Date lastNotif;
+
+    // live query vars
     ParseLiveQueryClient parseLiveQueryClient;
-    ParseQuery<AppNotification> parseQuery;
     SubscriptionHandling<AppNotification> subscriptionHandling;
 
     // Create a handler which can run code periodically
@@ -58,11 +66,16 @@ public class AppNotificationsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notifications);
         getSupportActionBar().setTitle("Notifications");
 
+        context = this;
+
+        lastNotif = new Date(0);
+        Log.e("AppNotifications", lastNotif.toString());
+
         rvNotifications = (RecyclerView) findViewById(R.id.rvNotifications);
         appNotifications = new ArrayList<>();
         appNotificationAdapter = new AppNotificationAdapter(appNotifications, getApplicationContext());
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         rvNotifications.setLayoutManager(linearLayoutManager);
         rvNotifications.setAdapter(appNotificationAdapter);
         rvNotifications.setHasFixedSize(true);
@@ -84,9 +97,9 @@ public class AppNotificationsActivity extends AppCompatActivity {
                 switch (item.getItemId())
                 {
                     case R.id.action_home:
-                        //Toast.makeText(HomeActivity.this, "Home Tab Selected", Toast.LENGTH_SHORT).show();
                         Intent i_home = new Intent(AppNotificationsActivity.this, HomeActivity.class);
                         startActivity(i_home);
+                        finish();
                         break;
 
                     case R.id.action_notifications:
@@ -96,7 +109,7 @@ public class AppNotificationsActivity extends AppCompatActivity {
                     case R.id.action_profile:
                         Intent i_profile = new Intent(AppNotificationsActivity.this, ProfileActivity.class);
                         startActivity(i_profile);
-                        //Toast.makeText(AppNotificationsActivity.this, "Profile Tab Selected", Toast.LENGTH_SHORT).show();
+                        finish();
                         break;
                 }
 
@@ -104,61 +117,102 @@ public class AppNotificationsActivity extends AppCompatActivity {
             }
         });
 
-        myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
+        // make initial query
+        ParseQuery<AppNotification> query = ParseQuery.getQuery(AppNotification.class);
+        query.include("owner");
+        query.include("buyer");
+        query.include("item");
+        query.whereEqualTo("owner", ParseUser.getCurrentUser());
+        query.orderByDescending("_created_at");
+        query.findInBackground(new FindCallback<AppNotification>() {
+            public void done(List<AppNotification> notificationsList, ParseException e) {
+                if (e == null) {
+                    if (notificationsList != null && !notificationsList.isEmpty()) {
+                        lastNotif = (Date) notificationsList.get(0).get("date");
 
-        // create new ParseQuery and subscribe to it
-        parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
-
-        parseQuery = ParseQuery.getQuery(AppNotification.class);
-
-        subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
-
-        subscriptionHandling.handleEvent(SubscriptionHandling.Event.CREATE, new SubscriptionHandling.HandleEventCallback<AppNotification>() {
-            @Override
-            public void onEvent(ParseQuery<AppNotification> query, AppNotification appNotification) {
-                // HANDLING create event
-                Log.e("AppNotifications", "OMG IT WORKS");
-                Toast.makeText(getApplicationContext(), appNotification.getObjectId(), Toast.LENGTH_LONG).show();
+                        for (int i = 0; i < notificationsList.size(); i++) {
+                            appNotifications.add(notificationsList.get(i));
+                            appNotificationAdapter.notifyItemInserted(appNotifications.size()-1);
+                        }
+                    }
+                } else {
+                    Log.d("NotificationsActivity", e.getMessage());
+                }
             }
         });
 
-//        // make the query
-//        parseQuery.include("owner");
-//        parseQuery.include("buyer");
-//        parseQuery.include("item");
-//        parseQuery.whereEqualTo("owner", ParseUser.getCurrentUser());
-//        parseQuery.orderByDescending("_created_at");
-//        parseQuery.findInBackground(new FindCallback<AppNotification>() {
-//            public void done(List<AppNotification> notificationsList, ParseException e) {
-//                if (e == null) {
-//                    if (notificationsList != null && !notificationsList.isEmpty()) {
-//                        for (int i = 0; i < notificationsList.size(); i++) {
-//                            appNotifications.add(notificationsList.get(i));
-//                            appNotificationAdapter.notifyItemInserted(appNotifications.size()-1);
-//                        }
-//                    }
-//                } else {
-//                    Log.d("AppNotifications", e.getMessage());
-//                }
+        // set up handler for continuous queries for notifications
+        // workaround since live queries are not working
+        myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
+
+        // create new ParseQuery and subscribe to it
+        // live query code if server is set up
+//        parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
+//
+//        parseQuery = ParseQuery.getQuery(AppNotification.class);
+//
+//        subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
+//
+//        subscriptionHandling.handleEvent(SubscriptionHandling.Event.CREATE, new SubscriptionHandling.HandleEventCallback<AppNotification>() {
+//            @Override
+//            public void onEvent(ParseQuery<AppNotification> query, AppNotification appNotification) {
+//                // HANDLING create event
+//                Log.e("AppNotifications", "OMG IT WORKS");
+//                Toast.makeText(getApplicationContext(), appNotification.getObjectId(), Toast.LENGTH_LONG).show();
 //            }
 //        });
     }
 
-    // Query messages from Parse so we can load them into the chat adapter
     void refreshMessages() {
         // make the query
+        ParseQuery<AppNotification> parseQuery = ParseQuery.getQuery(AppNotification.class);;
+
         parseQuery.include("owner");
         parseQuery.include("buyer");
         parseQuery.include("item");
         parseQuery.whereEqualTo("owner", ParseUser.getCurrentUser());
+        parseQuery.whereGreaterThan("date", lastNotif);
         parseQuery.orderByDescending("_created_at");
         parseQuery.findInBackground(new FindCallback<AppNotification>() {
             public void done(List<AppNotification> notificationsList, ParseException e) {
                 if (e == null) {
                     if (notificationsList != null && !notificationsList.isEmpty()) {
-                        appNotifications.clear();
-                        appNotifications.addAll(notificationsList);
-                        appNotificationAdapter.notifyDataSetChanged(); // update adapter
+//                        appNotifications.clear();
+//                        appNotifications.addAll(notificationsList);
+//                        appNotificationAdapter.notifyDataSetChanged(); // update adapter
+
+                        for (int i = 0; i < notificationsList.size(); i++) {
+                            if (((Date) notificationsList.get(i).get("date")).after(lastNotif)) {
+                                appNotifications.add(notificationsList.get(i));
+                                appNotificationAdapter.notifyDataSetChanged();
+
+                                // make push notification here
+                                NotificationCompat.Builder mBuilder =
+                                        new NotificationCompat.Builder(context)
+                                                .setSmallIcon(R.drawable.homeicon)
+                                                .setContentTitle("New item request!")
+                                                .setContentText("Tap to view");
+
+                                Intent resultIntent = new Intent(context, AppNotificationsActivity.class);
+                                PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                                TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+                                // Adds the back stack
+                                stackBuilder.addParentStack(AppNotificationsActivity.class);
+                                // Adds the Intent to the top of the stack
+                                stackBuilder.addNextIntent(resultIntent);
+
+                                mBuilder.setContentIntent(resultPendingIntent);
+
+                                // Sets an ID for the notification
+                                int mNotificationId = 1;
+                                // Gets an instance of the NotificationManager service
+                                NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                                // Builds the notification and issues it.
+                                mNotifyMgr.notify(mNotificationId, mBuilder.build());
+                            }
+                        }
+                        lastNotif = notificationsList.get(0).getCreatedAt();
+                        Log.e("AppNotifications", lastNotif.toString());
                     }
                 } else {
                     Log.d("AppNotifications", e.getMessage());
@@ -168,8 +222,9 @@ public class AppNotificationsActivity extends AppCompatActivity {
     }
 
     public void addItem(View view) {
-        Intent i_add = new Intent(AppNotificationsActivity.this, AddItemActivity.class);
-        startActivityForResult(i_add, ADD_ITEM_REQUEST);
+        Intent i_add = new Intent(context, AddItemActivity.class);
+        ((HomeActivity) mContext).startActivityForResult(i_add, ADD_ITEM_REQUEST);
+        finish();
     }
 
     @Override
