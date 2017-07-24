@@ -31,7 +31,9 @@
             android:name=".LoginActivity"
             android:noHistory="true" />
         <activity android:name=".HomeActivity" />
-        <activity android:name=".AddItemActivity" />
+        <activity
+            android:name=".AddItemActivity"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".SearchActivity" />
         <activity android:name=".AppNotificationsActivity" />
         <activity android:name=".ProfileActivity" />
