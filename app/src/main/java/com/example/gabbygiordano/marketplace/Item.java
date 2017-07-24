@@ -93,7 +93,8 @@ public class Item extends ParseObject {
         return getParseObject("resource");
     }
 
-    public void setResource(ParseObject resource) {
+    public void setResource(ParseObject resource)
+    {
         put("resource", resource);
     }
 
