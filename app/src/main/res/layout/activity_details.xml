@@ -5,6 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
     <ImageView
         android:id="@+id/ivItemImage"
         android:layout_width="wrap_content"
@@ -64,15 +72,12 @@
         android:id="@+id/btnInterested"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/bottomNavigation"
-        android:layout_alignParentEnd="true"
-        android:layout_gravity="right"
-        android:layout_marginBottom="15dp"
-        android:layout_marginEnd="15dp"
         android:onClick="onInterestedClick"
         android:background="@color/colorBlueLogo"
         android:text="Interested"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        android:layout_alignRight="@+id/tvItemDescription"
+        android:layout_alignParentBottom="true"/>
 
     <RatingBar
         android:id="@+id/rbItemCondition"
@@ -85,17 +90,6 @@
         android:layout_marginLeft="5dp"
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"/>
-
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bottomNavigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        app:itemBackground="@color/colorPrimary"
-        app:itemIconTint="@drawable/item_color_state"
-        app:itemTextColor="@drawable/item_color_state"
-        app:menu="@menu/bottom_navigation_main"
-        />
 
     <TextView
         android:id="@+id/tvItemOwner"
@@ -129,5 +123,20 @@
         android:layout_below="@+id/tvItemOwner"
         android:layout_alignLeft="@+id/tvItemOwner"
         android:layout_alignStart="@+id/tvItemOwner" />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:itemBackground="@color/colorPrimary"
+        app:itemIconTint="@drawable/item_color_state"
+        app:itemTextColor="@drawable/item_color_state"
+        app:menu="@menu/bottom_navigation_main"
+        />
 
 </RelativeLayout>

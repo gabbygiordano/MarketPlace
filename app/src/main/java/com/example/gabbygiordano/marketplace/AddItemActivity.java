@@ -70,7 +70,7 @@ public class AddItemActivity extends AppCompatActivity {
 
     String condition;
     String type;
-    //Bitmap resource;
+    ParseFile file;
 
     Item item;
 
@@ -110,13 +110,18 @@ public class AddItemActivity extends AppCompatActivity {
                 } else if (price.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Enter item price", Toast.LENGTH_LONG).show();
                     flag = true;
+                } else if (Double.valueOf(price) > 5000.0) {
+                    Toast.makeText(getApplicationContext(), "Maximum price $5000", Toast.LENGTH_LONG).show();
+                    flag = true;
+                } else if (file == null ) {
+                    Toast.makeText(getApplicationContext(), "Upload image file", Toast.LENGTH_LONG).show();
+                    flag = true;
                 } else {
                     int con = Integer.parseInt(condition);
                     ParseUser currentUser = ParseUser.getCurrentUser();
 
-                    item = new Item(name, description, price, con, currentUser, type);
+                    item = new Item(name, description, price, con, currentUser, type, file);
                     item.setOwner(ParseUser.getCurrentUser());
-
                 }
 
                 if (!flag) {
@@ -322,7 +327,7 @@ public class AddItemActivity extends AppCompatActivity {
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
                     byte[] image = stream.toByteArray();
-                    ParseFile file = new ParseFile("itemimage.png", image);
+                    file = new ParseFile("itemimage.png", image);
                     file.saveInBackground();
                     ParseObject imageUpload = new ParseObject("ImageUpload");
                     imageUpload.put("ImageFile", file);
