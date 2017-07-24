@@ -7,7 +7,7 @@
     tools:context="com.example.gabbygiordano.marketplace.SettingsActivity">
 
     <ImageButton
-        android:id="@+id/imageButton3"
+        android:id="@+id/ibUploadProf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -16,12 +16,12 @@
         app:srcCompat="@drawable/ic_profile_tab" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/tvUploadProf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/imageButton3"
-        android:layout_toRightOf="@+id/imageButton3"
+        android:layout_toEndOf="@+id/ibUploadProf"
+        android:layout_toRightOf="@+id/ibUploadProf"
         android:text="Upload Profile Picture"
         android:textSize="18sp"
         android:textStyle="bold" />
@@ -32,20 +32,20 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/imageButton3"
+        android:layout_below="@+id/ibUploadProf"
         android:layout_marginTop="22dp"
-        android:text="Username"
+        android:text="Name: "
         android:textSize="18sp"
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/tvChangeName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textView4"
-        android:layout_toEndOf="@+id/textView4"
-        android:text="change"
-        android:layout_marginLeft="10dp"/>
+        android:layout_above="@+id/textView6"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:text="change" />
 
     <TextView
         android:id="@+id/textView6"
@@ -55,7 +55,64 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/textView4"
         android:layout_marginTop="28dp"
-        android:text="Password"
+        android:text="Phone Number: "
         android:textSize="18sp"
         android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textView6"
+        android:layout_toEndOf="@+id/textView4"
+        android:layout_toRightOf="@+id/textView4"
+        android:text="name here"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tvPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textView6"
+        android:layout_toEndOf="@+id/textView6"
+        android:layout_toRightOf="@+id/textView6"
+        android:text="phone here"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tvChangePhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tvPhone"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:text="change" />
+
+    <EditText
+        android:id="@+id/etName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvName"
+        android:layout_alignBottom="@+id/tvName"
+        android:layout_toEndOf="@+id/tvUploadProf"
+        android:layout_toRightOf="@+id/tvUploadProf"
+        android:ems="10"
+        android:hint="Enter New Name"
+        android:inputType="textPersonName"
+        android:textSize="10sp" />
+
+    <EditText
+        android:id="@+id/etPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvPhone"
+        android:layout_alignBottom="@+id/tvPhone"
+        android:layout_alignLeft="@+id/etName"
+        android:layout_alignStart="@+id/etName"
+        android:layout_toLeftOf="@+id/tvChangePhone"
+        android:ems="10"
+        android:hint="Enter New Phone"
+        android:inputType="phone"
+        android:textSize="10sp" />
+
 </RelativeLayout>
