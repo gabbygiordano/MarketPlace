@@ -43,5 +43,27 @@
         android:layout_toRightOf="@+id/tvInterested"
         android:layout_toEndOf="@+id/tvInterested" />
 
+    <ImageButton
+        android:id="@+id/ibEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorLogoWhite"
+        android:tint="@color/colorBlueLogo"
+        app:srcCompat="@android:drawable/sym_action_email" />
+
+    <ImageButton
+        android:id="@+id/ibMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorLogoWhite"
+        android:tint="@color/colorBlueLogo"
+        app:srcCompat="@android:drawable/sym_action_chat"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/ibEmail"
+        android:layout_alignBottom="@+id/ibEmail" />
+
 
 </RelativeLayout>
