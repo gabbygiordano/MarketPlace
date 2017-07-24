@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -39,6 +40,9 @@ public class HomeActivity extends AppCompatActivity {
     ViewPager viewPager;
     ItemsPagerAdapter adapter;
     ImageView ivItemImage;
+
+    ImageButton ibFavoriteOff;
+    ImageButton ibFavoriteOn;
 
     ItemAdapter itemAdapter;
     ArrayList<Item> items;
@@ -180,6 +184,7 @@ public class HomeActivity extends AppCompatActivity {
 
         return true;
     }
+
 
 
     public void addItem(View view) {

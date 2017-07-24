@@ -70,6 +70,14 @@
             android:layout_marginLeft="5dp"
             android:text="Phone" />
 
+        <Button
+            android:id="@+id/btFavorites"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvLogOut"
+            android:layout_alignParentRight="true"
+            android:text="Favorites" />
+
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/bottomNavigation"
             android:layout_width="match_parent"
