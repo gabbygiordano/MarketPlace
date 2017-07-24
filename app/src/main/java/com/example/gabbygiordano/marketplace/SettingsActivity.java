@@ -1,8 +1,10 @@
 package com.example.gabbygiordano.marketplace;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -22,6 +24,8 @@ public class SettingsActivity extends AppCompatActivity {
     EditText etName;
     EditText etPhone;
 
+    Button btSaveChanges;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +41,8 @@ public class SettingsActivity extends AppCompatActivity {
 
         etName = (EditText) findViewById(R.id.etName);
         etPhone = (EditText) findViewById(R.id.etPhone);
+
+        btSaveChanges = (Button) findViewById(R.id.btSaveChanges);
 
         final ParseUser user = ParseUser.getCurrentUser();
         if (user != null) {
@@ -72,7 +78,17 @@ public class SettingsActivity extends AppCompatActivity {
                     user.put("phone", Long.parseLong(phone));
                     user.saveInBackground();
                     Toast.makeText(getApplicationContext(), "Phone Updated", Toast.LENGTH_LONG).show();
+
                 }
+            }
+        });
+
+        btSaveChanges.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                user.saveInBackground();
+                Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
+                startActivityForResult(i, 1);
             }
         });
 
