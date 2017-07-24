@@ -24,8 +24,6 @@ public class AllTimelineFragment extends ItemsListFragment {
 
         setRetainInstance(true);
 
-        page = 0;
-
         populateTimeline();
     }
 

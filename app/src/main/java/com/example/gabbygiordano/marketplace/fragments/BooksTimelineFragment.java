@@ -23,8 +23,6 @@ public class BooksTimelineFragment extends ItemsListFragment {
 
         setRetainInstance(true);
 
-        page = 0;
-
         populateTimeline();
     }
 

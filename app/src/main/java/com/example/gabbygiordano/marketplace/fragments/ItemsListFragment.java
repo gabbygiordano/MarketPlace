@@ -36,7 +36,7 @@ public class ItemsListFragment extends Fragment {
 
     int ADD_ITEM_REQUEST = 10;
 
-    int page;
+    int page = 0;
     final int limit = 20;
     private RecyclerView.OnScrollListener scrollListener;
 
@@ -96,6 +96,8 @@ public class ItemsListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        page = 0;
 
         populateTimeline();
     }

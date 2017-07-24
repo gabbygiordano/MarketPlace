@@ -68,7 +68,7 @@
             android:layout_toEndOf="@+id/editText"
             android:ems="10"
             android:hint="$ Enter Item Price"
-            android:inputType="number" />
+            android:inputType="numberDecimal" />
 
         <TextView
             android:id="@+id/tvCondition"
