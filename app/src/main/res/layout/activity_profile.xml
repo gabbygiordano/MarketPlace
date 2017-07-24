@@ -96,7 +96,6 @@
             android:layout_alignParentTop="true"
             android:layout_alignRight="@+id/bottomNavigation"
             app:srcCompat="@android:drawable/ic_lock_power_off" />
-
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/floatingActionButton5"
             android:layout_width="wrap_content"
@@ -116,12 +115,15 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvProfileItems"
                 android:layout_width="match_parent"
-                android:layout_height="550dp"
+                android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/tvPhone"
