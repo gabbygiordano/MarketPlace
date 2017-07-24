@@ -16,13 +16,16 @@ public class SettingsActivity extends AppCompatActivity {
 
     TextView tvName;
     TextView tvPhone;
+    TextView tvEmail;
     TextView tvChangeName;
     TextView tvChangePhone;
     TextView tvUploadProf;
+    TextView tvChangeEmail;
     ImageButton ibUploadProf;
 
     EditText etName;
     EditText etPhone;
+    EditText etEmail;
 
     Button btSaveChanges;
 
@@ -34,13 +37,16 @@ public class SettingsActivity extends AppCompatActivity {
 
         tvName = (TextView) findViewById(R.id.tvName);
         tvPhone = (TextView) findViewById(R.id.tvPhone);
+        tvEmail = (TextView) findViewById(R.id.tvEmail);
         tvChangeName = (TextView) findViewById(R.id.tvChangeName);
         tvChangePhone = (TextView) findViewById(R.id.tvChangePhone);
         tvUploadProf = (TextView) findViewById(R.id.tvUploadProf);
         ibUploadProf = (ImageButton) findViewById(R.id.ibUploadProf);
+        tvChangeEmail = (TextView) findViewById(R.id.tvChangeEmail);
 
         etName = (EditText) findViewById(R.id.etName);
         etPhone = (EditText) findViewById(R.id.etPhone);
+        etEmail = (EditText) findViewById(R.id.etEmail);
 
         btSaveChanges = (Button) findViewById(R.id.btSaveChanges);
 
@@ -48,6 +54,7 @@ public class SettingsActivity extends AppCompatActivity {
         if (user != null) {
             tvName.setText(user.getString("name"));
             tvPhone.setText(String.valueOf(user.getLong("phone")));
+            tvEmail.setText(user.getString("email"));
 
         }
 
@@ -78,6 +85,22 @@ public class SettingsActivity extends AppCompatActivity {
                     user.put("phone", Long.parseLong(phone));
                     user.saveInBackground();
                     Toast.makeText(getApplicationContext(), "Phone Updated", Toast.LENGTH_LONG).show();
+
+                }
+            }
+        });
+
+        tvChangeEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (etEmail.getText().toString() == "") {
+                    Toast.makeText(getApplicationContext(), "Enter new email!", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    String email = etEmail.getText().toString();
+                    user.put("email", email);
+                    user.saveInBackground();
+                    Toast.makeText(getApplicationContext(), "Email Updated", Toast.LENGTH_LONG).show();
 
                 }
             }

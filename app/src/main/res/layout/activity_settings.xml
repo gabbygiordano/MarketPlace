@@ -61,6 +61,18 @@
         android:textStyle="bold" />
 
     <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView6"
+        android:layout_marginTop="28dp"
+        android:text="Email Address: "
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
         android:id="@+id/tvName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -81,6 +93,16 @@
         android:textSize="18sp" />
 
     <TextView
+        android:id="@+id/tvEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textView7"
+        android:layout_toEndOf="@+id/textView7"
+        android:layout_toRightOf="@+id/textView7"
+        android:text="email here"
+        android:textSize="18sp" />
+
+    <TextView
         android:id="@+id/tvChangePhone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -89,6 +111,16 @@
         android:layout_alignParentRight="true"
         android:text="change"
         android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvChangeEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="change"
+        android:textStyle="bold"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/etEmail" />
 
     <EditText
         android:id="@+id/etName"
@@ -115,6 +147,18 @@
         android:hint="Enter New Phone"
         android:inputType="phone"
         android:textSize="10sp" />
+
+    <EditText
+        android:id="@+id/etEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Enter New Email"
+        android:inputType="text"
+        android:textSize="10sp"
+        android:layout_alignBottom="@+id/tvEmail"
+        android:layout_alignLeft="@+id/etPhone"
+        android:layout_alignStart="@+id/etPhone" />
 
     <Button
         android:id="@+id/btSaveChanges"

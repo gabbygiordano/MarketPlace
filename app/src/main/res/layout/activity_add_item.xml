@@ -153,7 +153,8 @@
                     android:layout_alignParentBottom="true"
                     android:layout_toRightOf="@+id/ivItemPhoto"
                     android:layout_toEndOf="@+id/ivItemPhoto"
-                    android:layout_below="@+id/spItemType"/>
+                    android:layout_below="@+id/spItemType"
+                    android:layout_centerHorizontal="true"/>
 
                 <TextView
                     android:id="@+id/textView"
