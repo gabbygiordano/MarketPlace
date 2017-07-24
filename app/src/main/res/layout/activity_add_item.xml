@@ -8,6 +8,14 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="com.example.gabbygiordano.marketplace.AddItemActivity">
 
@@ -86,11 +94,10 @@
             android:id="@+id/ibPostItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/bottomNavigation"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:clickable="true"
-            app:srcCompat="@drawable/homeicon" />
+            app:srcCompat="@drawable/homeicon"
+            android:layout_below="@+id/tvPostItem"
+            android:layout_centerHorizontal="true" />
 
         <!--android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
@@ -107,22 +114,11 @@
             android:id="@+id/tvPostItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/ibPostItem"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:text="Post Item to Marketplace"
-            android:textStyle="bold" />
-
-
-        <android.support.design.widget.BottomNavigationView
-            android:id="@+id/bottomNavigation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            app:itemBackground="@color/colorPrimary"
-            app:itemIconTint="@drawable/item_color_state"
-            app:itemTextColor="@drawable/item_color_state"
-            app:menu="@menu/bottom_navigation_main" />
+            android:textStyle="bold"
+            android:layout_below="@+id/textView"
+            android:layout_alignLeft="@+id/ibPostItem"
+            android:layout_alignStart="@+id/ibPostItem" />
 
         <TextView
             android:id="@+id/textView3"
@@ -166,6 +162,20 @@
             android:text="Category:"
             android:textSize="18sp"
             android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    </ScrollView>
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:itemBackground="@color/colorPrimary"
+        app:itemIconTint="@drawable/item_color_state"
+        app:itemTextColor="@drawable/item_color_state"
+        app:menu="@menu/bottom_navigation_main" />
 
     </RelativeLayout>
 
