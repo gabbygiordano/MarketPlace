@@ -191,6 +191,7 @@ public class AppNotificationsActivity extends AppCompatActivity {
                                         new NotificationCompat.Builder(context)
                                                 .setSmallIcon(R.drawable.homeicon)
                                                 .setContentTitle("New item request!")
+                                                .setAutoCancel(true)
                                                 .setContentText("Tap to view");
 
                                 Intent resultIntent = new Intent(context, AppNotificationsActivity.class);

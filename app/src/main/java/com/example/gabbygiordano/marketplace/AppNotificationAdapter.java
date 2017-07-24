@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,6 +63,7 @@ public class AppNotificationAdapter extends RecyclerView.Adapter<AppNotification
                 intent.setType("plain/text");
 
                 String buyerEmail = appNotification.getBuyer().getEmail();
+                Log.e("AppNotif", buyerEmail);
                 String itemName = appNotification.getItem().getItemName();
 
                 intent.putExtra(Intent.EXTRA_EMAIL, new String[] {buyerEmail});
