@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -33,6 +34,9 @@ public class HomeActivity extends AppCompatActivity {
     ItemsPagerAdapter adapter;
     ImageView ivItemImage;
 
+    ImageButton ibFavoriteOff;
+    ImageButton ibFavoriteOn;
+
     ItemAdapter itemAdapter;
     ArrayList<Item> items;
     SearchView searchView;
@@ -52,7 +56,6 @@ public class HomeActivity extends AppCompatActivity {
         Menu menu = bottomNavigationView.getMenu();
         MenuItem menuitem = menu.getItem(0);
         menuitem.setChecked(true);
-
 
 
 
@@ -162,6 +165,7 @@ public class HomeActivity extends AppCompatActivity {
 
         return true;
     }
+
 
 
     public void addItem(View view) {
