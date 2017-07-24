@@ -2,22 +2,17 @@ package com.example.gabbygiordano.marketplace;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.parse.ParseFile;
-import com.parse.ParseObject;
-import com.squareup.picasso.Picasso;
-
 import java.util.List;
 
-import static com.example.gabbygiordano.marketplace.R.id.ivItemImage;
 import static com.example.gabbygiordano.marketplace.R.layout.item;
 
 /**
@@ -115,6 +110,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         public TextView tvTimeAgo;
         Item thisItem;
 
+        ImageButton ibFavoriteOn;
+        ImageButton ibFavoriteOff;
+
 
         // constructor
         public ViewHolder(View itemView) {
@@ -125,6 +123,24 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             tvSeller = itemView.findViewById(R.id.tvSeller);
             tvPrice = itemView.findViewById(R.id.tvPrice);
             tvTimeAgo = itemView.findViewById(R.id.tvTimeAgo);
+
+            ibFavoriteOff = itemView.findViewById(R.id.ibFavoriteOff);
+            ibFavoriteOn = itemView.findViewById(R.id.ibFavoriteOn);
+
+            ibFavoriteOff.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ibFavoriteOn.bringToFront();
+                }
+            });
+
+            ibFavoriteOn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ibFavoriteOff.bringToFront();
+                }
+            });
+
 
 //            String internetUrl = "http://clipartix.com/wp-content/uploads/2016/04/Thumbs-up-clipart-cliparts-for-you-3.jpg";
 //
