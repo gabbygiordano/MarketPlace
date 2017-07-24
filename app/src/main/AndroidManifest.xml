@@ -53,6 +53,9 @@
         <activity android:name=".SettingsActivity" />
         <activity android:name=".InboxActivity" />
         <activity android:name=".ChatActivity" />
+        <service
+            android:name=".NotificationService"
+            android:exported="false"/>
         <activity android:name=".FavoritesActivity"></activity>
     </application>
 

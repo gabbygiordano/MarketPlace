@@ -61,7 +61,7 @@ public class AppNotificationAdapter extends RecyclerView.Adapter<AppNotification
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("plain/text");
 
-                String buyerEmail = appNotification.getBuyer().getEmail();
+                String buyerEmail = appNotification.getBuyer().getString("publicEmail");
                 String itemName = appNotification.getItem().getItemName();
 
                 intent.putExtra(Intent.EXTRA_EMAIL, new String[] {buyerEmail});
