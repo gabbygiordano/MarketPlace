@@ -36,7 +36,7 @@ public class ItemsListFragment extends Fragment {
 
     int ADD_ITEM_REQUEST = 10;
 
-    int page;
+    int page = 0;
     final int limit = 20;
     private RecyclerView.OnScrollListener scrollListener;
 
@@ -51,9 +51,6 @@ public class ItemsListFragment extends Fragment {
 
         // initialize arraylist
         items = new ArrayList<>();
-
-        // initialize page #
-        page = 0;
 
         //construct the adapter from the array list
         itemAdapter = new ItemAdapter(items, getContext());

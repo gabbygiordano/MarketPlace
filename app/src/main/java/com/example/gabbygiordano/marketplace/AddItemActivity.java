@@ -110,13 +110,15 @@ public class AddItemActivity extends AppCompatActivity {
                 } else if (price.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Enter item price", Toast.LENGTH_LONG).show();
                     flag = true;
+                } else if (Integer.valueOf(price) > 5000) {
+                    Toast.makeText(getApplicationContext(), "Maximum price $5000", Toast.LENGTH_LONG).show();
+                    flag = true;
                 } else {
                     int con = Integer.parseInt(condition);
                     ParseUser currentUser = ParseUser.getCurrentUser();
 
                     item = new Item(name, description, price, con, currentUser, type);
                     item.setOwner(ParseUser.getCurrentUser());
-
                 }
 
                 if (!flag) {

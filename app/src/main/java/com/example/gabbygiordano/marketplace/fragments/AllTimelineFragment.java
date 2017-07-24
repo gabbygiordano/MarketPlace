@@ -1,17 +1,13 @@
 package com.example.gabbygiordano.marketplace.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.widget.ImageView;
 
 import com.example.gabbygiordano.marketplace.Item;
-import com.example.gabbygiordano.marketplace.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -29,7 +25,6 @@ public class AllTimelineFragment extends ItemsListFragment {
         setRetainInstance(true);
 
         populateTimeline();
-
     }
 
     @Override
@@ -43,6 +38,7 @@ public class AllTimelineFragment extends ItemsListFragment {
             public void done(List<Item> itemsList, ParseException e) {
                 if (e == null) {
                     if (itemsList != null && !itemsList.isEmpty()) {
+                        Log.e("All", String.valueOf(page));
                         addItems(itemsList);
 
                     }

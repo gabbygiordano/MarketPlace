@@ -4,6 +4,8 @@ import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import java.util.Date;
+
 /**
  * Created by tanvigupta on 7/20/17.
  */
@@ -17,10 +19,11 @@ public class AppNotification extends ParseObject {
     }
 
     // constructor
-    public AppNotification(ParseUser owner, ParseUser buyer, Item item) {
+    public AppNotification(ParseUser owner, ParseUser buyer, Item item, Date date) {
         setOwner(owner);
         setBuyer(buyer);
         setItem(item);
+        setDate(date);
     }
 
     public Item getItem() {
@@ -45,5 +48,13 @@ public class AppNotification extends ParseObject {
 
     public void setBuyer(ParseUser buyer) {
         put("buyer", buyer);
+    }
+
+    public void setDate(Date date) {
+        put("date", date);
+    }
+
+    public Date getDate() {
+        return (Date) get("date");
     }
 }
