@@ -32,7 +32,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
 
 
-    private static List<Item> mItems;
+    private List<Item> mItems;
 
     static Context context;
     static Context mContext;
@@ -61,7 +61,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     public void onBindViewHolder(final ViewHolder holder, int position) {
         // get the data according to position
         final Item item = mItems.get(position);
-        String imageUrl = item.getImage().getUrl();
 
         if (item == null) {
             Log.e("ItemAdapter", "ITEM NULL");
@@ -79,14 +78,17 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         holder.tvPrice.setText(item.getPrice());
         holder.tvSeller.setText(item.getOwner().getString("name"));
         holder.tvTimeAgo.setText(item.getOwner().getString("_created_at"));
-        //holder.ivItemImage.setImageURI(imageUrl);
         Log.e(item.getOwner().getString("_created_at"), "printed");
         // returns 07-18 15:04:16.993
+        if(item.getImage() != null)
+        {
+            String imageUri = item.getImage().getUrl();
+
             Picasso
                     .with(context)
-                    .load(imageUrl)
+                    .load(imageUri)
                     .into(holder.ivItemImage);
-
+        }
 
     }
 
@@ -117,9 +119,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     }
 
     // create ViewHolder class
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        public static ImageView ivItemImage;
+        public ImageView ivItemImage;
         public TextView tvItemName;
         public TextView tvSeller;
         public TextView tvPrice;

@@ -137,18 +137,18 @@ public class DetailsActivity extends AppCompatActivity {
                     tvItemPrice.setText(item.getPrice());
                     rbItemCondition.setRating(item.getCondition());
                     tvItemOwner.setText(item.getOwner().getString("name"));
-                   // ivItemImage.setImageURI(Uri.parse(item.getImage().getUrl()));
+                    String imageUrl = item.getImage().getUrl();
+
+                    Picasso
+                            .with(context)
+                            .load(imageUrl)
+                            .into(ivItemImage);
                     parseItem = item;
 
                 } else {
                     // something went wrong
                 }
-                String imageUrl = item.getImage().getUrl();
 
-                Picasso
-                        .with(context)
-                        .load(imageUrl)
-                        .into(ivItemImage);
             }
         });
 
