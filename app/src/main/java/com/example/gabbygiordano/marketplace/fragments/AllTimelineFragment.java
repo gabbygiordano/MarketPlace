@@ -9,7 +9,10 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
+
 import java.util.List;
+
+//import static com.example.gabbygiordano.marketplace.ItemAdapter.context;
 
 /**
  * Created by tanvigupta on 7/12/17.

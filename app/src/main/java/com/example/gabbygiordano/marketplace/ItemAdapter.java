@@ -2,16 +2,27 @@ package com.example.gabbygiordano.marketplace;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.example.gabbygiordano.marketplace.fragments.AllTimelineFragment;
+import com.parse.ParseFile;
+import com.parse.ParseObject;
+
+import com.parse.ParseUser;
 import com.squareup.picasso.Picasso;
 
+
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.gabbygiordano.marketplace.R.layout.item;
@@ -24,7 +35,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     private List<Item> mItems;
 
-    Context context;
+    static Context context;
     static Context mContext;
 
     // pass Items array into constructor
@@ -70,12 +81,24 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         holder.tvTimeAgo.setText(item.getOwner().getString("_created_at"));
         // Log.e(item.getOwner().getString("_created_at"), "printed");
         // returns 07-18 15:04:16.993
-
-        if (item.getImage() != null) {
+        if(item.getImage() != null)
+        {
             String imageUri = item.getImage().getUrl();
-            Picasso
+
+            Glide
                     .with(context)
                     .load(imageUri)
+                    .placeholder(R.drawable.ic_camera)
+                    .error(R.drawable.ic_camera)
+                    .into(holder.ivItemImage);
+        }
+        else
+        {
+            Glide
+                    .with(context)
+                    .load(R.drawable.ic_camera)
+                    .placeholder(R.drawable.ic_camera)
+                    .error(R.drawable.ic_camera)
                     .into(holder.ivItemImage);
         }
     }
@@ -116,6 +139,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         public TextView tvTimeAgo;
         Item thisItem;
 
+        ImageButton ibFavoriteOn;
+        ImageButton ibFavoriteOff;
+
         // constructor
         public ViewHolder(View itemView) {
             super(itemView);
@@ -125,6 +151,34 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             tvSeller = itemView.findViewById(R.id.tvSeller);
             tvPrice = itemView.findViewById(R.id.tvPrice);
             tvTimeAgo = itemView.findViewById(R.id.tvTimeAgo);
+
+            ibFavoriteOff = itemView.findViewById(R.id.ibFavoriteOff);
+            ibFavoriteOn = itemView.findViewById(R.id.ibFavoriteOn);
+
+            ibFavoriteOff.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ibFavoriteOn.bringToFront();
+                    int position = getAdapterPosition();
+                    if(position != RecyclerView.NO_POSITION){
+                        thisItem = mItems.get(position);
+                    }
+                    ParseUser user = ParseUser.getCurrentUser();
+                    ArrayList<Item> tempList = new ArrayList<Item>();
+                    tempList = (ArrayList<Item>) user.get("favoritesList");
+                    tempList.add(thisItem);
+                    user.put("favoritesList", tempList);
+
+                }
+            });
+
+            ibFavoriteOn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ibFavoriteOff.bringToFront();
+
+                }
+            });
 
             itemView.setOnClickListener(this);
         }
@@ -141,5 +195,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             context.startActivity(i);
 
         }
+
     }
 }

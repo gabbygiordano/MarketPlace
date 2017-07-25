@@ -2,6 +2,8 @@ package com.example.gabbygiordano.marketplace;
 
 import com.parse.ParseObject;
 
+import java.util.ArrayList;
+
 /**
  * Created by gabbygiordano on 7/12/17.
  */
@@ -15,12 +17,13 @@ public class User extends ParseObject {
     public String college;
     public long phone;
     public String contactMethod;
+    public ArrayList<Item> favoritesList;
 
     // default constructor for parse
     public User() {
     }
 
-    public User(String name, String username, String email, String password, String college, long phone, String contact) {
+    public User(String name, String username, String email, String password, String college, long phone, String contact, ArrayList<Item> favoritesList) {
         setName(name);
         setUsername(username);
         setEmail(email);
@@ -28,12 +31,18 @@ public class User extends ParseObject {
         setCollege(college);
         setPhone(phone);
         setContactMethod(contact);
+        setFavoritesList(favoritesList);
     }
 
-    public static User fromInput(String name, String username, String email, String password, String college, long phone, String contact) {
-        User user = new User(name, username, email, password, college, phone, contact);
+    public void setFavoritesList(ArrayList<Item> favoritesList) {
+        put("favoritesList", favoritesList);
+    }
+
+    public static User fromInput(String name, String username, String email, String password, String college, long phone, String contact, ArrayList<Item> favoritesList) {
+        User user = new User(name, username, email, password, college, phone, contact, favoritesList);
 
         return user;
+
     }
 
     public String getName() {

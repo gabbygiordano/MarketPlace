@@ -55,6 +55,7 @@ public class DetailsActivity extends AppCompatActivity {
 
     Context context;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,6 +138,7 @@ public class DetailsActivity extends AppCompatActivity {
                     tvItemPrice.setText(item.getPrice());
                     rbItemCondition.setRating(item.getCondition());
                     tvItemOwner.setText(item.getOwner().getString("name"));
+
                     parseItem = item;
 
                     if (item.getImage() != null) {
@@ -149,6 +151,7 @@ public class DetailsActivity extends AppCompatActivity {
                 } else {
                     // something went wrong
                 }
+
             }
         });
 

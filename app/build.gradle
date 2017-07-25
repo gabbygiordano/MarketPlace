@@ -30,10 +30,22 @@ dependencies {
     })
     // parse-heroku server dependencies
 
-    compile 'com.parse:parse-livequery-android:1.0.2'
+    
 
     // AsyncHTTP for network requests
     // parceler dependencies
+    // location services
+    // design support library dependencies
+    compile "com.android.support:appcompat-v7:${supportLibVersion}"
+    compile "com.android.support:design:${supportLibVersion}"
+    compile "com.android.support:recyclerview-v7:${supportLibVersion}"
+
+    compile files('PhotoUtil.jar')
+    
+
+    // live queries
+
+    compile 'com.parse:parse-livequery-android:1.0.4'
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.parse.bolts:bolts-android:1.4.0'
@@ -43,17 +55,10 @@ dependencies {
     compile 'com.android.support:design:26.+'
     compile 'com.android.support:support-v4:26.+'
     compile 'org.parceler:parceler-api:1.1.6'
-    annotationProcessor 'org.parceler:parceler:1.1.6'
-    // location services
     compile 'com.google.android.gms:play-services-location:11.0.1'
-    // design support library dependencies
-    compile "com.android.support:appcompat-v7:${supportLibVersion}"
-    compile "com.android.support:design:${supportLibVersion}"
-    compile "com.android.support:recyclerview-v7:${supportLibVersion}"
-
-    compile files('PhotoUtil.jar')
+    compile 'com.github.bumptech.glide:glide:3.8.0'
+    compile 'jp.wasabeef:glide-transformations:2.0.2'
     compile 'com.squareup.picasso:picasso:2.5.2'
-
 
     // live queries
     compile 'com.parse:parse-livequery-android:1.0.4'
@@ -61,4 +66,5 @@ dependencies {
     // picasso
     compile 'com.squareup.picasso:picasso:2.5.2'
 
+    annotationProcessor 'org.parceler:parceler:1.1.6'
 }
