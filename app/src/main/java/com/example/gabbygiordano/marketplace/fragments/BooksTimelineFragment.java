@@ -43,6 +43,7 @@ public class BooksTimelineFragment extends ItemsListFragment {
                     }
                 } else {
                     Log.d("BooksFragment", e.getMessage());
+                    scrollListener.resetState();
                 }
             }
         });
@@ -66,6 +67,7 @@ public class BooksTimelineFragment extends ItemsListFragment {
                 } else {
                     Log.d("BooksFragment", e.getMessage());
                     swipeContainer.setRefreshing(false);
+                    scrollListener.resetState();
                 }
             }
         });

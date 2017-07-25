@@ -46,6 +46,7 @@ public class AllTimelineFragment extends ItemsListFragment {
                     }
                 } else {
                     Log.d("AllFragment", e.getMessage());
+                    scrollListener.resetState();
                 }
             }
         });
@@ -69,6 +70,7 @@ public class AllTimelineFragment extends ItemsListFragment {
                 } else {
                     Log.d("AllFragment", e.getMessage());
                     swipeContainer.setRefreshing(false);
+                    scrollListener.resetState();
                 }
             }
         });

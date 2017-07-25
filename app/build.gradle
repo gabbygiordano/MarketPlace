@@ -59,5 +59,12 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.8.0'
     compile 'jp.wasabeef:glide-transformations:2.0.2'
     compile 'com.squareup.picasso:picasso:2.5.2'
+
+    // live queries
+    compile 'com.parse:parse-livequery-android:1.0.4'
+
+    // picasso
+    compile 'com.squareup.picasso:picasso:2.5.2'
+
     annotationProcessor 'org.parceler:parceler:1.1.6'
 }

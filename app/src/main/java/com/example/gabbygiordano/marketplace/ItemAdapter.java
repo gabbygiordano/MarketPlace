@@ -33,8 +33,6 @@ import static com.example.gabbygiordano.marketplace.R.layout.item;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
-
-
     private List<Item> mItems;
 
     static Context context;
@@ -81,13 +79,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         holder.tvPrice.setText(item.getPrice());
         holder.tvSeller.setText(item.getOwner().getString("name"));
         holder.tvTimeAgo.setText(item.getOwner().getString("_created_at"));
-        Log.e(item.getOwner().getString("_created_at"), "printed");
+        // Log.e(item.getOwner().getString("_created_at"), "printed");
         // returns 07-18 15:04:16.993
         if(item.getImage() != null)
         {
             String imageUri = item.getImage().getUrl();
 
-           Glide
+            Glide
                     .with(context)
                     .load(imageUri)
                     .placeholder(R.drawable.ic_camera)
@@ -103,7 +101,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
                     .error(R.drawable.ic_camera)
                     .into(holder.ivItemImage);
         }
-
     }
 
     @Override
@@ -145,7 +142,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         ImageButton ibFavoriteOn;
         ImageButton ibFavoriteOff;
 
-
         // constructor
         public ViewHolder(View itemView) {
             super(itemView);
@@ -155,9 +151,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             tvSeller = itemView.findViewById(R.id.tvSeller);
             tvPrice = itemView.findViewById(R.id.tvPrice);
             tvTimeAgo = itemView.findViewById(R.id.tvTimeAgo);
+
             ibFavoriteOff = itemView.findViewById(R.id.ibFavoriteOff);
             ibFavoriteOn = itemView.findViewById(R.id.ibFavoriteOn);
-            
 
             ibFavoriteOff.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -183,8 +179,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
                 }
             });
-            itemView.setOnClickListener(this);
 
+            itemView.setOnClickListener(this);
         }
 
         @Override

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.gabbygiordano.marketplace.EndlessRecyclerViewScrollListener;
 import com.example.gabbygiordano.marketplace.Item;
 import com.example.gabbygiordano.marketplace.ItemAdapter;
 import com.example.gabbygiordano.marketplace.R;
@@ -40,7 +41,7 @@ public class ItemsListFragment extends Fragment {
 
     int page = 0;
     final int limit = 20;
-    private RecyclerView.OnScrollListener scrollListener;
+    EndlessRecyclerViewScrollListener scrollListener;
 
     @Nullable
     @Override
@@ -83,9 +84,9 @@ public class ItemsListFragment extends Fragment {
                 android.R.color.holo_red_light);
 
         // set up infinite pagination
-        scrollListener = new RecyclerView.OnScrollListener() {
+        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 populateTimeline();
             }
         };
@@ -99,6 +100,9 @@ public class ItemsListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        itemAdapter.clear();
+        items.clear();
 
         page = 0;
 
@@ -114,6 +118,7 @@ public class ItemsListFragment extends Fragment {
             items.add(list.get(i));
             itemAdapter.notifyItemInserted(items.size()-1);
         }
+        scrollListener.resetState();
         page += 1;
     }
 
@@ -127,6 +132,8 @@ public class ItemsListFragment extends Fragment {
         }
 
         itemAdapter.addAll(new_items);
+
+        scrollListener.resetState();
 
         swipeContainer.setRefreshing(false);
     }
