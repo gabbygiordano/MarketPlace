@@ -12,12 +12,14 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 import com.example.gabbygiordano.marketplace.fragments.AllTimelineFragment;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
-import com.squareup.picasso.Picasso;
 
 import com.parse.ParseUser;
+import com.squareup.picasso.Picasso;
 
 
 import java.util.ArrayList;
@@ -85,9 +87,20 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         {
             String imageUri = item.getImage().getUrl();
 
-            Picasso
+           Glide
                     .with(context)
                     .load(imageUri)
+                    .placeholder(R.drawable.ic_camera)
+                    .error(R.drawable.ic_camera)
+                    .into(holder.ivItemImage);
+        }
+        else
+        {
+            Glide
+                    .with(context)
+                    .load(R.drawable.ic_camera)
+                    .placeholder(R.drawable.ic_camera)
+                    .error(R.drawable.ic_camera)
                     .into(holder.ivItemImage);
         }
 
@@ -142,9 +155,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             tvSeller = itemView.findViewById(R.id.tvSeller);
             tvPrice = itemView.findViewById(R.id.tvPrice);
             tvTimeAgo = itemView.findViewById(R.id.tvTimeAgo);
-
-<<<<<<< HEAD
-=======
             ibFavoriteOff = itemView.findViewById(R.id.ibFavoriteOff);
             ibFavoriteOn = itemView.findViewById(R.id.ibFavoriteOn);
             
@@ -173,16 +183,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
                 }
             });
-
-
-//            String internetUrl = "http://clipartix.com/wp-content/uploads/2016/04/Thumbs-up-clipart-cliparts-for-you-3.jpg";
-//
-//            Picasso
-//                    .with(context)
-//                    .load(internetUrl)
-//                    .into(ivItemImage);
-//
->>>>>>> ef8eaf8e7d241c6f4d2e1fb0efac3469ce00295e
             itemView.setOnClickListener(this);
 
         }

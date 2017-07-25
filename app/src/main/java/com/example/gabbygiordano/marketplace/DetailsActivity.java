@@ -18,6 +18,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -137,13 +138,19 @@ public class DetailsActivity extends AppCompatActivity {
                     tvItemPrice.setText(item.getPrice());
                     rbItemCondition.setRating(item.getCondition());
                     tvItemOwner.setText(item.getOwner().getString("name"));
-                    String imageUrl = item.getImage().getUrl();
 
-                    Picasso
-                            .with(context)
-                            .load(imageUrl)
-                            .into(ivItemImage);
-                    parseItem = item;
+                    if(item.getImage() != null)
+                    {
+                        String imageUri = item.getImage().getUrl();
+
+                        Picasso
+                                .with(context)
+                                .load(imageUri)
+                                .into(ivItemImage);
+                    }
+
+                        parseItem = item;
+
 
                 } else {
                     // something went wrong
