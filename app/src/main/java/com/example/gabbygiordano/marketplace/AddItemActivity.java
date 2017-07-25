@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -214,6 +215,7 @@ public class AddItemActivity extends AppCompatActivity {
 
             }
         }
+
     }
 
     @Override
@@ -226,7 +228,6 @@ public class AddItemActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(getApplicationContext(), "Permission Denied", Toast.LENGTH_SHORT).show();
                 }
-                return;
             }
         }
     }
@@ -265,14 +266,9 @@ public class AddItemActivity extends AppCompatActivity {
             {
                 if(items[i].equals("Camera"))
                 {
-
-                    try {
-                        startActivityForResult(cameraPhoto.takePhotoIntent(), ACTIVITY_START_CAMERA);
-                        cameraPhoto.addToGallery();
-                    } catch (IOException e) {
-                        Toast.makeText(getApplicationContext(), "Something went wrong while opening photo", Toast.LENGTH_SHORT).show();
-                    }
-
+                        Intent callCamera = new Intent();
+                        callCamera.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+                        startActivityForResult(callCamera, ACTIVITY_START_CAMERA);
                 }
                 else if(items[i].equals("Gallery"))
                 {
@@ -303,14 +299,19 @@ public class AddItemActivity extends AppCompatActivity {
             if(requestCode == ACTIVITY_START_CAMERA)
             {
                 //Toast.makeText(this, "picture was taken", Toast.LENGTH_SHORT).show();
-                String photoPath = cameraPhoto.getPhotoPath();
-                try {
-                    Bitmap bitmap = ImageLoader.init().from(photoPath).requestSize(512,512).getBitmap();
-                    imageLocation.setImageBitmap(bitmap);
-                } catch (FileNotFoundException e) {
-                    Toast.makeText(getApplicationContext(), "Something went wrong while uploading photo", Toast.LENGTH_SHORT).show();
-                }
-                Log.d(TAG, photoPath);
+                Bundle extras = data.getExtras();
+                Bitmap photoCaptured = (Bitmap) extras.get("data");
+                imageLocation.setImageBitmap(photoCaptured);
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                photoCaptured.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                byte[] image = stream.toByteArray();
+                file = new ParseFile("itemimage.png", image);
+                file.saveInBackground();
+                ParseObject imageUpload = new ParseObject("ImageUpload");
+                imageUpload.put("ImageFile", file);
+                imageUpload.saveInBackground();
+                Toast.makeText(AddItemActivity.this, "Image Uploaded",
+                        Toast.LENGTH_SHORT).show();
                 //resource = photoCaptured;
 
             }

@@ -8,7 +8,7 @@ import com.example.gabbygiordano.marketplace.Item;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
-import com.squareup.picasso.Picasso;
+
 
 import java.util.List;
 
