@@ -31,6 +31,8 @@ public class ItemsListFragment extends Fragment {
     ItemAdapter itemAdapter;
     ImageView ivItemImage;
 
+
+
     RecyclerView rvItems;
     SwipeRefreshLayout swipeContainer;
 
@@ -89,6 +91,7 @@ public class ItemsListFragment extends Fragment {
         };
         // Adds the scroll listener to RecyclerView
         rvItems.addOnScrollListener(scrollListener);
+
 
         return v;
     }

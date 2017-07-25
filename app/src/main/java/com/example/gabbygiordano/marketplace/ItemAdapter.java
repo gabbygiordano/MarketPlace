@@ -2,26 +2,27 @@ package com.example.gabbygiordano.marketplace;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.gabbygiordano.marketplace.fragments.AllTimelineFragment;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.squareup.picasso.Picasso;
 
+import com.parse.ParseUser;
+
+
+import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.gabbygiordano.marketplace.R.id.ivItemImage;
 import static com.example.gabbygiordano.marketplace.R.layout.item;
 
 /**
@@ -128,6 +129,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         public TextView tvTimeAgo;
         Item thisItem;
 
+        ImageButton ibFavoriteOn;
+        ImageButton ibFavoriteOff;
+
 
         // constructor
         public ViewHolder(View itemView) {
@@ -139,6 +143,46 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             tvPrice = itemView.findViewById(R.id.tvPrice);
             tvTimeAgo = itemView.findViewById(R.id.tvTimeAgo);
 
+<<<<<<< HEAD
+=======
+            ibFavoriteOff = itemView.findViewById(R.id.ibFavoriteOff);
+            ibFavoriteOn = itemView.findViewById(R.id.ibFavoriteOn);
+            
+
+            ibFavoriteOff.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ibFavoriteOn.bringToFront();
+                    int position = getAdapterPosition();
+                    if(position != RecyclerView.NO_POSITION){
+                        thisItem = mItems.get(position);
+                    }
+                    ParseUser user = ParseUser.getCurrentUser();
+                    ArrayList<Item> tempList = new ArrayList<Item>();
+                    tempList = (ArrayList<Item>) user.get("favoritesList");
+                    tempList.add(thisItem);
+                    user.put("favoritesList", tempList);
+
+                }
+            });
+
+            ibFavoriteOn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ibFavoriteOff.bringToFront();
+
+                }
+            });
+
+
+//            String internetUrl = "http://clipartix.com/wp-content/uploads/2016/04/Thumbs-up-clipart-cliparts-for-you-3.jpg";
+//
+//            Picasso
+//                    .with(context)
+//                    .load(internetUrl)
+//                    .into(ivItemImage);
+//
+>>>>>>> ef8eaf8e7d241c6f4d2e1fb0efac3469ce00295e
             itemView.setOnClickListener(this);
 
         }
