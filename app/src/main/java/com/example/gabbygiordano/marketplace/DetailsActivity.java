@@ -1,5 +1,6 @@
 package com.example.gabbygiordano.marketplace;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
@@ -22,6 +23,7 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.squareup.picasso.Picasso;
 
 import java.util.Date;
 import java.util.List;
@@ -51,12 +53,15 @@ public class DetailsActivity extends AppCompatActivity {
     Item mItem;
     AppNotification appNotification;
 
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
         getSupportActionBar().setTitle("Item Details");
+
+        context = this;
 
         tvItemName = (TextView) findViewById(R.id.tvItemName);
         tvItemDescription = (TextView) findViewById(R.id.tvItemDescription);
@@ -134,6 +139,13 @@ public class DetailsActivity extends AppCompatActivity {
                     tvItemOwner.setText(item.getOwner().getString("name"));
                     parseItem = item;
 
+                    if (item.getImage() != null) {
+                        String imageUri = item.getImage().getUrl();
+                        Picasso
+                                .with(context)
+                                .load(imageUri)
+                                .into(ivItemImage);
+                    }
                 } else {
                     // something went wrong
                 }

@@ -2,7 +2,6 @@ package com.example.gabbygiordano.marketplace;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,13 +10,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.parse.ParseFile;
-import com.parse.ParseObject;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import static com.example.gabbygiordano.marketplace.R.id.ivItemImage;
 import static com.example.gabbygiordano.marketplace.R.layout.item;
 
 /**
@@ -25,8 +21,6 @@ import static com.example.gabbygiordano.marketplace.R.layout.item;
  */
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
-
-
 
     private List<Item> mItems;
 
@@ -74,9 +68,16 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         holder.tvPrice.setText(item.getPrice());
         holder.tvSeller.setText(item.getOwner().getString("name"));
         holder.tvTimeAgo.setText(item.getOwner().getString("_created_at"));
-        Log.e(item.getOwner().getString("_created_at"), "printed");
+        // Log.e(item.getOwner().getString("_created_at"), "printed");
         // returns 07-18 15:04:16.993
 
+        if (item.getImage() != null) {
+            String imageUri = item.getImage().getUrl();
+            Picasso
+                    .with(context)
+                    .load(imageUri)
+                    .into(holder.ivItemImage);
+        }
     }
 
     @Override
@@ -115,7 +116,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         public TextView tvTimeAgo;
         Item thisItem;
 
-
         // constructor
         public ViewHolder(View itemView) {
             super(itemView);
@@ -126,13 +126,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             tvPrice = itemView.findViewById(R.id.tvPrice);
             tvTimeAgo = itemView.findViewById(R.id.tvTimeAgo);
 
-//            String internetUrl = "http://clipartix.com/wp-content/uploads/2016/04/Thumbs-up-clipart-cliparts-for-you-3.jpg";
-//
-//            Picasso
-//                    .with(context)
-//                    .load(internetUrl)
-//                    .into(ivItemImage);
-//
             itemView.setOnClickListener(this);
         }
 

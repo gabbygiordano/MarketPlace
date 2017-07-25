@@ -30,6 +30,7 @@ public class ClothesTimelineFragment extends ItemsListFragment {
     public void populateTimeline() {
         ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
         query.include("owner");
+        query.include("image");
         query.whereEqualTo("type", "Clothes");
         query.orderByDescending("_created_at");
         query.setLimit(limit); // 20 items per page
@@ -42,6 +43,7 @@ public class ClothesTimelineFragment extends ItemsListFragment {
                     }
                 } else {
                     Log.d("ClothesFragment", e.getMessage());
+                    scrollListener.resetState();
                 }
             }
         });
@@ -51,6 +53,7 @@ public class ClothesTimelineFragment extends ItemsListFragment {
     public void fetchTimelineAsync(int page) {
         ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
         query.include("owner");
+        query.include("image");
         query.whereEqualTo("type", "Clothes");
         query.orderByDescending("_created_at");
         query.setLimit(limit); // 20 items per page
@@ -64,6 +67,7 @@ public class ClothesTimelineFragment extends ItemsListFragment {
                 } else {
                     Log.d("ClothesFragment", e.getMessage());
                     swipeContainer.setRefreshing(false);
+                    scrollListener.resetState();
                 }
             }
         });
