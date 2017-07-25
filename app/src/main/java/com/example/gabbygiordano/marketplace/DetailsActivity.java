@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -18,7 +17,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -30,7 +28,6 @@ import com.squareup.picasso.Picasso;
 import java.util.Date;
 import java.util.List;
 
-import static com.example.gabbygiordano.marketplace.ItemAdapter.context;
 import static com.example.gabbygiordano.marketplace.R.color.colorGold;
 
 public class DetailsActivity extends AppCompatActivity {
@@ -56,6 +53,7 @@ public class DetailsActivity extends AppCompatActivity {
     Item mItem;
     AppNotification appNotification;
 
+    Context context;
 
 
     @Override
@@ -63,6 +61,8 @@ public class DetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
         getSupportActionBar().setTitle("Item Details");
+
+        context = this;
 
         tvItemName = (TextView) findViewById(R.id.tvItemName);
         tvItemDescription = (TextView) findViewById(R.id.tvItemDescription);
@@ -139,19 +139,15 @@ public class DetailsActivity extends AppCompatActivity {
                     rbItemCondition.setRating(item.getCondition());
                     tvItemOwner.setText(item.getOwner().getString("name"));
 
-                    if(item.getImage() != null)
-                    {
-                        String imageUri = item.getImage().getUrl();
+                    parseItem = item;
 
+                    if (item.getImage() != null) {
+                        String imageUri = item.getImage().getUrl();
                         Picasso
                                 .with(context)
                                 .load(imageUri)
                                 .into(ivItemImage);
                     }
-
-                        parseItem = item;
-
-
                 } else {
                     // something went wrong
                 }

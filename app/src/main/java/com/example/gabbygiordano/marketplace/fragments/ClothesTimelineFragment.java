@@ -43,6 +43,7 @@ public class ClothesTimelineFragment extends ItemsListFragment {
                     }
                 } else {
                     Log.d("ClothesFragment", e.getMessage());
+                    scrollListener.resetState();
                 }
             }
         });
@@ -66,6 +67,7 @@ public class ClothesTimelineFragment extends ItemsListFragment {
                 } else {
                     Log.d("ClothesFragment", e.getMessage());
                     swipeContainer.setRefreshing(false);
+                    scrollListener.resetState();
                 }
             }
         });

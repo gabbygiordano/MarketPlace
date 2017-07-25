@@ -43,6 +43,7 @@ public class ElectronicsTimelineFragment extends ItemsListFragment {
                     }
                 } else {
                     Log.d("ElectronicsFragment", e.getMessage());
+                    scrollListener.resetState();
                 }
             }
         });
@@ -66,6 +67,7 @@ public class ElectronicsTimelineFragment extends ItemsListFragment {
                 } else {
                     Log.d("ElectronicsFragment", e.getMessage());
                     swipeContainer.setRefreshing(false);
+                    scrollListener.resetState();
                 }
             }
         });

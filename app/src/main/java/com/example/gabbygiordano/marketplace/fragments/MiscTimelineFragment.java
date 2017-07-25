@@ -43,6 +43,7 @@ public class MiscTimelineFragment extends ItemsListFragment {
                     }
                 } else {
                     Log.d("MiscFragment", e.getMessage());
+                    scrollListener.resetState();
                 }
             }
         });
@@ -66,6 +67,7 @@ public class MiscTimelineFragment extends ItemsListFragment {
                 } else {
                     Log.d("MiscFragment", e.getMessage());
                     swipeContainer.setRefreshing(false);
+                    scrollListener.resetState();
                 }
             }
         });
