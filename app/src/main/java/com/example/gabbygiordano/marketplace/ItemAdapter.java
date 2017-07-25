@@ -3,6 +3,8 @@ package com.example.gabbygiordano.marketplace;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,7 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.gabbygiordano.marketplace.fragments.AllTimelineFragment;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.squareup.picasso.Picasso;
@@ -28,9 +32,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
 
 
-    private List<Item> mItems;
+    private static List<Item> mItems;
 
-    Context context;
+    static Context context;
     static Context mContext;
 
     // pass Items array into constructor
@@ -57,6 +61,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     public void onBindViewHolder(final ViewHolder holder, int position) {
         // get the data according to position
         final Item item = mItems.get(position);
+        String imageUrl = item.getImage().getUrl();
 
         if (item == null) {
             Log.e("ItemAdapter", "ITEM NULL");
@@ -74,8 +79,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         holder.tvPrice.setText(item.getPrice());
         holder.tvSeller.setText(item.getOwner().getString("name"));
         holder.tvTimeAgo.setText(item.getOwner().getString("_created_at"));
+        //holder.ivItemImage.setImageURI(imageUrl);
         Log.e(item.getOwner().getString("_created_at"), "printed");
         // returns 07-18 15:04:16.993
+            Picasso
+                    .with(context)
+                    .load(imageUrl)
+                    .into(holder.ivItemImage);
+
 
     }
 
@@ -106,9 +117,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     }
 
     // create ViewHolder class
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        public ImageView ivItemImage;
+        public static ImageView ivItemImage;
         public TextView tvItemName;
         public TextView tvSeller;
         public TextView tvPrice;
@@ -126,14 +137,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             tvPrice = itemView.findViewById(R.id.tvPrice);
             tvTimeAgo = itemView.findViewById(R.id.tvTimeAgo);
 
-//            String internetUrl = "http://clipartix.com/wp-content/uploads/2016/04/Thumbs-up-clipart-cliparts-for-you-3.jpg";
-//
-//            Picasso
-//                    .with(context)
-//                    .load(internetUrl)
-//                    .into(ivItemImage);
-//
             itemView.setOnClickListener(this);
+
         }
 
         @Override
@@ -148,5 +153,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             context.startActivity(i);
 
         }
+
     }
 }
