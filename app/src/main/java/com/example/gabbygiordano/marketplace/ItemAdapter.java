@@ -2,6 +2,7 @@ package com.example.gabbygiordano.marketplace;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,8 +11,14 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+import com.example.gabbygiordano.marketplace.fragments.AllTimelineFragment;
+import com.parse.ParseFile;
+import com.parse.ParseObject;
+import com.squareup.picasso.Picasso;
 
 import com.parse.ParseUser;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +35,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     private List<Item> mItems;
 
-    Context context;
+    static Context context;
     static Context mContext;
 
     // pass Items array into constructor
@@ -74,6 +81,15 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         holder.tvTimeAgo.setText(item.getOwner().getString("_created_at"));
         Log.e(item.getOwner().getString("_created_at"), "printed");
         // returns 07-18 15:04:16.993
+        if(item.getImage() != null)
+        {
+            String imageUri = item.getImage().getUrl();
+
+            Picasso
+                    .with(context)
+                    .load(imageUri)
+                    .into(holder.ivItemImage);
+        }
 
     }
 
@@ -127,6 +143,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             tvPrice = itemView.findViewById(R.id.tvPrice);
             tvTimeAgo = itemView.findViewById(R.id.tvTimeAgo);
 
+<<<<<<< HEAD
+=======
             ibFavoriteOff = itemView.findViewById(R.id.ibFavoriteOff);
             ibFavoriteOn = itemView.findViewById(R.id.ibFavoriteOn);
             
@@ -164,7 +182,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 //                    .load(internetUrl)
 //                    .into(ivItemImage);
 //
+>>>>>>> ef8eaf8e7d241c6f4d2e1fb0efac3469ce00295e
             itemView.setOnClickListener(this);
+
         }
 
         @Override
@@ -179,5 +199,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             context.startActivity(i);
 
         }
+
     }
 }

@@ -77,31 +77,30 @@ public class SettingsActivity extends AppCompatActivity {
                         String name = etName.getText().toString();
                         user.put("name", name);
                         user.saveInBackground();
-                        Toast.makeText(getApplicationContext(), "Name Updated", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(), "Name Updated", Toast.LENGTH_LONG).show();
+                        Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
+                        startActivityForResult(i, 1);
                     }
                     if (changedPhone) {
                         String phone = etPhone.getText().toString();
                         user.put("phone", Long.parseLong(phone));
                         user.saveInBackground();
-                        Toast.makeText(getApplicationContext(), "Phone Updated", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(), "Phone Updated", Toast.LENGTH_LONG).show();
+                        Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
+                        startActivityForResult(i, 1);
                     }
                     if (changedEmail) {
                         String email = etEmail.getText().toString();
                         user.put("email", email);
                         user.saveInBackground();
-                        Toast.makeText(getApplicationContext(), "Email Updated", Toast.LENGTH_LONG).show();
-                    }
-
-                }
-
-                btSaveChanges.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        user.saveInBackground();
+                        //Toast.makeText(getApplicationContext(), "Email Updated", Toast.LENGTH_LONG).show();
                         Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
                         startActivityForResult(i, 1);
                     }
-                });
+
+                    Toast.makeText(getApplicationContext(), "Information Updated", Toast.LENGTH_LONG).show();
+                }
+
             }
         });
     }

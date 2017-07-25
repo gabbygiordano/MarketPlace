@@ -30,6 +30,7 @@ public class ElectronicsTimelineFragment extends ItemsListFragment {
     public void populateTimeline() {
         ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
         query.include("owner");
+        query.include("image");
         query.whereEqualTo("type", "Electronics");
         query.orderByDescending("_created_at");
         query.setLimit(limit); // 20 items per page
@@ -51,6 +52,7 @@ public class ElectronicsTimelineFragment extends ItemsListFragment {
     public void fetchTimelineAsync(int page) {
         ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
         query.include("owner");
+        query.include("image");
         query.whereEqualTo("type", "Electronics");
         query.orderByDescending("_created_at");
         query.setLimit(limit); // 20 items per page

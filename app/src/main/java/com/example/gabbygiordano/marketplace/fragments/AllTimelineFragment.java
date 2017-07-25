@@ -8,8 +8,11 @@ import com.example.gabbygiordano.marketplace.Item;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+//import static com.example.gabbygiordano.marketplace.ItemAdapter.context;
 
 /**
  * Created by tanvigupta on 7/12/17.
@@ -31,6 +34,7 @@ public class AllTimelineFragment extends ItemsListFragment {
     public void populateTimeline() {
         ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
         query.include("owner");
+        query.include("image");
         query.orderByDescending("_created_at");
         query.setLimit(limit); // 20 items per page
         query.setSkip(page * limit); // skip first (page * 20) items
@@ -52,6 +56,7 @@ public class AllTimelineFragment extends ItemsListFragment {
     public void fetchTimelineAsync(int page) {
         ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
         query.include("owner");
+        query.include("image");
         query.orderByDescending("_created_at");
         query.setLimit(limit); // 20 items per page
         query.setSkip(page * limit); // skip first (page * 20) items
