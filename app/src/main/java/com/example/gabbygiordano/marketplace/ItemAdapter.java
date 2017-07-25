@@ -25,6 +25,8 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+
 import static com.example.gabbygiordano.marketplace.R.layout.item;
 
 /**
@@ -90,6 +92,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
            Glide
                     .with(context)
                     .load(imageUri)
+                   .bitmapTransform(new RoundedCornersTransformation(context, 25, 0))
                     .placeholder(R.drawable.ic_camera)
                     .error(R.drawable.ic_camera)
                     .into(holder.ivItemImage);
