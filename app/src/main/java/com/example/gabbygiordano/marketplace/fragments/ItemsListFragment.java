@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import com.example.gabbygiordano.marketplace.EndlessRecyclerViewScrollListener;
 import com.example.gabbygiordano.marketplace.Item;
 import com.example.gabbygiordano.marketplace.ItemAdapter;
+import com.example.gabbygiordano.marketplace.MyDividerItemDecoration;
 import com.example.gabbygiordano.marketplace.R;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -61,6 +62,9 @@ public class ItemsListFragment extends Fragment {
         rvItems.setLayoutManager(linearLayoutManager);
         rvItems.setAdapter(itemAdapter);
         rvItems.setHasFixedSize(true);
+
+        MyDividerItemDecoration dividerItemDecoration = new MyDividerItemDecoration(rvItems.getContext());
+        rvItems.addItemDecoration(dividerItemDecoration);
 
         // swipe to refresh setup
 

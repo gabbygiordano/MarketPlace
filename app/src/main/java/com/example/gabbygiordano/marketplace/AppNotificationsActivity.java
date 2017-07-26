@@ -76,6 +76,9 @@ public class AppNotificationsActivity extends AppCompatActivity {
         rvNotifications.setAdapter(appNotificationAdapter);
         rvNotifications.setHasFixedSize(true);
 
+        MyDividerItemDecoration dividerItemDecoration = new MyDividerItemDecoration(rvNotifications.getContext());
+        rvNotifications.addItemDecoration(dividerItemDecoration);
+
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
 

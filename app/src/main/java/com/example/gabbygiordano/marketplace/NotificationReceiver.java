@@ -24,7 +24,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.e("Receiver", "Received intent");
+        Log.e("NotifReceiver", "Received intent");
 
         // Handle intents
         notifications = (ArrayList<Notification>) intent.getSerializableExtra("notifications");
@@ -47,6 +47,8 @@ public class NotificationReceiver extends BroadcastReceiver {
             stackBuilder.addNextIntent(resultIntent);
 
             mBuilder.setContentIntent(resultPendingIntent);
+
+            mBuilder.setAutoCancel(true);
 
             // Sets an ID for the notification
             int mNotificationId = 1;
