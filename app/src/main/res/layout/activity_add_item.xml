@@ -22,22 +22,23 @@
                 android:layout_height="match_parent"
                 tools:context="com.example.gabbygiordano.marketplace.AddItemActivity">
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/ibAddImage"
                     android:layout_width="75dp"
                     android:layout_height="75dp"
                     android:onClick="takeItemPhoto"
+                    android:clickable="true"
                     app:srcCompat="@android:drawable/ic_menu_camera"
                     tools:layout_editor_absoluteX="0dp"
                     tools:layout_editor_absoluteY="-2dp" />
 
-                <ImageView
+                <!--<ImageView
                     android:id="@+id/ivItemPhoto"
                     android:layout_width="75dp"
                     android:layout_height="75dp"
                     android:layout_alignParentTop="true"
                     android:layout_toRightOf="@+id/ibAddImage"
-                    android:layout_toEndOf="@+id/ibAddImage" />
+                    android:layout_toEndOf="@+id/ibAddImage" />-->
 
                 <EditText
                     android:id="@+id/tvItemName"
