@@ -23,7 +23,7 @@ public class BooksTimelineFragment extends ItemsListFragment {
 
         setRetainInstance(true);
 
-        populateTimeline();
+        // populateTimeline();
     }
 
     @Override

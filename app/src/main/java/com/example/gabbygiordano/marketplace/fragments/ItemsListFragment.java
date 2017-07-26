@@ -32,8 +32,6 @@ public class ItemsListFragment extends Fragment {
     ItemAdapter itemAdapter;
     ImageView ivItemImage;
 
-
-
     RecyclerView rvItems;
     SwipeRefreshLayout swipeContainer;
 
@@ -93,7 +91,6 @@ public class ItemsListFragment extends Fragment {
         // Adds the scroll listener to RecyclerView
         rvItems.addOnScrollListener(scrollListener);
 
-
         return v;
     }
 
@@ -143,8 +140,6 @@ public class ItemsListFragment extends Fragment {
             String id = data.getStringExtra("item_id");
             String type = data.getStringExtra("type");
 
-            Log.e("item_id", id);
-
             // Execute the query to find the object with ID
             ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
             query.include("owner");
@@ -152,9 +147,10 @@ public class ItemsListFragment extends Fragment {
             query.getInBackground(id, new GetCallback<Item>() {
                 public void done(Item item, ParseException e) {
                     if (e == null) {
+                        Log.e("ItemsListFragment", "Query successful");
                         // item was found
-                        items.add(0, item);
-                        itemAdapter.notifyItemInserted(0);
+                        //items.add(0, item);
+                        //itemAdapter.notifyItemInserted(0);
                         rvItems.scrollToPosition(0);
                     } else {
                         Log.e("ItemsListFragment", e.getMessage());

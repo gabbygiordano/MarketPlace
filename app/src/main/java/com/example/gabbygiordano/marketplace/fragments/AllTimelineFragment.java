@@ -27,7 +27,7 @@ public class AllTimelineFragment extends ItemsListFragment {
 
         setRetainInstance(true);
 
-        populateTimeline();
+        // populateTimeline();
     }
 
     @Override
