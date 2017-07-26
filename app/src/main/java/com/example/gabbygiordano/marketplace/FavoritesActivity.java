@@ -1,11 +1,13 @@
 package com.example.gabbygiordano.marketplace;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -54,14 +56,32 @@ public class FavoritesActivity extends AppCompatActivity {
 
         ParseUser user = ParseUser.getCurrentUser();
 
-        addItems(user.<Item>getList("favoritesList"));
+        addItems((List<Item>) user.get("favoritesList"));
+
+
     }
 
-    public void addItems(List<Item> list){
-        for(int i=0; i< list.size(); i++){
+    public void addItems(List<Item> list) {
+        for (int i = 0; i < list.size(); i++) {
             items.add(list.get(i));
-            itemAdapter.notifyItemInserted(items.size()-1);
+            try {
+                (list.get(i)).fetchIfNeeded();
+                list.get(i).getOwner().fetchIfNeeded();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            itemAdapter.notifyItemInserted(items.size() - 1);
         }
 
     }
+
+
+    @Override
+    public void onBackPressed() {
+        Intent i_home = new Intent(FavoritesActivity.this, ProfileActivity.class);
+        i_home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i_home);
+    }
+
+
 }

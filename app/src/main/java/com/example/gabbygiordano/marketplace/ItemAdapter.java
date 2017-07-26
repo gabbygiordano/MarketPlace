@@ -11,10 +11,14 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -75,6 +79,41 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         holder.tvItemName.setText(item.getItemName());
         holder.tvPrice.setText(item.getPrice());
         holder.tvSeller.setText(item.getOwner().getString("name"));
+        holder.tvTimeAgo.setText(item.getOwner().getString("_created_at"));
+
+        //set up favorites
+
+        ParseUser user = ParseUser.getCurrentUser();
+        ArrayList<Item> tempList = new ArrayList<Item>();
+        tempList = (ArrayList<Item>) user.get("favoritesList");
+
+        try {
+            item.fetchAllIfNeeded(mItems);
+            item.fetchIfNeeded();
+            item.getOwner().fetchIfNeeded();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if(!tempList.contains(item)){
+            holder.ibFavoriteOff.bringToFront();
+        }
+        /* for(int i=0; i<tempList.size(); i++){
+            Item newItem = tempList.get(i);
+            try {
+                ParseObject.fetchAllIfNeeded(tempList);
+                newItem.fetchIfNeeded();
+                newItem.getOwner().fetchIfNeeded();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if(newItem.getItemName() == item.getItemName()){
+                holder.ibFavoriteOn.bringToFront();
+                // notifyDataSetChanged();
+            }
+        } */
+
+        // Log.e(item.getOwner().getString("_created_at"), "printed");
+        // returns 07-18 15:04:16.993
         holder.tvTimeAgo.setText(getRelativeTimeAgo(item.getCreatedAt()));
 
         if(item.getImage() != null)
@@ -173,19 +212,43 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             ibFavoriteOff = itemView.findViewById(R.id.ibFavoriteOff);
             ibFavoriteOn = itemView.findViewById(R.id.ibFavoriteOn);
 
+
             ibFavoriteOff.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ibFavoriteOn.bringToFront();
                     int position = getAdapterPosition();
                     if(position != RecyclerView.NO_POSITION){
                         thisItem = mItems.get(position);
                     }
                     ParseUser user = ParseUser.getCurrentUser();
-                    ArrayList<Item> tempList = new ArrayList<Item>();
-                    tempList = (ArrayList<Item>) user.get("favoritesList");
+                    ArrayList<ParseObject> tempList = new ArrayList<ParseObject>();
+                    tempList = (ArrayList) user.get("favoritesList");
+                    try {
+                        ParseObject.fetchAllIfNeeded(tempList);
+                        thisItem.fetchIfNeeded();
+                        thisItem.getOwner().fetchIfNeeded();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                     tempList.add(thisItem);
                     user.put("favoritesList", tempList);
+                    user.saveInBackground();
+                    notifyDataSetChanged();
+                    ParseUser.saveAllInBackground(tempList, new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                Toast.makeText(getContext(), "saved", Toast.LENGTH_LONG).show();
+                                // Log.i("msg", ParseUser.getCurrentUser().getString("favoritesList"));
+                                notifyDataSetChanged();
+                            } else {
+                                Toast.makeText(getContext(), e.getMessage().toString(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+                    notifyDataSetChanged();
+                    ibFavoriteOn.bringToFront();
+                    notifyDataSetChanged();
 
                 }
             });
@@ -194,9 +257,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
                 @Override
                 public void onClick(View view) {
                     ibFavoriteOff.bringToFront();
-
+                    notifyDataSetChanged();
                 }
             });
+
 
             itemView.setOnClickListener(this);
         }

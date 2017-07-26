@@ -93,47 +93,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        if( getIntent().hasExtra("itemId")){
-
-            id = getIntent().getStringExtra("itemId");
-
-            ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
-            query.include("owner");
-            query.whereContains("itemId", id);
-            query.orderByDescending("_created_at");
-            query.getInBackground(id, new GetCallback<Item>() {
-                public void done(Item item, ParseException e) {
-                    if (e == null) {
-                        // item was found
-                        tvName.setText(item.getOwner().getString("name"));
-                        tvUsername.setText(item.getOwner().getUsername());
-                        tvCollege.setText(item.getOwner().getString("college"));
-                        tvPhone.setText(" ");
-
-                        populateProfileTimeline(item.getOwner());
-
-                    } else {
-                        Log.e("ItemsListFragment", e.getMessage());
-                    }
-                }
-            });
-        }
-        else{
-            // set text to current user info
-            ParseUser user = ParseUser.getCurrentUser();
-            if (user != null) {
-                tvName.setText(user.getString("name"));
-                tvUsername.setText(user.getUsername());
-                tvCollege.setText(user.getString("college"));
-                tvPhone.setText(String.valueOf(user.getLong("phone")));
-
-                populateProfileTimeline(user);
-
-            } else {
-                // show the signup or login screen
-            }
-
-        }
+        fetchTimelineAsync();
 
         // log out if power button is clicked
         ibLogOut.setOnClickListener(new View.OnClickListener() {
@@ -208,6 +168,51 @@ public class ProfileActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void fetchTimelineAsync(){
+        if( getIntent().hasExtra("itemId")){
+
+            id = getIntent().getStringExtra("itemId");
+
+            ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
+            query.include("owner");
+            query.include("favoritesList");
+            query.whereContains("itemId", id);
+            query.orderByDescending("_created_at");
+            query.getInBackground(id, new GetCallback<Item>() {
+                public void done(Item item, ParseException e) {
+                    if (e == null) {
+                        // item was found
+                        tvName.setText(item.getOwner().getString("name"));
+                        tvUsername.setText(item.getOwner().getUsername());
+                        tvCollege.setText(item.getOwner().getString("college"));
+                        tvPhone.setText(" ");
+
+                        populateProfileTimeline(item.getOwner());
+
+                    } else {
+                        Log.e("ItemsListFragment", e.getMessage());
+                    }
+                }
+            });
+        }
+        else{
+            // set text to current user info
+            ParseUser user = ParseUser.getCurrentUser();
+            if (user != null) {
+                tvName.setText(user.getString("name"));
+                tvUsername.setText(user.getUsername());
+                tvCollege.setText(user.getString("college"));
+                tvPhone.setText(String.valueOf(user.getLong("phone")));
+
+                populateProfileTimeline(user);
+
+            } else {
+
+            }
+
+        }
     }
 
     public void addItems(List<Item> list){
