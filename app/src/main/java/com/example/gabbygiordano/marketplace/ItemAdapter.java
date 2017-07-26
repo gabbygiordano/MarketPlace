@@ -2,7 +2,6 @@ package com.example.gabbygiordano.marketplace;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,16 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.gabbygiordano.marketplace.fragments.AllTimelineFragment;
-import com.parse.ParseFile;
-import com.parse.ParseObject;
-
 import com.parse.ParseUser;
-import com.squareup.picasso.Picasso;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,6 +71,18 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         holder.tvPrice.setText(item.getPrice());
         holder.tvSeller.setText(item.getOwner().getString("name"));
         holder.tvTimeAgo.setText(item.getOwner().getString("_created_at"));
+
+        //favorite
+        ParseUser user = ParseUser.getCurrentUser();
+        ArrayList<Item> tempList = new ArrayList<Item>();
+        tempList = (ArrayList<Item>) user.get("favoritesList");
+        if(tempList.contains(item)){
+            holder.ibFavoriteOn.bringToFront();
+        }
+        else{
+            holder.ibFavoriteOff.bringToFront();
+        }
+
         // Log.e(item.getOwner().getString("_created_at"), "printed");
         // returns 07-18 15:04:16.993
         if(item.getImage() != null)
@@ -155,6 +159,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             ibFavoriteOff = itemView.findViewById(R.id.ibFavoriteOff);
             ibFavoriteOn = itemView.findViewById(R.id.ibFavoriteOn);
 
+
             ibFavoriteOff.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -164,10 +169,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
                         thisItem = mItems.get(position);
                     }
                     ParseUser user = ParseUser.getCurrentUser();
-                    ArrayList<Item> tempList = new ArrayList<Item>();
-                    tempList = (ArrayList<Item>) user.get("favoritesList");
+                    ArrayList tempList = new ArrayList();
+                    tempList = (ArrayList) user.get("favoritesList");
                     tempList.add(thisItem);
                     user.put("favoritesList", tempList);
+                    notifyDataSetChanged();
 
                 }
             });
@@ -176,9 +182,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
                 @Override
                 public void onClick(View view) {
                     ibFavoriteOff.bringToFront();
-
                 }
             });
+
 
             itemView.setOnClickListener(this);
         }

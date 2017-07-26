@@ -1,6 +1,7 @@
 package com.example.gabbygiordano.marketplace;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -57,11 +58,19 @@ public class FavoritesActivity extends AppCompatActivity {
         addItems(user.<Item>getList("favoritesList"));
     }
 
-    public void addItems(List<Item> list){
-        for(int i=0; i< list.size(); i++){
+    public void addItems(List<Item> list) {
+        for (int i = 0; i < list.size(); i++) {
             items.add(list.get(i));
-            itemAdapter.notifyItemInserted(items.size()-1);
+            itemAdapter.notifyItemInserted(items.size() - 1);
         }
 
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        Intent i_home = new Intent(FavoritesActivity.this, ProfileActivity.class);
+        i_home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i_home);
     }
 }
