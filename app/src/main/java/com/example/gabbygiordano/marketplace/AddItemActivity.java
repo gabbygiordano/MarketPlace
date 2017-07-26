@@ -16,7 +16,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -39,7 +38,6 @@ import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -368,6 +366,7 @@ public class AddItemActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent i_home = new Intent(AddItemActivity.this, HomeActivity.class);
         i_home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(i_home);    }
+        startActivity(i_home);
+    }
 
 }
