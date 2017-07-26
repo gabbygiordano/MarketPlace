@@ -194,15 +194,15 @@ public class HomeActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.miInbox) {
-            Intent i = new Intent(this, InboxActivity.class);
-            startActivityForResult(i, 1);
-        }
-
-        return true;
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        if (item.getItemId() == R.id.miInbox) {
+//            Intent i = new Intent(this, InboxActivity.class);
+//            startActivityForResult(i, 1);
+//        }
+//
+//        return true;
+//    }
 
 
 
