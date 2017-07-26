@@ -4,21 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorLogoWhite"
+    android:background="@color/colorWhiteLogo"
     tools:context="com.example.gabbygiordano.marketplace.LoginActivity">
 
     <EditText
         android:id="@+id/etUserName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView2"
+        android:layout_centerHorizontal="true"
         android:ems="10"
-        android:hint="User Name"
+        android:hint="Username"
         android:inputType="textPersonName"
         android:textStyle="bold"
         tools:layout_editor_absoluteX="4dp"
-        tools:layout_editor_absoluteY="125dp"
-        android:layout_below="@+id/imageView2"
-        android:layout_centerHorizontal="true" />
+        tools:layout_editor_absoluteY="125dp" />
 
     <Button
         android:id="@+id/btLogIn"
@@ -27,9 +27,12 @@
         android:layout_below="@+id/etPassword"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="34dp"
+        android:backgroundTint="@color/Secondary500"
         android:clickable="true"
+        android:elevation="11dp"
         android:onClick="onLoginSuccess"
-        android:text="Log In" />
+        android:text="Log In"
+        android:textColor="@android:color/white" />
 
     <EditText
         android:id="@+id/etPassword"
@@ -43,15 +46,6 @@
         android:inputType="textPassword"
         android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/tvForgot"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btLogIn"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="27dp"
-        android:text="Forgot Password?" />
-
     <ImageView
     android:id="@+id/imageView2"
     android:layout_width="285dp"
@@ -59,13 +53,13 @@
     android:layout_alignParentTop="true"
     android:layout_centerHorizontal="true"
     android:adjustViewBounds="false"
-    app:srcCompat="@drawable/logo2" />
+    app:srcCompat="@drawable/college_market_place_logo" />
 
     <TextView
         android:id="@+id/tvSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvForgot"
+        android:layout_below="@+id/btLogIn"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:text="Don't have an account? Sign Up" />

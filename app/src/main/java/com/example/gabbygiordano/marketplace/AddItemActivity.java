@@ -6,7 +6,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -32,12 +34,12 @@ import com.kosalgeek.android.photoutil.GalleryPhoto;
 import com.kosalgeek.android.photoutil.ImageLoader;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -55,9 +57,9 @@ public class AddItemActivity extends AppCompatActivity {
     public EditText etItemName;
     public EditText etItemDescription;
     public EditText etItemPrice;
-    public ImageButton ibAddImage;
+    public ImageView ibAddImage;
     public Button ibPostItem;
-    public ImageView imageLocation;
+   // public ImageView imageLocation;
 
     BottomNavigationView bottomNavigationView;
 
@@ -87,9 +89,9 @@ public class AddItemActivity extends AppCompatActivity {
         etItemName = (EditText) findViewById(R.id.tvItemName);
         etItemDescription = (EditText) findViewById(R.id.tvItemDescription);
         etItemPrice = (EditText) findViewById(R.id.tvItemPrice);
-        ibAddImage = (ImageButton) findViewById(R.id.ibAddImage);
+        ibAddImage = (ImageView) findViewById(R.id.ibAddImage);
         ibPostItem = (Button) findViewById(R.id.ibPostItem);
-        imageLocation = (ImageView) findViewById(R.id.ivItemPhoto);
+       // imageLocation = (ImageView) findViewById(R.id.ivItemPhoto);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
 
         ibPostItem.setOnClickListener(new View.OnClickListener() {
@@ -299,15 +301,12 @@ public class AddItemActivity extends AppCompatActivity {
                 //Toast.makeText(this, "picture was taken", Toast.LENGTH_SHORT).show();
                 Bundle extras = data.getExtras();
                 Bitmap photoCaptured = (Bitmap) extras.get("data");
-                imageLocation.setImageBitmap(photoCaptured);
+                ibAddImage.setImageBitmap(photoCaptured);
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 photoCaptured.compress(Bitmap.CompressFormat.PNG, 100, stream);
                 byte[] image = stream.toByteArray();
                 file = new ParseFile("itemimage.png", image);
                 file.saveInBackground();
-                ParseObject imageUpload = new ParseObject("ImageUpload");
-                imageUpload.put("ImageFile", file);
-                imageUpload.saveInBackground();
                 Toast.makeText(AddItemActivity.this, "Image Uploaded",
                         Toast.LENGTH_SHORT).show();
                 //resource = photoCaptured;
@@ -323,15 +322,12 @@ public class AddItemActivity extends AppCompatActivity {
                 try
                 {
                     Bitmap bitmap = ImageLoader.init().from(photoPath).requestSize(512,512).getBitmap();
-                    imageLocation.setImageBitmap(getRotatedBitmap(bitmap, 90));
+                    ibAddImage.setImageBitmap(rotateBitmapOrientation(photoPath));
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
                     byte[] image = stream.toByteArray();
                     file = new ParseFile("itemimage.png", image);
                     file.saveInBackground();
-                    ParseObject imageUpload = new ParseObject("ImageUpload");
-                    imageUpload.put("ImageFile", file);
-                    imageUpload.saveInBackground();
                     Toast.makeText(AddItemActivity.this, "Image Uploaded",
                             Toast.LENGTH_SHORT).show();
 //                    try {
@@ -353,12 +349,32 @@ public class AddItemActivity extends AppCompatActivity {
         }
     }
 
-    private Bitmap getRotatedBitmap(Bitmap source, float angle)
-    {
+    public Bitmap rotateBitmapOrientation(String photoFilePath) {
+        // Create and configure BitmapFactory
+        BitmapFactory.Options bounds = new BitmapFactory.Options();
+        bounds.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(photoFilePath, bounds);
+        BitmapFactory.Options opts = new BitmapFactory.Options();
+        Bitmap bm = BitmapFactory.decodeFile(photoFilePath, opts);
+        // Read EXIF Data
+        ExifInterface exif = null;
+        try {
+            exif = new ExifInterface(photoFilePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String orientString = exif.getAttribute(ExifInterface.TAG_ORIENTATION);
+        int orientation = orientString != null ? Integer.parseInt(orientString) : ExifInterface.ORIENTATION_NORMAL;
+        int rotationAngle = 0;
+        if (orientation == ExifInterface.ORIENTATION_ROTATE_90) rotationAngle = 90;
+        if (orientation == ExifInterface.ORIENTATION_ROTATE_180) rotationAngle = 180;
+        if (orientation == ExifInterface.ORIENTATION_ROTATE_270) rotationAngle = 270;
+        // Rotate Bitmap
         Matrix matrix = new Matrix();
-        matrix.postRotate(angle);
-        Bitmap bitmap1 = Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
-        return bitmap1;
+        matrix.setRotate(rotationAngle, (float) bm.getWidth() / 2, (float) bm.getHeight() / 2);
+        Bitmap rotatedBitmap = Bitmap.createBitmap(bm, 0, 0, bounds.outWidth, bounds.outHeight, matrix, true);
+        // Return result
+        return rotatedBitmap;
     }
 
 

@@ -3,6 +3,7 @@ package com.example.gabbygiordano.marketplace;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,13 +14,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 import static com.example.gabbygiordano.marketplace.R.layout.item;
 
@@ -109,6 +114,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
         // Log.e(item.getOwner().getString("_created_at"), "printed");
         // returns 07-18 15:04:16.993
+        holder.tvTimeAgo.setText(getRelativeTimeAgo(item.getCreatedAt()));
+
         if(item.getImage() != null)
         {
             String imageUri = item.getImage().getUrl();
@@ -116,6 +123,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             Glide
                     .with(context)
                     .load(imageUri)
+                    .bitmapTransform(new CenterCrop(context), new RoundedCornersTransformation(context, 20, 0))
                     .placeholder(R.drawable.ic_camera)
                     .error(R.drawable.ic_camera)
                     .into(holder.ivItemImage);
@@ -129,6 +137,27 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
                     .error(R.drawable.ic_camera)
                     .into(holder.ivItemImage);
         }
+    }
+
+    // getRelativeTimeAgo("Mon Apr 01 21:16:23 +0000 2014");
+    public String getRelativeTimeAgo(Date date) {
+        String relativeDate = "";
+
+        long createdDate = date.getTime();
+        relativeDate = DateUtils.getRelativeTimeSpanString(createdDate,
+                System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS, DateUtils.FORMAT_ABBREV_ALL).toString();
+
+        relativeDate = relativeDate.replace(" ago", "");
+        relativeDate = relativeDate.replace(" sec.", "s");
+        relativeDate = relativeDate.replace(" min.", "m");
+        relativeDate = relativeDate.replace(" hr.", "h");
+        relativeDate = relativeDate.replace(" days", "d");
+
+        if (relativeDate.equals("Yesterday")) {
+            relativeDate = "1d";
+        }
+
+        return relativeDate;
     }
 
     @Override
