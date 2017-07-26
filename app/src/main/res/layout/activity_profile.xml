@@ -83,7 +83,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            app:itemBackground="@color/colorPrimary"
+            app:itemBackground="@color/Primary500"
             app:itemIconTint="@drawable/item_color_state"
             app:itemTextColor="@drawable/item_color_state"
             app:menu="@menu/bottom_navigation_main" />
@@ -96,6 +96,7 @@
             android:layout_alignParentTop="true"
             android:layout_alignRight="@+id/bottomNavigation"
             app:srcCompat="@android:drawable/ic_lock_power_off" />
+
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/floatingActionButton5"
             android:layout_width="wrap_content"
@@ -107,7 +108,7 @@
             android:layout_marginEnd="10dp"
             android:onClick="addItem"
             app:background="@drawable/circle"
-            app:backgroundTint="#5c9fd6"
+            app:backgroundTint="@color/Secondary500"
             app:borderWidth="0dp"
             android:src="@drawable/ic_add_item"
             app:elevation="12dp"

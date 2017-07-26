@@ -20,7 +20,7 @@
         android:onClick="addItem"
         android:src="@drawable/ic_add_item"
         app:background="@drawable/circle"
-        app:backgroundTint="@color/colorRedLogo"
+        app:backgroundTint="@color/Secondary500"
         app:borderWidth="0dp"
         app:elevation="12dp"
         app:fabSize="normal" />
@@ -37,6 +37,7 @@
         android:id="@+id/sliding_tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:tabIndicatorColor="@color/Secondary500"
         app:tabMode="fixed" />
 
     <android.support.v4.view.ViewPager
@@ -51,7 +52,7 @@
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:itemBackground="@color/colorPrimary"
+        app:itemBackground="@color/Primary500"
         app:itemIconTint="@drawable/item_color_state"
         app:itemTextColor="@drawable/item_color_state"
         app:menu="@menu/bottom_navigation_main"
