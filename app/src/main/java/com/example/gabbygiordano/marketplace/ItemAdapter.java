@@ -62,7 +62,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         // get the data according to position
-        final Item item = mItems.get(position);
+        Item item = mItems.get(position);
 
         if (item == null) {
             Log.e("ItemAdapter", "ITEM NULL");
@@ -88,13 +88,16 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         tempList = (ArrayList<Item>) user.get("favoritesList");
 
         try {
-            item.fetchAllIfNeeded(mItems);
+            // item.fetchAllIfNeeded(mItems);
             item.fetchIfNeeded();
             item.getOwner().fetchIfNeeded();
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        if(!tempList.contains(item)){
+        if(tempList.contains(item)){
+            holder.ibFavoriteOn.bringToFront();
+        }
+        else{
             holder.ibFavoriteOff.bringToFront();
         }
         /* for(int i=0; i<tempList.size(); i++){
@@ -220,6 +223,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
                     if(position != RecyclerView.NO_POSITION){
                         thisItem = mItems.get(position);
                     }
+                    notifyDataSetChanged();
                     ParseUser user = ParseUser.getCurrentUser();
                     ArrayList<ParseObject> tempList = new ArrayList<ParseObject>();
                     tempList = (ArrayList) user.get("favoritesList");
