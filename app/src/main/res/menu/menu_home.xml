@@ -9,6 +9,20 @@
     <!--</item>-->
 
     <item
+        android:id="@+id/miInbox"
+        android:icon="@drawable/inbox"
+        app:showAsAction="ifRoom"
+        android:title="Settings">
+    </item>
+    <item
+        android:id="@+id/miActionProgress"
+        android:orderInCategory="100"
+        android:title="Loading..."
+        android:visible="false"
+        app:actionLayout="@layout/action_view_progress"
+        app:showAsAction="always">
+    </item>
+    <item
         android:id="@+id/action_search"
         android:icon="@drawable/ic_search_tab"
         android:orderInCategory="5"
