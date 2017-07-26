@@ -3,12 +3,17 @@ package com.example.gabbygiordano.marketplace;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -56,6 +61,7 @@ public class SignUpActivity extends AppCompatActivity {
     EditText etPassword;
     Button registerButton;
     TextView tvGotoLogin;
+    TextView tvAccount;
 
     AutoCompleteTextView tvAutocompleteCollege;
 
@@ -94,6 +100,19 @@ public class SignUpActivity extends AppCompatActivity {
         registerButton = (Button) findViewById(R.id.registerButton);
         tvGotoLogin = (TextView) findViewById(R.id.tvAccount);
         tvAutocompleteCollege = (AutoCompleteTextView) findViewById(R.id.tvAutocompleteCollege);
+        tvAccount = (TextView) findViewById(R.id.tvAccount);
+
+        String login = "Already have an account? Login.";
+
+        SpannableStringBuilder ssb_a = new SpannableStringBuilder(login);
+
+        ForegroundColorSpan redForegroundColorSpan = new ForegroundColorSpan(Color.rgb(255, 87, 34));
+        StyleSpan bold = new StyleSpan(android.graphics.Typeface.BOLD);
+
+        ssb_a.setSpan(redForegroundColorSpan, 25, ssb_a.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ssb_a.setSpan(bold, 25, ssb_a.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        tvAccount.setText(ssb_a, TextView.BufferType.EDITABLE);
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,6 +162,7 @@ public class SignUpActivity extends AppCompatActivity {
                     parseUser.put("phone", Long.parseLong(phone));
                     parseUser.put("college", school);
                     parseUser.put("contact", preference);
+                    parseUser.put("publicEmail", email);
                     parseUser.put("favoritesList", favoritesList);
 
                     onRegisterClicked();

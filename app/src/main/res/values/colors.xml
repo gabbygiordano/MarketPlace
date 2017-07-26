@@ -4,20 +4,25 @@
     <color name="colorPrimaryDark">#020202</color>
     <color name="colorAccent">#9b9b9b</color>
 
+    <!--Test colors-->
     <color name="colorRedFeature">#ff0000</color>
-
     <color name="colorAccent2">#FF4081</color>
-
     <color name="colorBlueFeature">#0000FF</color>
 
+     <!--Logo colors-->
     <color name="colorBlueLogo">#5c9fd6</color>
-
     <color name="colorRedLogo">#fb5d62</color>
-
     <color name="colorGrayLogo">#9b9b9b</color>
+    <color name="colorWhiteLogo">#fefefe</color>
 
-    <color name="colorLogoWhite">#fefefe</color>
-
+    <!--Misc colors-->
     <color name="colorGold">#ffd700</color>
 
+    <!--Palette colors-->
+    <color name="Primary500">#00bcd4</color>
+    <color name="PrimaryDark">#008ba3</color>
+    <color name="PrimaryLight">#62efff</color>
+    <color name="Secondary500">#ff5722</color>
+    <color name="SecondaryDark">#c41c00</color>
+    <color name="SecondaryLight">#ff8a50</color>
 </resources>

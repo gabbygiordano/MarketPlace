@@ -7,11 +7,12 @@
 
     <ImageView
         android:id="@+id/ivItemImage"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:layout_margin="5dp"
         android:clickable="true"
         app:srcCompat="@android:drawable/ic_menu_camera"
         tools:ignore="VectorDrawableCompat" />
@@ -21,11 +22,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:layout_marginBottom="2dp"
+        android:layout_marginTop="2dp"
         android:layout_toEndOf="@+id/ivItemImage"
         android:layout_toRightOf="@+id/ivItemImage"
         android:text="Item Name"
-        android:layout_marginLeft="5dp"
-        android:textSize="24sp"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
         android:textStyle="bold" />
 
     <TextView
@@ -33,39 +36,43 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvItemName"
+        android:layout_marginBottom="2dp"
         android:layout_toEndOf="@+id/ivItemImage"
         android:layout_toRightOf="@+id/ivItemImage"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:text="Seller Name" />
-
-    <TextView
-        android:id="@+id/tvPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="7dp"
-        android:text="$$"
-        android:textSize="18sp" />
+        android:text="Seller Name"
+        android:textAllCaps="false"
+        android:textColor="@android:color/black" />
 
     <TextView
         android:id="@+id/tvTimeAgo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:text="n"
+        android:textColor="?android:attr/textColorHint" />
+
+    <TextView
+        android:id="@+id/tvPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/tvSeller"
         android:layout_alignStart="@+id/tvSeller"
         android:layout_below="@+id/tvSeller"
-        android:text="Time Ago Posted" />
+        android:text="$$$"
+        android:textColor="@android:color/black" />
 
     <ImageButton
         android:id="@+id/ibFavoriteOn"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_below="@+id/tvPrice"
-        android:layout_alignRight="@+id/tvPrice"
-        android:layout_alignEnd="@+id/tvPrice"
+        android:layout_below="@+id/tvTimeAgo"
+        android:layout_alignRight="@+id/tvTimeAgo"
+        android:layout_alignEnd="@+id/tvTimeAgo"
         app:srcCompat="@android:drawable/btn_star_big_on" />
 
     <ImageButton
@@ -74,8 +81,8 @@
         android:layout_height="30dp"
         app:srcCompat="@android:drawable/btn_star_big_off"
         android:clickable="true"
-        android:layout_below="@+id/tvPrice"
-        android:layout_alignRight="@+id/tvPrice"
-        android:layout_alignEnd="@+id/tvPrice" />
+        android:layout_below="@+id/tvTimeAgo"
+        android:layout_alignRight="@+id/tvTimeAgo"
+        android:layout_alignEnd="@+id/tvTimeAgo" />
 
 </RelativeLayout>

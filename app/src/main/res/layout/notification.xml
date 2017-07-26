@@ -50,7 +50,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:background="@color/colorLogoWhite"
+        android:background="@color/colorWhiteLogo"
         android:tint="@color/colorBlueLogo"
         app:srcCompat="@android:drawable/sym_action_email" />
 
@@ -58,7 +58,7 @@
         android:id="@+id/ibMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/colorLogoWhite"
+        android:background="@color/colorWhiteLogo"
         android:tint="@color/colorBlueLogo"
         app:srcCompat="@android:drawable/sym_action_chat"
         android:layout_alignParentTop="true"

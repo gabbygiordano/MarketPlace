@@ -3,6 +3,7 @@ package com.example.gabbygiordano.marketplace;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -10,6 +11,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -51,6 +53,8 @@ public class HomeActivity extends AppCompatActivity {
     int ADD_ITEM_REQUEST = 10;
 
     Date lastNotif = new Date();
+
+    Intent mServiceIntent;
 
     // Create a handler which can run code periodically
     static final int POLL_INTERVAL = 1000; // milliseconds
@@ -113,7 +117,22 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
+        // myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
+
+        Log.e("NotifService", lastNotif.toString());
+        // Using background services and broadcast receivers
+        mServiceIntent = new Intent(this, NotificationService.class);
+        mServiceIntent.putExtra("last", lastNotif);
+        startService(mServiceIntent);
+
+        // Instantiates a new DownloadStateReceiver
+        NotificationReceiver mDownloadStateReceiver = new NotificationReceiver();
+
+        // The filter's action is BROADCAST_ACTION
+        IntentFilter statusIntentFilter = new IntentFilter(Constants.BROADCAST_ACTION);
+
+        // Registers the DownloadStateReceiver and its intent filters
+        LocalBroadcastManager.getInstance(this).registerReceiver(mDownloadStateReceiver, statusIntentFilter);
     }
 
 
@@ -175,15 +194,15 @@ public class HomeActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.miInbox) {
-            Intent i = new Intent(this, InboxActivity.class);
-            startActivityForResult(i, 1);
-        }
-
-        return true;
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        if (item.getItemId() == R.id.miInbox) {
+//            Intent i = new Intent(this, InboxActivity.class);
+//            startActivityForResult(i, 1);
+//        }
+//
+//        return true;
+//    }
 
 
 

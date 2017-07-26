@@ -43,17 +43,18 @@ public class NotificationService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        Log.e("Service", "Initialized");
+        Log.e("NotifService", "Initialized");
 
         context = getApplicationContext();
         // Handle intent data here
-        lastNotif = (Date) intent.getSerializableExtra("date");
+        lastNotif = (Date) intent.getExtras().get("last");
 
         myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
     }
 
     void refreshMessages() {
-        Log.e("Service", "Making query");
+        Log.e("NotifService", "Making query");
+        Log.e("NotifService", lastNotif.toString());
 
         // make the query
         ParseQuery<AppNotification> parseQuery = ParseQuery.getQuery(AppNotification.class);;
@@ -68,12 +69,18 @@ public class NotificationService extends IntentService {
             public void done(List<AppNotification> notificationsList, ParseException e) {
                 if (e == null) {
                     if (notificationsList != null && !notificationsList.isEmpty()) {
-                        Log.e("Service", "Made query");
+                        Log.e("NotifService", "Made query");
 
                         Intent localIntent = new Intent(Constants.BROADCAST_ACTION);
                         localIntent.putExtra("notifications", (Serializable) notificationsList);
+
+                        Log.e("NotifService", "Intent created");
+
                         // Broadcasts the Intent to receivers in this app.
                         LocalBroadcastManager.getInstance(context).sendBroadcast(localIntent);
+
+                        lastNotif = notificationsList.get(0).getCreatedAt();
+                        Log.e("NotifService", lastNotif.toString());
                     }
                 } else {
                     lastNotif = notificationsList.get(0).getCreatedAt();
