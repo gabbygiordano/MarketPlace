@@ -32,7 +32,6 @@ import com.kosalgeek.android.photoutil.GalleryPhoto;
 import com.kosalgeek.android.photoutil.ImageLoader;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -305,9 +304,6 @@ public class AddItemActivity extends AppCompatActivity {
                 byte[] image = stream.toByteArray();
                 file = new ParseFile("itemimage.png", image);
                 file.saveInBackground();
-                ParseObject imageUpload = new ParseObject("ImageUpload");
-                imageUpload.put("ImageFile", file);
-                imageUpload.saveInBackground();
                 Toast.makeText(AddItemActivity.this, "Image Uploaded",
                         Toast.LENGTH_SHORT).show();
                 //resource = photoCaptured;
@@ -329,9 +325,6 @@ public class AddItemActivity extends AppCompatActivity {
                     byte[] image = stream.toByteArray();
                     file = new ParseFile("itemimage.png", image);
                     file.saveInBackground();
-                    ParseObject imageUpload = new ParseObject("ImageUpload");
-                    imageUpload.put("ImageFile", file);
-                    imageUpload.saveInBackground();
                     Toast.makeText(AddItemActivity.this, "Image Uploaded",
                             Toast.LENGTH_SHORT).show();
 //                    try {

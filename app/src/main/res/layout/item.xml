@@ -13,6 +13,8 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:clickable="true"
+        android:layout_margin="5dp"
+        android:scaleType="centerCrop"
         app:srcCompat="@android:drawable/ic_menu_camera"
         tools:ignore="VectorDrawableCompat" />
 
@@ -24,7 +26,8 @@
         android:layout_toEndOf="@+id/ivItemImage"
         android:layout_toRightOf="@+id/ivItemImage"
         android:text="Item Name"
-        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:textSize="24sp"
         android:textStyle="bold" />
 
@@ -35,8 +38,7 @@
         android:layout_below="@+id/tvItemName"
         android:layout_toEndOf="@+id/ivItemImage"
         android:layout_toRightOf="@+id/ivItemImage"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
         android:text="Seller Name" />
 
     <TextView
@@ -46,7 +48,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_marginRight="7dp"
+        android:layout_margin="5dp"
         android:text="$$"
         android:textSize="18sp" />
 
