@@ -23,7 +23,7 @@ public class ElectronicsTimelineFragment extends ItemsListFragment {
 
         setRetainInstance(true);
 
-        populateTimeline();
+        // populateTimeline();
     }
 
     @Override
