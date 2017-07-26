@@ -76,15 +76,31 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         holder.tvSeller.setText(item.getOwner().getString("name"));
         holder.tvTimeAgo.setText(item.getOwner().getString("_created_at"));
 
-        //favorite
+        //set up favorites
         ParseUser user = ParseUser.getCurrentUser();
         ArrayList<Item> tempList = new ArrayList<Item>();
         tempList = (ArrayList<Item>) user.get("favoritesList");
-        if(tempList.contains(item)){
-            holder.ibFavoriteOn.bringToFront();
+
+        try {
+            ParseObject.fetchAllIfNeeded(tempList);
+            item.fetchIfNeeded();
+            item.getOwner().fetchIfNeeded();
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
-        else{
-            holder.ibFavoriteOff.bringToFront();
+        for(int i=0; i<tempList.size(); i++){
+            Item newItem = tempList.get(i);
+            try {
+                ParseObject.fetchAllIfNeeded(tempList);
+                newItem.fetchIfNeeded();
+                newItem.getOwner().fetchIfNeeded();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if(newItem.getItemName() == item.getItemName()){
+                holder.ibFavoriteOn.bringToFront();
+                // notifyDataSetChanged();
+            }
         }
 
         // Log.e(item.getOwner().getString("_created_at"), "printed");
@@ -167,7 +183,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             ibFavoriteOff.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ibFavoriteOn.bringToFront();
                     int position = getAdapterPosition();
                     if(position != RecyclerView.NO_POSITION){
                         thisItem = mItems.get(position);
@@ -177,11 +192,15 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
                     tempList = (ArrayList) user.get("favoritesList");
                     try {
                         ParseObject.fetchAllIfNeeded(tempList);
+                        thisItem.fetchIfNeeded();
+                        thisItem.getOwner().fetchIfNeeded();
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
                     tempList.add(thisItem);
                     user.put("favoritesList", tempList);
+                    user.saveInBackground();
+                    notifyDataSetChanged();
                     ParseUser.saveAllInBackground(tempList, new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
@@ -195,6 +214,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
                         }
                     });
                     notifyDataSetChanged();
+                    ibFavoriteOn.bringToFront();
 
                 }
             });
