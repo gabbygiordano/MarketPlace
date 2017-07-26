@@ -59,7 +59,7 @@
     android:layout_alignParentTop="true"
     android:layout_centerHorizontal="true"
     android:adjustViewBounds="false"
-    app:srcCompat="@drawable/logo2" />
+    app:srcCompat="@drawable/college_market_place_logo" />
 
     <TextView
         android:id="@+id/tvSignUp"
