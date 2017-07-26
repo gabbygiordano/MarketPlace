@@ -10,9 +10,13 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -169,10 +173,27 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
                         thisItem = mItems.get(position);
                     }
                     ParseUser user = ParseUser.getCurrentUser();
-                    ArrayList tempList = new ArrayList();
+                    ArrayList<ParseObject> tempList = new ArrayList<ParseObject>();
                     tempList = (ArrayList) user.get("favoritesList");
+                    try {
+                        ParseObject.fetchAllIfNeeded(tempList);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                     tempList.add(thisItem);
                     user.put("favoritesList", tempList);
+                    ParseUser.saveAllInBackground(tempList, new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                Toast.makeText(getContext(), "saved", Toast.LENGTH_LONG).show();
+                                // Log.i("msg", ParseUser.getCurrentUser().getString("favoritesList"));
+                                notifyDataSetChanged();
+                            } else {
+                                Toast.makeText(getContext(), e.getMessage().toString(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
                     notifyDataSetChanged();
 
                 }

@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -55,12 +56,20 @@ public class FavoritesActivity extends AppCompatActivity {
 
         ParseUser user = ParseUser.getCurrentUser();
 
-        addItems(user.<Item>getList("favoritesList"));
+        addItems((List<Item>) user.get("favoritesList"));
+
+
     }
 
     public void addItems(List<Item> list) {
         for (int i = 0; i < list.size(); i++) {
             items.add(list.get(i));
+            try {
+                (list.get(i)).fetchIfNeeded();
+                list.get(i).getOwner().fetchIfNeeded();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             itemAdapter.notifyItemInserted(items.size() - 1);
         }
 
@@ -73,4 +82,6 @@ public class FavoritesActivity extends AppCompatActivity {
         i_home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i_home);
     }
+
+
 }

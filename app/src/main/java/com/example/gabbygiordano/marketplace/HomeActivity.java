@@ -136,6 +136,7 @@ public class HomeActivity extends AppCompatActivity {
                 // perform query here
                 ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
                 query.include("owner");
+                query.include("favoritesList");
                 query.whereContains("item_name", text);
                 query.orderByDescending("_created_at");
                 query.findInBackground(new FindCallback<Item>() {
@@ -254,5 +255,7 @@ public class HomeActivity extends AppCompatActivity {
                 }
             }
         });
+
     }
+
 }

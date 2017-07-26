@@ -7,6 +7,14 @@
         app:showAsAction="ifRoom"
         android:title="Settings">
     </item>
+    <item
+        android:id="@+id/miActionProgress"
+        android:orderInCategory="100"
+        android:title="Loading..."
+        android:visible="false"
+        app:actionLayout="@layout/action_view_progress"
+        app:showAsAction="always">
+    </item>
     <item android:id="@+id/action_search"
         android:orderInCategory="5"
         android:title="Search"
