@@ -77,18 +77,22 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         holder.tvTimeAgo.setText(item.getOwner().getString("_created_at"));
 
         //set up favorites
+
         ParseUser user = ParseUser.getCurrentUser();
         ArrayList<Item> tempList = new ArrayList<Item>();
         tempList = (ArrayList<Item>) user.get("favoritesList");
 
         try {
-            ParseObject.fetchAllIfNeeded(tempList);
+            item.fetchAllIfNeeded(mItems);
             item.fetchIfNeeded();
             item.getOwner().fetchIfNeeded();
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        for(int i=0; i<tempList.size(); i++){
+        if(!tempList.contains(item)){
+            holder.ibFavoriteOff.bringToFront();
+        }
+        /* for(int i=0; i<tempList.size(); i++){
             Item newItem = tempList.get(i);
             try {
                 ParseObject.fetchAllIfNeeded(tempList);
@@ -101,7 +105,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
                 holder.ibFavoriteOn.bringToFront();
                 // notifyDataSetChanged();
             }
-        }
+        } */
 
         // Log.e(item.getOwner().getString("_created_at"), "printed");
         // returns 07-18 15:04:16.993
@@ -215,6 +219,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
                     });
                     notifyDataSetChanged();
                     ibFavoriteOn.bringToFront();
+                    notifyDataSetChanged();
 
                 }
             });
@@ -223,6 +228,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
                 @Override
                 public void onClick(View view) {
                     ibFavoriteOff.bringToFront();
+                    notifyDataSetChanged();
                 }
             });
 

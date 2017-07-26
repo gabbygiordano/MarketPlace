@@ -60,15 +60,6 @@
         android:text="Time Ago Posted" />
 
     <ImageButton
-        android:id="@+id/ibFavoriteOn"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_below="@+id/tvPrice"
-        android:layout_alignRight="@+id/tvPrice"
-        android:layout_alignEnd="@+id/tvPrice"
-        app:srcCompat="@android:drawable/btn_star_big_on" />
-
-    <ImageButton
         android:id="@+id/ibFavoriteOff"
         android:layout_width="30dp"
         android:layout_height="30dp"
@@ -77,5 +68,14 @@
         android:layout_below="@+id/tvPrice"
         android:layout_alignRight="@+id/tvPrice"
         android:layout_alignEnd="@+id/tvPrice" />
+
+    <ImageButton
+        android:id="@+id/ibFavoriteOn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignEnd="@+id/tvPrice"
+        android:layout_alignRight="@+id/tvPrice"
+        android:layout_below="@+id/tvPrice"
+        app:srcCompat="@android:drawable/btn_star_big_on" />
 
 </RelativeLayout>
