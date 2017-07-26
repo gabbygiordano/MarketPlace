@@ -2,12 +2,18 @@ package com.example.gabbygiordano.marketplace;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.format.DateUtils;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,15 +44,11 @@ public class DetailsActivity extends AppCompatActivity {
     RatingBar rbItemCondition;
     ImageView ivItemImage;
     TextView tvItemOwner;
-
-    Button btSeller;
-
-    MarketPlaceClient client;
-    private Item parseItem;
-
     Button btnInterested;
-
     BottomNavigationView bottomNavigationView;
+    TextView tvTimeAgo;
+
+    private Item parseItem;
 
     int ADD_ITEM_REQUEST = 10;
 
@@ -54,7 +56,6 @@ public class DetailsActivity extends AppCompatActivity {
     AppNotification appNotification;
 
     Context context;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,11 +71,8 @@ public class DetailsActivity extends AppCompatActivity {
         rbItemCondition = (RatingBar) findViewById(R.id.rbItemCondition);
         ivItemImage = (ImageView) findViewById(R.id.ivItemImage);
         tvItemOwner = (TextView) findViewById(R.id.tvItemOwner);
-
-        btSeller = (Button) findViewById(R.id.btSeller);
-
         btnInterested = (Button) findViewById(R.id.btnInterested);
-
+        tvTimeAgo = (TextView) findViewById(R.id.tvTimeAgo);
 
         LayerDrawable stars = (LayerDrawable) rbItemCondition.getProgressDrawable();
         stars.getDrawable(2).setColorFilter(getResources().getColor(colorGold), PorterDuff.Mode.SRC_ATOP);
@@ -114,14 +112,6 @@ public class DetailsActivity extends AppCompatActivity {
             }
         });
 
-        tvItemOwner.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), ChatActivity.class);
-                startActivity(i);
-            }
-        });
-
         //get item ID from Intent
         String itemId = getIntent().getStringExtra("ID");
 
@@ -137,9 +127,24 @@ public class DetailsActivity extends AppCompatActivity {
                     tvItemDescription.setText(item.getDescription());
                     tvItemPrice.setText(item.getPrice());
                     rbItemCondition.setRating(item.getCondition());
-                    tvItemOwner.setText(item.getOwner().getString("name"));
+
+                    String owner = "Owner: " + item.getOwner().getString("name");
+
+                    SpannableStringBuilder ssb_a = new SpannableStringBuilder(owner);
+
+                    ForegroundColorSpan redForegroundColorSpan = new ForegroundColorSpan(Color.rgb(255, 87, 34));
+                    StyleSpan bold = new StyleSpan(android.graphics.Typeface.BOLD);
+
+                    ssb_a.setSpan(redForegroundColorSpan, 7, ssb_a.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    ssb_a.setSpan(bold, 7, ssb_a.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                    tvItemOwner.setText(ssb_a, TextView.BufferType.EDITABLE);
+
+                    tvTimeAgo.setText(getRelativeTimeAgo(item.getCreatedAt()));
 
                     parseItem = item;
+
+                    getSupportActionBar().setTitle(item.getItemName());
 
                     if (item.getImage() != null) {
                         String imageUri = item.getImage().getUrl();
@@ -155,7 +160,7 @@ public class DetailsActivity extends AppCompatActivity {
             }
         });
 
-        btSeller.setOnClickListener(new View.OnClickListener() {
+        tvItemOwner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
@@ -164,6 +169,17 @@ public class DetailsActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    // getRelativeTimeAgo("Mon Apr 01 21:16:23 +0000 2014");
+    public String getRelativeTimeAgo(Date date) {
+        String relativeDate = "";
+
+        long createdDate = date.getTime();
+        relativeDate = DateUtils.getRelativeTimeSpanString(createdDate,
+                System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS).toString();
+
+        return relativeDate;
     }
 
     public void onInterestedClick(View view) {
