@@ -32,120 +32,113 @@
         android:id="@+id/etSchoolEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="School email address"
         android:inputType="textEmailAddress"
-        android:layout_below="@id/imageView2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/etFullName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/etSchoolEmail"
+        android:layout_alignLeft="@+id/etSchoolEmail"
+        android:layout_alignRight="@+id/etSchoolEmail"
+        android:layout_alignStart="@+id/etSchoolEmail"
         android:layout_below="@+id/etSchoolEmail"
         android:ems="10"
         android:hint="Full name"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/etUserName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
+        android:layout_alignLeft="@+id/etFullName"
+        android:layout_alignStart="@+id/etFullName"
         android:layout_below="@+id/etFullName"
         android:ems="10"
         android:hint="Username"
-        android:inputType="text" />
+        android:inputType="text"
+        android:textStyle="bold" />
 
-    <AutoCompleteTextView
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <AutoCompleteTextView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/tvAutocompleteCollege"
-        android:layout_below="@+id/etUserName"
         android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/etUserName"
+        android:layout_alignLeft="@+id/etUserName"
+        android:layout_alignRight="@+id/etUserName"
+        android:layout_alignStart="@+id/etUserName"
+        android:layout_below="@+id/etUserName"
         android:completionThreshold="1"
         android:hint="College/University"
-        android:layout_height="wrap_content" />
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/etPhoneNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/tvAutocompleteCollege"
+        android:layout_alignLeft="@+id/tvAutocompleteCollege"
+        android:layout_alignRight="@+id/tvAutocompleteCollege"
+        android:layout_alignStart="@+id/tvAutocompleteCollege"
         android:layout_below="@+id/tvAutocompleteCollege"
         android:ems="10"
         android:hint="Phone number"
-        android:inputType="phone" />
+        android:inputType="phone"
+        android:textStyle="bold" />
 
     <Spinner
         android:id="@+id/contactOptions"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:visibility="visible"
+        android:layout_alignEnd="@+id/etPhoneNumber"
+        android:layout_alignLeft="@+id/etPhoneNumber"
+        android:layout_alignRight="@+id/etPhoneNumber"
+        android:layout_alignStart="@+id/etPhoneNumber"
         android:layout_below="@+id/etPhoneNumber"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:visibility="visible" />
 
     <EditText
         android:id="@+id/etPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/contactOptions"
+        android:layout_alignLeft="@+id/contactOptions"
+        android:layout_alignRight="@+id/contactOptions"
+        android:layout_alignStart="@+id/contactOptions"
         android:layout_below="@+id/contactOptions"
         android:ems="10"
         android:hint="Password"
-        android:inputType="text|textPassword" />
+        android:inputType="text|textPassword"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/registerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Register"
-        android:textColor="#ffffff"
         android:layout_below="@+id/etPassword"
-        android:layout_centerHorizontal="true" />
+        android:layout_margin="20dp"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="@color/Secondary500"
+        android:text="Register"
+        android:textColor="#ffffff" />
 
     <TextView
         android:id="@+id/tvAccount"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/imageView2"
-        android:layout_alignLeft="@+id/imageView2"
-        android:layout_alignRight="@+id/imageView2"
-        android:layout_alignStart="@+id/imageView2"
+        android:layout_centerHorizontal="true"
         android:layout_below="@+id/registerButton"
         android:clickable="true"
         android:gravity="center"
-        android:text="Already have an account?"
-        android:textAlignment="viewStart" />
-
-    <TextView
-        android:id="@+id/tvLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/tvAccount"
-        android:layout_alignBottom="@+id/tvAccount"
-        android:layout_marginLeft="14dp"
-        android:layout_marginStart="14dp"
-        android:layout_toEndOf="@+id/registerButton"
-        android:layout_toRightOf="@+id/registerButton"
-        android:text=" Login."
         android:onClick="goToLogin"
-        android:textStyle="bold" />
+        android:text="Already have an account? Login."
+        android:textAlignment="viewStart" />
 
 </RelativeLayout>
