@@ -53,9 +53,6 @@ public class NotificationService extends IntentService {
     }
 
     void refreshMessages() {
-        Log.e("NotifService", "Making query");
-        Log.e("NotifService", lastNotif.toString());
-
         // make the query
         ParseQuery<AppNotification> parseQuery = ParseQuery.getQuery(AppNotification.class);;
 

@@ -13,120 +13,101 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/ivItemImage"
-        android:layout_width="wrap_content"
-        android:layout_height="200dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        app:srcCompat="@android:drawable/ic_menu_gallery"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+            <ImageView
+                android:id="@+id/ivItemImage"
+                android:layout_width="wrap_content"
+                android:layout_height="200dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:background="@android:color/black" />
 
-    <TextView
-        android:id="@+id/tvItemName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/ivItemImage"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:textAlignment="viewStart"
-        android:textSize="30sp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:textStyle="bold" />
+            <TextView
+                android:id="@+id/tvTimeAgo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/ivItemImage"
+                android:layout_margin="5dp"
+                android:text="n units ago" />
 
-    <TextView
-        android:id="@+id/tvItemDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/rbItemCondition"
-        android:ems="10"
-        android:textSize="18sp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_above="@+id/fabBuy" />
+            <TextView
+                android:id="@+id/tvItemName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/ivItemImage"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="Name"
+                android:textAlignment="viewStart"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_margin="5dp" />
 
-    <TextView
-        android:id="@+id/tvItemPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/ivItemImage"
-        android:layout_marginRight="8dp"
-        android:ems="10"
-        android:textAlignment="textEnd"
-        android:textSize="18sp" />
+            <TextView
+                android:id="@+id/tvItemPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvItemName"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp"
+                android:ems="10"
+                android:text="$$$"
+                android:textAlignment="viewStart"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
 
-    <Button
-        android:id="@+id/btnInterested"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onInterestedClick"
-        android:background="@color/colorBlueLogo"
-        android:text="Interested"
-        android:textColor="@android:color/white"
-        android:layout_alignRight="@+id/tvItemDescription"
-        android:layout_alignParentBottom="true"/>
+            <RatingBar
+                android:id="@+id/rbItemCondition"
+                style="@android:style/Widget.DeviceDefault.Light.RatingBar.Indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/tvItemPrice"
+                android:layout_margin="5dp"/>
 
-    <RatingBar
-        android:id="@+id/rbItemCondition"
-        style="@android:style/Widget.DeviceDefault.Light.RatingBar.Indicator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/tvItemName"
-        android:layout_marginLeft="5dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"/>
+            <TextView
+                android:id="@+id/tvItemDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rbItemCondition"
+                android:layout_margin="5dp"
+                android:ems="10"
+                android:text="Item details... expect this to be widely varying lengths. Could be few words or entire sentences. Or even paragraphs."
+                android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/tvItemOwner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:layout_below="@+id/textView8"
-        android:layout_alignLeft="@+id/textView8"
-        android:layout_alignStart="@+id/textView8"
-        android:layout_toLeftOf="@+id/btnInterested"
-        android:layout_toStartOf="@+id/btnInterested" />
-
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Contact Details"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_marginTop="100dp"
-        android:layout_below="@+id/tvItemDescription"
-        android:layout_alignLeft="@+id/tvItemDescription"
-        android:layout_alignStart="@+id/tvItemDescription" />
-
-    <Button
-        android:id="@+id/btSeller"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Seller Profile"
-        android:textSize="10sp"
-        android:layout_below="@+id/tvItemOwner"
-        android:layout_alignLeft="@+id/tvItemOwner"
-        android:layout_alignStart="@+id/tvItemOwner" />
+            <TextView
+                android:id="@+id/tvItemOwner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvItemDescription"
+                android:layout_margin="5dp"
+                android:text="Owner: Name"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
 
         </RelativeLayout>
 
     </ScrollView>
+
+    <Button
+        android:id="@+id/btnInterested"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bottomNavigation"
+        android:layout_alignParentRight="true"
+        android:backgroundTint="@color/Secondary500"
+        android:onClick="onInterestedClick"
+        android:text="Interested"
+        android:textColor="@android:color/white" />
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottomNavigation"

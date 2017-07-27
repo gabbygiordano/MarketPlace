@@ -2,6 +2,7 @@ package com.example.gabbygiordano.marketplace;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -15,10 +16,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -62,7 +60,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         // get the data according to position
-        Item item = mItems.get(position);
+        final Item item = mItems.get(position);
 
         if (item == null) {
             Log.e("ItemAdapter", "ITEM NULL");
@@ -81,42 +79,49 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         holder.tvSeller.setText(item.getOwner().getString("name"));
         holder.tvTimeAgo.setText(item.getOwner().getString("_created_at"));
 
-        //set up favorites
-
+        // TODO: USE SINGULAR FAVORITE BUTTON
         ParseUser user = ParseUser.getCurrentUser();
-        ArrayList<Item> tempList = new ArrayList<Item>();
-        tempList = (ArrayList<Item>) user.get("favoritesList");
+        ArrayList<String> favoriteItems = (ArrayList) user.get("favoriteItems");
+        if (favoriteItems.contains(item.getObjectId())) {
+            // favorited
+            holder.ibFavorite.setImageResource(R.drawable.ic_fav);
+            holder.ibFavorite.setColorFilter(Color.rgb(255,87,34));
+        } else {
+            // unfavorited
+            holder.ibFavorite.setImageResource(R.drawable.ic_unfav);
+            holder.ibFavorite.setColorFilter(Color.rgb(155,155,155));
+        }
 
-        try {
-            // item.fetchAllIfNeeded(mItems);
-            item.fetchIfNeeded();
-            item.getOwner().fetchIfNeeded();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        if(tempList.contains(item)){
-            holder.ibFavoriteOn.bringToFront();
-        }
-        else{
-            holder.ibFavoriteOff.bringToFront();
-        }
-        /* for(int i=0; i<tempList.size(); i++){
-            Item newItem = tempList.get(i);
-            try {
-                ParseObject.fetchAllIfNeeded(tempList);
-                newItem.fetchIfNeeded();
-                newItem.getOwner().fetchIfNeeded();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            if(newItem.getItemName() == item.getItemName()){
-                holder.ibFavoriteOn.bringToFront();
-                // notifyDataSetChanged();
-            }
-        } */
+        holder.ibFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ParseUser user = ParseUser.getCurrentUser();
+                ArrayList<String> favoriteItems = (ArrayList) user.get("favoriteItems");
 
-        // Log.e(item.getOwner().getString("_created_at"), "printed");
-        // returns 07-18 15:04:16.993
+                if (favoriteItems.contains(item.getObjectId())) {
+                    // unfavorite
+                    holder.ibFavorite.setImageResource(R.drawable.ic_unfav);
+                    holder.ibFavorite.setColorFilter(Color.rgb(155,155,155));
+
+                    Toast.makeText(getContext(), "Unfavorited", Toast.LENGTH_LONG).show();
+
+                    favoriteItems.remove(item.getObjectId());
+                    user.put("favoriteItems", favoriteItems);
+                    user.saveInBackground();
+                } else {
+                    // favorite
+                    holder.ibFavorite.setImageResource(R.drawable.ic_fav);
+                    holder.ibFavorite.setColorFilter(Color.rgb(255,87,34));
+
+                    Toast.makeText(getContext(), "Favorited", Toast.LENGTH_LONG).show();
+
+                    favoriteItems.add(item.getObjectId());
+                    user.put("favoriteItems", favoriteItems);
+                    user.saveInBackground();
+                }
+            }
+        });
+
         holder.tvTimeAgo.setText(getRelativeTimeAgo(item.getCreatedAt()));
 
         if(item.getImage() != null)
@@ -199,8 +204,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         public TextView tvTimeAgo;
         Item thisItem;
 
-        ImageButton ibFavoriteOn;
-        ImageButton ibFavoriteOff;
+        ImageButton ibFavorite;
 
         // constructor
         public ViewHolder(View itemView) {
@@ -212,59 +216,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             tvPrice = itemView.findViewById(R.id.tvPrice);
             tvTimeAgo = itemView.findViewById(R.id.tvTimeAgo);
 
-            ibFavoriteOff = itemView.findViewById(R.id.ibFavoriteOff);
-            ibFavoriteOn = itemView.findViewById(R.id.ibFavoriteOn);
-
-
-            ibFavoriteOff.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    if(position != RecyclerView.NO_POSITION){
-                        thisItem = mItems.get(position);
-                    }
-                    notifyDataSetChanged();
-                    ParseUser user = ParseUser.getCurrentUser();
-                    ArrayList<ParseObject> tempList = new ArrayList<ParseObject>();
-                    tempList = (ArrayList) user.get("favoritesList");
-                    try {
-                        ParseObject.fetchAllIfNeeded(tempList);
-                        thisItem.fetchIfNeeded();
-                        thisItem.getOwner().fetchIfNeeded();
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    tempList.add(thisItem);
-                    user.put("favoritesList", tempList);
-                    user.saveInBackground();
-                    notifyDataSetChanged();
-                    ParseUser.saveAllInBackground(tempList, new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if (e == null) {
-                                Toast.makeText(getContext(), "saved", Toast.LENGTH_LONG).show();
-                                // Log.i("msg", ParseUser.getCurrentUser().getString("favoritesList"));
-                                notifyDataSetChanged();
-                            } else {
-                                Toast.makeText(getContext(), e.getMessage().toString(), Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
-                    notifyDataSetChanged();
-                    ibFavoriteOn.bringToFront();
-                    notifyDataSetChanged();
-
-                }
-            });
-
-            ibFavoriteOn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    ibFavoriteOff.bringToFront();
-                    notifyDataSetChanged();
-                }
-            });
-
+            ibFavorite = itemView.findViewById(R.id.ibFavorite);
 
             itemView.setOnClickListener(this);
         }
@@ -279,7 +231,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             Intent i = new Intent(context, DetailsActivity.class);
             i.putExtra("ID", id);
             context.startActivity(i);
-
         }
 
     }

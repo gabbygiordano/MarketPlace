@@ -8,19 +8,24 @@
         android:id="@+id/ivProfileImage"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        app:srcCompat="@drawable/ic_profile_tab"
         android:layout_alignParentTop="true"
-        app:srcCompat="@drawable/ic_profile_tab" />
+        android:layout_margin="5dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:id="@+id/tvBuyerName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
         android:layout_toEndOf="@+id/ivProfileImage"
         android:layout_toRightOf="@+id/ivProfileImage"
         android:text="Interested Buyer Name"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
         android:textStyle="bold" />
 
     <TextView
@@ -30,40 +35,33 @@
         android:layout_below="@+id/tvBuyerName"
         android:layout_toEndOf="@+id/ivProfileImage"
         android:layout_toRightOf="@+id/ivProfileImage"
-        android:text="is interested in: " />
+        android:text="is interested in: "
+        android:textColor="@android:color/black" />
 
     <TextView
         android:id="@+id/tvInterestItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Item Name"
-        android:textStyle="bold"
         android:layout_alignBaseline="@+id/tvInterested"
         android:layout_alignBottom="@+id/tvInterested"
+        android:layout_toEndOf="@+id/tvInterested"
         android:layout_toRightOf="@+id/tvInterested"
-        android:layout_toEndOf="@+id/tvInterested" />
+        android:text="Item Name"
+        android:textColor="@android:color/black"
+        android:textStyle="bold" />
 
     <ImageButton
-        android:id="@+id/ibEmail"
+        android:id="@+id/ibReply"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="13dp"
+        android:layout_marginRight="13dp"
+        android:background="@android:color/transparent"
+        android:tint="@color/Secondary500"
+        app:srcCompat="@drawable/ic_reply"
+        android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:background="@color/colorWhiteLogo"
-        android:tint="@color/colorBlueLogo"
-        app:srcCompat="@android:drawable/sym_action_email" />
-
-    <ImageButton
-        android:id="@+id/ibMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/colorWhiteLogo"
-        android:tint="@color/colorBlueLogo"
-        app:srcCompat="@android:drawable/sym_action_chat"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/ibEmail"
-        android:layout_alignBottom="@+id/ibEmail" />
+        android:layout_alignParentEnd="true" />
 
 
 </RelativeLayout>

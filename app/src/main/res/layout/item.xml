@@ -67,23 +67,15 @@
         android:textColor="@android:color/black" />
 
     <ImageButton
-        android:id="@+id/ibFavoriteOn"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_alignEnd="@+id/tvPrice"
-        android:layout_alignRight="@+id/tvPrice"
-        android:layout_below="@+id/tvPrice"
-        app:srcCompat="@android:drawable/btn_star_big_on" />
-
-    <ImageButton
-        android:id="@+id/ibFavoriteOff"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_alignEnd="@+id/tvPrice"
-        android:layout_alignRight="@+id/tvPrice"
-        android:layout_below="@+id/tvPrice"
-        android:clickable="true"
-        app:srcCompat="@android:drawable/btn_star_big_off" />
+        android:id="@+id/ibFavorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        app:srcCompat="@drawable/ic_unfav"
+        android:layout_marginRight="5dp"
+        android:layout_below="@+id/tvTimeAgo"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 
 </RelativeLayout>

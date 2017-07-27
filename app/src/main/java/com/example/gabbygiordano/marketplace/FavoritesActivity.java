@@ -7,7 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -32,7 +34,6 @@ public class FavoritesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorites_test);
-
         getSupportActionBar().setTitle("Favorites");
 
         context = this;
@@ -56,9 +57,25 @@ public class FavoritesActivity extends AppCompatActivity {
 
         ParseUser user = ParseUser.getCurrentUser();
 
-        addItems((List<Item>) user.get("favoritesList"));
+        ArrayList<String> favs = (ArrayList<String>) user.get("favoriteItems");
 
+        for (int i = 0; i < favs.size(); i++) {
+            ParseQuery<Item> query = ParseQuery.getQuery("Item");
+            query.include("owner");
+            query.include("image");
+            query.getInBackground(favs.get(i), new GetCallback<Item>() {
+                public void done(Item item, ParseException e) {
+                    if (e == null) {
+                        items.add(0, item);
+                        itemAdapter.notifyItemInserted(0);
+                    } else {
+                        // something went wrong
+                    }
+                }
+            });
+        }
 
+        // addItems((List<Item>) user.get("favoritesList"));
     }
 
     public void addItems(List<Item> list) {
@@ -82,6 +99,4 @@ public class FavoritesActivity extends AppCompatActivity {
         i_home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i_home);
     }
-
-
 }
