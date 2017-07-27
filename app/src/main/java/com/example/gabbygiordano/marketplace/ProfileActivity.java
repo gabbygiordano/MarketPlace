@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -51,6 +52,8 @@ public class ProfileActivity extends AppCompatActivity {
     ImageButton ibFavoriteOff;
     ImageButton ibFavoriteOn;
 
+    TabLayout tabLayout;
+
 
     Intent mServiceIntent;
 
@@ -74,23 +77,10 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         getSupportActionBar().setTitle("Profile");
 
-        if(getIntent().hasExtra("itemId")) {
-            String id = getIntent().getStringExtra("itemId");
-
-            Bundle bundle = new Bundle();
-            bundle.putString("itemId", id);
-            ProfileTimelineFragment profileTimelineFragment = new ProfileTimelineFragment();
-            profileTimelineFragment.setArguments(bundle);
-        }
-        else{
-            String id = "";
-            Bundle bundle = new Bundle();
-            bundle.putString("itemId", id);
-            ProfileTimelineFragment profileTimelineFragment = new ProfileTimelineFragment();
-            profileTimelineFragment.setArguments(bundle);
-        }
-
-
+        ProfileTimelineFragment profileTimelineFragment = ProfileTimelineFragment.newInstance();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.flContainer, profileTimelineFragment);
+        ft.commit();
 
         context = this;
 
@@ -102,7 +92,7 @@ public class ProfileActivity extends AppCompatActivity {
         //construct the adapter from the array list
         itemAdapter = new ItemAdapter(items, getContext());
 
-        mContext = itemAdapter.getContext();
+        mContext = getContext();
 
         // RecyclerView setup (layout manager, use adapter)
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -115,15 +105,7 @@ public class ProfileActivity extends AppCompatActivity {
         tvPhone = (TextView) findViewById(R.id.tvPhone);
         ibLogOut = (ImageButton) findViewById(R.id.ibLogOut);
 
-        btFavorites = (Button) findViewById(R.id.btFavorites);
 
-        btFavorites.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), FavoritesFragment.class);
-                startActivity(i);
-            }
-        });
 
 
         // log out if power button is clicked
@@ -154,9 +136,64 @@ public class ProfileActivity extends AppCompatActivity {
         // set up the adapter for the pager
         viewPager.setAdapter(adapter);
 
+
         // setup the Tab Layout to use the view pager
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
-        tabLayout.setupWithViewPager(viewPager);
+        tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+
+
+        tabLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                tabLayout.setupWithViewPager(viewPager);
+            }
+        });
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if(tab.getPosition() == 0){
+                    ProfileTimelineFragment profileTimelineFragment = ProfileTimelineFragment.newInstance();
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.flContainer, profileTimelineFragment);
+                    ft.commit();
+                }
+                else{
+                    FavoritesFragment favoritesFragment = FavoritesFragment.newInstance();
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.flContainer, favoritesFragment);
+                    ft.commit();
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
 
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()

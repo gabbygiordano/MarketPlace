@@ -13,7 +13,6 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class FavoritesFragment extends ItemsListFragment {
 
@@ -31,7 +30,17 @@ public class FavoritesFragment extends ItemsListFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // initialize arraylist
+        items = new ArrayList<>();
+
+        //construct the adapter from the array list
+        itemAdapter = new ItemAdapter(items, getContext());
+
         setRetainInstance(true);
+
+
+        populateTimeline();
 
         // populateTimeline();
     }
@@ -45,14 +54,11 @@ public class FavoritesFragment extends ItemsListFragment {
             ParseQuery<Item> query = ParseQuery.getQuery("Item");
             query.include("owner");
             query.include("image");
-            query.orderByDescending("_created_at");
-            query.setLimit(limit); // 20 items per page
-            query.setSkip(page * limit); // skip first (page * 20) items
             query.getInBackground(favs.get(i), new GetCallback<Item>() {
                 public void done(Item item, ParseException e) {
                     if (e == null) {
-                        items.add(item);
-                        itemAdapter.notifyItemInserted(items.size()-1);
+                        items.add(0, item);
+                        itemAdapter.notifyItemInserted(0);
                     } else {
                         scrollListener.resetState();
                         // something went wrong
@@ -66,7 +72,7 @@ public class FavoritesFragment extends ItemsListFragment {
 
 
 
-    public void addItems(List<Item> list) {
+    /* public void addItems(List<Item> list) {
         for (int i = 0; i < list.size(); i++) {
             items.add(list.get(i));
             try {
@@ -79,5 +85,10 @@ public class FavoritesFragment extends ItemsListFragment {
             itemAdapter.notifyItemInserted(items.size() - 1);
         }
 
+    } */
+
+    public static FavoritesFragment newInstance(){
+        FavoritesFragment favoritesFragment = new FavoritesFragment();
+        return favoritesFragment;
     }
 }
