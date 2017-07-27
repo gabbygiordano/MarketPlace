@@ -7,6 +7,14 @@
     android:background="@color/colorWhiteLogo"
     tools:context="com.example.gabbygiordano.marketplace.LoginActivity">
 
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
     <EditText
         android:id="@+id/etUserName"
         android:layout_width="wrap_content"
@@ -47,13 +55,13 @@
         android:textStyle="bold" />
 
     <ImageView
-    android:id="@+id/imageView2"
-    android:layout_width="285dp"
-    android:layout_height="285dp"
-    android:layout_alignParentTop="true"
-    android:layout_centerHorizontal="true"
-    android:adjustViewBounds="false"
-    app:srcCompat="@drawable/college_market_place_logo" />
+        android:id="@+id/imageView2"
+        android:layout_width="285dp"
+        android:layout_height="285dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:adjustViewBounds="false"
+        app:srcCompat="@drawable/college_market_place_logo" />
 
     <TextView
         android:id="@+id/tvSignUp"
@@ -62,6 +70,11 @@
         android:layout_below="@+id/btLogIn"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
         android:text="Don't have an account? Sign Up" />
+
+        </RelativeLayout>
+
+    </ScrollView>
 
 </RelativeLayout>
