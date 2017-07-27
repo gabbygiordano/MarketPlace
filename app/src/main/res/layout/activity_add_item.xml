@@ -13,9 +13,9 @@
         <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -23,22 +23,39 @@
                 tools:context="com.example.gabbygiordano.marketplace.AddItemActivity">
 
                 <ImageView
-                    android:id="@+id/ibAddImage"
-                    android:layout_width="75dp"
-                    android:layout_height="75dp"
-                    android:onClick="takeItemPhoto"
-                    android:clickable="true"
-                    app:srcCompat="@android:drawable/ic_menu_camera"
-                    tools:layout_editor_absoluteX="0dp"
-                    tools:layout_editor_absoluteY="-2dp" />
+                    android:id="@+id/ivAddImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/tvItemName"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:onClick="addImage"
+                    android:layout_margin="5dp"
+                    android:background="@android:color/transparent"
+                    app:srcCompat="@drawable/ic_add_img" />
 
-                <!--<ImageView
-                    android:id="@+id/ivItemPhoto"
-                    android:layout_width="75dp"
-                    android:layout_height="75dp"
+                <ImageView
+                    android:id="@+id/ivEditImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/tvItemName"
+                    android:layout_alignParentLeft="true"
+                    android:layout_margin="5dp"
+                    android:clickable="false"
+                    android:visibility="invisible"
+                    android:onClick="editImage"
+                    android:layout_alignParentStart="true"
+                    android:background="@android:color/transparent"
+                    app:srcCompat="@drawable/ic_edit" />
+
+                <ImageView
+                    android:id="@+id/ivImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:layout_toRightOf="@+id/ibAddImage"
-                    android:layout_toEndOf="@+id/ibAddImage" />-->
+                    android:background="@android:color/black" />
 
                 <EditText
                     android:id="@+id/tvItemName"
@@ -48,9 +65,10 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentStart="true"
-                    android:layout_below="@+id/ibAddImage"
+                    android:layout_below="@+id/ivImage"
+                    android:backgroundTint="@color/SecondaryDark"
                     android:ems="10"
-                    android:hint="Enter Item Name"
+                    android:hint="Item Name"
                     android:inputType="textPersonName" />
 
                 <EditText
@@ -62,8 +80,9 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignParentStart="true"
                     android:layout_below="@+id/tvItemName"
+                    android:backgroundTint="@color/SecondaryDark"
                     android:ems="10"
-                    android:hint="Enter Item Description"
+                    android:hint="Item Description"
                     android:inputType="textMultiLine" />
 
                 <EditText
@@ -76,8 +95,9 @@
                     android:layout_alignParentStart="true"
                     android:layout_below="@+id/tvItemDescription"
                     android:layout_toEndOf="@+id/editText"
+                    android:backgroundTint="@color/SecondaryDark"
                     android:ems="10"
-                    android:hint="$ Enter Item Price"
+                    android:hint="Item Price"
                     android:inputType="numberDecimal" />
 
                 <TextView
@@ -87,29 +107,11 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_below="@+id/tvItemPrice"
+                    android:backgroundTint="@color/SecondaryDark"
                     android:layout_marginLeft="5dp"
                     android:text="Condition:"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <!--android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_toEndOf="@+id/tvCondition"
-            android:clickable="true"
-            android:onClick="onPostSuccess"
-            app:srcCompat="@drawable/homeicon"
-            android:layout_alignLeft="@+id/tvPostItem"
-            android:layout_alignStart="@+id/tvPostItem" />-->
-
-
-                <!--<TextView
-            android:id="@+id/tvPostItem"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Post Item to Marketplace"
-            android:textStyle="bold" />-->
-
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/textView3"
@@ -120,6 +122,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignParentStart="true"
                     android:layout_below="@+id/tvCondition"
+                    android:backgroundTint="@color/SecondaryDark"
                     android:layout_marginLeft="5dp"
                     android:layout_toStartOf="@+id/conditionOptions"
                     android:text="1 = poor, 5 = like new"
@@ -132,6 +135,7 @@
                     android:layout_below="@+id/tvItemPrice"
                     android:layout_toEndOf="@+id/tvCondition"
                     android:layout_toRightOf="@+id/tvCondition"
+                    android:backgroundTint="@color/SecondaryDark"
                     android:visibility="visible" />
 
                 <Spinner
@@ -140,22 +144,9 @@
                     android:layout_height="wrap_content"
                     android:layout_alignLeft="@+id/conditionOptions"
                     android:layout_alignStart="@+id/conditionOptions"
+                    android:backgroundTint="@color/SecondaryDark"
                     android:layout_below="@+id/textView3"
                     android:layout_toEndOf="@+id/textView3" />
-
-                <Button
-                    android:id="@+id/ibPostItem"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="#5c9fd6"
-                    android:clickable="true"
-                    android:text="Add Item"
-                    android:textColor="#ffffff"
-                    android:layout_alignParentBottom="true"
-                    android:layout_toRightOf="@+id/ivItemPhoto"
-                    android:layout_toEndOf="@+id/ivItemPhoto"
-                    android:layout_below="@+id/spItemType"
-                    android:layout_centerHorizontal="true"/>
 
                 <TextView
                     android:id="@+id/textView"
@@ -165,12 +156,24 @@
                     android:layout_alignStart="@+id/textView3"
                     android:layout_below="@+id/textView3"
                     android:text="Category:"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textColor="@android:color/black"
+                    android:backgroundTint="@color/SecondaryDark"
+                    android:textSize="18sp" />
 
             </RelativeLayout>
 
         </ScrollView>
+
+        <Button
+            android:id="@+id/ibPostItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/bottomNavigation"
+            android:layout_alignParentRight="true"
+            android:backgroundTint="@color/Secondary500"
+            android:clickable="true"
+            android:text="Add Item"
+            android:textColor="#ffffff" />
 
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/bottomNavigation"
