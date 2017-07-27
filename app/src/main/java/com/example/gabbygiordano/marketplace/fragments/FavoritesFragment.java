@@ -1,12 +1,12 @@
-package com.example.gabbygiordano.marketplace;
+package com.example.gabbygiordano.marketplace.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 
+import com.example.gabbygiordano.marketplace.Item;
+import com.example.gabbygiordano.marketplace.ItemAdapter;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -15,9 +15,7 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.gabbygiordano.marketplace.ItemAdapter.getContext;
-
-public class FavoritesActivity extends AppCompatActivity {
+public class FavoritesFragment extends ItemsListFragment {
 
     RecyclerView rvFavorites;
 
@@ -31,30 +29,14 @@ public class FavoritesActivity extends AppCompatActivity {
     Context context;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_favorites_test);
-        getSupportActionBar().setTitle("Favorites");
+        setRetainInstance(true);
 
-        context = this;
-
-        // perform find view by id lookups
-        rvFavorites = (RecyclerView) findViewById(R.id.rvFavorites);
-
-        // initialize arraylist
-        items = new ArrayList<>();
-
-        //construct the adapter from the array list
-        itemAdapter = new ItemAdapter(items, getContext());
-
-        mContext = getContext();
-
-        // RecyclerView setup (layout manager, use adapter)
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        rvFavorites.setLayoutManager(linearLayoutManager);
-        rvFavorites.setAdapter(itemAdapter);
-        rvFavorites.setHasFixedSize(true);
-
+        // populateTimeline();
+    }
+    @Override
+    public void populateTimeline(){
         ParseUser user = ParseUser.getCurrentUser();
 
         ArrayList<String> favs = (ArrayList<String>) user.get("favoriteItems");
@@ -63,20 +45,26 @@ public class FavoritesActivity extends AppCompatActivity {
             ParseQuery<Item> query = ParseQuery.getQuery("Item");
             query.include("owner");
             query.include("image");
+            query.orderByDescending("_created_at");
+            query.setLimit(limit); // 20 items per page
+            query.setSkip(page * limit); // skip first (page * 20) items
             query.getInBackground(favs.get(i), new GetCallback<Item>() {
                 public void done(Item item, ParseException e) {
                     if (e == null) {
-                        items.add(0, item);
-                        itemAdapter.notifyItemInserted(0);
+                        items.add(item);
+                        itemAdapter.notifyItemInserted(items.size()-1);
                     } else {
+                        scrollListener.resetState();
                         // something went wrong
                     }
                 }
             });
         }
 
-        // addItems((List<Item>) user.get("favoritesList"));
     }
+
+
+
 
     public void addItems(List<Item> list) {
         for (int i = 0; i < list.size(); i++) {
@@ -84,19 +72,12 @@ public class FavoritesActivity extends AppCompatActivity {
             try {
                 (list.get(i)).fetchIfNeeded();
                 list.get(i).getOwner().fetchIfNeeded();
+                list.get(i).fetchIfNeeded();
             } catch (ParseException e) {
                 e.printStackTrace();
             }
             itemAdapter.notifyItemInserted(items.size() - 1);
         }
 
-    }
-
-
-    @Override
-    public void onBackPressed() {
-        Intent i_home = new Intent(FavoritesActivity.this, ProfileActivity.class);
-        i_home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(i_home);
     }
 }

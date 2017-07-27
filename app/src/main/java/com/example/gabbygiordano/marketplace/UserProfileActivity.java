@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,12 +16,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.gabbygiordano.marketplace.fragments.FavoritesFragment;
-import com.example.gabbygiordano.marketplace.fragments.ItemsListFragment;
-import com.example.gabbygiordano.marketplace.fragments.ProfilePagerAdapter;
-import com.example.gabbygiordano.marketplace.fragments.ProfileTimelineFragment;
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -34,7 +28,7 @@ import java.util.List;
 
 import static com.example.gabbygiordano.marketplace.ItemAdapter.getContext;
 
-public class ProfileActivity extends AppCompatActivity {
+public class UserProfileActivity extends AppCompatActivity {
 
     ImageView ivProfileImage;
     TextView tvName;
@@ -43,16 +37,6 @@ public class ProfileActivity extends AppCompatActivity {
     TextView tvPhone;
     ImageButton ibLogOut;
     RecyclerView rvProfileItems;
-
-    ViewPager viewPager;
-    ProfilePagerAdapter adapter;
-    ImageView ivItemImage;
-
-    ImageButton ibFavoriteOff;
-    ImageButton ibFavoriteOn;
-
-
-    Intent mServiceIntent;
 
     Button btFavorites;
 
@@ -65,36 +49,16 @@ public class ProfileActivity extends AppCompatActivity {
     Context mContext;
     Context context;
 
-    ParseUser owner;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_user_profile);
         getSupportActionBar().setTitle("Profile");
-
-        if(getIntent().hasExtra("itemId")) {
-            String id = getIntent().getStringExtra("itemId");
-
-            Bundle bundle = new Bundle();
-            bundle.putString("itemId", id);
-            ProfileTimelineFragment profileTimelineFragment = new ProfileTimelineFragment();
-            profileTimelineFragment.setArguments(bundle);
-        }
-        else{
-            String id = "";
-            Bundle bundle = new Bundle();
-            bundle.putString("itemId", id);
-            ProfileTimelineFragment profileTimelineFragment = new ProfileTimelineFragment();
-            profileTimelineFragment.setArguments(bundle);
-        }
-
-
 
         context = this;
 
         // perform find view by id lookups
+        rvProfileItems = (RecyclerView) findViewById(R.id.rvProfileItems);
 
         // initialize arraylist
         items = new ArrayList<>();
@@ -102,10 +66,13 @@ public class ProfileActivity extends AppCompatActivity {
         //construct the adapter from the array list
         itemAdapter = new ItemAdapter(items, getContext());
 
-        mContext = itemAdapter.getContext();
+        mContext = getContext();
 
         // RecyclerView setup (layout manager, use adapter)
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+        rvProfileItems.setLayoutManager(linearLayoutManager);
+        rvProfileItems.setAdapter(itemAdapter);
+        rvProfileItems.setHasFixedSize(true);
 
         // perform find view by id lookups
         ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
@@ -115,28 +82,8 @@ public class ProfileActivity extends AppCompatActivity {
         tvPhone = (TextView) findViewById(R.id.tvPhone);
         ibLogOut = (ImageButton) findViewById(R.id.ibLogOut);
 
-        btFavorites = (Button) findViewById(R.id.btFavorites);
 
-        btFavorites.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), FavoritesFragment.class);
-                startActivity(i);
-            }
-        });
-
-
-        // log out if power button is clicked
-        ibLogOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ParseUser.logOut();
-                ParseUser currentUser = ParseUser.getCurrentUser();
-                Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(i);
-            }
-        });
-
+        fetchTimelineAsync();
 
 
         BottomNavigationView bottomNavigationView;
@@ -144,20 +91,9 @@ public class ProfileActivity extends AppCompatActivity {
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
 
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
         Menu menu = bottomNavigationView.getMenu();
         MenuItem menuitem = menu.getItem(2);
         menuitem.setChecked(true);
-
-        adapter = new ProfilePagerAdapter(getSupportFragmentManager(), this);
-
-        // set up the adapter for the pager
-        viewPager.setAdapter(adapter);
-
-        // setup the Tab Layout to use the view pager
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
-        tabLayout.setupWithViewPager(viewPager);
-
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
         {
@@ -167,40 +103,50 @@ public class ProfileActivity extends AppCompatActivity {
                 switch (item.getItemId())
                 {
                     case R.id.action_home:
-                        Intent i_home = new Intent(ProfileActivity.this, HomeActivity.class);
+                        Intent i_home = new Intent(UserProfileActivity.this, HomeActivity.class);
                         startActivity(i_home);
                         finish();
                         break;
 
 
                     case R.id.action_notifications:
-                        Intent i_notifications = new Intent(ProfileActivity.this, AppNotificationsActivity.class);
+                        Intent i_notifications = new Intent(UserProfileActivity.this, AppNotificationsActivity.class);
                         startActivity(i_notifications);
                         finish();
                         break;
 
                     case R.id.action_profile:
-                        if (!tvUsername.getText().toString().equals(ParseUser.getCurrentUser().getUsername())) {
-                            Intent i_profile = new Intent(ProfileActivity.this, ProfileActivity.class);
-                            startActivity(i_profile);
-                            finish();
-                        }
-                        else {
-                            Toast.makeText(ProfileActivity.this, "Profile Tab Selected", Toast.LENGTH_SHORT).show();
-                            break;
-                        }
+                        Intent i_profile = new Intent(UserProfileActivity.this, ProfileActivity.class);
+                        startActivity(i_profile);
+                        finish();
+                        break;
                 }
 
                 return false;
             }
         });
-
-        populateUserHeadline();
     }
 
+    public void populateProfileTimeline(ParseUser user){
+        ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
+        query.whereEqualTo("owner", user);
+        query.include("owner");
+        query.setLimit(200);
+        query.orderByDescending("_created_at");
+        query.findInBackground(new FindCallback<Item>() {
+            public void done(List<Item> itemsList, ParseException e) {
+                if (e == null) {
+                    Log.d("items", "Retrieved " + itemsList.size() + " items");
+                    addItems(itemsList);
+                } else {
+                    Log.d("items", "Error: " + e.getMessage());
+                }
+            }
+        });
+    }
 
-    public void populateUserHeadline(){
-        if(getIntent().hasExtra("itemId")){
+    public void fetchTimelineAsync(){
+        if( getIntent().hasExtra("itemId")){
 
             id = getIntent().getStringExtra("itemId");
 
@@ -216,9 +162,8 @@ public class ProfileActivity extends AppCompatActivity {
                         tvName.setText(item.getOwner().getString("name"));
                         tvUsername.setText(item.getOwner().getUsername());
                         tvCollege.setText(item.getOwner().getString("college"));
-                        tvPhone.setText(" ");
 
-                        // populateTimeline(item.getOwner());
+                        populateProfileTimeline(item.getOwner());
 
                     } else {
                         Log.e("ItemsListFragment", e.getMessage());
@@ -235,23 +180,13 @@ public class ProfileActivity extends AppCompatActivity {
                 tvCollege.setText(user.getString("college"));
                 tvPhone.setText(String.valueOf(user.getLong("phone")));
 
-                // populateTimeline(user);
+                populateProfileTimeline(user);
 
             } else {
 
             }
 
         }
-    }
-
-    public void populateProfileTimeline(ParseUser user){
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // ItemsListFragment fragment = (ItemsListFragment) adapter.getRegisteredFragment(type);
-        ItemsListFragment fragment = (ItemsListFragment) adapter.getRegisteredFragment(viewPager.getCurrentItem());
-        fragment.activityResult(requestCode, resultCode, data);
     }
 
     public void addItems(List<Item> list){
@@ -285,7 +220,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent i_home = new Intent(ProfileActivity.this, HomeActivity.class);
+        Intent i_home = new Intent(UserProfileActivity.this, HomeActivity.class);
         i_home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i_home);
     }

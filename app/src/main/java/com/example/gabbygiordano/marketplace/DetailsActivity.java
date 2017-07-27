@@ -163,7 +163,7 @@ public class DetailsActivity extends AppCompatActivity {
         tvItemOwner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
+                Intent i = new Intent(getApplicationContext(), UserProfileActivity.class);
                 i.putExtra("itemId", parseItem.getObjectId());
                 startActivity(i);
                 finish();
