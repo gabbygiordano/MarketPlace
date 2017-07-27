@@ -120,7 +120,7 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_alignBottom="@id/bottomNavigation">
+            android:layout_above="@id/bottomNavigation">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvProfileItems"
