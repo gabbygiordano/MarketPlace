@@ -4,9 +4,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.example.gabbygiordano.marketplace.Item;
-import com.example.gabbygiordano.marketplace.ItemAdapter;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -18,9 +18,7 @@ public class FavoritesFragment extends ItemsListFragment {
 
     RecyclerView rvFavorites;
 
-    ArrayList<Item> items;
-    ItemAdapter itemAdapter;
-    String id;
+    
 
     int ADD_ITEM_REQUEST = 10;
 
@@ -31,14 +29,9 @@ public class FavoritesFragment extends ItemsListFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // initialize arraylist
-        items = new ArrayList<>();
 
-        //construct the adapter from the array list
-        itemAdapter = new ItemAdapter(items, getContext());
 
         setRetainInstance(true);
-
 
         populateTimeline();
 
@@ -49,6 +42,7 @@ public class FavoritesFragment extends ItemsListFragment {
         ParseUser user = ParseUser.getCurrentUser();
 
         ArrayList<String> favs = (ArrayList<String>) user.get("favoriteItems");
+        Log.d("favs", favs.get(0));
 
         for (int i = 0; i < favs.size(); i++) {
             ParseQuery<Item> query = ParseQuery.getQuery("Item");
@@ -58,6 +52,7 @@ public class FavoritesFragment extends ItemsListFragment {
                 public void done(Item item, ParseException e) {
                     if (e == null) {
                         items.add(0, item);
+                        Log.d("item added", item.getItemName());
                         itemAdapter.notifyItemInserted(0);
                     } else {
                         scrollListener.resetState();

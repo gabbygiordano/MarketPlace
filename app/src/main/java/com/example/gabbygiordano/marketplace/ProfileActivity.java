@@ -157,7 +157,7 @@ public class ProfileActivity extends AppCompatActivity {
                     ft.replace(R.id.flContainer, profileTimelineFragment);
                     ft.commit();
                 }
-                else{
+                if(tab.getPosition() == 1){
                     FavoritesFragment favoritesFragment = FavoritesFragment.newInstance();
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.flContainer, favoritesFragment);
