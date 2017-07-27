@@ -3,6 +3,10 @@ package com.example.gabbygiordano.marketplace;
 import android.app.LauncherActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ClipDrawable;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -153,8 +157,6 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(createHelperCallback());
-        itemTouchHelper.attachToRecyclerView(rvProfileItems);
     }
 
     public void populateProfileTimeline(ParseUser user){
@@ -229,30 +231,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    private ItemTouchHelper.Callback createHelperCallback()
-    {
-        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT)
-
-        {
-
-            @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target)
-            {
-                //moveItem(viewHolder.getAdapterPosition(), target.getAdapterPosition());
-                return true;
-            }
-
-            @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction)
-            {
-                itemAdapter.notifyItemRemoved(viewHolder.getLayoutPosition());
-            }
-        };
-
-        return simpleItemTouchCallback;
-    }
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu_profile, menu);
@@ -280,4 +258,5 @@ public class ProfileActivity extends AppCompatActivity {
         i_home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i_home);
     }
+
 }
