@@ -1,5 +1,6 @@
 package com.example.gabbygiordano.marketplace;
 
+import android.app.LauncherActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -150,6 +152,9 @@ public class ProfileActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(createHelperCallback());
+        itemTouchHelper.attachToRecyclerView(rvProfileItems);
     }
 
     public void populateProfileTimeline(ParseUser user){
@@ -169,6 +174,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
     }
+
 
     public void fetchTimelineAsync(){
         if( getIntent().hasExtra("itemId")){
@@ -222,6 +228,30 @@ public class ProfileActivity extends AppCompatActivity {
         }
 
     }
+
+    private ItemTouchHelper.Callback createHelperCallback()
+    {
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT)
+
+        {
+
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target)
+            {
+                //moveItem(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+                return true;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction)
+            {
+                itemAdapter.notifyItemRemoved(viewHolder.getLayoutPosition());
+            }
+        };
+
+        return simpleItemTouchCallback;
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
