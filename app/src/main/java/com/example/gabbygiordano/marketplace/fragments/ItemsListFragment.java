@@ -42,6 +42,8 @@ public class ItemsListFragment extends Fragment {
     final int limit = 20;
     EndlessRecyclerViewScrollListener scrollListener;
 
+    String id;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
