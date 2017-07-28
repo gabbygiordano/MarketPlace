@@ -75,7 +75,6 @@ public class AppNotificationAdapter extends RecyclerView.Adapter<AppNotification
         final CharSequence[] items = {"Message", "Email", "Cancel"};
 
         AlertDialog.Builder builder= new AlertDialog.Builder(context);
-        builder.setTitle("Reply to " + buyer);
         builder.setItems(items, new DialogInterface.OnClickListener()
         {
             @Override

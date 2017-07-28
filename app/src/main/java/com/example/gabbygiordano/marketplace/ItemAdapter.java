@@ -79,7 +79,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         holder.tvSeller.setText(item.getOwner().getString("name"));
         holder.tvTimeAgo.setText(item.getOwner().getString("_created_at"));
 
-        // TODO: USE SINGULAR FAVORITE BUTTON
         ParseUser user = ParseUser.getCurrentUser();
         ArrayList<String> favoriteItems = (ArrayList) user.get("favoriteItems");
         if (favoriteItems.contains(item.getObjectId())) {

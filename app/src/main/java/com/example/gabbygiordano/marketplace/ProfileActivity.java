@@ -10,6 +10,9 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,7 +27,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.parse.FindCallback;
+import com.example.gabbygiordano.marketplace.fragments.FavoritesFragment;
+import com.example.gabbygiordano.marketplace.fragments.ItemsListFragment;
+import com.example.gabbygiordano.marketplace.fragments.ProfilePagerAdapter;
+import com.example.gabbygiordano.marketplace.fragments.ProfileTimelineFragment;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -45,6 +51,18 @@ public class ProfileActivity extends AppCompatActivity {
     ImageButton ibLogOut;
     RecyclerView rvProfileItems;
 
+    ViewPager viewPager;
+    ProfilePagerAdapter adapter;
+    ImageView ivItemImage;
+
+    ImageButton ibFavoriteOff;
+    ImageButton ibFavoriteOn;
+
+    TabLayout tabLayout;
+
+
+    Intent mServiceIntent;
+
     Button btFavorites;
 
     ArrayList<Item> items;
@@ -56,16 +74,23 @@ public class ProfileActivity extends AppCompatActivity {
     Context mContext;
     Context context;
 
+    ParseUser owner;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         getSupportActionBar().setTitle("Profile");
 
+        ProfileTimelineFragment profileTimelineFragment = ProfileTimelineFragment.newInstance();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.flContainer, profileTimelineFragment);
+        ft.commit();
+
         context = this;
 
         // perform find view by id lookups
-        rvProfileItems = (RecyclerView) findViewById(R.id.rvProfileItems);
 
         // initialize arraylist
         items = new ArrayList<>();
@@ -73,13 +98,10 @@ public class ProfileActivity extends AppCompatActivity {
         //construct the adapter from the array list
         itemAdapter = new ItemAdapter(items, getContext());
 
-        mContext = itemAdapter.getContext();
+        mContext = getContext();
 
         // RecyclerView setup (layout manager, use adapter)
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        rvProfileItems.setLayoutManager(linearLayoutManager);
-        rvProfileItems.setAdapter(itemAdapter);
-        rvProfileItems.setHasFixedSize(true);
 
         // perform find view by id lookups
         ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
@@ -89,17 +111,8 @@ public class ProfileActivity extends AppCompatActivity {
         tvPhone = (TextView) findViewById(R.id.tvPhone);
         ibLogOut = (ImageButton) findViewById(R.id.ibLogOut);
 
-        btFavorites = (Button) findViewById(R.id.btFavorites);
 
-        btFavorites.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), FavoritesActivity.class);
-                startActivity(i);
-            }
-        });
 
-        fetchTimelineAsync();
 
         // log out if power button is clicked
         ibLogOut.setOnClickListener(new View.OnClickListener() {
@@ -112,14 +125,82 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+
+
         BottomNavigationView bottomNavigationView;
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
 
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
         Menu menu = bottomNavigationView.getMenu();
         MenuItem menuitem = menu.getItem(2);
         menuitem.setChecked(true);
+
+        adapter = new ProfilePagerAdapter(getSupportFragmentManager(), this);
+
+        // set up the adapter for the pager
+        viewPager.setAdapter(adapter);
+
+
+        // setup the Tab Layout to use the view pager
+        tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+
+
+        tabLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                tabLayout.setupWithViewPager(viewPager);
+            }
+        });
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if(tab.getPosition() == 0){
+                    ProfileTimelineFragment profileTimelineFragment = ProfileTimelineFragment.newInstance();
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.flContainer, profileTimelineFragment);
+                    ft.commit();
+                }
+                if(tab.getPosition() == 1){
+                    FavoritesFragment favoritesFragment = FavoritesFragment.newInstance();
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.flContainer, favoritesFragment);
+                    ft.commit();
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
         {
@@ -157,70 +238,64 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        populateUserHeadline();
     }
 
-    public void populateProfileTimeline(ParseUser user){
-        ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
-        query.whereEqualTo("owner", user);
-        query.include("owner");
-        query.setLimit(200);
-        query.orderByDescending("_created_at");
-        query.findInBackground(new FindCallback<Item>() {
-            public void done(List<Item> itemsList, ParseException e) {
-                if (e == null) {
-                    Log.d("items", "Retrieved " + itemsList.size() + " items");
-                    addItems(itemsList);
+
+            public void populateUserHeadline () {
+                if (getIntent().hasExtra("itemId")) {
+
+
+                    id = getIntent().getStringExtra("itemId");
+
+                    ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
+                    query.include("owner");
+                    query.include("favoritesList");
+                    query.whereContains("itemId", id);
+                    query.orderByDescending("_created_at");
+                    query.getInBackground(id, new GetCallback<Item>() {
+                        public void done(Item item, ParseException e) {
+                            if (e == null) {
+                                // item was found
+                                tvName.setText(item.getOwner().getString("name"));
+                                tvUsername.setText(item.getOwner().getUsername());
+                                tvCollege.setText(item.getOwner().getString("college"));
+                                tvPhone.setText(" ");
+
+                                // populateTimeline(item.getOwner());
+
+                            } else {
+                                Log.e("ItemsListFragment", e.getMessage());
+                            }
+                        }
+                    });
                 } else {
-                    Log.d("items", "Error: " + e.getMessage());
-                }
-            }
-        });
-    }
+                    // set text to current user info
+                    ParseUser user = ParseUser.getCurrentUser();
+                    if (user != null) {
+                        tvName.setText(user.getString("name"));
+                        tvUsername.setText(user.getUsername());
+                        tvCollege.setText(user.getString("college"));
+                        tvPhone.setText(String.valueOf(user.getLong("phone")));
 
-
-    public void fetchTimelineAsync(){
-        if( getIntent().hasExtra("itemId")){
-
-            id = getIntent().getStringExtra("itemId");
-
-            ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
-            query.include("owner");
-            query.include("favoritesList");
-            query.whereContains("itemId", id);
-            query.orderByDescending("_created_at");
-            query.getInBackground(id, new GetCallback<Item>() {
-                public void done(Item item, ParseException e) {
-                    if (e == null) {
-                        // item was found
-                        tvName.setText(item.getOwner().getString("name"));
-                        tvUsername.setText(item.getOwner().getUsername());
-                        tvCollege.setText(item.getOwner().getString("college"));
-                        tvPhone.setText(" ");
-
-                        populateProfileTimeline(item.getOwner());
+                        // populateTimeline(user);
 
                     } else {
-                        Log.e("ItemsListFragment", e.getMessage());
+
                     }
+
                 }
-            });
-        }
-        else{
-            // set text to current user info
-            ParseUser user = ParseUser.getCurrentUser();
-            if (user != null) {
-                tvName.setText(user.getString("name"));
-                tvUsername.setText(user.getUsername());
-                tvCollege.setText(user.getString("college"));
-                tvPhone.setText(String.valueOf(user.getLong("phone")));
-
-                populateProfileTimeline(user);
-
-            } else {
-
             }
 
-        }
+
+    public void populateProfileTimeline(ParseUser user){
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // ItemsListFragment fragment = (ItemsListFragment) adapter.getRegisteredFragment(type);
+        ItemsListFragment fragment = (ItemsListFragment) adapter.getRegisteredFragment(viewPager.getCurrentItem());
+        fragment.activityResult(requestCode, resultCode, data);
     }
 
     public void addItems(List<Item> list){
