@@ -152,7 +152,6 @@ public class UserProfileActivity extends AppCompatActivity {
 
             ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
             query.include("owner");
-            query.include("favoritesList");
             query.whereContains("itemId", id);
             query.orderByDescending("_created_at");
             query.getInBackground(id, new GetCallback<Item>() {

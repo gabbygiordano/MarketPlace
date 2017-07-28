@@ -243,7 +243,6 @@ public class ProfileActivity extends AppCompatActivity {
 
             ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
             query.include("owner");
-            query.include("favoritesList");
             query.whereContains("itemId", id);
             query.orderByDescending("_created_at");
             query.getInBackground(id, new GetCallback<Item>() {
@@ -254,9 +253,6 @@ public class ProfileActivity extends AppCompatActivity {
                         tvUsername.setText(item.getOwner().getUsername());
                         tvCollege.setText(item.getOwner().getString("college"));
                         tvPhone.setText(" ");
-
-                        // populateTimeline(item.getOwner());
-
                     } else {
                         Log.e("ItemsListFragment", e.getMessage());
                     }

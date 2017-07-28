@@ -129,8 +129,8 @@ public class SignUpActivity extends AppCompatActivity {
                 String password = etPassword.getText().toString();
                 String phone = etPhoneNumber.getText().toString();
                 String school = tvAutocompleteCollege.getText().toString();
-                ArrayList<Item> favoritesList = new ArrayList<>();
                 ArrayList<String> favoriteItems = new ArrayList<String>();
+                ArrayList<String> interestedItems = new ArrayList<String>();
 
                 if (email.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Enter email", Toast.LENGTH_LONG).show();
@@ -168,8 +168,8 @@ public class SignUpActivity extends AppCompatActivity {
                     parseUser.put("college", school);
                     parseUser.put("contact", preference);
                     parseUser.put("publicEmail", email);
-                    parseUser.put("favoritesList", favoritesList);
                     parseUser.put("favoriteItems", favoriteItems);
+                    parseUser.put("interestedItems", interestedItems);
 
                     onRegisterClicked();
                 }

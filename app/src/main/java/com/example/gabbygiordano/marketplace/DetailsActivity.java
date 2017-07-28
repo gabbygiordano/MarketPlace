@@ -60,6 +60,9 @@ public class DetailsActivity extends AppCompatActivity {
 
     Context context;
 
+    ParseUser buyer;
+    ParseUser owner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -225,12 +228,14 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     public void onInterestedClick(View view) {
-        ParseUser buyer = ParseUser.getCurrentUser();
-        ParseUser owner = mItem.getOwner();
+        buyer = ParseUser.getCurrentUser();
+        owner = mItem.getOwner();
         Date created = new Date();
         appNotification = new AppNotification(owner, buyer, mItem, created);
 
-        // make the query
+        final ArrayList<String> interestedItems = (ArrayList<String>) buyer.get("interestedItems");
+
+        // send notification if necessary
         ParseQuery<AppNotification> parseQuery = ParseQuery.getQuery(AppNotification.class);
         parseQuery.whereEqualTo("buyer", buyer);
         parseQuery.whereEqualTo("item", mItem);
@@ -244,6 +249,10 @@ public class DetailsActivity extends AppCompatActivity {
                             public void done(ParseException e) {
                                 // make toast
                                 Toast.makeText(getApplicationContext(), "Request sent!", Toast.LENGTH_LONG).show();
+                                // add to buyer's interestedItems
+                                interestedItems.add(mItem.getObjectId());
+                                buyer.put("interestedItems", interestedItems);
+                                buyer.saveInBackground();
                             }
                         });
                     } else {

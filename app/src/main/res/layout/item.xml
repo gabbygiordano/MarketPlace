@@ -14,6 +14,7 @@
         android:layout_alignParentTop="true"
         android:layout_margin="5dp"
         android:clickable="true"
+        android:transitionName="sharedActivityTransition"
         app:srcCompat="@android:drawable/ic_menu_camera"
         tools:ignore="VectorDrawableCompat" />
 
