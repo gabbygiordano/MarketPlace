@@ -248,12 +248,15 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
                 thisItem = mItems.get(position);
             }
             if(thisItem.getOwner().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())){
+                mItems.remove(position);
                 thisItem.deleteInBackground();
                 notifyItemRemoved(position);
                 notifyDataSetChanged();
                 Toast.makeText(context, "Item Deleted!", Toast.LENGTH_LONG).show();
+                // Snackbar.make(view, R.string_snackbar_text, Snackbar.LENGTH_LONG).setAction(R.string_snackbar_action, myonClickListener).show();
 
             }
+
 
 
             return true;
