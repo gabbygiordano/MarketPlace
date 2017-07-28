@@ -55,7 +55,7 @@ public class ProfileTimelineFragment extends ItemsListFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        populateTimeline();
+        // populateTimeline();
 
         setRetainInstance(true);
     }
@@ -69,21 +69,26 @@ public class ProfileTimelineFragment extends ItemsListFragment {
         query.include("owner");
         query.include("image");
         query.orderByDescending("_created_at");
+        query.setLimit(limit); // 20 items per page
+        query.setSkip(page * limit); // skip first (page * 20) items
         query.findInBackground(new FindCallback<Item>() {
             public void done(List<Item> itemsList, ParseException e) {
                 if (e == null) {
-                    Log.d("items", "Retrieved" + itemsList.size() + "items");
-                    Log.d("items", itemsList.get(0).getItemName());
-                    addItems(itemsList);
-                    Log.d("items", itemsList.get(0).getItemName());
+                    if(itemsList != null && !itemsList.isEmpty()) {
+                        Log.d("items", "Retrieved" + itemsList.size() + "items");
+                        Log.d("items", itemsList.get(0).getItemName());
+                        addItems(itemsList);
+                        Log.d("items", itemsList.get(0).getItemName());
+                    }
                 } else {
                     Log.d("ProfileFragment", e.getMessage());
-                    scrollListener.resetState();
+                    //scrollListener.resetState();
                 }
             }
         });
 
     }
+
 
     @Override
     public void fetchTimelineAsync(int page){
@@ -95,6 +100,8 @@ public class ProfileTimelineFragment extends ItemsListFragment {
             query.include("image");
             query.whereEqualTo("owner", user);
             query.orderByDescending("_created_at");
+            query.setLimit(limit); // 20 items per page
+            query.setSkip(page * limit); // skip first (page * 20) items
             query.findInBackground(new FindCallback<Item>() {
                 public void done(List<Item> itemsList, ParseException e) {
                     if (e == null) {
