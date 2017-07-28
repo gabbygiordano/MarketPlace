@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 public class ProfilePagerAdapter extends FragmentPagerAdapter {
 
-    private String[] tabTitles = {"Your Items", "Your Favorites"};
+    private String[] tabTitles = {"Selling", "Favorited", "Interested"};
     Context context;
 
     SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
@@ -26,7 +26,7 @@ public class ProfilePagerAdapter extends FragmentPagerAdapter {
     // return the total number of fragments
     @Override
     public int getCount() {
-        return 2;
+        return 3;
     }
 
     // return fragment to use depending on position
@@ -36,6 +36,8 @@ public class ProfilePagerAdapter extends FragmentPagerAdapter {
             return new ProfileTimelineFragment();
         } else if (position == 1) {
             return new FavoritesFragment();
+        } else if (position == 2){
+            return new InterestedFragment();
         } else {
             return null;
         }

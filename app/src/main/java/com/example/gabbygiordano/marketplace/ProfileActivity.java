@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gabbygiordano.marketplace.fragments.FavoritesFragment;
+import com.example.gabbygiordano.marketplace.fragments.InterestedFragment;
 import com.example.gabbygiordano.marketplace.fragments.ItemsListFragment;
 import com.example.gabbygiordano.marketplace.fragments.ProfilePagerAdapter;
 import com.example.gabbygiordano.marketplace.fragments.ProfileTimelineFragment;
@@ -161,6 +162,12 @@ public class ProfileActivity extends AppCompatActivity {
                     FavoritesFragment favoritesFragment = FavoritesFragment.newInstance();
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.flContainer, favoritesFragment);
+                    ft.commit();
+                }
+                if(tab.getPosition() == 2){
+                    InterestedFragment interestedFragment = InterestedFragment.newInstance();
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.flContainer, interestedFragment);
                     ft.commit();
                 }
             }
