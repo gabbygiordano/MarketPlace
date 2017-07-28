@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
@@ -222,6 +223,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
+
         }
 
         @SuppressLint("NewApi")
@@ -249,11 +251,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             }
             if(thisItem.getOwner().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())){
                 mItems.remove(position);
+                Snackbar.make(view, "Item Deleted!", Snackbar.LENGTH_LONG).setAction("UNDO", null).setActionTextColor(R.color.Secondary500).show();
                 thisItem.deleteInBackground();
                 notifyItemRemoved(position);
                 notifyDataSetChanged();
                 Toast.makeText(context, "Item Deleted!", Toast.LENGTH_LONG).show();
-                // Snackbar.make(view, R.string_snackbar_text, Snackbar.LENGTH_LONG).setAction(R.string_snackbar_action, myonClickListener).show();
+
 
             }
 
@@ -261,6 +264,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
             return true;
         }
+
 
 
     }
