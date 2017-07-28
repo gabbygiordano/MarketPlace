@@ -236,7 +236,8 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
 
-    public void populateUserHeadline(){
+    public void populateUserHeadline() {
+
         if(getIntent().hasExtra("itemId")){
 
             id = getIntent().getStringExtra("itemId");
