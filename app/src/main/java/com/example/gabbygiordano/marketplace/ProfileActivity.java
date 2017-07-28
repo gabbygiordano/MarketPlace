@@ -245,7 +245,6 @@ public class ProfileActivity extends AppCompatActivity {
             public void populateUserHeadline () {
                 if (getIntent().hasExtra("itemId")) {
 
-
                     id = getIntent().getStringExtra("itemId");
 
                     ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
@@ -279,11 +278,37 @@ public class ProfileActivity extends AppCompatActivity {
                         tvPhone.setText(String.valueOf(user.getLong("phone")));
 
                         // populateTimeline(user);
-
+                        ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
+                        query.include("owner");
+                        query.whereContains("itemId", id);
+                        query.orderByDescending("_created_at");
+                        query.getInBackground(id, new GetCallback<Item>() {
+                            public void done(Item item, ParseException e) {
+                                if (e == null) {
+                                    // item was found
+                                    tvName.setText(item.getOwner().getString("name"));
+                                    tvUsername.setText(item.getOwner().getUsername());
+                                    tvCollege.setText(item.getOwner().getString("college"));
+                                    tvPhone.setText(" ");
+                                } else {
+                                    Log.e("ItemsListFragment", e.getMessage());
+                                }
+                            }
+                        });
                     } else {
+                        // set text to current user info
+                        user = ParseUser.getCurrentUser();
+                        if (user != null) {
+                            tvName.setText(user.getString("name"));
+                            tvUsername.setText(user.getUsername());
+                            tvCollege.setText(user.getString("college"));
+                            tvPhone.setText(String.valueOf(user.getLong("phone")));
+
+                        } else {
+
+                        }
 
                     }
-
                 }
             }
 
