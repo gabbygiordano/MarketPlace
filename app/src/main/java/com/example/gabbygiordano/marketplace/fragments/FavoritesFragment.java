@@ -41,7 +41,7 @@ public class FavoritesFragment extends ItemsListFragment {
 
         ArrayList<String> favs = (ArrayList<String>) user.get("favoriteItems");
         if(items != null && items.size() == favs.size()){
-            Log.d("itemsize", items.size() + " " + favs.size());
+            //Log.d("itemsize", items.size() + " " + favs.size());
         }
         else {
             ParseQuery<Item> query = ParseQuery.getQuery("Item");
