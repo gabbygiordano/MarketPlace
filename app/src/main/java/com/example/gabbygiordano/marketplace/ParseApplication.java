@@ -31,7 +31,6 @@ public class ParseApplication extends Application {
         // register subclass
         ParseObject.registerSubclass(Item.class);
         ParseObject.registerSubclass(AppNotification.class);
-        // ParseObject.registerSubclass(User.class);
 
         // set up live queries
 

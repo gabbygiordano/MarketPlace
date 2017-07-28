@@ -12,18 +12,6 @@ import com.parse.ParseUser;
 @ParseClassName("Item")
 public class Item extends ParseObject {
 
-
-    public String itemName;
-    public String description;
-    public String price;
-    public int condition;
-    public User user;
-    public String type;
-    //public Item resource;// type of object - book, clothes, etc
-//
-      //public Bitmap resource;
-
-
     // public default constructor for parse
     public Item() {
         super();
@@ -38,7 +26,6 @@ public class Item extends ParseObject {
         setOwner(user);
         setType(type);
         setImage(image);
-        // setResource(resource);
     }
 
     public String getItemName() {

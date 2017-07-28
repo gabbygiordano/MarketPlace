@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -31,6 +32,7 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -47,6 +49,7 @@ public class DetailsActivity extends AppCompatActivity {
     Button btnInterested;
     BottomNavigationView bottomNavigationView;
     TextView tvTimeAgo;
+    ImageButton ibFavorite;
 
     private Item parseItem;
 
@@ -56,6 +59,9 @@ public class DetailsActivity extends AppCompatActivity {
     AppNotification appNotification;
 
     Context context;
+
+    ParseUser buyer;
+    ParseUser owner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +79,7 @@ public class DetailsActivity extends AppCompatActivity {
         tvItemOwner = (TextView) findViewById(R.id.tvItemOwner);
         btnInterested = (Button) findViewById(R.id.btnInterested);
         tvTimeAgo = (TextView) findViewById(R.id.tvTimeAgo);
+        ibFavorite = (ImageButton) findViewById(R.id.ibFavorite);
 
         LayerDrawable stars = (LayerDrawable) rbItemCondition.getProgressDrawable();
         stars.getDrawable(2).setColorFilter(getResources().getColor(colorGold), PorterDuff.Mode.SRC_ATOP);
@@ -142,6 +149,44 @@ public class DetailsActivity extends AppCompatActivity {
 
                     tvTimeAgo.setText(getRelativeTimeAgo(item.getCreatedAt()));
 
+                    ParseUser user = ParseUser.getCurrentUser();
+                    ArrayList<String> favoriteItems = (ArrayList) user.get("favoriteItems");
+                    if (favoriteItems.contains(item.getObjectId())) {
+                        // favorited
+                        ibFavorite.setImageResource(R.drawable.ic_fav);
+                        ibFavorite.setColorFilter(Color.rgb(255,87,34));
+                    } else {
+                        // unfavorited
+                        ibFavorite.setImageResource(R.drawable.ic_unfav);
+                        ibFavorite.setColorFilter(Color.rgb(155,155,155));
+                    }
+
+                    ibFavorite.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            ParseUser user = ParseUser.getCurrentUser();
+                            ArrayList<String> favoriteItems = (ArrayList) user.get("favoriteItems");
+
+                            if (favoriteItems.contains(mItem.getObjectId())) {
+                                // unfavorite
+                                ibFavorite.setImageResource(R.drawable.ic_unfav);
+                                ibFavorite.setColorFilter(Color.rgb(155,155,155));
+
+                                favoriteItems.remove(mItem.getObjectId());
+                                user.put("favoriteItems", favoriteItems);
+                                user.saveInBackground();
+                            } else {
+                                // favorite
+                                ibFavorite.setImageResource(R.drawable.ic_fav);
+                                ibFavorite.setColorFilter(Color.rgb(255,87,34));
+
+                                favoriteItems.add(mItem.getObjectId());
+                                user.put("favoriteItems", favoriteItems);
+                                user.saveInBackground();
+                            }
+                        }
+                    });
+
                     parseItem = item;
 
                     getSupportActionBar().setTitle(item.getItemName());
@@ -183,12 +228,14 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     public void onInterestedClick(View view) {
-        ParseUser buyer = ParseUser.getCurrentUser();
-        ParseUser owner = mItem.getOwner();
+        buyer = ParseUser.getCurrentUser();
+        owner = mItem.getOwner();
         Date created = new Date();
         appNotification = new AppNotification(owner, buyer, mItem, created);
 
-        // make the query
+        final ArrayList<String> interestedItems = (ArrayList<String>) buyer.get("interestedItems");
+
+        // send notification if necessary
         ParseQuery<AppNotification> parseQuery = ParseQuery.getQuery(AppNotification.class);
         parseQuery.whereEqualTo("buyer", buyer);
         parseQuery.whereEqualTo("item", mItem);
@@ -202,6 +249,10 @@ public class DetailsActivity extends AppCompatActivity {
                             public void done(ParseException e) {
                                 // make toast
                                 Toast.makeText(getApplicationContext(), "Request sent!", Toast.LENGTH_LONG).show();
+                                // add to buyer's interestedItems
+                                interestedItems.add(mItem.getObjectId());
+                                buyer.put("interestedItems", interestedItems);
+                                buyer.saveInBackground();
                             }
                         });
                     } else {

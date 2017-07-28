@@ -1,8 +1,11 @@
 package com.example.gabbygiordano.marketplace;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -79,7 +82,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         holder.tvSeller.setText(item.getOwner().getString("name"));
         holder.tvTimeAgo.setText(item.getOwner().getString("_created_at"));
 
-        // TODO: USE SINGULAR FAVORITE BUTTON
         ParseUser user = ParseUser.getCurrentUser();
         ArrayList<String> favoriteItems = (ArrayList) user.get("favoriteItems");
         if (favoriteItems.contains(item.getObjectId())) {
@@ -221,6 +223,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             itemView.setOnClickListener(this);
         }
 
+        @SuppressLint("NewApi")
         @Override
         public void onClick(View view) {
             int position = getAdapterPosition();
@@ -230,7 +233,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             String id = thisItem.getObjectId();
             Intent i = new Intent(context, DetailsActivity.class);
             i.putExtra("ID", id);
-            context.startActivity(i);
+
+            String name = "sharedActivityTransition";
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context, ivItemImage, name);
+
+            context.startActivity(i, options.toBundle());
         }
 
     }

@@ -139,24 +139,6 @@ public class AppNotificationsActivity extends AppCompatActivity {
                 }
             }
         });
-
-        // set up handler for continuous queries for notifications
-        // workaround since live queries are not working
-        // myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
-
-        // Using background services and broadcast receivers
-//        mServiceIntent = new Intent(this, NotificationService.class);
-//        mServiceIntent.putExtra("last", lastNotif);
-//        startService(mServiceIntent);
-//
-//        // Instantiates a new DownloadStateReceiver
-//        NotificationReceiver mDownloadStateReceiver = new NotificationReceiver();
-//
-//        // The filter's action is BROADCAST_ACTION
-//        IntentFilter statusIntentFilter = new IntentFilter(Constants.BROADCAST_ACTION);
-//
-//        // Registers the DownloadStateReceiver and its intent filters
-//        LocalBroadcastManager.getInstance(this).registerReceiver(mDownloadStateReceiver, statusIntentFilter);
     }
 
     void refreshMessages() {
