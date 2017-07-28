@@ -1,6 +1,7 @@
 package com.example.gabbygiordano.marketplace;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -9,7 +10,9 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -75,6 +78,7 @@ public class SignUpActivity extends AppCompatActivity {
     String postalCode;
     final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOC = 1;
     boolean useLoc;
+    String m_Text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -215,6 +219,28 @@ public class SignUpActivity extends AppCompatActivity {
                 } else {
                     useLoc = false;
 
+                    if (!useLoc) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                        builder.setMessage("Unable to access location, enter zip");
+
+                        // Set up the input
+                        final EditText input = new EditText(this);
+                        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                        input.setInputType(InputType.TYPE_CLASS_NUMBER);
+                        builder.setView(input);
+
+                        // Set up the buttons
+                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                postalCode = input.getText().toString();
+                                useLoc = true;
+                            }
+                        });
+
+                        builder.show();
+                    }
+
                     // get list of US universities
                     records = 0;
                     page = 0;
@@ -239,7 +265,7 @@ public class SignUpActivity extends AppCompatActivity {
                             geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
 
                             try {
-                                addresses = geocoder.getFromLocation(latitude, longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+                                addresses = geocoder.getFromLocation(latitude, longitude, 1);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -254,6 +280,29 @@ public class SignUpActivity extends AppCompatActivity {
                             getSchools(false);
                         } else {
                             useLoc = false;
+
+                            if (!useLoc) {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+                                builder.setMessage("Unable to access location, enter zip");
+
+                                // Set up the input
+                                final EditText input = new EditText(getApplicationContext());
+                                // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                                input.setInputType(InputType.TYPE_CLASS_NUMBER);
+                                builder.setView(input);
+
+                                // Set up the buttons
+                                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        postalCode = input.getText().toString();
+
+                                        useLoc = true;
+                                    }
+                                });
+
+                                builder.show();
+                            }
 
                             // get list of US universities
                             records = 0;
@@ -270,8 +319,9 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     public void getSchools(boolean finished) {
-        // TODO: check if zip needs to be entered explicitly
+        Log.e("Client", postalCode);
         Log.e("Client", "Getting schools...");
+
         // make network request to get university list using API
         MarketPlaceClient.getSchoolList(page, postalCode, useLoc, new JsonHttpResponseHandler() {
             @Override

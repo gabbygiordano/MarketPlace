@@ -24,7 +24,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -54,12 +53,13 @@ public class AddItemActivity extends AppCompatActivity {
     GalleryPhoto galleryPhoto;
     String selectedPhoto;
 
-    public EditText etItemName;
-    public EditText etItemDescription;
-    public EditText etItemPrice;
-    public ImageView ibAddImage;
-    public Button ibPostItem;
-   // public ImageView imageLocation;
+    EditText etItemName;
+    EditText etItemDescription;
+    EditText etItemPrice;
+    ImageView ivAddImage;
+    ImageView ivEditImage;
+    Button ibPostItem;
+    ImageView ivImage;
 
     BottomNavigationView bottomNavigationView;
 
@@ -89,10 +89,14 @@ public class AddItemActivity extends AppCompatActivity {
         etItemName = (EditText) findViewById(R.id.tvItemName);
         etItemDescription = (EditText) findViewById(R.id.tvItemDescription);
         etItemPrice = (EditText) findViewById(R.id.tvItemPrice);
-        ibAddImage = (ImageView) findViewById(R.id.ibAddImage);
+        ivAddImage = (ImageView) findViewById(R.id.ivAddImage);
+        ivEditImage = (ImageView) findViewById(R.id.ivEditImage);
         ibPostItem = (Button) findViewById(R.id.ibPostItem);
-       // imageLocation = (ImageView) findViewById(R.id.ivItemPhoto);
+        ivImage = (ImageView) findViewById(R.id.ivImage);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
+
+        ivAddImage.bringToFront();
+        ivEditImage.bringToFront();
 
         ibPostItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,7 +170,6 @@ public class AddItemActivity extends AppCompatActivity {
 
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
 
-
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
         {
             @Override
@@ -198,24 +201,16 @@ public class AddItemActivity extends AppCompatActivity {
             }
         });
 
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.READ_EXTERNAL_STORAGE)
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
-
-
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.READ_EXTERNAL_STORAGE)) {
-
             } else {
-
-
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                         MY_PERMISSIONS_REQUEST_READ_MEDIA);
-
             }
         }
-
     }
 
     @Override
@@ -253,7 +248,7 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
 
-    private void SelectImage()
+    public void addImage(View v)
     {
         final CharSequence[] items = {"Camera", "Gallery", "Cancel"};
 
@@ -285,9 +280,35 @@ public class AddItemActivity extends AppCompatActivity {
         builder.show();
     }
 
-    public void takeItemPhoto(View view)
-    {
-        SelectImage();
+    public void editImage(View v) {
+        final CharSequence[] items = {"Camera", "Gallery", "Cancel"};
+
+        AlertDialog.Builder builder= new AlertDialog.Builder(AddItemActivity.this);
+        builder.setTitle("Change Image");
+        builder.setItems(items, new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i)
+            {
+                if(items[i].equals("Camera"))
+                {
+                    Intent callCamera = new Intent();
+                    callCamera.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(callCamera, ACTIVITY_START_CAMERA);
+                }
+                else if(items[i].equals("Gallery"))
+                {
+//                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                    intent.setType("image/*");
+                    startActivityForResult(galleryPhoto.openGalleryIntent(), ACTIVITY_SELECT_FILE);
+                }
+                else if (items[i].equals("Cancel"))
+                {
+                    dialogInterface.dismiss();
+                }
+            }
+        });
+        builder.show();
     }
 
     @Override
@@ -301,7 +322,7 @@ public class AddItemActivity extends AppCompatActivity {
                 //Toast.makeText(this, "picture was taken", Toast.LENGTH_SHORT).show();
                 Bundle extras = data.getExtras();
                 Bitmap photoCaptured = (Bitmap) extras.get("data");
-                ibAddImage.setImageBitmap(photoCaptured);
+                ivImage.setImageBitmap(photoCaptured);
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 photoCaptured.compress(Bitmap.CompressFormat.PNG, 100, stream);
                 byte[] image = stream.toByteArray();
@@ -309,8 +330,9 @@ public class AddItemActivity extends AppCompatActivity {
                 file.saveInBackground();
                 Toast.makeText(AddItemActivity.this, "Image Uploaded",
                         Toast.LENGTH_SHORT).show();
-                //resource = photoCaptured;
 
+                ivEditImage.setVisibility(View.VISIBLE);
+                ivEditImage.setClickable(true);
             }
             else if(requestCode == ACTIVITY_SELECT_FILE)
             {
@@ -322,7 +344,7 @@ public class AddItemActivity extends AppCompatActivity {
                 try
                 {
                     Bitmap bitmap = ImageLoader.init().from(photoPath).requestSize(512,512).getBitmap();
-                    ibAddImage.setImageBitmap(rotateBitmapOrientation(photoPath));
+                    ivImage.setImageBitmap(rotateBitmapOrientation(photoPath));
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
                     byte[] image = stream.toByteArray();
@@ -330,14 +352,9 @@ public class AddItemActivity extends AppCompatActivity {
                     file.saveInBackground();
                     Toast.makeText(AddItemActivity.this, "Image Uploaded",
                             Toast.LENGTH_SHORT).show();
-//                    try {
-//                        Bitmap bm = ImageLoader.init().from(selectedPhoto).requestSize(27,27).getBitmap();
-//                        String encodedImage = ImageBase64.encode(bm);
-//                        Log.d(TAG, encodedImage);
-//                    } catch (FileNotFoundException e1)
-//                    {
-//                        Toast.makeText(getApplicationContext(), "Something went wrong while encoding photo", Toast.LENGTH_SHORT).show();
-//                    }
+
+                    ivEditImage.setVisibility(View.VISIBLE);
+                    ivEditImage.setClickable(true);
                 }
                 catch (FileNotFoundException e)
                 {
