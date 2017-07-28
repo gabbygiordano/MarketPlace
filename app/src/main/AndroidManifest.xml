@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.gabbygiordano.marketplace"
-    >
+    package="com.example.gabbygiordano.marketplace">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.MEDIA_CONTENT_CONTROL" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-    <!--<uses-feature
+    <!--
+        <uses-feature
         android:name="android.hardware.camera2"
-        android:required="true" />-->
+        android:required="true" />
+    -->
 
     <uses-permision android:name="android.permission.CAMERA" />
 
@@ -56,8 +57,10 @@
 
         <service
             android:name=".NotificationService"
-            android:exported="false"/>
-        <activity android:name=".FavoritesActivity"></activity>
+            android:exported="false" />
+
+        <activity android:name=".fragments.FavoritesFragment" />
+        <activity android:name=".UserProfileActivity"></activity>
     </application>
 
 </manifest>
