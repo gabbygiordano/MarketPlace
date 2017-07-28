@@ -197,7 +197,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     }
 
     // create ViewHolder class
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         public ImageView ivItemImage;
         public TextView tvItemName;
@@ -221,6 +221,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             ibFavorite = itemView.findViewById(R.id.ibFavorite);
 
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
         }
 
         @SuppressLint("NewApi")
@@ -239,6 +240,25 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
             context.startActivity(i, options.toBundle());
         }
+        @Override
+        @SuppressLint("NewApi")
+        public boolean onLongClick(View view){
+            int position = getAdapterPosition();
+            if(position != RecyclerView.NO_POSITION){
+                thisItem = mItems.get(position);
+            }
+            if(thisItem.getOwner().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())){
+                thisItem.deleteInBackground();
+                notifyItemRemoved(position);
+                notifyDataSetChanged();
+                Toast.makeText(context, "Item Deleted!", Toast.LENGTH_LONG).show();
+
+            }
+
+
+            return true;
+        }
+
 
     }
 }
