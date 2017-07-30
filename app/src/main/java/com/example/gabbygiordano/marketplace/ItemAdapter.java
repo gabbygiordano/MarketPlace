@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
@@ -196,7 +197,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     }
 
     // create ViewHolder class
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         public ImageView ivItemImage;
         public TextView tvItemName;
@@ -220,6 +221,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             ibFavorite = itemView.findViewById(R.id.ibFavorite);
 
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
+
         }
 
         @Override
@@ -237,6 +240,30 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
             context.startActivity(i);
         }
+        @Override
+        @SuppressLint("NewApi")
+        public boolean onLongClick(View view){
+            int position = getAdapterPosition();
+            if(position != RecyclerView.NO_POSITION){
+                thisItem = mItems.get(position);
+            }
+            if(thisItem.getOwner().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())){
+                mItems.remove(position);
+                Snackbar.make(view, "Item Deleted!", Snackbar.LENGTH_LONG).setAction("UNDO", null).setActionTextColor(R.color.Secondary500).show();
+                thisItem.deleteInBackground();
+                notifyItemRemoved(position);
+                notifyDataSetChanged();
+                Toast.makeText(context, "Item Deleted!", Toast.LENGTH_LONG).show();
+
+
+            }
+
+
+
+            return true;
+        }
+
+
 
     }
 }

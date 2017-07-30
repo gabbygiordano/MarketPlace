@@ -306,6 +306,8 @@ public class ProfileActivity extends AppCompatActivity {
 //        return true;
 //    }
 
+
+
     public void addItem(View view) {
         Intent i_add = new Intent(context, AddItemActivity.class);
         ((HomeActivity) mContext).startActivityForResult(i_add, ADD_ITEM_REQUEST);
@@ -317,4 +319,6 @@ public class ProfileActivity extends AppCompatActivity {
         i_home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i_home);
     }
+
+
 }
