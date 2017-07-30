@@ -141,5 +141,14 @@
         android:layout_alignParentRight="true"
         android:text="Save Changes" />
 
+    <ImageButton
+        android:id="@+id/ibLogOut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_lock_power_off"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
 
 </RelativeLayout>

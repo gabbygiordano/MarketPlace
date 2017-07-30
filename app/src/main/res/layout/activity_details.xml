@@ -83,6 +83,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/tvItemPrice"
+                android:isIndicator="true"
                 android:layout_margin="5dp"/>
 
             <TextView

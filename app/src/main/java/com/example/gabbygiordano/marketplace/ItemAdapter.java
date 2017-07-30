@@ -1,6 +1,5 @@
 package com.example.gabbygiordano.marketplace;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -223,7 +222,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             itemView.setOnClickListener(this);
         }
 
-        @SuppressLint("NewApi")
         @Override
         public void onClick(View view) {
             int position = getAdapterPosition();
@@ -237,7 +235,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             String name = "sharedActivityTransition";
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context, ivItemImage, name);
 
-            context.startActivity(i, options.toBundle());
+            context.startActivity(i);
         }
 
     }

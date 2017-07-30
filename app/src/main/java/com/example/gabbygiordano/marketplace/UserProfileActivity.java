@@ -13,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -35,7 +34,6 @@ public class UserProfileActivity extends AppCompatActivity {
     TextView tvUsername;
     TextView tvCollege;
     TextView tvPhone;
-    ImageButton ibLogOut;
     RecyclerView rvProfileItems;
 
     Button btFavorites;
@@ -80,8 +78,6 @@ public class UserProfileActivity extends AppCompatActivity {
         tvUsername = (TextView) findViewById(R.id.tvUsername);
         tvCollege = (TextView) findViewById(R.id.tvCollege);
         tvPhone = (TextView) findViewById(R.id.tvPhone);
-        ibLogOut = (ImageButton) findViewById(R.id.ibLogOut);
-
 
         fetchTimelineAsync();
 
@@ -196,20 +192,20 @@ public class UserProfileActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menu_profile, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.miSettings) {
-            Intent i = new Intent(this, SettingsActivity.class);
-            startActivityForResult(i, 1);
-        }
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu){
+//        getMenuInflater().inflate(R.menu.menu_profile, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        if (item.getItemId() == R.id.miSettings) {
+//            Intent i = new Intent(this, SettingsActivity.class);
+//            startActivityForResult(i, 1);
+//        }
+//        return true;
+//    }
 
     public void addItem(View view) {
         Intent i_add = new Intent(context, AddItemActivity.class);
