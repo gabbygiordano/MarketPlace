@@ -92,11 +92,11 @@ public class SettingsActivity extends AppCompatActivity {
         changedProfilePhoto = true;
 
         final ParseUser user = ParseUser.getCurrentUser();
-//        if (user != null) {
-//            tvName.setText(user.getString("name"));
-//            tvPhone.setText(String.valueOf(user.getLong("phone")));
-//            tvEmail.setText(user.getString("email"));
-//        }
+        if (user != null) {
+            etName.setText(user.getString("name"), TextView.BufferType.EDITABLE);
+            etPhone.setText(String.valueOf(user.getLong("phone")), TextView.BufferType.EDITABLE);
+            etEmail.setText(user.getString("email"), TextView.BufferType.EDITABLE);
+        }
 
         // log out if power button is clicked
         ibLogout.setOnClickListener(new View.OnClickListener() {
