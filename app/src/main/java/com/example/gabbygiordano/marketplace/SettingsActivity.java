@@ -55,11 +55,11 @@ public class SettingsActivity extends AppCompatActivity {
         changedEmail = true;
 
         final ParseUser user = ParseUser.getCurrentUser();
-        if (user != null) {
-            tvName.setText(user.getString("name"));
-            tvPhone.setText(String.valueOf(user.getLong("phone")));
-            tvEmail.setText(user.getString("email"));
-        }
+//        if (user != null) {
+//            tvName.setText(user.getString("name"));
+//            tvPhone.setText(String.valueOf(user.getLong("phone")));
+//            tvEmail.setText(user.getString("email"));
+//        }
 
         // log out if power button is clicked
         ibLogout.setOnClickListener(new View.OnClickListener() {
@@ -104,6 +104,7 @@ public class SettingsActivity extends AppCompatActivity {
                     if (changedEmail) {
                         String email = etEmail.getText().toString();
                         user.put("email", email);
+                        user.put("publicEmail", email);
                         user.saveInBackground();
                         //Toast.makeText(getApplicationContext(), "Email Updated", Toast.LENGTH_LONG).show();
                         Intent i = new Intent(getApplicationContext(), ProfileActivity.class);

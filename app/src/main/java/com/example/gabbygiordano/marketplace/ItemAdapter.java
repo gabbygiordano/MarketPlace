@@ -19,6 +19,9 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -241,7 +244,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             context.startActivity(i);
         }
         @Override
-        @SuppressLint("NewApi")
         public boolean onLongClick(View view){
             int position = getAdapterPosition();
             if(position != RecyclerView.NO_POSITION){
@@ -250,12 +252,25 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             if(thisItem.getOwner().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())){
                 mItems.remove(position);
                 Snackbar.make(view, "Item Deleted!", Snackbar.LENGTH_LONG).setAction("UNDO", null).setActionTextColor(R.color.Secondary500).show();
+
+                // remove corresponding notification if exists
+                ParseQuery<AppNotification> query = ParseQuery.getQuery(AppNotification.class);
+                query.include("owner");
+                query.include("image");
+                query.whereEqualTo("item", thisItem);
+                query.findInBackground(new FindCallback<AppNotification>() {
+                    @Override
+                    public void done(List<AppNotification> objects, ParseException e) {
+                        if (objects != null && !objects.isEmpty()) {
+                            objects.get(0).deleteInBackground();
+                        }
+                    }
+                });
+
                 thisItem.deleteInBackground();
                 notifyItemRemoved(position);
                 notifyDataSetChanged();
                 Toast.makeText(context, "Item Deleted!", Toast.LENGTH_LONG).show();
-
-
             }
 
 
