@@ -65,25 +65,14 @@
         android:text="$$$"
         android:textColor="@android:color/black" />
 
-    <!--<ImageButton-->
-        <!--android:id="@+id/ibFavorite"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="@android:color/transparent"-->
-        <!--app:srcCompat="@drawable/ic_unfav"-->
-        <!--android:layout_marginRight="5dp"-->
-        <!--android:layout_below="@+id/tvTimeAgo"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_alignParentEnd="true"-->
-        <!--android:visibility="gone"/>-->
-
     <com.like.LikeButton
         android:id="@+id/likeBtn"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         app:like_drawable="@drawable/ic_fav"
         app:unlike_drawable="@drawable/ic_unfav"
-        app:icon_size="25dp"
+        app:icon_size="30dp"
+        app:anim_scale_factor="2.5"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />

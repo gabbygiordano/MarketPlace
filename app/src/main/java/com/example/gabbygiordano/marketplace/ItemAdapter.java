@@ -12,18 +12,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.like.LikeButton;
+import com.like.OnLikeListener;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -84,71 +86,43 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         holder.tvSeller.setText(item.getOwner().getString("name"));
         holder.tvTimeAgo.setText(item.getOwner().getString("_created_at"));
 
-//        ParseUser user = ParseUser.getCurrentUser();
-//        ArrayList<String> favoriteItems = (ArrayList) user.get("favoriteItems");
-//        if (favoriteItems.contains(item.getObjectId())) {
-//            // favorited
-//            holder.likeButton.setLiked(true);
-//        } else {
-//            // unfavorited
-//            holder.likeButton.setLiked(false);
-//        }
-//
-//        holder.likeButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                ParseUser user = ParseUser.getCurrentUser();
-//                ArrayList<String> favoriteItems = (ArrayList) user.get("favoriteItems");
-//
-//                if (favoriteItems.contains(item.getObjectId())) {
-//                    // unfavorite
-//                    holder.likeButton.setLiked(false);
-//
-//                    Toast.makeText(getContext(), "Unfavorited", Toast.LENGTH_LONG).show();
-//
-//                    favoriteItems.remove(item.getObjectId());
-//                    user.put("favoriteItems", favoriteItems);
-//                    user.saveInBackground();
-//                } else {
-//                    // favorite
-//                    holder.likeButton.setLiked(true);
-//
-//                    Toast.makeText(getContext(), "Favorited", Toast.LENGTH_LONG).show();
-//
-//                    favoriteItems.add(item.getObjectId());
-//                    user.put("favoriteItems", favoriteItems);
-//                    user.saveInBackground();
-//                }
-//            }
-//        });
+        ParseUser user = ParseUser.getCurrentUser();
+        ArrayList<String> favoriteItems = (ArrayList) user.get("favoriteItems");
+        if (favoriteItems.contains(item.getObjectId())) {
+            // favorited
+            holder.likeButton.setLiked(true);
+        } else {
+            // unfavorited
+            holder.likeButton.setLiked(false);
+        }
 
-//        holder.likeButton.setOnLikeListener(new OnLikeListener() {
-//            @Override
-//            public void liked(LikeButton likeButton) {
-//                // save in favorites list
-//                Toast.makeText(getContext(), "Favorited", Toast.LENGTH_LONG).show();
-//
-//                ParseUser user = ParseUser.getCurrentUser();
-//                ArrayList<String> favoriteItems = (ArrayList) user.get("favoriteItems");
-//
-//                favoriteItems.add(item.getObjectId());
-//                user.put("favoriteItems", favoriteItems);
-//                user.saveInBackground();
-//            }
-//
-//            @Override
-//            public void unLiked(LikeButton likeButton) {
-//                // remove from favorites list
-//                Toast.makeText(getContext(), "Unfavorited", Toast.LENGTH_LONG).show();
-//
-//                ParseUser user = ParseUser.getCurrentUser();
-//                ArrayList<String> favoriteItems = (ArrayList) user.get("favoriteItems");
-//
-//                favoriteItems.remove(item.getObjectId());
-//                user.put("favoriteItems", favoriteItems);
-//                user.saveInBackground();
-//            }
-//        });
+        holder.likeButton.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+                // save in favorites list
+                Toast.makeText(getContext(), "Favorited", Toast.LENGTH_LONG).show();
+
+                ParseUser user = ParseUser.getCurrentUser();
+                ArrayList<String> favoriteItems = (ArrayList) user.get("favoriteItems");
+
+                favoriteItems.add(item.getObjectId());
+                user.put("favoriteItems", favoriteItems);
+                user.saveInBackground();
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+                // remove from favorites list
+                Toast.makeText(getContext(), "Unfavorited", Toast.LENGTH_LONG).show();
+
+                ParseUser user = ParseUser.getCurrentUser();
+                ArrayList<String> favoriteItems = (ArrayList) user.get("favoriteItems");
+
+                favoriteItems.remove(item.getObjectId());
+                user.put("favoriteItems", favoriteItems);
+                user.saveInBackground();
+            }
+        });
 
         holder.tvTimeAgo.setText(getRelativeTimeAgo(item.getCreatedAt()));
 
@@ -233,8 +207,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         public LikeButton likeButton;
         Item thisItem;
 
-        ImageButton ibFavorite;
-
         boolean flag = true;
 
         // constructor
@@ -247,7 +219,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             tvPrice = itemView.findViewById(R.id.tvPrice);
             tvTimeAgo = itemView.findViewById(R.id.tvTimeAgo);
 
-            ibFavorite = itemView.findViewById(R.id.ibFavorite);
             likeButton = itemView.findViewById(R.id.likeBtn);
 
             itemView.setOnClickListener(this);
