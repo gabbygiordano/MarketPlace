@@ -44,7 +44,9 @@ public class DetailsActivity extends AppCompatActivity {
     TextView tvItemDescription;
     TextView tvItemPrice;
     RatingBar rbItemCondition;
-    ImageView ivItemImage;
+    ImageView ivImage1;
+    ImageView ivImage2;
+    ImageView ivImage3;
     TextView tvItemOwner;
     Button btnInterested;
     BottomNavigationView bottomNavigationView;
@@ -75,7 +77,9 @@ public class DetailsActivity extends AppCompatActivity {
         tvItemDescription = (TextView) findViewById(R.id.tvItemDescription);
         tvItemPrice = (TextView) findViewById(R.id.tvItemPrice);
         rbItemCondition = (RatingBar) findViewById(R.id.rbItemCondition);
-        ivItemImage = (ImageView) findViewById(R.id.ivItemImage);
+        ivImage1 = (ImageView) findViewById(R.id.ivitemimage1);
+        ivImage2 = (ImageView) findViewById(R.id.ivitemimage2);
+        ivImage3 = (ImageView) findViewById(R.id.ivitemimage3);
         tvItemOwner = (TextView) findViewById(R.id.tvItemOwner);
         btnInterested = (Button) findViewById(R.id.btnInterested);
         tvTimeAgo = (TextView) findViewById(R.id.tvTimeAgo);
@@ -192,15 +196,17 @@ public class DetailsActivity extends AppCompatActivity {
                     getSupportActionBar().setTitle(item.getItemName());
 
                     if (item.getImage() != null) {
-                        String imageUri = item.getImage().getUrl();
+                        String imageUri1 = item.getImage().getUrl();
                         Picasso
                                 .with(context)
-                                .load(imageUri)
-                                .into(ivItemImage);
+                                .load(imageUri1)
+                                .into(ivImage1);
                     }
-                } else {
+                } else
+                    {
                     // something went wrong
                 }
+
 
             }
         });

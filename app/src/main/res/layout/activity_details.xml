@@ -13,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
+            <!--<ImageView
                 android:id="@+id/ivItemImage"
                 android:layout_width="wrap_content"
                 android:layout_height="200dp"
@@ -23,7 +23,49 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:transitionName="sharedActivityTransition"
-                android:background="@android:color/black" />
+                android:background="@android:color/black" />-->
+
+            <ScrollView
+                android:id="@+id/scrollView"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/ivitemimage1"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:background="@android:color/black" />
+
+                    <ImageView
+                        android:id="@+id/ivitemimage2"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:background="@android:color/black" />
+
+                    <ImageView
+                        android:id="@+id/ivitemimage3"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:background="@android:color/black" />
+                </LinearLayout>
+            </ScrollView>
 
             <TextView
                 android:id="@+id/tvTimeAgo"
@@ -31,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_below="@+id/ivItemImage"
+                android:layout_below="@+id/scrollView"
                 android:layout_margin="5dp"
                 android:text="n units ago" />
 
@@ -52,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/ivItemImage"
+                android:layout_below="@+id/scrollView"
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:text="Name"

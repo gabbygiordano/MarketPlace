@@ -52,7 +52,6 @@ public class ProfileActivity extends AppCompatActivity {
     RecyclerView rvProfileItems;
 
     ViewPager viewPager;
-    ProfilePagerAdapter adapter;
     ImageView ivItemImage;
 
     ImageButton ibFavoriteOff;
@@ -67,6 +66,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     ArrayList<Item> items;
     ItemAdapter itemAdapter;
+    ProfilePagerAdapter adapter;
     String id;
 
     int ADD_ITEM_REQUEST = 10;
@@ -239,6 +239,10 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
         populateUserHeadline();
+
+//        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(createHelperCallback());
+//        itemTouchHelper.attachToRecyclerView(rvProfileItems);
+
     }
 
 
@@ -268,36 +272,9 @@ public class ProfileActivity extends AppCompatActivity {
                             }
                         }
                     });
-                } else {
-                    // set text to current user info
-                    ParseUser user = ParseUser.getCurrentUser();
-                    if (user != null) {
-                        tvName.setText(user.getString("name"));
-                        tvUsername.setText(user.getUsername());
-                        tvCollege.setText(user.getString("college"));
-                        tvPhone.setText(String.valueOf(user.getLong("phone")));
-
-                        // populateTimeline(user);
-                        ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
-                        query.include("owner");
-                        query.whereContains("itemId", id);
-                        query.orderByDescending("_created_at");
-                        query.getInBackground(id, new GetCallback<Item>() {
-                            public void done(Item item, ParseException e) {
-                                if (e == null) {
-                                    // item was found
-                                    tvName.setText(item.getOwner().getString("name"));
-                                    tvUsername.setText(item.getOwner().getUsername());
-                                    tvCollege.setText(item.getOwner().getString("college"));
-                                    tvPhone.setText(" ");
-                                } else {
-                                    Log.e("ItemsListFragment", e.getMessage());
-                                }
-                            }
-                        });
                     } else {
                         // set text to current user info
-                        user = ParseUser.getCurrentUser();
+                        ParseUser user = ParseUser.getCurrentUser();
                         if (user != null) {
                             tvName.setText(user.getString("name"));
                             tvUsername.setText(user.getUsername());
@@ -310,7 +287,28 @@ public class ProfileActivity extends AppCompatActivity {
 
                     }
                 }
-            }
+
+//    private ItemTouchHelper.Callback createHelperCallback()
+//    {
+//        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback( 0,ItemTouchHelper.LEFT)
+//        {
+//
+//            @Override
+//            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target)
+//            {
+//                return false;
+//            }
+//
+//            @Override
+//            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction)
+//            {
+//                items.remove(viewHolder.getLayoutPosition());
+//                itemAdapter.notifyItemRemoved(viewHolder.getLayoutPosition());
+//
+//            }
+//        };
+//        return simpleItemTouchCallback;
+//    }
 
 
     public void populateProfileTimeline(ParseUser user){

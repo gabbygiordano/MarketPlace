@@ -85,11 +85,12 @@ public class Item extends ParseObject {
         put("resource", resource);
     }
 
-    public void setImage(ParseFile image) {
-        put("image", image);
+    public void setImage(ParseFile image1) {
+        put("image", image1);
     }
 
     public ParseFile getImage() {
         return getParseFile("image");
     }
+
 }

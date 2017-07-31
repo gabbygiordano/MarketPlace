@@ -45,6 +45,8 @@ import java.util.ArrayList;
 public class AddItemActivity extends AppCompatActivity {
 
     private static final int MY_PERMISSIONS_REQUEST_READ_MEDIA = 1 ;
+    final int ACTIVITY_START_CAMERA1 = 1100;
+    final int ACTIVITY_SELECT_FILE1 = 2200;
     final int ACTIVITY_START_CAMERA = 1100;
     final int ACTIVITY_SELECT_FILE = 2200;
     private final String TAG = this.getClass().getName();
@@ -74,6 +76,8 @@ public class AddItemActivity extends AppCompatActivity {
     String type;
     ParseFile file;
 
+    ArrayList<ParseFile> pFileList = new ArrayList<ParseFile>();
+
     Item item;
 
     @Override
@@ -95,8 +99,8 @@ public class AddItemActivity extends AppCompatActivity {
         ivImage = (ImageView) findViewById(R.id.ivImage);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
 
-        ivAddImage.bringToFront();
-        ivEditImage.bringToFront();
+      //  ivAddImage.bringToFront();
+      //  ivEditImage.bringToFront();
 
         ibPostItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -280,6 +284,7 @@ public class AddItemActivity extends AppCompatActivity {
         builder.show();
     }
 
+
     public void editImage(View v) {
         final CharSequence[] items = {"Camera", "Gallery", "Cancel"};
 
@@ -317,7 +322,7 @@ public class AddItemActivity extends AppCompatActivity {
 
         if(resultCode == Activity.RESULT_OK)
         {
-            if(requestCode == ACTIVITY_START_CAMERA)
+            if(requestCode == ACTIVITY_START_CAMERA1)
             {
                 //Toast.makeText(this, "picture was taken", Toast.LENGTH_SHORT).show();
                 Bundle extras = data.getExtras();
@@ -334,7 +339,7 @@ public class AddItemActivity extends AppCompatActivity {
                 ivEditImage.setVisibility(View.VISIBLE);
                 ivEditImage.setClickable(true);
             }
-            else if(requestCode == ACTIVITY_SELECT_FILE)
+            else if(requestCode == ACTIVITY_SELECT_FILE1)
             {
                 Uri uri = data.getData();
                 galleryPhoto.setPhotoUri(uri);
@@ -364,6 +369,7 @@ public class AddItemActivity extends AppCompatActivity {
             }
 
         }
+
     }
 
     public Bitmap rotateBitmapOrientation(String photoFilePath) {
