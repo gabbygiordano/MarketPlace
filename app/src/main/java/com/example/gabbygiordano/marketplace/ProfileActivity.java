@@ -17,17 +17,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.support.v7.widget.Toolbar;
+import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gabbygiordano.marketplace.fragments.FavoritesFragment;
+import com.example.gabbygiordano.marketplace.fragments.InterestedFragment;
 import com.example.gabbygiordano.marketplace.fragments.ItemsListFragment;
 import com.example.gabbygiordano.marketplace.fragments.ProfilePagerAdapter;
 import com.example.gabbygiordano.marketplace.fragments.ProfileTimelineFragment;
@@ -48,21 +50,14 @@ public class ProfileActivity extends AppCompatActivity {
     TextView tvUsername;
     TextView tvCollege;
     TextView tvPhone;
-    ImageButton ibLogOut;
-    RecyclerView rvProfileItems;
-
+    ImageButton ibEdit;
     ViewPager viewPager;
-    ImageView ivItemImage;
-
-    ImageButton ibFavoriteOff;
-    ImageButton ibFavoriteOn;
+//    ImageView ivItemImage;
+//    ImageButton ibFavoriteOff;
+//    ImageButton ibFavoriteOn;
+ //   ProfilePagerAdapter adapter;
 
     TabLayout tabLayout;
-
-
-    Intent mServiceIntent;
-
-    Button btFavorites;
 
     ArrayList<Item> items;
     ItemAdapter itemAdapter;
@@ -74,13 +69,16 @@ public class ProfileActivity extends AppCompatActivity {
     Context mContext;
     Context context;
 
-    ParseUser owner;
-
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        // toolbar = (Toolbar) findViewById(R.id.toolbar);
+        // setSupportActionBar(toolbar);
+        // getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setTitle("Profile");
 
         ProfileTimelineFragment profileTimelineFragment = ProfileTimelineFragment.newInstance();
@@ -89,8 +87,6 @@ public class ProfileActivity extends AppCompatActivity {
         ft.commit();
 
         context = this;
-
-        // perform find view by id lookups
 
         // initialize arraylist
         items = new ArrayList<>();
@@ -108,24 +104,18 @@ public class ProfileActivity extends AppCompatActivity {
         tvName = (TextView) findViewById(R.id.tvName);
         tvUsername = (TextView) findViewById(R.id.tvUsername);
         tvCollege = (TextView) findViewById(R.id.tvCollege);
-        tvPhone = (TextView) findViewById(R.id.tvPhone);
-        ibLogOut = (ImageButton) findViewById(R.id.ibLogOut);
+        tvPhone = (TextView) findViewById(R.id.tvContact);
+        ibEdit = (ImageButton) findViewById(R.id.ibEdit);
 
+        ibEdit.setColorFilter(Color.rgb(255, 87, 34));
 
-
-
-        // log out if power button is clicked
-        ibLogOut.setOnClickListener(new View.OnClickListener() {
+        ibEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ParseUser.logOut();
-                ParseUser currentUser = ParseUser.getCurrentUser();
-                Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(i);
+                Intent i = new Intent(context, SettingsActivity.class);
+                startActivityForResult(i, 1);
             }
         });
-
-
 
         BottomNavigationView bottomNavigationView;
 
@@ -167,6 +157,12 @@ public class ProfileActivity extends AppCompatActivity {
                     FavoritesFragment favoritesFragment = FavoritesFragment.newInstance();
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.flContainer, favoritesFragment);
+                    ft.commit();
+                }
+                if(tab.getPosition() == 2){
+                    InterestedFragment interestedFragment = InterestedFragment.newInstance();
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.flContainer, interestedFragment);
                     ft.commit();
                 }
             }
@@ -245,48 +241,47 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-
             public void populateUserHeadline () {
                 if (getIntent().hasExtra("itemId")) {
-
                     id = getIntent().getStringExtra("itemId");
+                            ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
+                            query.include("owner");
+                            query.include("favoritesList");
+                            query.whereContains("itemId", id);
+                            query.orderByDescending("_created_at");
+                            query.getInBackground(id, new GetCallback<Item>() {
+                                public void done(Item item, ParseException e) {
+                                    if (e == null) {
+                                        // item was found
+                                        tvName.setText(item.getOwner().getString("name"));
+                                        tvUsername.setText(item.getOwner().getUsername());
+                                        tvCollege.setText(item.getOwner().getString("college"));
+                                        tvPhone.setText(" ");
 
-                    ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
-                    query.include("owner");
-                    query.include("favoritesList");
-                    query.whereContains("itemId", id);
-                    query.orderByDescending("_created_at");
-                    query.getInBackground(id, new GetCallback<Item>() {
-                        public void done(Item item, ParseException e) {
-                            if (e == null) {
-                                // item was found
-                                tvName.setText(item.getOwner().getString("name"));
-                                tvUsername.setText(item.getOwner().getUsername());
-                                tvCollege.setText(item.getOwner().getString("college"));
-                                tvPhone.setText(" ");
+                                        // populateTimeline(item.getOwner());
 
-                                // populateTimeline(item.getOwner());
+                                    } else {
+                                        Log.e("ItemsListFragment", e.getMessage());
+                                    }
+                                }
+                            });
+                        } else {
+                            // set text to current user info
+                            ParseUser user = ParseUser.getCurrentUser();
+                            if (user != null) {
+                                tvName.setText(user.getString("name"));
+                                tvUsername.setText(user.getUsername());
+                                tvCollege.setText(user.getString("college"));
+                                String formattedNumber = PhoneNumberUtils.formatNumber(String.valueOf(user.getLong("phone")));
+                                String email = user.getEmail();
+                                tvPhone.setText(email + ", " + formattedNumber);
 
                             } else {
-                                Log.e("ItemsListFragment", e.getMessage());
+
                             }
-                        }
-                    });
-                    } else {
-                        // set text to current user info
-                        ParseUser user = ParseUser.getCurrentUser();
-                        if (user != null) {
-                            tvName.setText(user.getString("name"));
-                            tvUsername.setText(user.getUsername());
-                            tvCollege.setText(user.getString("college"));
-                            tvPhone.setText(String.valueOf(user.getLong("phone")));
-
-                        } else {
 
                         }
-
                     }
-                }
 
 //    private ItemTouchHelper.Callback createHelperCallback()
 //    {
@@ -329,25 +324,26 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menu_profile, menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu){
+//        getMenuInflater().inflate(R.menu.menu_profile, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        if (item.getItemId() == R.id.miSettings) {
+//            Intent i = new Intent(this, SettingsActivity.class);
+//            startActivityForResult(i, 1);
+//        }
+//        return true;
+//    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.miSettings) {
-            Intent i = new Intent(this, SettingsActivity.class);
-            startActivityForResult(i, 1);
-        }
-        return true;
-    }
+
 
     public void addItem(View view) {
         Intent i_add = new Intent(context, AddItemActivity.class);
         ((HomeActivity) mContext).startActivityForResult(i_add, ADD_ITEM_REQUEST);
-        finish();
     }
 
     @Override
@@ -356,5 +352,4 @@ public class ProfileActivity extends AppCompatActivity {
         i_home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i_home);
     }
-
 }

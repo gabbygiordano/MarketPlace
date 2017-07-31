@@ -50,7 +50,9 @@
             android:name=".SearchActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity android:name=".AppNotificationsActivity" />
-        <activity android:name=".ProfileActivity" />
+        <activity
+            android:name=".ProfileActivity"/>
+            <!--android:theme="@style/ProfileTheme"/>-->
         <activity android:name=".DetailsActivity" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".InboxActivity" />

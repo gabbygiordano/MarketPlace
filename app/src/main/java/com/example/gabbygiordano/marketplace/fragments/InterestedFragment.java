@@ -1,9 +1,7 @@
 package com.example.gabbygiordano.marketplace.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.example.gabbygiordano.marketplace.Item;
@@ -15,39 +13,33 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FavoritesFragment extends ItemsListFragment {
+/**
+ * Created by gabbygiordano on 7/27/17.
+ */
 
-    RecyclerView rvFavorites;
+public class InterestedFragment extends ItemsListFragment {
 
     ArrayList<Item> tempItems;
 
-    int ADD_ITEM_REQUEST = 10;
-
-    Context mContext;
-    Context context;
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
-
-        tempItems = new ArrayList<>();
-
-        setRetainInstance(true);
     }
 
     @Override
     public void populateTimeline(){
         ParseUser user = ParseUser.getCurrentUser();
 
-        ArrayList<String> favs = (ArrayList<String>) user.get("favoriteItems");
-        if(items != null && items.size() == favs.size()){
-            //Log.d("itemsize", items.size() + " " + favs.size());
+        ArrayList<String> interests = (ArrayList<String>) user.get("interestedItems");
+        if(items != null && items.size() == interests.size()){
+            // Log.d("itemsize", items.size() + " " + interests.size());
         }
         else {
             ParseQuery<Item> query = ParseQuery.getQuery("Item");
             query.include("owner");
             query.include("image");
-            query.whereContainedIn("objectId", favs);
+            query.whereContainedIn("objectId", interests);
             query.setLimit(limit); // 20 items per page
             query.setSkip(page * limit); // skip first (page * 20) items
             query.findInBackground(new FindCallback<Item>() {
@@ -69,12 +61,12 @@ public class FavoritesFragment extends ItemsListFragment {
     @Override
     public void fetchTimelineAsync(int page) {
         ParseUser user = ParseUser.getCurrentUser();
-        ArrayList<String> favs = (ArrayList<String>) user.get("favoriteItems");
+        ArrayList<String> interests = (ArrayList<String>) user.get("interestedItems");
 
         ParseQuery<Item> query = ParseQuery.getQuery("Item");
         query.include("owner");
         query.include("image");
-        query.whereContainedIn("objectId", favs);
+        query.whereContainedIn("objectId", interests);
         query.setLimit(limit); // 20 items per page
         query.setSkip(page * limit); // skip first (page * 20) items
         query.findInBackground(new FindCallback<Item>() {
@@ -92,8 +84,8 @@ public class FavoritesFragment extends ItemsListFragment {
         });
     }
 
-    public static FavoritesFragment newInstance(){
-        FavoritesFragment favoritesFragment = new FavoritesFragment();
-        return favoritesFragment;
+    public static InterestedFragment newInstance(){
+        InterestedFragment interestedFragment = new InterestedFragment();
+        return interestedFragment;
     }
 }

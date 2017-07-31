@@ -4,39 +4,50 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.gabbygiordano.marketplace.AddItemActivity">
+    android:fitsSystemWindows="true"
+    tools:context="com.example.gabbygiordano.marketplace.ProfileActivity">
+
+    <!--<android.support.v7.widget.Toolbar-->
+        <!--android:id="@+id/toolbar"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="105dp"-->
+        <!--app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />-->
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="com.example.gabbygiordano.marketplace.ProfileActivity">
 
-        <TextView
-            android:id="@+id/tvLogOut"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/ibLogOut"
-            android:layout_marginRight="5dp"
-            android:layout_alignParentRight="true"
-            android:text="Log Out" />
-
         <ImageView
             android:id="@+id/ivProfileImage"
             android:layout_width="75dp"
             android:layout_height="75dp"
             app:srcCompat="@drawable/ic_profile_tab"
+            android:layout_margin="5dp"
             tools:layout_editor_absoluteX="-2dp"
             tools:layout_editor_absoluteY="2dp" />
+
+        <ImageButton
+            android:id="@+id/ibEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:background="@android:color/transparent"
+            android:elevation="0dp"
+            app:srcCompat="@drawable/ic_edit" />
 
         <TextView
             android:id="@+id/tvName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
             android:layout_toEndOf="@+id/ivProfileImage"
             android:layout_toRightOf="@+id/ivProfileImage"
             android:text="Name"
+            android:textColor="@android:color/black"
             android:textSize="24sp"
             android:textStyle="bold" />
 
@@ -45,23 +56,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvName"
-            android:layout_marginLeft="5dp"
             android:layout_toEndOf="@+id/ivProfileImage"
             android:layout_toRightOf="@+id/ivProfileImage"
-            android:text='"@username"' />
+            android:layout_marginBottom="2dp"
+            android:text='"@username"'
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tvCollege"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvUsername"
-            android:layout_marginLeft="5dp"
             android:layout_toEndOf="@+id/ivProfileImage"
             android:layout_toRightOf="@+id/ivProfileImage"
-            android:text="College" />
+            android:text="College"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/tvPhone"
+            android:id="@+id/tvContact"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -69,25 +83,6 @@
             android:layout_below="@+id/ivProfileImage"
             android:layout_marginLeft="5dp"
             android:text="Phone" />
-
-        <android.support.design.widget.BottomNavigationView
-            android:id="@+id/bottomNavigation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            app:itemBackground="@color/Primary500"
-            app:itemIconTint="@drawable/item_color_state"
-            app:itemTextColor="@drawable/item_color_state"
-            app:menu="@menu/bottom_navigation_main" />
-
-        <ImageButton
-            android:id="@+id/ibLogOut"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/bottomNavigation"
-            android:layout_alignParentTop="true"
-            android:layout_alignRight="@+id/bottomNavigation"
-            app:srcCompat="@android:drawable/ic_lock_power_off" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/floatingActionButton5"
@@ -99,20 +94,20 @@
             android:layout_marginBottom="75dp"
             android:layout_marginEnd="10dp"
             android:onClick="addItem"
+            android:src="@drawable/ic_add_item"
             app:background="@drawable/circle"
             app:backgroundTint="@color/Secondary500"
             app:borderWidth="0dp"
-            android:src="@drawable/ic_add_item"
             app:elevation="12dp"
             app:fabSize="normal" />
 
         <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/tvPhone"
             android:layout_above="@id/bottomNavigation"
-            android:id="@+id/linearLayout">
-
+            android:layout_below="@+id/tvContact"
+            android:orientation="vertical">
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/sliding_tabs"
@@ -127,18 +122,25 @@
                 android:layout_height="0px"
                 android:layout_weight="1"
                 android:background="@android:color/white" />
-
-
         </LinearLayout>
 
         <FrameLayout
             android:id="@+id/flContainer"
+            android:layout_below="@+id/linearLayout"
             android:layout_width="match_parent"
-            android:layout_height="415dp"
-            android:layout_alignBottom="@+id/linearLayout">
-
+            android:layout_height="wrap_content">
         </FrameLayout>
 
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/bottomNavigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            app:itemBackground="@color/Primary500"
+            app:itemIconTint="@drawable/item_color_state"
+            app:itemTextColor="@drawable/item_color_state"
+            app:menu="@menu/bottom_navigation_main" />
 
     </RelativeLayout>
+
 </android.support.design.widget.CoordinatorLayout>

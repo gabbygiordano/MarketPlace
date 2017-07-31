@@ -17,7 +17,7 @@ public class SettingsActivity extends AppCompatActivity {
     TextView tvName;
     TextView tvPhone;
     TextView tvEmail;
-    TextView tvUploadProf;;
+    TextView tvUploadProf;
     ImageButton ibUploadProf;
 
     EditText etName;
@@ -25,6 +25,7 @@ public class SettingsActivity extends AppCompatActivity {
     EditText etEmail;
 
     Button btSaveChanges;
+    ImageButton ibLogout;
 
     Boolean changedName;
     Boolean changedPhone;
@@ -47,18 +48,29 @@ public class SettingsActivity extends AppCompatActivity {
         etEmail = (EditText) findViewById(R.id.etEmail);
 
         btSaveChanges = (Button) findViewById(R.id.btSaveChanges);
+        ibLogout = (ImageButton) findViewById(R.id.ibLogOut);
 
         changedName = true;
         changedPhone = true;
         changedEmail = true;
 
         final ParseUser user = ParseUser.getCurrentUser();
-        if (user != null) {
-            tvName.setText(user.getString("name"));
-            tvPhone.setText(String.valueOf(user.getLong("phone")));
-            tvEmail.setText(user.getString("email"));
+//        if (user != null) {
+//            tvName.setText(user.getString("name"));
+//            tvPhone.setText(String.valueOf(user.getLong("phone")));
+//            tvEmail.setText(user.getString("email"));
+//        }
 
-        }
+        // log out if power button is clicked
+        ibLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ParseUser.logOut();
+                ParseUser currentUser = ParseUser.getCurrentUser();
+                Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(i);
+            }
+        });
 
         btSaveChanges.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,6 +104,7 @@ public class SettingsActivity extends AppCompatActivity {
                     if (changedEmail) {
                         String email = etEmail.getText().toString();
                         user.put("email", email);
+                        user.put("publicEmail", email);
                         user.saveInBackground();
                         //Toast.makeText(getApplicationContext(), "Email Updated", Toast.LENGTH_LONG).show();
                         Intent i = new Intent(getApplicationContext(), ProfileActivity.class);

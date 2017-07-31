@@ -51,6 +51,8 @@ public class ProfileTimelineFragment extends ItemsListFragment {
         super.onCreate(savedInstanceState);
         // populateTimeline();
 
+
+
         setRetainInstance(true);
     }
 

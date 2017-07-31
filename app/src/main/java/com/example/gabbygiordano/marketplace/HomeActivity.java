@@ -90,6 +90,33 @@ public class HomeActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
 
+        final int[] unselectedImgs = {R.drawable.ic_action_undashboard, R.drawable.ic_action_unbook,
+                R.drawable.ic_action_unmac, R.drawable.ic_action_unshirt, R.drawable.ic_action_unmore};
+        final int[] selectedImgs = {R.drawable.ic_action_dashboard, R.drawable.ic_action_book,
+                R.drawable.ic_action_laptop_mac, R.drawable.ic_action_shirt, R.drawable.ic_action_more};
+
+        tabLayout.getTabAt(0).setIcon(selectedImgs[0]);
+        for (int i = 1; i < unselectedImgs.length; i++) {
+            tabLayout.getTabAt(i).setIcon(unselectedImgs[i]);
+        }
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                tab.setIcon(selectedImgs[tab.getPosition()]);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                tab.setIcon(unselectedImgs[tab.getPosition()]);
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
         {
             @Override
