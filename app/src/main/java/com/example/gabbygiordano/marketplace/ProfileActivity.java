@@ -2,6 +2,7 @@ package com.example.gabbygiordano.marketplace;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -10,12 +11,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -43,22 +44,12 @@ public class ProfileActivity extends AppCompatActivity {
     TextView tvUsername;
     TextView tvCollege;
     TextView tvPhone;
-    ImageButton ibLogOut;
-    RecyclerView rvProfileItems;
+    ImageButton ibEdit;
 
     ViewPager viewPager;
     ProfilePagerAdapter adapter;
-    ImageView ivItemImage;
-
-    ImageButton ibFavoriteOff;
-    ImageButton ibFavoriteOn;
 
     TabLayout tabLayout;
-
-
-    Intent mServiceIntent;
-
-    Button btFavorites;
 
     ArrayList<Item> items;
     ItemAdapter itemAdapter;
@@ -69,13 +60,16 @@ public class ProfileActivity extends AppCompatActivity {
     Context mContext;
     Context context;
 
-    ParseUser owner;
-
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        // toolbar = (Toolbar) findViewById(R.id.toolbar);
+        // setSupportActionBar(toolbar);
+        // getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setTitle("Profile");
 
         ProfileTimelineFragment profileTimelineFragment = ProfileTimelineFragment.newInstance();
@@ -84,8 +78,6 @@ public class ProfileActivity extends AppCompatActivity {
         ft.commit();
 
         context = this;
-
-        // perform find view by id lookups
 
         // initialize arraylist
         items = new ArrayList<>();
@@ -103,24 +95,18 @@ public class ProfileActivity extends AppCompatActivity {
         tvName = (TextView) findViewById(R.id.tvName);
         tvUsername = (TextView) findViewById(R.id.tvUsername);
         tvCollege = (TextView) findViewById(R.id.tvCollege);
-        tvPhone = (TextView) findViewById(R.id.tvPhone);
-        ibLogOut = (ImageButton) findViewById(R.id.ibLogOut);
+        tvPhone = (TextView) findViewById(R.id.tvContact);
+        ibEdit = (ImageButton) findViewById(R.id.ibEdit);
 
+        ibEdit.setColorFilter(Color.rgb(255, 87, 34));
 
-
-
-        // log out if power button is clicked
-        ibLogOut.setOnClickListener(new View.OnClickListener() {
+        ibEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ParseUser.logOut();
-                ParseUser currentUser = ParseUser.getCurrentUser();
-                Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(i);
+                Intent i = new Intent(context, SettingsActivity.class);
+                startActivityForResult(i, 1);
             }
         });
-
-
 
         BottomNavigationView bottomNavigationView;
 
@@ -274,7 +260,9 @@ public class ProfileActivity extends AppCompatActivity {
                 tvName.setText(user.getString("name"));
                 tvUsername.setText(user.getUsername());
                 tvCollege.setText(user.getString("college"));
-                tvPhone.setText(String.valueOf(user.getLong("phone")));
+                String formattedNumber = PhoneNumberUtils.formatNumber(String.valueOf(user.getLong("phone")));
+                String email = user.getEmail();
+                tvPhone.setText(email + ", " + formattedNumber);
 
                 // populateTimeline(user);
 
@@ -303,27 +291,26 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menu_profile, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.miSettings) {
-            Intent i = new Intent(this, SettingsActivity.class);
-            startActivityForResult(i, 1);
-        }
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu){
+//        getMenuInflater().inflate(R.menu.menu_profile, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        if (item.getItemId() == R.id.miSettings) {
+//            Intent i = new Intent(this, SettingsActivity.class);
+//            startActivityForResult(i, 1);
+//        }
+//        return true;
+//    }
 
 
 
     public void addItem(View view) {
         Intent i_add = new Intent(context, AddItemActivity.class);
         ((HomeActivity) mContext).startActivityForResult(i_add, ADD_ITEM_REQUEST);
-        finish();
     }
 
     @Override
