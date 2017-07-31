@@ -21,6 +21,7 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -137,6 +138,7 @@ public class UserProfileActivity extends AppCompatActivity {
                 } else {
                     Log.d("items", "Error: " + e.getMessage());
                 }
+
             }
         });
     }
@@ -162,6 +164,13 @@ public class UserProfileActivity extends AppCompatActivity {
 
                     } else {
                         Log.e("ItemsListFragment", e.getMessage());
+                    }
+                    if (item.getImage() != null) {
+                        String imageUri = item.getImage().getUrl();
+                        Picasso
+                                .with(context)
+                                .load(imageUri)
+                                .into(ivProfileImage);
                     }
                 }
             });

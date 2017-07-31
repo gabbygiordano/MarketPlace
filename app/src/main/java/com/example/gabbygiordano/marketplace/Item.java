@@ -85,8 +85,8 @@ public class Item extends ParseObject {
         put("resource", resource);
     }
 
-    public void setImage(ParseFile image1) {
-        put("image", image1);
+    public void setImage(ParseFile image) {
+        put("image", image);
     }
 
     public ParseFile getImage() {

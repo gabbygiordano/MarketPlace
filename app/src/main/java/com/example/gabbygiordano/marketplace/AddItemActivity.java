@@ -33,6 +33,7 @@ import com.kosalgeek.android.photoutil.GalleryPhoto;
 import com.kosalgeek.android.photoutil.ImageLoader;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -45,13 +46,10 @@ import java.util.ArrayList;
 public class AddItemActivity extends AppCompatActivity {
 
     private static final int MY_PERMISSIONS_REQUEST_READ_MEDIA = 1 ;
-    final int ACTIVITY_START_CAMERA1 = 1100;
-    final int ACTIVITY_SELECT_FILE1 = 2200;
     final int ACTIVITY_START_CAMERA = 1100;
     final int ACTIVITY_SELECT_FILE = 2200;
     private final String TAG = this.getClass().getName();
 
-    CameraPhoto cameraPhoto;
     GalleryPhoto galleryPhoto;
     String selectedPhoto;
 
@@ -86,7 +84,6 @@ public class AddItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_item);
         getSupportActionBar().setTitle("Add Item to Marketplace");
 
-        cameraPhoto = new CameraPhoto(getApplicationContext());
         galleryPhoto = new GalleryPhoto(getApplicationContext());
 
         // find view by id lookups
@@ -322,7 +319,7 @@ public class AddItemActivity extends AppCompatActivity {
 
         if(resultCode == Activity.RESULT_OK)
         {
-            if(requestCode == ACTIVITY_START_CAMERA1)
+            if(requestCode == ACTIVITY_START_CAMERA)
             {
                 //Toast.makeText(this, "picture was taken", Toast.LENGTH_SHORT).show();
                 Bundle extras = data.getExtras();
@@ -339,7 +336,7 @@ public class AddItemActivity extends AppCompatActivity {
                 ivEditImage.setVisibility(View.VISIBLE);
                 ivEditImage.setClickable(true);
             }
-            else if(requestCode == ACTIVITY_SELECT_FILE1)
+            else if(requestCode == ACTIVITY_SELECT_FILE)
             {
                 Uri uri = data.getData();
                 galleryPhoto.setPhotoUri(uri);
