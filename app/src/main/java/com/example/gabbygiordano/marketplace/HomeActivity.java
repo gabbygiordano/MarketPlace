@@ -88,6 +88,7 @@ public class HomeActivity extends AppCompatActivity {
         // set up the adapter for the pager
         viewPager.setAdapter(adapter);
 
+
         // setup the Tab Layout to use the view pager
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
@@ -181,7 +182,6 @@ public class HomeActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(final String text) {
-                miActionProgressItem.setVisible(true);
                 // perform query here
                 ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
                 query.include("owner");
@@ -199,7 +199,6 @@ public class HomeActivity extends AppCompatActivity {
                         }
                     }
                 });
-                miActionProgressItem.setVisible(false);
 
 
                 // workaround to avoid issues with some emulators and keyboard devices firing twice if a keyboard enter is used
@@ -295,6 +294,7 @@ public class HomeActivity extends AppCompatActivity {
         });
 
     }
+
     MenuItem miActionProgressItem;
 
     @Override
@@ -306,6 +306,7 @@ public class HomeActivity extends AppCompatActivity {
         // Return to finish
         return super.onPrepareOptionsMenu(menu);
     }
+
 
 
 }

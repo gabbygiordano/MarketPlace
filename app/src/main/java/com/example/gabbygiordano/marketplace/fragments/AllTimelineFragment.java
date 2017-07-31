@@ -2,9 +2,14 @@ package com.example.gabbygiordano.marketplace.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.MenuItemCompat;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.ProgressBar;
 
 import com.example.gabbygiordano.marketplace.Item;
+import com.example.gabbygiordano.marketplace.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -73,6 +78,17 @@ public class AllTimelineFragment extends ItemsListFragment {
                 }
             }
         });
+    }
+
+    MenuItem miActionProgressItem;
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        // Store instance of the menu item containing progress
+        miActionProgressItem = menu.findItem(R.id.miActionProgress);
+        // Extract the action-view from the menu item
+        ProgressBar v = (ProgressBar) MenuItemCompat.getActionView(miActionProgressItem);
+        // Return to finish
     }
 
 

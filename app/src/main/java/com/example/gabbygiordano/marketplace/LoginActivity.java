@@ -70,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(i);
                 } else {
                     // Signup failed. Look at the ParseException to see what happened.
-                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                     Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });

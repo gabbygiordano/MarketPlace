@@ -8,6 +8,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -15,11 +16,13 @@ import android.text.format.DateUtils;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -122,6 +125,8 @@ public class DetailsActivity extends AppCompatActivity {
         //get item ID from Intent
         String itemId = getIntent().getStringExtra("ID");
 
+
+
         // create Item
         ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
         query.include("owner");
@@ -205,6 +210,8 @@ public class DetailsActivity extends AppCompatActivity {
             }
         });
 
+
+
         tvItemOwner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -273,5 +280,33 @@ public class DetailsActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu_details, menu);
+        return true;
+    }
+
+    MenuItem miActionProgressItem;
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // Store instance of the menu item containing progress
+        miActionProgressItem = menu.findItem(R.id.miActionProgress);
+        // Extract the action-view from the menu item
+        ProgressBar v = (ProgressBar) MenuItemCompat.getActionView(miActionProgressItem);
+        miActionProgressItem.setVisible(true);
+        // Return to finish
+        return true;
+    }
+
+    public void showProgressBar() {
+        // Show progress item
+        miActionProgressItem.setVisible(true);
+    }
+
+    public void hideProgressBar() {
+        // Hide progress item
+        miActionProgressItem.setVisible(false);
     }
 }
