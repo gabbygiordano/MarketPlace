@@ -20,8 +20,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.gabbygiordano.marketplace.fragments.ItemsListFragment;
@@ -31,7 +29,6 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -41,14 +38,6 @@ public class HomeActivity extends AppCompatActivity {
 
     ViewPager viewPager;
     ItemsPagerAdapter adapter;
-    ImageView ivItemImage;
-
-    ImageButton ibFavoriteOff;
-    ImageButton ibFavoriteOn;
-
-    ItemAdapter itemAdapter;
-    ArrayList<Item> items;
-    SearchView searchView;
 
     int ADD_ITEM_REQUEST = 10;
 
