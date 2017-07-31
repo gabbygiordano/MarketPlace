@@ -47,6 +47,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         mContext = context;
     }
 
+
     // inflate layout and cache references into ViewHolder for each row
     // only called when entirely new row is to be created
     @Override

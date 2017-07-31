@@ -9,7 +9,6 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
-
 import java.util.List;
 
 //import static com.example.gabbygiordano.marketplace.ItemAdapter.context;
@@ -75,4 +74,7 @@ public class AllTimelineFragment extends ItemsListFragment {
             }
         });
     }
+
+
+
 }

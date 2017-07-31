@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.gabbygiordano.marketplace.fragments.ItemsListFragment;
@@ -55,6 +56,7 @@ public class HomeActivity extends AppCompatActivity {
     Date lastNotif = new Date();
 
     Intent mServiceIntent;
+
 
     // Create a handler which can run code periodically
     static final int POLL_INTERVAL = 1000; // milliseconds
@@ -179,11 +181,12 @@ public class HomeActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(final String text) {
+                miActionProgressItem.setVisible(true);
                 // perform query here
                 ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
                 query.include("owner");
                 query.include("favoritesList");
-                query.whereContains("item_name", text);
+                query.whereMatches("item_name", "("+text+")", "i");
                 query.orderByDescending("_created_at");
                 query.findInBackground(new FindCallback<Item>() {
                     public void done(List<Item> itemsList, ParseException e) {
@@ -196,6 +199,7 @@ public class HomeActivity extends AppCompatActivity {
                         }
                     }
                 });
+                miActionProgressItem.setVisible(false);
 
 
                 // workaround to avoid issues with some emulators and keyboard devices firing twice if a keyboard enter is used
@@ -291,5 +295,17 @@ public class HomeActivity extends AppCompatActivity {
         });
 
     }
+    MenuItem miActionProgressItem;
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // Store instance of the menu item containing progress
+        miActionProgressItem = menu.findItem(R.id.miActionProgress);
+        // Extract the action-view from the menu item
+        ProgressBar v = (ProgressBar) MenuItemCompat.getActionView(miActionProgressItem);
+        // Return to finish
+        return super.onPrepareOptionsMenu(menu);
+    }
+
 
 }
