@@ -29,9 +29,9 @@
                     android:layout_above="@+id/tvItemName"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
-                    android:onClick="addImage"
                     android:layout_margin="5dp"
                     android:background="@android:color/transparent"
+                    android:onClick="addImage"
                     app:srcCompat="@drawable/ic_add_img" />
 
                 <ImageView
@@ -40,12 +40,12 @@
                     android:layout_height="wrap_content"
                     android:layout_above="@+id/tvItemName"
                     android:layout_alignParentLeft="true"
-                    android:layout_margin="5dp"
-                    android:clickable="false"
-                    android:visibility="invisible"
-                    android:onClick="editImage"
                     android:layout_alignParentStart="true"
+                    android:layout_margin="5dp"
                     android:background="@android:color/transparent"
+                    android:clickable="false"
+                    android:onClick="editImage"
+                    android:visibility="invisible"
                     app:srcCompat="@drawable/ic_edit" />
 
                 <ImageView
@@ -66,6 +66,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignParentStart="true"
                     android:layout_below="@+id/ivImage"
+                    android:layout_margin="5dp"
                     android:backgroundTint="@color/SecondaryDark"
                     android:ems="10"
                     android:hint="Item Name"
@@ -80,6 +81,9 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignParentStart="true"
                     android:layout_below="@+id/tvItemName"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:backgroundTint="@color/SecondaryDark"
                     android:ems="10"
                     android:hint="Item Description"
@@ -94,7 +98,9 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignParentStart="true"
                     android:layout_below="@+id/tvItemDescription"
-                    android:layout_toEndOf="@+id/editText"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:backgroundTint="@color/SecondaryDark"
                     android:ems="10"
                     android:hint="Item Price"
@@ -104,61 +110,66 @@
                     android:id="@+id/tvCondition"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@+id/tvItemPrice"
                     android:backgroundTint="@color/SecondaryDark"
-                    android:layout_marginLeft="5dp"
                     android:text="Condition:"
                     android:textColor="@android:color/black"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_below="@+id/tvItemPrice"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
 
                 <TextView
                     android:id="@+id/textView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
                     android:layout_alignParentLeft="true"
-                    android:layout_alignParentRight="true"
                     android:layout_alignParentStart="true"
                     android:layout_below="@+id/tvCondition"
-                    android:backgroundTint="@color/SecondaryDark"
+                    android:layout_marginBottom="5dp"
                     android:layout_marginLeft="5dp"
-                    android:layout_toStartOf="@+id/conditionOptions"
-                    android:text="1 = poor, 5 = like new"
-                    android:textSize="10sp" />
-
-                <Spinner
-                    android:id="@+id/conditionOptions"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tvItemPrice"
-                    android:layout_toEndOf="@+id/tvCondition"
-                    android:layout_toRightOf="@+id/tvCondition"
+                    android:layout_marginRight="5dp"
                     android:backgroundTint="@color/SecondaryDark"
-                    android:visibility="visible" />
+                    android:text="1: poor, 5: like new"
+                    android:textSize="10sp" />
 
                 <Spinner
                     android:id="@+id/spItemType"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/conditionOptions"
-                    android:layout_alignStart="@+id/conditionOptions"
-                    android:backgroundTint="@color/SecondaryDark"
-                    android:layout_below="@+id/textView3"
-                    android:layout_toEndOf="@+id/textView3" />
+                    android:layout_alignLeft="@+id/ratingBar"
+                    android:layout_alignStart="@+id/ratingBar"
+                    android:layout_below="@+id/ratingBar"
+                    android:layout_toEndOf="@+id/textView3"
+                    android:backgroundTint="@color/SecondaryDark" />
 
                 <TextView
                     android:id="@+id/textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/textView3"
-                    android:layout_alignStart="@+id/textView3"
-                    android:layout_below="@+id/textView3"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/ratingBar"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:backgroundTint="@color/SecondaryDark"
                     android:text="Category:"
                     android:textColor="@android:color/black"
-                    android:backgroundTint="@color/SecondaryDark"
                     android:textSize="18sp" />
+
+                <RatingBar
+                    android:id="@+id/ratingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvItemPrice"
+                    android:layout_toEndOf="@+id/tvCondition"
+                    android:layout_toRightOf="@+id/tvCondition"
+                    android:isIndicator="false"
+                    android:numStars="5"
+                    android:stepSize="1" />
 
             </RelativeLayout>
 

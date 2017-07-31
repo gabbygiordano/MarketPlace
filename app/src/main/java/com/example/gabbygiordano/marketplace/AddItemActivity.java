@@ -8,6 +8,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.LayerDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,6 +27,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -40,6 +43,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import static com.example.gabbygiordano.marketplace.R.color.colorGold;
 
 
 public class AddItemActivity extends AppCompatActivity {
@@ -60,11 +65,10 @@ public class AddItemActivity extends AppCompatActivity {
     ImageView ivEditImage;
     Button ibPostItem;
     ImageView ivImage;
+    RatingBar ratingBar;
 
     BottomNavigationView bottomNavigationView;
 
-    Spinner spinner;
-    ArrayAdapter<CharSequence> adapter;
     Spinner itemType;
     ArrayAdapter<CharSequence> adaptertwo;
 
@@ -94,9 +98,13 @@ public class AddItemActivity extends AppCompatActivity {
         ibPostItem = (Button) findViewById(R.id.ibPostItem);
         ivImage = (ImageView) findViewById(R.id.ivImage);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
+        ratingBar = (RatingBar) findViewById(R.id.ratingBar);
 
         ivAddImage.bringToFront();
         ivEditImage.bringToFront();
+
+        LayerDrawable stars = (LayerDrawable) ratingBar.getProgressDrawable();
+        stars.getDrawable(2).setColorFilter(getResources().getColor(colorGold), PorterDuff.Mode.SRC_ATOP);
 
         ibPostItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,8 +130,11 @@ public class AddItemActivity extends AppCompatActivity {
                 } else if (file == null ) {
                     Toast.makeText(getApplicationContext(), "Upload image file", Toast.LENGTH_LONG).show();
                     flag = true;
+                } else if ((int) ratingBar.getRating() == 0) {
+                    Toast.makeText(getApplicationContext(), "Provide item condition rating", Toast.LENGTH_LONG).show();
+                    flag = true;
                 } else {
-                    int con = Integer.parseInt(condition);
+                    int con = (int) ratingBar.getRating();
                     ParseUser currentUser = ParseUser.getCurrentUser();
 
                     item = new Item(name, description, price, con, currentUser, type, file);
@@ -133,22 +144,6 @@ public class AddItemActivity extends AppCompatActivity {
                 if (!flag) {
                     onPostSuccess();
                 }
-            }
-        });
-
-        spinner = (Spinner) findViewById(R.id.conditionOptions);
-        adapter = ArrayAdapter.createFromResource(this, R.array.condition_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                CharSequence cs = (CharSequence) spinner.getSelectedItem();
-                condition = (String) cs;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
 
