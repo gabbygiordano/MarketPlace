@@ -15,19 +15,19 @@
             android:id="@+id/ivProfileImage"
             android:layout_width="75dp"
             android:layout_height="75dp"
-            app:srcCompat="@drawable/ic_profile_tab"
-            tools:layout_editor_absoluteX="-2dp"
-            tools:layout_editor_absoluteY="2dp" />
+            android:layout_margin="5dp"
+            app:srcCompat="@drawable/ic_profile_tab" />
 
         <TextView
             android:id="@+id/tvName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
             android:layout_toEndOf="@+id/ivProfileImage"
             android:layout_toRightOf="@+id/ivProfileImage"
             android:text="Name"
+            android:textColor="@android:color/black"
             android:textSize="24sp"
             android:textStyle="bold" />
 
@@ -36,20 +36,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvName"
-            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="2dp"
             android:layout_toEndOf="@+id/ivProfileImage"
             android:layout_toRightOf="@+id/ivProfileImage"
-            android:text='"@username"' />
+            android:text='"@username"'
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tvCollege"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvUsername"
-            android:layout_marginLeft="5dp"
             android:layout_toEndOf="@+id/ivProfileImage"
             android:layout_toRightOf="@+id/ivProfileImage"
-            android:text="College" />
+            android:text="College"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
 
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/bottomNavigation"
@@ -78,22 +81,14 @@
             app:elevation="12dp"
             app:fabSize="normal" />
 
-        <LinearLayout
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvProfileItems"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
+            android:layout_below="@+id/ivProfileImage"
+            android:layout_above="@id/bottomNavigation"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_above="@id/bottomNavigation">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rvProfileItems"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="115dp" />
-        </LinearLayout>
+            android:layout_alignParentStart="true" />
 
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

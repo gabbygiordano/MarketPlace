@@ -93,9 +93,9 @@ public class HomeActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
         final int[] unselectedImgs = {R.drawable.ic_action_undashboard, R.drawable.ic_action_unbook,
-                R.drawable.ic_action_unmac, R.drawable.ic_action_unshirt, R.drawable.ic_action_unmisc};
+                R.drawable.ic_action_unmac, R.drawable.ic_action_unshirt, R.drawable.ic_action_unmore};
         final int[] selectedImgs = {R.drawable.ic_action_dashboard, R.drawable.ic_action_book,
-                R.drawable.ic_action_laptop_mac, R.drawable.ic_action_shirt, R.drawable.ic_action_misc};
+                R.drawable.ic_action_laptop_mac, R.drawable.ic_action_shirt, R.drawable.ic_action_more};
 
         tabLayout.getTabAt(0).setIcon(selectedImgs[0]);
         for (int i = 1; i < unselectedImgs.length; i++) {

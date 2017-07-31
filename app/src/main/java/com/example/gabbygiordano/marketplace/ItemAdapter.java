@@ -1,6 +1,5 @@
 package com.example.gabbygiordano.marketplace;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +19,9 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -210,6 +212,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
         ImageButton ibFavorite;
 
+        boolean flag = true;
+
         // constructor
         public ViewHolder(View itemView) {
             super(itemView);
@@ -224,10 +228,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
-
         }
 
-        @SuppressLint("NewApi")
         @Override
         public void onClick(View view) {
             int position = getAdapterPosition();
@@ -241,31 +243,60 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             String name = "sharedActivityTransition";
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context, ivItemImage, name);
 
-            context.startActivity(i, options.toBundle());
+            context.startActivity(i);
         }
+
         @Override
-        @SuppressLint("NewApi")
         public boolean onLongClick(View view){
-            int position = getAdapterPosition();
-            if(position != RecyclerView.NO_POSITION){
+            final int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION){
                 thisItem = mItems.get(position);
             }
-            if(thisItem.getOwner().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())){
+            if (thisItem.getOwner().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())){
                 mItems.remove(position);
-                Snackbar.make(view, "Item Deleted!", Snackbar.LENGTH_LONG).setAction("UNDO", null).setActionTextColor(R.color.Secondary500).show();
-                thisItem.deleteInBackground();
                 notifyItemRemoved(position);
-                notifyDataSetChanged();
-                Toast.makeText(context, "Item Deleted!", Toast.LENGTH_LONG).show();
 
+                // Define the click listener as a member
+                View.OnClickListener myOnClickListener = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Restore item to list
+                        flag = false;
+                        mItems.add(position, thisItem);
+                        notifyItemInserted(position);
+                    }
+                };
 
+                Snackbar.make(view, "Item Deleted!", Snackbar.LENGTH_LONG)
+                        .setAction("UNDO", myOnClickListener)
+                        .setActionTextColor(Color.rgb(255, 87, 34))
+                        .addCallback(new Snackbar.Callback() {
+                            @Override
+                            public void onDismissed(Snackbar transientBottomBar, int event) {
+                                if (flag) {
+                                    // remove corresponding notification if exists
+                                    ParseQuery<AppNotification> query = ParseQuery.getQuery(AppNotification.class);
+                                    query.include("owner");
+                                    query.include("image");
+                                    query.whereEqualTo("item", thisItem);
+                                    query.findInBackground(new FindCallback<AppNotification>() {
+                                        @Override
+                                        public void done(List<AppNotification> objects, ParseException e) {
+                                            if (objects != null && !objects.isEmpty()) {
+                                                objects.get(0).deleteInBackground();
+                                            }
+                                        }
+                                    });
+
+                                    thisItem.deleteInBackground();
+                                    // Toast.makeText(context, "Item deleted from database!", Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        })
+                        .show();
             }
-
-
-
             return true;
         }
-
 
 
     }
