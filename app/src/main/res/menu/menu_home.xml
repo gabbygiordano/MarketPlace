@@ -7,12 +7,11 @@
         android:title="Loading..."
         android:visible="false"
         app:actionLayout="@layout/action_view_progress"
-        app:showAsAction="always">
-    </item>
+        app:showAsAction="always" />
     <item
         android:id="@+id/action_search"
         android:icon="@drawable/ic_search_tab"
-        android:orderInCategory="5"
+        android:orderInCategory="6"
         android:title="Search"
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="always|collapseActionView">

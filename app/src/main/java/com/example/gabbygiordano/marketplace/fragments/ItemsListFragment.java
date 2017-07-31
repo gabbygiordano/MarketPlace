@@ -4,14 +4,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.example.gabbygiordano.marketplace.EndlessRecyclerViewScrollListener;
 import com.example.gabbygiordano.marketplace.Item;
@@ -43,6 +47,7 @@ public class ItemsListFragment extends Fragment {
     EndlessRecyclerViewScrollListener scrollListener;
 
     String id;
+
 
     @Nullable
     @Override
@@ -164,5 +169,16 @@ public class ItemsListFragment extends Fragment {
                 }
             });
         }
+    }
+
+    MenuItem miActionProgressItem;
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        // Store instance of the menu item containing progress
+        miActionProgressItem = menu.findItem(R.id.miActionProgress);
+        // Extract the action-view from the menu item
+        ProgressBar v = (ProgressBar) MenuItemCompat.getActionView(miActionProgressItem);
+        // Return to finish
     }
 }
