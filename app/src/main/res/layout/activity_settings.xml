@@ -6,41 +6,53 @@
     android:layout_height="match_parent"
     tools:context="com.example.gabbygiordano.marketplace.SettingsActivity">
 
+    <ImageView
+        android:id="@+id/ivImage"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@android:color/black" />
+
     <ImageButton
         android:id="@+id/ibUploadProf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_margin="5dp"
         android:background="@android:color/transparent"
-        app:srcCompat="@drawable/ic_profile_tab" />
+        app:srcCompat="@drawable/ic_add_photo"
+        android:layout_alignBottom="@+id/ivImage"
+        android:layout_alignTop="@+id/ivEditImage"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/etName"
+        android:layout_toEndOf="@+id/etName" />
 
-    <TextView
-        android:id="@+id/tvUploadProf"
+    <ImageView
+        android:id="@+id/ivEditImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/ibUploadProf"
-        android:layout_toEndOf="@+id/ibUploadProf"
-        android:layout_toRightOf="@+id/ibUploadProf"
-        android:text="Add Profile Picture"
-        android:textColor="@android:color/black"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:clickable="false"
+        android:visibility="invisible"
+        android:onClick="editProfilePhoto"
+        android:background="@android:color/transparent"
+        app:srcCompat="@drawable/ic_edit"
+        android:layout_alignBottom="@+id/ivImage"
+        android:layout_alignRight="@+id/ibLogOut"
+        android:layout_alignEnd="@+id/ibLogOut" />
 
     <TextView
         android:id="@+id/tvName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/ibUploadProf"
-        android:layout_margin="5dp"
         android:text="Edit name:"
         android:textColor="@android:color/black"
         android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_margin="5dp"
+        android:layout_alignTop="@+id/etName"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <EditText
         android:id="@+id/etName"
@@ -50,9 +62,10 @@
         android:hint="Enter New Name"
         android:inputType="textPersonName"
         android:textSize="14sp"
-        android:layout_below="@+id/tvUploadProf"
-        android:layout_alignLeft="@+id/etPhone"
-        android:layout_alignStart="@+id/etPhone" />
+        android:layout_below="@+id/ivImage"
+        android:layout_toRightOf="@+id/tvPhone"
+        android:layout_toEndOf="@+id/tvPhone"
+        android:layout_marginTop="10dp" />
 
     <TextView
         android:id="@+id/tvPhone"

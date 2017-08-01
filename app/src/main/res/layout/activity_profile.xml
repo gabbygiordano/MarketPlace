@@ -22,10 +22,22 @@
             android:id="@+id/ivProfileImage"
             android:layout_width="75dp"
             android:layout_height="75dp"
-            app:srcCompat="@drawable/ic_profile_tab"
             android:layout_margin="5dp"
             tools:layout_editor_absoluteX="-2dp"
-            tools:layout_editor_absoluteY="2dp" />
+            tools:layout_editor_absoluteY="2dp"
+        />
+
+        <ImageButton
+            android:id="@+id/ibAddProfileImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:onClick="addProfileImage"
+            app:srcCompat="@drawable/ic_add_img"
+            android:layout_margin="2dp"
+            android:layout_alignBottom="@+id/ivProfileImage"
+            android:layout_alignRight="@+id/ivProfileImage"
+            android:layout_alignEnd="@+id/ivProfileImage" />
 
         <ImageButton
             android:id="@+id/ibEdit"
@@ -57,9 +69,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvName"
+            android:layout_marginBottom="2dp"
             android:layout_toEndOf="@+id/ivProfileImage"
             android:layout_toRightOf="@+id/ivProfileImage"
-            android:layout_marginBottom="2dp"
             android:text='"@username"'
             android:textColor="@android:color/black"
             android:textSize="16sp" />
@@ -127,10 +139,9 @@
 
         <FrameLayout
             android:id="@+id/flContainer"
-            android:layout_below="@+id/linearLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </FrameLayout>
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linearLayout"></FrameLayout>
 
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/bottomNavigation"

@@ -1,16 +1,41 @@
 package com.example.gabbygiordano.marketplace;
 
 import android.content.Context;
+import android.Manifest;
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kosalgeek.android.photoutil.CameraPhoto;
+import com.kosalgeek.android.photoutil.GalleryPhoto;
+import com.kosalgeek.android.photoutil.ImageLoader;
+import com.parse.ParseFile;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.squareup.picasso.Picasso;
+
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -18,8 +43,10 @@ public class SettingsActivity extends AppCompatActivity {
     TextView tvPhone;
     TextView tvEmail;
     TextView tvUsername;
-    TextView tvUploadProf;
-    ImageButton ibUploadProf;
+//    TextView tvUploadProf;
+//    ImageButton ibUploadProf;
+//    ImageView ivEditImage;
+//    ImageView ivImage;
 
     EditText etName;
     EditText etPhone;
@@ -49,8 +76,10 @@ public class SettingsActivity extends AppCompatActivity {
         tvPhone = (TextView) findViewById(R.id.tvPhone);
         tvEmail = (TextView) findViewById(R.id.tvEmail);
         tvUsername = (TextView) findViewById(R.id.tvUsername);
-        tvUploadProf = (TextView) findViewById(R.id.tvUploadProf);
-        ibUploadProf = (ImageButton) findViewById(R.id.ibUploadProf);
+//        tvUploadProf = (TextView) findViewById(R.id.tvUploadProf);
+//        ibUploadProf = (ImageButton) findViewById(R.id.ibUploadProf);
+//        ivEditImage = (ImageView) findViewById(R.id.ivEditImage);
+//        ivImage = (ImageView) findViewById(R.id.ivImage);
 
         etName = (EditText) findViewById(R.id.etName);
         etPhone = (EditText) findViewById(R.id.etPhone);
@@ -97,38 +126,64 @@ public class SettingsActivity extends AppCompatActivity {
                 if ((etEmail.getText().toString()) == "") {
                     changedEmail = false;
                 }
+
+
                 if (true) {
                     if (changedName) {
                         String name = etName.getText().toString();
                         user.put("name", name);
                         user.saveInBackground();
-                        //Toast.makeText(getApplicationContext(), "Name Updated", Toast.LENGTH_LONG).show();
-                        Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
-                        startActivityForResult(i, 1);
+
                     }
                     if (changedPhone) {
                         String phone = etPhone.getText().toString();
                         user.put("phone", Long.parseLong(phone));
                         user.saveInBackground();
-                        //Toast.makeText(getApplicationContext(), "Phone Updated", Toast.LENGTH_LONG).show();
-                        Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
-                        startActivityForResult(i, 1);
                     }
                     if (changedEmail) {
                         String email = etEmail.getText().toString();
                         user.put("email", email);
                         user.put("publicEmail", email);
                         user.saveInBackground();
-                        //Toast.makeText(getApplicationContext(), "Email Updated", Toast.LENGTH_LONG).show();
-                        Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
-                        startActivityForResult(i, 1);
                     }
-
+                    Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
+                    startActivityForResult(i, 1);
                     Toast.makeText(getApplicationContext(), "Information Updated", Toast.LENGTH_LONG).show();
                 }
 
             }
         });
+
+    }
+
+
+    public Bitmap rotateBitmapOrientation(String photoFilePath) {
+        // Create and configure BitmapFactory
+        BitmapFactory.Options bounds = new BitmapFactory.Options();
+        bounds.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(photoFilePath, bounds);
+        BitmapFactory.Options opts = new BitmapFactory.Options();
+        Bitmap bm = BitmapFactory.decodeFile(photoFilePath, opts);
+        // Read EXIF Data
+        ExifInterface exif = null;
+        try {
+            exif = new ExifInterface(photoFilePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String orientString = exif.getAttribute(ExifInterface.TAG_ORIENTATION);
+        int orientation = orientString != null ? Integer.parseInt(orientString) : ExifInterface.ORIENTATION_NORMAL;
+        int rotationAngle = 0;
+        if (orientation == ExifInterface.ORIENTATION_ROTATE_90) rotationAngle = 90;
+        if (orientation == ExifInterface.ORIENTATION_ROTATE_180) rotationAngle = 180;
+        if (orientation == ExifInterface.ORIENTATION_ROTATE_270) rotationAngle = 270;
+        // Rotate Bitmap
+        Matrix matrix = new Matrix();
+        matrix.setRotate(rotationAngle, (float) bm.getWidth() / 2, (float) bm.getHeight() / 2);
+        Bitmap rotatedBitmap = Bitmap.createBitmap(bm, 0, 0, bounds.outWidth, bounds.outHeight, matrix, true);
+        // Return result
+        return rotatedBitmap;
     }
 }
+
 

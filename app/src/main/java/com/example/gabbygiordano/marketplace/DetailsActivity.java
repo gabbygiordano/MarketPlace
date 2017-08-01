@@ -45,7 +45,7 @@ public class DetailsActivity extends AppCompatActivity {
     TextView tvItemDescription;
     TextView tvItemPrice;
     RatingBar rbItemCondition;
-    ImageView ivItemImage;
+    ImageView ivImage;
     TextView tvItemOwner;
     Button btnInterested;
     BottomNavigationView bottomNavigationView;
@@ -76,7 +76,7 @@ public class DetailsActivity extends AppCompatActivity {
         tvItemDescription = (TextView) findViewById(R.id.tvItemDescription);
         tvItemPrice = (TextView) findViewById(R.id.tvItemPrice);
         rbItemCondition = (RatingBar) findViewById(R.id.rbItemCondition);
-        ivItemImage = (ImageView) findViewById(R.id.ivItemImage);
+        ivImage = (ImageView) findViewById(R.id.ivItemImage);
         tvItemOwner = (TextView) findViewById(R.id.tvItemOwner);
         btnInterested = (Button) findViewById(R.id.btnInterested);
         tvTimeAgo = (TextView) findViewById(R.id.tvTimeAgo);
@@ -193,11 +193,13 @@ public class DetailsActivity extends AppCompatActivity {
                         Picasso
                                 .with(context)
                                 .load(imageUri)
-                                .into(ivItemImage);
+                                .into(ivImage);
                     }
-                } else {
+                } else
+                    {
                     // something went wrong
                 }
+
 
             }
         });
