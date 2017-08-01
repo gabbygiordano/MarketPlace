@@ -16,14 +16,20 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 import static com.example.gabbygiordano.marketplace.ItemAdapter.getContext;
 
@@ -46,6 +52,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     Context mContext;
     Context context;
+    ParseFile file;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,6 +144,7 @@ public class UserProfileActivity extends AppCompatActivity {
                 } else {
                     Log.d("items", "Error: " + e.getMessage());
                 }
+
             }
         });
     }
@@ -157,12 +165,14 @@ public class UserProfileActivity extends AppCompatActivity {
                         tvName.setText(item.getOwner().getString("name"));
                         tvUsername.setText(item.getOwner().getUsername());
                         tvCollege.setText(item.getOwner().getString("college"));
+                       // ivProfileImage.setImageURI(uri).item.getOwner().getString("image");
 
                         populateProfileTimeline(item.getOwner());
 
                     } else {
                         Log.e("ItemsListFragment", e.getMessage());
                     }
+
                 }
             });
         }

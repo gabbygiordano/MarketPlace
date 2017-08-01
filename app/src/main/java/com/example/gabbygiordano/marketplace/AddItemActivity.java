@@ -36,6 +36,7 @@ import com.kosalgeek.android.photoutil.GalleryPhoto;
 import com.kosalgeek.android.photoutil.ImageLoader;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -54,7 +55,6 @@ public class AddItemActivity extends AppCompatActivity {
     final int ACTIVITY_SELECT_FILE = 2200;
     private final String TAG = this.getClass().getName();
 
-    CameraPhoto cameraPhoto;
     GalleryPhoto galleryPhoto;
     String selectedPhoto;
 
@@ -78,6 +78,8 @@ public class AddItemActivity extends AppCompatActivity {
     String type;
     ParseFile file;
 
+    ArrayList<ParseFile> pFileList = new ArrayList<ParseFile>();
+
     Item item;
 
     @Override
@@ -86,7 +88,6 @@ public class AddItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_item);
         getSupportActionBar().setTitle("Add Item to Marketplace");
 
-        cameraPhoto = new CameraPhoto(getApplicationContext());
         galleryPhoto = new GalleryPhoto(getApplicationContext());
 
         // find view by id lookups
@@ -100,8 +101,8 @@ public class AddItemActivity extends AppCompatActivity {
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
 
-        ivAddImage.bringToFront();
-        ivEditImage.bringToFront();
+      //  ivAddImage.bringToFront();
+      //  ivEditImage.bringToFront();
 
         LayerDrawable stars = (LayerDrawable) ratingBar.getProgressDrawable();
         stars.getDrawable(2).setColorFilter(getResources().getColor(colorGold), PorterDuff.Mode.SRC_ATOP);
@@ -275,6 +276,7 @@ public class AddItemActivity extends AppCompatActivity {
         builder.show();
     }
 
+
     public void editImage(View v) {
         final CharSequence[] items = {"Camera", "Gallery", "Cancel"};
 
@@ -319,7 +321,7 @@ public class AddItemActivity extends AppCompatActivity {
                 Bitmap photoCaptured = (Bitmap) extras.get("data");
                 ivImage.setImageBitmap(photoCaptured);
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                photoCaptured.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                photoCaptured.compress(Bitmap.CompressFormat.PNG, 50, stream);
                 byte[] image = stream.toByteArray();
                 file = new ParseFile("itemimage.png", image);
                 file.saveInBackground();
@@ -328,6 +330,9 @@ public class AddItemActivity extends AppCompatActivity {
 
                 ivEditImage.setVisibility(View.VISIBLE);
                 ivEditImage.setClickable(true);
+
+                ivAddImage.setVisibility(View.INVISIBLE);
+                ivAddImage.setClickable(false);
             }
             else if(requestCode == ACTIVITY_SELECT_FILE)
             {
@@ -338,10 +343,10 @@ public class AddItemActivity extends AppCompatActivity {
                 selectedPhoto = photoPath;
                 try
                 {
-                    Bitmap bitmap = ImageLoader.init().from(photoPath).requestSize(512,512).getBitmap();
+                    Bitmap bitmap = ImageLoader.init().from(photoPath).requestSize(300,300).getBitmap();
                     ivImage.setImageBitmap(rotateBitmapOrientation(photoPath));
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 50, stream);
                     byte[] image = stream.toByteArray();
                     file = new ParseFile("itemimage.png", image);
                     file.saveInBackground();
@@ -350,6 +355,9 @@ public class AddItemActivity extends AppCompatActivity {
 
                     ivEditImage.setVisibility(View.VISIBLE);
                     ivEditImage.setClickable(true);
+
+                    ivAddImage.setVisibility(View.INVISIBLE);
+                    ivAddImage.setClickable(false);
                 }
                 catch (FileNotFoundException e)
                 {
@@ -359,6 +367,7 @@ public class AddItemActivity extends AppCompatActivity {
             }
 
         }
+
     }
 
     public Bitmap rotateBitmapOrientation(String photoFilePath) {

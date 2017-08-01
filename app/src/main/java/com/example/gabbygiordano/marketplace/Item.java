@@ -92,4 +92,5 @@ public class Item extends ParseObject {
     public ParseFile getImage() {
         return getParseFile("image");
     }
+
 }
