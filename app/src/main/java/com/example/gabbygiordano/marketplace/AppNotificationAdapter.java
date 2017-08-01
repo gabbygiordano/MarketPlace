@@ -13,6 +13,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 import static com.example.gabbygiordano.marketplace.R.layout.notification;
@@ -68,6 +70,7 @@ public class AppNotificationAdapter extends RecyclerView.Adapter<AppNotification
                 replyToBuyer();
             }
         });
+
     }
 
     private void replyToBuyer()
