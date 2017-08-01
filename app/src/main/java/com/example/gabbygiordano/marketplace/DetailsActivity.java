@@ -207,8 +207,12 @@ public class DetailsActivity extends AppCompatActivity {
                     // something went wrong
                 }
 
+                //hideProgressBar();
+
+
             }
         });
+
 
 
 
@@ -295,8 +299,8 @@ public class DetailsActivity extends AppCompatActivity {
         miActionProgressItem = menu.findItem(R.id.miActionProgress);
         // Extract the action-view from the menu item
         ProgressBar v = (ProgressBar) MenuItemCompat.getActionView(miActionProgressItem);
-        miActionProgressItem.setVisible(true);
         // Return to finish
+        miActionProgressItem.setVisible(true);
         return true;
     }
 
@@ -309,4 +313,6 @@ public class DetailsActivity extends AppCompatActivity {
         // Hide progress item
         miActionProgressItem.setVisible(false);
     }
+
+
 }
