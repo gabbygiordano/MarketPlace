@@ -87,6 +87,17 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         holder.tvSeller.setText(item.getOwner().getString("name"));
         holder.tvTimeAgo.setText(item.getOwner().getString("_created_at"));
 
+        String type = item.getType();
+        if (type.equals("Books")) {
+            holder.ivType.setImageResource(R.drawable.ic_action_book);
+        } else if (type.equals("Clothes")) {
+            holder.ivType.setImageResource(R.drawable.ic_action_shirt);
+        } else if (type.equals("Electronics")) {
+            holder.ivType.setImageResource(R.drawable.ic_action_laptop_mac);
+        } else {
+            holder.ivType.setImageResource(R.drawable.ic_action_more);
+        }
+
         ParseUser user = ParseUser.getCurrentUser();
         ArrayList<String> favoriteItems = (ArrayList) user.get("favoriteItems");
         if (favoriteItems.contains(item.getObjectId())) {
@@ -207,6 +218,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         public TextView tvPrice;
         public TextView tvTimeAgo;
         public LikeButton likeButton;
+        public ImageView ivType;
         Item thisItem;
 
         boolean flag = true;
@@ -222,6 +234,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             tvTimeAgo = itemView.findViewById(R.id.tvTimeAgo);
 
             likeButton = itemView.findViewById(R.id.likeBtn);
+
+            ivType = itemView.findViewById(R.id.ivType);
 
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);

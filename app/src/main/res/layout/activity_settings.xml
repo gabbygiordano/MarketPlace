@@ -25,7 +25,6 @@
         android:layout_alignTop="@+id/ivEditImage"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:onClick="addProfilePhoto"
         android:layout_toRightOf="@+id/etName"
         android:layout_toEndOf="@+id/etName" />
 
@@ -50,7 +49,8 @@
         android:textColor="@android:color/black"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:layout_above="@+id/tvPhone"
+        android:layout_margin="5dp"
+        android:layout_alignTop="@+id/etName"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -65,7 +65,7 @@
         android:layout_below="@+id/ivImage"
         android:layout_toRightOf="@+id/tvPhone"
         android:layout_toEndOf="@+id/tvPhone"
-        android:layout_marginTop="17dp" />
+        android:layout_marginTop="10dp" />
 
     <TextView
         android:id="@+id/tvPhone"
@@ -119,23 +119,52 @@
         android:layout_alignLeft="@+id/etPhone"
         android:layout_alignStart="@+id/etPhone" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btSaveChanges"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
+        android:background="@android:color/transparent"
+        app:srcCompat="@drawable/ic_action_check"
+        android:layout_margin="5dp"
+        android:layout_above="@+id/ibLogOut"
         android:layout_alignParentRight="true"
-        android:text="Save Changes" />
+        android:layout_alignParentEnd="true" />
 
     <ImageButton
         android:id="@+id/ibLogOut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/ic_lock_power_off"
+        android:background="@android:color/transparent"
+        app:srcCompat="@drawable/ic_action_logout"
+        android:layout_margin="5dp"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/tvUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/etEmail"
+        android:layout_margin="5dp"
+        android:text="Edit username:"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/etUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/etEmail"
+        android:layout_alignStart="@+id/etEmail"
+        android:layout_below="@+id/etEmail"
+        android:ems="10"
+        android:hint="Enter New Username"
+        android:inputType="textPersonName"
+        android:textSize="14sp" />
 
 
 </RelativeLayout>

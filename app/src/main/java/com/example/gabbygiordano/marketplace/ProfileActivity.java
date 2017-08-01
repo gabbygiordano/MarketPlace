@@ -2,7 +2,6 @@ package com.example.gabbygiordano.marketplace;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.LauncherActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,9 +10,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
-import android.graphics.drawable.ClipDrawable;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -28,8 +24,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.support.v7.widget.Toolbar;
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
@@ -86,7 +80,7 @@ public class ProfileActivity extends AppCompatActivity {
 //    ImageView ivItemImage;
 //    ImageButton ibFavoriteOff;
 //    ImageButton ibFavoriteOn;
- //   ProfilePagerAdapter adapter;
+//   ProfilePagerAdapter adapter;
 
     TabLayout tabLayout;
 
@@ -106,7 +100,6 @@ public class ProfileActivity extends AppCompatActivity {
     Toolbar toolbar;
 
    // ParseFile file;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,7 +132,7 @@ public class ProfileActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
 
         // perform find view by id lookups
-       // ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
+        // ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
         tvName = (TextView) findViewById(R.id.tvName);
         tvUsername = (TextView) findViewById(R.id.tvUsername);
         tvCollege = (TextView) findViewById(R.id.tvCollege);
@@ -172,10 +165,8 @@ public class ProfileActivity extends AppCompatActivity {
         // set up the adapter for the pager
         viewPager.setAdapter(adapter);
 
-
         // setup the Tab Layout to use the view pager
         tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
-
 
         tabLayout.post(new Runnable() {
             @Override
@@ -187,19 +178,19 @@ public class ProfileActivity extends AppCompatActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if(tab.getPosition() == 0){
+                if (tab.getPosition() == 0) {
                     ProfileTimelineFragment profileTimelineFragment = ProfileTimelineFragment.newInstance();
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.flContainer, profileTimelineFragment);
                     ft.commit();
                 }
-                if(tab.getPosition() == 1){
+                if (tab.getPosition() == 1) {
                     FavoritesFragment favoritesFragment = FavoritesFragment.newInstance();
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.flContainer, favoritesFragment);
                     ft.commit();
                 }
-                if(tab.getPosition() == 2){
+                if (tab.getPosition() == 2) {
                     InterestedFragment interestedFragment = InterestedFragment.newInstance();
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.flContainer, interestedFragment);
@@ -236,15 +227,10 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-
-
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
-        {
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item)
-            {
-                switch (item.getItemId())
-                {
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
                     case R.id.action_home:
                         Intent i_home = new Intent(ProfileActivity.this, HomeActivity.class);
                         startActivity(i_home);
@@ -263,8 +249,7 @@ public class ProfileActivity extends AppCompatActivity {
                             Intent i_profile = new Intent(ProfileActivity.this, ProfileActivity.class);
                             startActivity(i_profile);
                             finish();
-                        }
-                        else {
+                        } else {
                             Toast.makeText(ProfileActivity.this, "Profile Tab Selected", Toast.LENGTH_SHORT).show();
                             break;
                         }
@@ -276,6 +261,8 @@ public class ProfileActivity extends AppCompatActivity {
 
         populateUserHeadline();
         queryImagesFromParse();
+    }
+
 
 //        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
 //                != PackageManager.PERMISSION_GRANTED) {
@@ -303,48 +290,66 @@ public class ProfileActivity extends AppCompatActivity {
 //        }
 //
 //
-    }
+//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+//                != PackageManager.PERMISSION_GRANTED) {
+//            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+//                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
+//            } else {
+//                ActivityCompat.requestPermissions(this,
+//                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+//                        MY_PERMISSIONS_REQUEST_READ_MEDIA);
+//            }
+//        }
+//    }
+//
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+//        switch (requestCode) {
+//            case MY_PERMISSIONS_REQUEST_READ_MEDIA: {
+//                // If request is cancelled, the result arrays are empty.
+//                if (grantResults.length > 0
+//                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                } else {
+//                    Toast.makeText(getApplicationContext(), "Permission Denied", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        }
+//    }
 
-            public void populateUserHeadline () {
-                if (getIntent().hasExtra("itemId")) {
-                    id = getIntent().getStringExtra("itemId");
-                            ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
-                            query.include("owner");
-                            query.include("favoritesList");
-                            query.whereContains("itemId", id);
-                            query.orderByDescending("_created_at");
-                            query.getInBackground(id, new GetCallback<Item>() {
-                                public void done(Item item, ParseException e) {
-                                    if (e == null) {
-                                        // item was found
-                                        tvName.setText(item.getOwner().getString("name"));
-                                        tvUsername.setText(item.getOwner().getUsername());
-                                        tvCollege.setText(item.getOwner().getString("college"));
-                                        tvPhone.setText(" ");
-                                        // populateTimeline(item.getOwner());
-
-                                    } else {
-                                        Log.e("ItemsListFragment", e.getMessage());
-                                    }
-                                }
-                            });
-                        } else {
-                            // set text to current user info
-                            //ParseUser user = ParseUser.getCurrentUser();
-                            if (user != null) {
-                                tvName.setText(user.getString("name"));
-                                tvUsername.setText(user.getUsername());
-                                tvCollege.setText(user.getString("college"));
-                                String formattedNumber = PhoneNumberUtils.formatNumber(String.valueOf(user.getLong("phone")));
-                                String email = user.getEmail();
-                                tvPhone.setText(email + ", " + formattedNumber);
-
-                            } else {
-
-                            }
-
-                        }
+    public void populateUserHeadline () {
+        if (getIntent().hasExtra("itemId")) {
+            id = getIntent().getStringExtra("itemId");
+            ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
+            query.include("owner");
+            query.include("favoritesList");
+            query.whereContains("itemId", id);
+            query.orderByDescending("_created_at");
+            query.getInBackground(id, new GetCallback<Item>() {
+                public void done(Item item, ParseException e) {
+                    if (e == null) {
+                        // item was found
+                        tvName.setText(item.getOwner().getString("name"));
+                        tvUsername.setText(item.getOwner().getUsername());
+                        tvCollege.setText(item.getOwner().getString("college"));
+                        tvPhone.setText(" ");
+                    } else {
+                        Log.e("ItemsListFragment", e.getMessage());
                     }
+                }
+            });
+        } else {
+            // set text to current user info
+            // ParseUser user = ParseUser.getCurrentUser();
+            if (user != null) {
+                tvName.setText(user.getString("name"));
+                tvUsername.setText(user.getUsername());
+                tvCollege.setText(user.getString("college"));
+                String formattedNumber = PhoneNumberUtils.formatNumber(String.valueOf(user.getLong("phone")));
+                String email = user.getEmail();
+                tvPhone.setText(email + ", " + formattedNumber);
+            }
+        }
+    }
 
 
     private void queryImagesFromParse(){
@@ -355,17 +360,19 @@ public class ProfileActivity extends AppCompatActivity {
                 if(e == null){
 
                     ParseUser userCurrentOfParse = ParseUser.getCurrentUser();
-                    final String imgUrl = userCurrentOfParse.getParseFile("image").getUrl();
                     if(userCurrentOfParse != null) {
                         if(userCurrentOfParse.getParseFile("image") != null) {
-
+                            final String imgUrl = userCurrentOfParse.getParseFile("image").getUrl();
                             ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
-                            Glide.with(context).load(imgUrl).into(ivProfileImage);
+                            Glide
+                                    .with(context)
+                                    .load(imgUrl)
+                                    .bitmapTransform(new CenterCrop(context), new RoundedCornersTransformation(context, 20, 0))
+                                    .into(ivProfileImage);
                         }
                         else
                         {
                             ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
-                            Glide.with(context).load(R.drawable.ic_profile_tab).into(ivProfileImage);
                         }
 
                         //imageUploadPassed.pinInBackground();
@@ -381,11 +388,6 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
-
-
-    public void populateProfileTimeline(ParseUser user){
-    }
-
     public void addItems(List<Item> list){
         for(int i=0; i< list.size(); i++){
             items.add(list.get(i));
@@ -393,23 +395,6 @@ public class ProfileActivity extends AppCompatActivity {
         }
 
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu){
-//        getMenuInflater().inflate(R.menu.menu_profile, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        if (item.getItemId() == R.id.miSettings) {
-//            Intent i = new Intent(this, SettingsActivity.class);
-//            startActivityForResult(i, 1);
-//        }
-//        return true;
-//    }
-
-
 
     public void addItem(View view) {
         Intent i_add = new Intent(context, AddItemActivity.class);
