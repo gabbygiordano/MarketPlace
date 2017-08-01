@@ -41,10 +41,6 @@ dependencies {
     compile files('PhotoUtil.jar')
 
     // live queries
-
-    
-
-    // live queries
     compile 'com.parse:parse-livequery-android:1.0.4'
 
     // picasso
@@ -65,4 +61,6 @@ dependencies {
     compile 'jp.wasabeef:glide-transformations:2.0.2'
     compile 'com.squareup.picasso:picasso:2.5.2'
     annotationProcessor 'org.parceler:parceler:1.1.6'
+
+    compile 'com.github.jd-alexander:LikeButton:0.2.1'
 }
