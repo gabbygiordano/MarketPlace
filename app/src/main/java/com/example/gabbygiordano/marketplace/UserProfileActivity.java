@@ -24,7 +24,6 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,7 +86,6 @@ public class UserProfileActivity extends AppCompatActivity {
         tvPhone = (TextView) findViewById(R.id.tvPhone);
 
         fetchTimelineAsync();
-
 
         BottomNavigationView bottomNavigationView;
 
@@ -165,7 +163,15 @@ public class UserProfileActivity extends AppCompatActivity {
                         tvName.setText(item.getOwner().getString("name"));
                         tvUsername.setText(item.getOwner().getUsername());
                         tvCollege.setText(item.getOwner().getString("college"));
-                       // ivProfileImage.setImageURI(uri).item.getOwner().getString("image");
+
+                        if (item.getOwner().getParseFile("image") != null) {
+                            String imgUri = item.getOwner().getParseFile("image").getUrl();
+                            Glide
+                                    .with(context)
+                                    .load(imgUri)
+                                    .bitmapTransform(new CenterCrop(context), new RoundedCornersTransformation(context, 20, 0))
+                                    .into(ivProfileImage);
+                        }
 
                         populateProfileTimeline(item.getOwner());
 
@@ -201,21 +207,6 @@ public class UserProfileActivity extends AppCompatActivity {
         }
 
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu){
-//        getMenuInflater().inflate(R.menu.menu_profile, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        if (item.getItemId() == R.id.miSettings) {
-//            Intent i = new Intent(this, SettingsActivity.class);
-//            startActivityForResult(i, 1);
-//        }
-//        return true;
-//    }
 
     public void addItem(View view) {
         Intent i_add = new Intent(context, AddItemActivity.class);
