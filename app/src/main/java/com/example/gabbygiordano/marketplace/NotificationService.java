@@ -80,8 +80,8 @@ public class NotificationService extends IntentService {
                         Log.e("NotifService", lastNotif.toString());
                     }
                 } else {
-                    lastNotif = notificationsList.get(0).getCreatedAt();
-                    Log.d("AppNotifications", e.getMessage());
+                    //lastNotif = notificationsList.get(0).getCreatedAt();
+                    //Log.d("AppNotifications", e.getMessage());
                 }
             }
         });

@@ -23,7 +23,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:transitionName="sharedActivityTransition"
-                android:background="@android:color/black" />-->
+                android:background="@android:color/black" />
 
 
             <TextView
@@ -32,20 +32,22 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_below="@+id/scrollView"
-                android:layout_margin="5dp"
+                android:layout_below="@+id/ivItemImage"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
                 android:text="n units ago" />
 
-            <ImageButton
-                android:id="@+id/ibFavorite"
-                android:layout_width="wrap_content"
+            <com.like.LikeButton
+                android:id="@+id/likeBtn"
                 android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                app:srcCompat="@drawable/ic_unfav"
+                android:layout_width="wrap_content"
+                app:like_drawable="@drawable/ic_fav"
+                app:unlike_drawable="@drawable/ic_unfav"
+                app:icon_size="50dp"
+                app:anim_scale_factor="1.5"
                 android:layout_below="@id/tvTimeAgo"
-                android:layout_marginRight="5dp"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
+                android:layout_alignParentEnd="true"  />
 
             <TextView
                 android:id="@+id/tvItemName"

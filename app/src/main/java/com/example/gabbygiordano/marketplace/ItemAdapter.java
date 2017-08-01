@@ -12,13 +12,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -48,6 +49,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         mItems = items;
         mContext = context;
     }
+
 
     // inflate layout and cache references into ViewHolder for each row
     // only called when entirely new row is to be created
@@ -89,41 +91,37 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         ArrayList<String> favoriteItems = (ArrayList) user.get("favoriteItems");
         if (favoriteItems.contains(item.getObjectId())) {
             // favorited
-            holder.ibFavorite.setImageResource(R.drawable.ic_fav);
-            holder.ibFavorite.setColorFilter(Color.rgb(255,87,34));
+            holder.likeButton.setLiked(true);
         } else {
             // unfavorited
-            holder.ibFavorite.setImageResource(R.drawable.ic_unfav);
-            holder.ibFavorite.setColorFilter(Color.rgb(155,155,155));
+            holder.likeButton.setLiked(false);
         }
 
-        holder.ibFavorite.setOnClickListener(new View.OnClickListener() {
+        holder.likeButton.setOnLikeListener(new OnLikeListener() {
             @Override
-            public void onClick(View view) {
+            public void liked(LikeButton likeButton) {
+                // save in favorites list
+                Toast.makeText(getContext(), "Favorited", Toast.LENGTH_LONG).show();
+
                 ParseUser user = ParseUser.getCurrentUser();
                 ArrayList<String> favoriteItems = (ArrayList) user.get("favoriteItems");
 
-                if (favoriteItems.contains(item.getObjectId())) {
-                    // unfavorite
-                    holder.ibFavorite.setImageResource(R.drawable.ic_unfav);
-                    holder.ibFavorite.setColorFilter(Color.rgb(155,155,155));
+                favoriteItems.add(item.getObjectId());
+                user.put("favoriteItems", favoriteItems);
+                user.saveInBackground();
+            }
 
-                    Toast.makeText(getContext(), "Unfavorited", Toast.LENGTH_LONG).show();
+            @Override
+            public void unLiked(LikeButton likeButton) {
+                // remove from favorites list
+                Toast.makeText(getContext(), "Unfavorited", Toast.LENGTH_LONG).show();
 
-                    favoriteItems.remove(item.getObjectId());
-                    user.put("favoriteItems", favoriteItems);
-                    user.saveInBackground();
-                } else {
-                    // favorite
-                    holder.ibFavorite.setImageResource(R.drawable.ic_fav);
-                    holder.ibFavorite.setColorFilter(Color.rgb(255,87,34));
+                ParseUser user = ParseUser.getCurrentUser();
+                ArrayList<String> favoriteItems = (ArrayList) user.get("favoriteItems");
 
-                    Toast.makeText(getContext(), "Favorited", Toast.LENGTH_LONG).show();
-
-                    favoriteItems.add(item.getObjectId());
-                    user.put("favoriteItems", favoriteItems);
-                    user.saveInBackground();
-                }
+                favoriteItems.remove(item.getObjectId());
+                user.put("favoriteItems", favoriteItems);
+                user.saveInBackground();
             }
         });
 
@@ -208,9 +206,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         public TextView tvSeller;
         public TextView tvPrice;
         public TextView tvTimeAgo;
+        public LikeButton likeButton;
         Item thisItem;
-
-        ImageButton ibFavorite;
 
         boolean flag = true;
 
@@ -224,7 +221,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             tvPrice = itemView.findViewById(R.id.tvPrice);
             tvTimeAgo = itemView.findViewById(R.id.tvTimeAgo);
 
-            ibFavorite = itemView.findViewById(R.id.ibFavorite);
+            likeButton = itemView.findViewById(R.id.likeBtn);
 
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
