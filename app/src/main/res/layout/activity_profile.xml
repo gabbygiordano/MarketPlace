@@ -34,6 +34,7 @@
             android:background="@android:color/transparent"
             android:onClick="addProfileImage"
             app:srcCompat="@drawable/ic_add_img"
+            android:layout_margin="2dp"
             android:layout_alignBottom="@+id/ivProfileImage"
             android:layout_alignRight="@+id/ivProfileImage"
             android:layout_alignEnd="@+id/ivProfileImage" />
@@ -45,9 +46,10 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
+            android:layout_margin="5dp"
             android:background="@android:color/transparent"
             android:elevation="0dp"
-            app:srcCompat="@drawable/ic_edit" />
+            app:srcCompat="@drawable/ic_action_settings" />
 
         <TextView
             android:id="@+id/tvName"

@@ -2,7 +2,6 @@ package com.example.gabbygiordano.marketplace;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.LauncherActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,9 +10,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
-import android.graphics.drawable.ClipDrawable;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -28,8 +24,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.support.v7.widget.Toolbar;
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
@@ -42,7 +36,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.example.gabbygiordano.marketplace.fragments.FavoritesFragment;
 import com.example.gabbygiordano.marketplace.fragments.InterestedFragment;
 import com.example.gabbygiordano.marketplace.fragments.ItemsListFragment;
@@ -63,8 +56,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 import static com.example.gabbygiordano.marketplace.ItemAdapter.getContext;
 
@@ -355,10 +346,9 @@ public class ProfileActivity extends AppCompatActivity {
                 if(e == null){
 
                     ParseUser userCurrentOfParse = ParseUser.getCurrentUser();
-                    final String imgUrl = userCurrentOfParse.getParseFile("image").getUrl();
                     if(userCurrentOfParse != null) {
                         if(userCurrentOfParse.getParseFile("image") != null) {
-
+                            final String imgUrl = userCurrentOfParse.getParseFile("image").getUrl();
                             ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
                             Glide.with(context).load(imgUrl).into(ivProfileImage);
                         }
