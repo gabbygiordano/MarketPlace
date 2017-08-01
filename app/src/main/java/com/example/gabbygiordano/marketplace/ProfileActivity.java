@@ -36,6 +36,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.example.gabbygiordano.marketplace.fragments.FavoritesFragment;
 import com.example.gabbygiordano.marketplace.fragments.InterestedFragment;
 import com.example.gabbygiordano.marketplace.fragments.ItemsListFragment;
@@ -57,6 +58,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+
 import static com.example.gabbygiordano.marketplace.ItemAdapter.getContext;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -77,7 +80,7 @@ public class ProfileActivity extends AppCompatActivity {
 //    ImageView ivItemImage;
 //    ImageButton ibFavoriteOff;
 //    ImageButton ibFavoriteOn;
- //   ProfilePagerAdapter adapter;
+//   ProfilePagerAdapter adapter;
 
     TabLayout tabLayout;
 
@@ -97,7 +100,6 @@ public class ProfileActivity extends AppCompatActivity {
     Toolbar toolbar;
 
     ParseFile file;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,7 +132,7 @@ public class ProfileActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
 
         // perform find view by id lookups
-       // ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
+        // ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
         tvName = (TextView) findViewById(R.id.tvName);
         tvUsername = (TextView) findViewById(R.id.tvUsername);
         tvCollege = (TextView) findViewById(R.id.tvCollege);
@@ -163,10 +165,8 @@ public class ProfileActivity extends AppCompatActivity {
         // set up the adapter for the pager
         viewPager.setAdapter(adapter);
 
-
         // setup the Tab Layout to use the view pager
         tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
-
 
         tabLayout.post(new Runnable() {
             @Override
@@ -226,8 +226,6 @@ public class ProfileActivity extends AppCompatActivity {
 
             }
         });
-
-
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
         {
@@ -292,50 +290,42 @@ public class ProfileActivity extends AppCompatActivity {
                 }
             }
         }
-
-
     }
 
-            public void populateUserHeadline () {
-                if (getIntent().hasExtra("itemId")) {
-                    id = getIntent().getStringExtra("itemId");
-                            ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
-                            query.include("owner");
-                            query.include("favoritesList");
-                            query.whereContains("itemId", id);
-                            query.orderByDescending("_created_at");
-                            query.getInBackground(id, new GetCallback<Item>() {
-                                public void done(Item item, ParseException e) {
-                                    if (e == null) {
-                                        // item was found
-                                        tvName.setText(item.getOwner().getString("name"));
-                                        tvUsername.setText(item.getOwner().getUsername());
-                                        tvCollege.setText(item.getOwner().getString("college"));
-                                        tvPhone.setText(" ");
-                                        // populateTimeline(item.getOwner());
-
-                                    } else {
-                                        Log.e("ItemsListFragment", e.getMessage());
-                                    }
-                                }
-                            });
-                        } else {
-                            // set text to current user info
-                            //ParseUser user = ParseUser.getCurrentUser();
-                            if (user != null) {
-                                tvName.setText(user.getString("name"));
-                                tvUsername.setText(user.getUsername());
-                                tvCollege.setText(user.getString("college"));
-                                String formattedNumber = PhoneNumberUtils.formatNumber(String.valueOf(user.getLong("phone")));
-                                String email = user.getEmail();
-                                tvPhone.setText(email + ", " + formattedNumber);
-
-                            } else {
-
-                            }
-
-                        }
+    public void populateUserHeadline () {
+        if (getIntent().hasExtra("itemId")) {
+            id = getIntent().getStringExtra("itemId");
+            ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
+            query.include("owner");
+            query.include("favoritesList");
+            query.whereContains("itemId", id);
+            query.orderByDescending("_created_at");
+            query.getInBackground(id, new GetCallback<Item>() {
+                public void done(Item item, ParseException e) {
+                    if (e == null) {
+                        // item was found
+                        tvName.setText(item.getOwner().getString("name"));
+                        tvUsername.setText(item.getOwner().getUsername());
+                        tvCollege.setText(item.getOwner().getString("college"));
+                        tvPhone.setText(" ");
+                    } else {
+                        Log.e("ItemsListFragment", e.getMessage());
                     }
+                }
+            });
+        } else {
+            // set text to current user info
+            // ParseUser user = ParseUser.getCurrentUser();
+            if (user != null) {
+                tvName.setText(user.getString("name"));
+                tvUsername.setText(user.getUsername());
+                tvCollege.setText(user.getString("college"));
+                String formattedNumber = PhoneNumberUtils.formatNumber(String.valueOf(user.getLong("phone")));
+                String email = user.getEmail();
+                tvPhone.setText(email + ", " + formattedNumber);
+            }
+        }
+    }
 
 
     private void queryImagesFromParse(){
@@ -350,12 +340,15 @@ public class ProfileActivity extends AppCompatActivity {
                         if(userCurrentOfParse.getParseFile("image") != null) {
                             final String imgUrl = userCurrentOfParse.getParseFile("image").getUrl();
                             ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
-                            Glide.with(context).load(imgUrl).into(ivProfileImage);
+                            Glide
+                                    .with(context)
+                                    .load(imgUrl)
+                                    .bitmapTransform(new CenterCrop(context), new RoundedCornersTransformation(context, 20, 0))
+                                    .into(ivProfileImage);
                         }
                         else
                         {
                             ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
-                            Glide.with(context).load(R.drawable.ic_profile_tab).into(ivProfileImage);
                         }
 
                         //imageUploadPassed.pinInBackground();
@@ -371,11 +364,6 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
-
-
-    public void populateProfileTimeline(ParseUser user){
-    }
-
     public void addItems(List<Item> list){
         for(int i=0; i< list.size(); i++){
             items.add(list.get(i));
@@ -383,23 +371,6 @@ public class ProfileActivity extends AppCompatActivity {
         }
 
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu){
-//        getMenuInflater().inflate(R.menu.menu_profile, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        if (item.getItemId() == R.id.miSettings) {
-//            Intent i = new Intent(this, SettingsActivity.class);
-//            startActivityForResult(i, 1);
-//        }
-//        return true;
-//    }
-
-
 
     public void addItem(View view) {
         Intent i_add = new Intent(context, AddItemActivity.class);
