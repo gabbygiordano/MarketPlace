@@ -34,9 +34,10 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
+            android:layout_margin="5dp"
             android:background="@android:color/transparent"
             android:elevation="0dp"
-            app:srcCompat="@drawable/ic_edit" />
+            app:srcCompat="@drawable/ic_action_settings" />
 
         <TextView
             android:id="@+id/tvName"
