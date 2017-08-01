@@ -30,26 +30,21 @@ import com.kosalgeek.android.photoutil.ImageLoader;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class SettingsActivity extends AppCompatActivity {
-
-    private static final int MY_PERMISSIONS_REQUEST_READ_MEDIA = 1 ;
-    final int ACTIVITY_START_CAMERA = 1100;
-    final int ACTIVITY_SELECT_FILE = 2200;
-
-    GalleryPhoto galleryPhoto;
-    String selectedPhoto;
 
     TextView tvName;
     TextView tvPhone;
     TextView tvEmail;
-    ImageButton ibUploadProf;
-    ImageView ivEditImage;
-    ImageView ivImage;
+//    ImageButton ibUploadProf;
+//    ImageView ivEditImage;
+//    ImageView ivImage;
 
     EditText etName;
     EditText etPhone;
@@ -61,23 +56,21 @@ public class SettingsActivity extends AppCompatActivity {
     Boolean changedName;
     Boolean changedPhone;
     Boolean changedEmail;
-    Boolean changedProfilePhoto;
 
-    ParseFile file;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         getSupportActionBar().setTitle("Settings");
-        galleryPhoto = new GalleryPhoto(getApplicationContext());
 
         tvName = (TextView) findViewById(R.id.tvName);
         tvPhone = (TextView) findViewById(R.id.tvPhone);
         tvEmail = (TextView) findViewById(R.id.tvEmail);
-        ibUploadProf = (ImageButton) findViewById(R.id.ibUploadProf);
-        ivEditImage = (ImageView) findViewById(R.id.ivEditImage);
-        ivImage = (ImageView) findViewById(R.id.ivImage);
+//        ibUploadProf = (ImageButton) findViewById(R.id.ibUploadProf);
+//        ivEditImage = (ImageView) findViewById(R.id.ivEditImage);
+//        ivImage = (ImageView) findViewById(R.id.ivImage);
 
         etName = (EditText) findViewById(R.id.etName);
         etPhone = (EditText) findViewById(R.id.etPhone);
@@ -89,7 +82,6 @@ public class SettingsActivity extends AppCompatActivity {
         changedName = true;
         changedPhone = true;
         changedEmail = true;
-        changedProfilePhoto = true;
 
         final ParseUser user = ParseUser.getCurrentUser();
         if (user != null) {
@@ -122,208 +114,35 @@ public class SettingsActivity extends AppCompatActivity {
                     changedEmail = false;
                 }
 
-                changedProfilePhoto = false;
 
                 if (true) {
                     if (changedName) {
                         String name = etName.getText().toString();
                         user.put("name", name);
                         user.saveInBackground();
-                        //Toast.makeText(getApplicationContext(), "Name Updated", Toast.LENGTH_LONG).show();
-                        Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
-                        startActivityForResult(i, 1);
+
                     }
                     if (changedPhone) {
                         String phone = etPhone.getText().toString();
                         user.put("phone", Long.parseLong(phone));
                         user.saveInBackground();
-                        //Toast.makeText(getApplicationContext(), "Phone Updated", Toast.LENGTH_LONG).show();
-                        Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
-                        startActivityForResult(i, 1);
                     }
                     if (changedEmail) {
                         String email = etEmail.getText().toString();
                         user.put("email", email);
                         user.put("publicEmail", email);
                         user.saveInBackground();
-                        //Toast.makeText(getApplicationContext(), "Email Updated", Toast.LENGTH_LONG).show();
-                        Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
-                        startActivityForResult(i, 1);
                     }
-                    if (changedEmail) {
-                        String email = etEmail.getText().toString();
-                        user.put("email", email);
-                        user.put("publicEmail", email);
-                        user.saveInBackground();
-                        //Toast.makeText(getApplicationContext(), "Email Updated", Toast.LENGTH_LONG).show();
-                        Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
-                        startActivityForResult(i, 1);
-                    }
-//                    if(changedProfilePhoto)
-//                    {
-//                        String image = ivImage.getImage().getUrl();
-//                        user.put("image", image);
-//                        user.saveInBackground();
-//                        //Toast.makeText(getApplicationContext(), "Email Updated", Toast.LENGTH_LONG).show();
-//                        Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
-//                        startActivityForResult(i, 1);
-//                    }
-
+                    Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
+                    startActivityForResult(i, 1);
                     Toast.makeText(getApplicationContext(), "Information Updated", Toast.LENGTH_LONG).show();
                 }
 
             }
         });
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
-            } else {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                        MY_PERMISSIONS_REQUEST_READ_MEDIA);
-            }
-        }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_READ_MEDIA: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                } else {
-                    Toast.makeText(getApplicationContext(), "Permission Denied", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
-    }
-
-
-    public void addProfilePhoto(View v)
-    {
-        final CharSequence[] items = {"Camera", "Gallery", "Cancel"};
-
-        AlertDialog.Builder builder= new AlertDialog.Builder(SettingsActivity.this);
-        builder.setTitle("Add Image");
-        builder.setItems(items, new DialogInterface.OnClickListener()
-        {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i)
-            {
-                if(items[i].equals("Camera"))
-                {
-                    Intent callCamera = new Intent();
-                    callCamera.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(callCamera, ACTIVITY_START_CAMERA);
-                }
-                else if(items[i].equals("Gallery"))
-                {
-//                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//                    intent.setType("image/*");
-                    startActivityForResult(galleryPhoto.openGalleryIntent(), ACTIVITY_SELECT_FILE);
-                }
-                else if (items[i].equals("Cancel"))
-                {
-                    dialogInterface.dismiss();
-                }
-            }
-        });
-        builder.show();
-    }
-
-
-    public void editProfilePhoto(View v) {
-        final CharSequence[] items = {"Camera", "Gallery", "Cancel"};
-
-        AlertDialog.Builder builder= new AlertDialog.Builder(SettingsActivity.this);
-        builder.setTitle("Change Image");
-        builder.setItems(items, new DialogInterface.OnClickListener()
-        {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i)
-            {
-                if(items[i].equals("Camera"))
-                {
-                    Intent callCamera = new Intent();
-                    callCamera.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(callCamera, ACTIVITY_START_CAMERA);
-                }
-                else if(items[i].equals("Gallery"))
-                {
-//                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//                    intent.setType("image/*");
-                    startActivityForResult(galleryPhoto.openGalleryIntent(), ACTIVITY_SELECT_FILE);
-                }
-                else if (items[i].equals("Cancel"))
-                {
-                    dialogInterface.dismiss();
-                }
-            }
-        });
-        builder.show();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-
-        if(resultCode == Activity.RESULT_OK)
-        {
-            if(requestCode == ACTIVITY_START_CAMERA)
-            {
-                //Toast.makeText(this, "picture was taken", Toast.LENGTH_SHORT).show();
-                Bundle extras = data.getExtras();
-                Bitmap photoCaptured = (Bitmap) extras.get("data");
-                ivImage.setImageBitmap(photoCaptured);
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                photoCaptured.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                byte[] image = stream.toByteArray();
-                file = new ParseFile("profileImage.png", image);
-                file.saveInBackground();
-                ParseObject profileObject = new ParseObject("ProfileImage");
-                profileObject.put("profileimage", image);
-                profileObject.saveInBackground();
-                Toast.makeText(SettingsActivity.this, "Image Uploaded",
-                        Toast.LENGTH_SHORT).show();
-
-                ivEditImage.setVisibility(View.VISIBLE);
-                ivEditImage.setClickable(true);
-            }
-            else if(requestCode == ACTIVITY_SELECT_FILE)
-            {
-                Uri uri = data.getData();
-                galleryPhoto.setPhotoUri(uri);
-
-                String photoPath = galleryPhoto.getPath();
-                selectedPhoto = photoPath;
-                try
-                {
-                    Bitmap bitmap = ImageLoader.init().from(photoPath).requestSize(512,512).getBitmap();
-                    ivImage.setImageBitmap(rotateBitmapOrientation(photoPath));
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                    byte[] image = stream.toByteArray();
-                    file = new ParseFile("itemimage.png", image);
-                    file.saveInBackground();
-                    Toast.makeText(SettingsActivity.this, "Image Uploaded",
-                            Toast.LENGTH_SHORT).show();
-
-                    ivEditImage.setVisibility(View.VISIBLE);
-                    ivEditImage.setClickable(true);
-                }
-                catch (FileNotFoundException e)
-                {
-                    Toast.makeText(getApplicationContext(), "Something went wrong while uploading photo", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-
-        }
-
-    }
 
     public Bitmap rotateBitmapOrientation(String photoFilePath) {
         // Create and configure BitmapFactory

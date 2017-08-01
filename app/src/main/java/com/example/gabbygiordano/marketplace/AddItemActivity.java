@@ -321,7 +321,7 @@ public class AddItemActivity extends AppCompatActivity {
                 Bitmap photoCaptured = (Bitmap) extras.get("data");
                 ivImage.setImageBitmap(photoCaptured);
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                photoCaptured.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                photoCaptured.compress(Bitmap.CompressFormat.PNG, 50, stream);
                 byte[] image = stream.toByteArray();
                 file = new ParseFile("itemimage.png", image);
                 file.saveInBackground();
@@ -330,6 +330,9 @@ public class AddItemActivity extends AppCompatActivity {
 
                 ivEditImage.setVisibility(View.VISIBLE);
                 ivEditImage.setClickable(true);
+
+                ivAddImage.setVisibility(View.INVISIBLE);
+                ivAddImage.setClickable(false);
             }
             else if(requestCode == ACTIVITY_SELECT_FILE)
             {
@@ -340,10 +343,10 @@ public class AddItemActivity extends AppCompatActivity {
                 selectedPhoto = photoPath;
                 try
                 {
-                    Bitmap bitmap = ImageLoader.init().from(photoPath).requestSize(512,512).getBitmap();
+                    Bitmap bitmap = ImageLoader.init().from(photoPath).requestSize(300,300).getBitmap();
                     ivImage.setImageBitmap(rotateBitmapOrientation(photoPath));
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 50, stream);
                     byte[] image = stream.toByteArray();
                     file = new ParseFile("itemimage.png", image);
                     file.saveInBackground();
@@ -352,6 +355,9 @@ public class AddItemActivity extends AppCompatActivity {
 
                     ivEditImage.setVisibility(View.VISIBLE);
                     ivEditImage.setClickable(true);
+
+                    ivAddImage.setVisibility(View.INVISIBLE);
+                    ivAddImage.setClickable(false);
                 }
                 catch (FileNotFoundException e)
                 {
