@@ -53,6 +53,10 @@ public class UserProfileActivity extends AppCompatActivity {
     Context context;
     ParseFile file;
 
+    MenuItem miActionProgressItem;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +90,7 @@ public class UserProfileActivity extends AppCompatActivity {
         tvPhone = (TextView) findViewById(R.id.tvPhone);
 
         fetchTimelineAsync();
+        
 
         BottomNavigationView bottomNavigationView;
 
@@ -220,4 +225,6 @@ public class UserProfileActivity extends AppCompatActivity {
         i_home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i_home);
     }
+
+
 }
