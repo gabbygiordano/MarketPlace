@@ -48,6 +48,10 @@ public class ItemsListFragment extends Fragment {
 
     String id;
 
+    public interface ProgressListener {
+        public void showProgressBar();
+        public void hideProgressBar();
+    }
 
     @Nullable
     @Override
@@ -72,6 +76,7 @@ public class ItemsListFragment extends Fragment {
 
         MyDividerItemDecoration dividerItemDecoration = new MyDividerItemDecoration(rvItems.getContext());
         rvItems.addItemDecoration(dividerItemDecoration);
+
 
         // swipe to refresh setup
 
@@ -181,4 +186,5 @@ public class ItemsListFragment extends Fragment {
         ProgressBar v = (ProgressBar) MenuItemCompat.getActionView(miActionProgressItem);
         // Return to finish
     }
+
 }
