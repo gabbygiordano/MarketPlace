@@ -87,7 +87,7 @@ public class AppNotificationsActivity extends AppCompatActivity {
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
 
         Menu menu = bottomNavigationView.getMenu();
-        MenuItem menuitem = menu.getItem(1);
+        MenuItem menuitem = menu.getItem(2);
         menuitem.setChecked(true);
 
         mContext = ItemAdapter.getContext();
@@ -103,6 +103,11 @@ public class AppNotificationsActivity extends AppCompatActivity {
                         Intent i_home = new Intent(AppNotificationsActivity.this, HomeActivity.class);
                         startActivity(i_home);
                         finish();
+                        break;
+
+                    case R.id.action_maps:
+                        Intent i_maps = new Intent(AppNotificationsActivity.this, MapsActivity.class);
+                        startActivity(i_maps);
                         break;
 
                     case R.id.action_notifications:

@@ -165,7 +165,7 @@ public class ProfileActivity extends AppCompatActivity implements ItemsListFragm
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         Menu menu = bottomNavigationView.getMenu();
-        MenuItem menuitem = menu.getItem(2);
+        MenuItem menuitem = menu.getItem(3);
         menuitem.setChecked(true);
 
         adapter = new ProfilePagerAdapter(getSupportFragmentManager(), this);
@@ -243,6 +243,11 @@ public class ProfileActivity extends AppCompatActivity implements ItemsListFragm
                         Intent i_home = new Intent(ProfileActivity.this, HomeActivity.class);
                         startActivity(i_home);
                         finish();
+                        break;
+
+                    case R.id.action_maps:
+                        Intent i_maps = new Intent(ProfileActivity.this, MapsActivity.class);
+                        startActivity(i_maps);
                         break;
 
 

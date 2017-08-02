@@ -1,12 +1,18 @@
 package com.example.gabbygiordano.marketplace;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.animation.BounceInterpolator;
 import android.widget.Toast;
 
@@ -33,11 +39,54 @@ public class MapsActivity extends AppCompatActivity {
 
     MapFragment mapFragment;
     FusedLocationProviderClient mFusedLocationClient;
+    BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
+        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
+
+        Menu menu = bottomNavigationView.getMenu();
+        MenuItem menuitem = menu.getItem(1);
+        menuitem.setChecked(true);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
+        {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item)
+            {
+                switch (item.getItemId())
+                {
+                    case R.id.action_home:
+                        Intent i_home = new Intent(MapsActivity.this, HomeActivity.class);
+                        startActivity(i_home);
+                        finish();
+                        break;
+
+                    case R.id.action_maps:
+                        Toast.makeText(MapsActivity.this, "Maps Tab Selected", Toast.LENGTH_SHORT).show();
+                        break;
+
+                    case R.id.action_notifications:
+                        Intent i_notifications = new Intent(MapsActivity.this, AppNotificationsActivity.class);
+                        startActivity(i_notifications);
+                        finish();
+                        break;
+
+                    case R.id.action_profile:
+                        Intent i_profile = new Intent(MapsActivity.this, ProfileActivity.class);
+                        startActivity(i_profile);
+                        finish();
+                        break;
+                }
+
+                return false;
+            }
+        });
+
 
         // Do a null check to confirm that we have not already instantiated the map.
         if (mapFragment == null) {

@@ -5,6 +5,7 @@
     <string name="add">Add</string>
     <string name="appNotifications">Notifications</string>
     <string name="profile">Profile</string>
+    <string name="maps">Maps</string>
 
     <string name="message_hint">Type message here</string>
     <string name="send">Send</string>
