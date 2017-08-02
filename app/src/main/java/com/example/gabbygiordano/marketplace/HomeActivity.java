@@ -20,8 +20,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -213,6 +211,19 @@ public class HomeActivity extends AppCompatActivity {
             //}
 
         });
+
+        MenuItem mapItem = menu.findItem(R.id.miActionMap);
+        mapItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                Intent i = new Intent(HomeActivity.this, MapsActivity.class);
+                startActivity(i);
+
+                return true;
+            }
+        });
+
+
         // return super.onCreateOptionsMenu(menu);
         return true;
     }

@@ -18,7 +18,8 @@ public class Item extends ParseObject {
     }
 
     // constructor
-    public Item(String name, String description, String price, int condition, ParseUser user, String type, ParseFile image) {
+    public Item(String name, String description, String price, int condition, ParseUser user, String type,
+                ParseFile image, double latitude, double longitude) {
         setItemName(name);
         setDescription(description);
         setPrice("$" + price);
@@ -26,6 +27,8 @@ public class Item extends ParseObject {
         setOwner(user);
         setType(type);
         setImage(image);
+        setLatitude(latitude);
+        setLongitude(longitude);
     }
 
     public String getItemName() {
@@ -91,6 +94,22 @@ public class Item extends ParseObject {
 
     public ParseFile getImage() {
         return getParseFile("image");
+    }
+
+    public void setLatitude(double latitutde) {
+        put("lat", latitutde);
+    }
+
+    public double getLatitute() {
+        return getDouble("lat");
+    }
+
+    public void setLongitude(double longitude) {
+        put("long", longitude);
+    }
+
+    public double getLongitude() {
+        return getDouble("long");
     }
 
 }
