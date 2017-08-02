@@ -25,6 +25,7 @@
                 android:transitionName="sharedActivityTransition"
                 android:background="@android:color/black" />
 
+
             <TextView
                 android:id="@+id/tvTimeAgo"
                 android:layout_width="wrap_content"

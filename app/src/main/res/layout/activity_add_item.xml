@@ -23,6 +23,15 @@
                 tools:context="com.example.gabbygiordano.marketplace.AddItemActivity">
 
                 <ImageView
+                    android:id="@+id/ivImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:background="@android:color/black" />
+
+                <ImageView
                     android:id="@+id/ivAddImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -48,14 +57,6 @@
                     android:visibility="invisible"
                     app:srcCompat="@drawable/ic_edit" />
 
-                <ImageView
-                    android:id="@+id/ivImage"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:background="@android:color/black" />
 
                 <EditText
                     android:id="@+id/tvItemName"
@@ -128,6 +129,19 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_below="@+id/tvCondition"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toStartOf="@+id/conditionOptions"
+                    android:backgroundTint="@color/SecondaryDark"
+                    android:text="1 = poor, 5 = like new"
+                    android:textSize="10sp" />
+
+                <Spinner
+                    android:id="@+id/conditionOptions"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvItemPrice"
+                    android:layout_toEndOf="@+id/tvCondition"
+                    android:layout_toRightOf="@+id/tvCondition"
                     android:layout_marginBottom="5dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
@@ -149,12 +163,15 @@
                     android:id="@+id/textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/textView3"
+                    android:layout_alignStart="@+id/textView3"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentLeft="true"
                     android:layout_below="@+id/ratingBar"
                     android:layout_marginBottom="5dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
+
                     android:backgroundTint="@color/SecondaryDark"
                     android:text="Category:"
                     android:textColor="@android:color/black"

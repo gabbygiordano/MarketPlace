@@ -16,14 +16,19 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 import static com.example.gabbygiordano.marketplace.ItemAdapter.getContext;
 
@@ -46,6 +51,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     Context mContext;
     Context context;
+    ParseFile file;
 
     MenuItem miActionProgressItem;
 
@@ -85,7 +91,6 @@ public class UserProfileActivity extends AppCompatActivity {
 
         fetchTimelineAsync();
         
-
 
         BottomNavigationView bottomNavigationView;
 
@@ -142,6 +147,7 @@ public class UserProfileActivity extends AppCompatActivity {
                 } else {
                     Log.d("items", "Error: " + e.getMessage());
                 }
+
             }
         });
     }
@@ -163,11 +169,21 @@ public class UserProfileActivity extends AppCompatActivity {
                         tvUsername.setText(item.getOwner().getUsername());
                         tvCollege.setText(item.getOwner().getString("college"));
 
+                        if (item.getOwner().getParseFile("image") != null) {
+                            String imgUri = item.getOwner().getParseFile("image").getUrl();
+                            Glide
+                                    .with(context)
+                                    .load(imgUri)
+                                    .bitmapTransform(new CenterCrop(context), new RoundedCornersTransformation(context, 20, 0))
+                                    .into(ivProfileImage);
+                        }
+
                         populateProfileTimeline(item.getOwner());
 
                     } else {
                         Log.e("ItemsListFragment", e.getMessage());
                     }
+
                 }
             });
         }
@@ -196,21 +212,6 @@ public class UserProfileActivity extends AppCompatActivity {
         }
 
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu){
-//        getMenuInflater().inflate(R.menu.menu_profile, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        if (item.getItemId() == R.id.miSettings) {
-//            Intent i = new Intent(this, SettingsActivity.class);
-//            startActivityForResult(i, 1);
-//        }
-//        return true;
-//    }
 
     public void addItem(View view) {
         Intent i_add = new Intent(context, AddItemActivity.class);

@@ -32,7 +32,7 @@
         android:id="@+id/btLogIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/etPassword"
+        android:layout_below="@+id/pwdToggle"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="34dp"
         android:backgroundTint="@color/Secondary500"
@@ -41,6 +41,17 @@
         android:onClick="onLoginSuccess"
         android:text="Log In"
         android:textColor="@android:color/white" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/pwdToggle"
+        app:passwordToggleEnabled="true"
+        app:passwordToggleTint="@color/Secondary500"
+        app:hintEnabled="false"
+        android:layout_alignLeft="@+id/etUserName"
+        android:layout_alignStart="@+id/etUserName"
+        android:layout_below="@+id/etUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
     <EditText
         android:id="@+id/etPassword"
@@ -53,6 +64,8 @@
         android:hint="Password"
         android:inputType="textPassword"
         android:textStyle="bold" />
+
+    </android.support.design.widget.TextInputLayout>
 
     <ImageView
         android:id="@+id/imageView2"
