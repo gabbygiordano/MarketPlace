@@ -390,7 +390,6 @@ public class ProfileActivity extends AppCompatActivity implements ItemsListFragm
         startActivity(i_home);
     }
 
-<<<<<<< HEAD
     /* @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         // Store instance of the menu item containing progress
