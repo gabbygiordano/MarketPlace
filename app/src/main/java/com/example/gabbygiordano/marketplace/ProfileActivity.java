@@ -62,7 +62,7 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 import static com.example.gabbygiordano.marketplace.ItemAdapter.getContext;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity implements ItemsListFragment.ProgressListener {
 
     ParseUser user = ParseUser.getCurrentUser();
 //    private static final int MY_PERMISSIONS_REQUEST_READ_MEDIA = 1 ;
@@ -99,7 +99,13 @@ public class ProfileActivity extends AppCompatActivity {
 
     Toolbar toolbar;
 
-   // ParseFile file;
+
+
+    MenuItem miActionProgressItem;
+
+//    ParseFile file;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,6 +133,8 @@ public class ProfileActivity extends AppCompatActivity {
         itemAdapter = new ItemAdapter(items, getContext());
 
         mContext = getContext();
+
+        miActionProgressItem = (MenuItem) findViewById(R.id.miActionProgress);
 
         // RecyclerView setup (layout manager, use adapter)
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -409,6 +417,35 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
 //    public void addProfileImage(View view) {
+
+    /* @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // Store instance of the menu item containing progress
+        miActionProgressItem = menu.findItem(R.id.miActionProgressItem);
+        // Extract the action-view from the menu item
+        ProgressBar v = (ProgressBar) MenuItemCompat.getActionView(miActionProgressItem);
+        // Return to finish
+        return true;
+    } */
+
+
+    @Override
+    public void showProgressBar() {
+        if (miActionProgressItem != null) {
+            miActionProgressItem.setVisible(true);
+        }
+    }
+
+    @Override
+    public void hideProgressBar() {
+        if (miActionProgressItem != null) {
+            miActionProgressItem.setVisible(false);
+        }
+    }
+//    public void addProfileImage(View view) {
+//
+//        final CharSequence[] items = {"Camera", "Gallery", "Cancel"};
+
 
 //        final CharSequence[] items = {"Camera", "Gallery", "Cancel"};
 //

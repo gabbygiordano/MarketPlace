@@ -20,8 +20,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -35,7 +33,7 @@ import com.parse.ParseUser;
 import java.util.Date;
 import java.util.List;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements ItemsListFragment.ProgressListener {
 
     BottomNavigationView bottomNavigationView;
 
@@ -47,6 +45,8 @@ public class HomeActivity extends AppCompatActivity {
     Date lastNotif = new Date();
 
     Intent mServiceIntent;
+
+    MenuItem miActionProgressItem;
 
 
     // Create a handler which can run code periodically
@@ -65,6 +65,8 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+
+
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         //BottomNavigationViewHelper.removeTextLabel(bottomNavigationView, );
@@ -74,10 +76,13 @@ public class HomeActivity extends AppCompatActivity {
         MenuItem menuitem = menu.getItem(0);
         menuitem.setChecked(true);
 
+        miActionProgressItem = (MenuItem) findViewById(R.id.miActionProgress);
+
         adapter = new ItemsPagerAdapter(getSupportFragmentManager(), this);
 
         // set up the adapter for the pager
         viewPager.setAdapter(adapter);
+
 
         // setup the Tab Layout to use the view pager
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
@@ -137,6 +142,9 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+
+
+
         // myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
 
         Log.e("NotifService", lastNotif.toString());
@@ -153,6 +161,9 @@ public class HomeActivity extends AppCompatActivity {
 
         // Registers the DownloadStateReceiver and its intent filters
         LocalBroadcastManager.getInstance(this).registerReceiver(mDownloadStateReceiver, statusIntentFilter);
+        //miActionProgressItem.setVisible(false);
+
+
     }
 
 
@@ -172,7 +183,6 @@ public class HomeActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(final String text) {
-                miActionProgressItem.setVisible(true);
                 // perform query here
                 ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
                 query.include("owner");
@@ -190,7 +200,6 @@ public class HomeActivity extends AppCompatActivity {
                         }
                     }
                 });
-                miActionProgressItem.setVisible(false);
 
 
                 // workaround to avoid issues with some emulators and keyboard devices firing twice if a keyboard enter is used
@@ -213,6 +222,19 @@ public class HomeActivity extends AppCompatActivity {
             //}
 
         });
+
+        MenuItem mapItem = menu.findItem(R.id.miActionMap);
+        mapItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                Intent i = new Intent(HomeActivity.this, MapsActivity.class);
+                startActivity(i);
+
+                return true;
+            }
+        });
+
+
         // return super.onCreateOptionsMenu(menu);
         return true;
     }
@@ -286,7 +308,6 @@ public class HomeActivity extends AppCompatActivity {
         });
 
     }
-    MenuItem miActionProgressItem;
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
@@ -295,8 +316,22 @@ public class HomeActivity extends AppCompatActivity {
         // Extract the action-view from the menu item
         ProgressBar v = (ProgressBar) MenuItemCompat.getActionView(miActionProgressItem);
         // Return to finish
-        return super.onPrepareOptionsMenu(menu);
+        miActionProgressItem.setVisible(true);
+        return true;
     }
 
 
+    @Override
+    public void showProgressBar() {
+        if (miActionProgressItem != null) {
+            miActionProgressItem.setVisible(true);
+        }
+    }
+
+    @Override
+    public void hideProgressBar() {
+        if (miActionProgressItem != null) {
+            miActionProgressItem.setVisible(false);
+        }
+    }
 }
