@@ -65,9 +65,9 @@ import static com.example.gabbygiordano.marketplace.ItemAdapter.getContext;
 public class ProfileActivity extends AppCompatActivity implements ItemsListFragment.ProgressListener {
 
     ParseUser user = ParseUser.getCurrentUser();
-    private static final int MY_PERMISSIONS_REQUEST_READ_MEDIA = 1 ;
-    final int ACTIVITY_START_CAMERA = 1100;
-    final int ACTIVITY_SELECT_FILE = 2200;
+//    private static final int MY_PERMISSIONS_REQUEST_READ_MEDIA = 1 ;
+//    final int ACTIVITY_START_CAMERA = 1100;
+//    final int ACTIVITY_SELECT_FILE = 2200;
 
     ImageView ivProfileImage;
     TextView tvName;
@@ -76,7 +76,7 @@ public class ProfileActivity extends AppCompatActivity implements ItemsListFragm
     TextView tvPhone;
     ImageButton ibEdit;
     ViewPager viewPager;
-    ImageButton ibAdd;
+  //  ImageButton ibAdd;
 //    ImageView ivItemImage;
 //    ImageButton ibFavoriteOff;
 //    ImageButton ibFavoriteOn;
@@ -100,9 +100,11 @@ public class ProfileActivity extends AppCompatActivity implements ItemsListFragm
     Toolbar toolbar;
 
 
+
     MenuItem miActionProgressItem;
 
-    ParseFile file;
+//    ParseFile file;
+
 
 
     @Override
@@ -144,7 +146,7 @@ public class ProfileActivity extends AppCompatActivity implements ItemsListFragm
         tvCollege = (TextView) findViewById(R.id.tvCollege);
         tvPhone = (TextView) findViewById(R.id.tvContact);
         ibEdit = (ImageButton) findViewById(R.id.ibEdit);
-        ibAdd = (ImageButton) findViewById(R.id.ibAddProfileImage);
+        //ibAdd = (ImageButton) findViewById(R.id.ibAddProfileImage);
 
         ibEdit.setColorFilter(Color.rgb(255, 87, 34));
 
@@ -163,7 +165,7 @@ public class ProfileActivity extends AppCompatActivity implements ItemsListFragm
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         Menu menu = bottomNavigationView.getMenu();
-        MenuItem menuitem = menu.getItem(2);
+        MenuItem menuitem = menu.getItem(3);
         menuitem.setChecked(true);
 
         adapter = new ProfilePagerAdapter(getSupportFragmentManager(), this);
@@ -184,19 +186,19 @@ public class ProfileActivity extends AppCompatActivity implements ItemsListFragm
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if(tab.getPosition() == 0){
+                if (tab.getPosition() == 0) {
                     ProfileTimelineFragment profileTimelineFragment = ProfileTimelineFragment.newInstance();
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.flContainer, profileTimelineFragment);
                     ft.commit();
                 }
-                if(tab.getPosition() == 1){
+                if (tab.getPosition() == 1) {
                     FavoritesFragment favoritesFragment = FavoritesFragment.newInstance();
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.flContainer, favoritesFragment);
                     ft.commit();
                 }
-                if(tab.getPosition() == 2){
+                if (tab.getPosition() == 2) {
                     InterestedFragment interestedFragment = InterestedFragment.newInstance();
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.flContainer, interestedFragment);
@@ -233,17 +235,19 @@ public class ProfileActivity extends AppCompatActivity implements ItemsListFragm
             }
         });
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
-        {
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item)
-            {
-                switch (item.getItemId())
-                {
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
                     case R.id.action_home:
                         Intent i_home = new Intent(ProfileActivity.this, HomeActivity.class);
                         startActivity(i_home);
                         finish();
+                        break;
+
+                    case R.id.action_maps:
+                        Intent i_maps = new Intent(ProfileActivity.this, MapsActivity.class);
+                        startActivity(i_maps);
                         break;
 
 
@@ -258,8 +262,7 @@ public class ProfileActivity extends AppCompatActivity implements ItemsListFragm
                             Intent i_profile = new Intent(ProfileActivity.this, ProfileActivity.class);
                             startActivity(i_profile);
                             finish();
-                        }
-                        else {
+                        } else {
                             Toast.makeText(ProfileActivity.this, "Profile Tab Selected", Toast.LENGTH_SHORT).show();
                             break;
                         }
@@ -271,32 +274,60 @@ public class ProfileActivity extends AppCompatActivity implements ItemsListFragm
 
         populateUserHeadline();
         queryImagesFromParse();
-
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
-            } else {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                        MY_PERMISSIONS_REQUEST_READ_MEDIA);
-            }
-        }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_READ_MEDIA: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                } else {
-                    Toast.makeText(getApplicationContext(), "Permission Denied", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
-    }
+
+//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+//                != PackageManager.PERMISSION_GRANTED) {
+//            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+//                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
+//            } else {
+//                ActivityCompat.requestPermissions(this,
+//                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+//                        MY_PERMISSIONS_REQUEST_READ_MEDIA);
+//            }
+//        }
+//    }
+//
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+//        switch (requestCode) {
+//            case MY_PERMISSIONS_REQUEST_READ_MEDIA: {
+//                // If request is cancelled, the result arrays are empty.
+//                if (grantResults.length > 0
+//                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                } else {
+//                    Toast.makeText(getApplicationContext(), "Permission Denied", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        }
+//
+//
+//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+//                != PackageManager.PERMISSION_GRANTED) {
+//            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+//                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
+//            } else {
+//                ActivityCompat.requestPermissions(this,
+//                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+//                        MY_PERMISSIONS_REQUEST_READ_MEDIA);
+//            }
+//        }
+//    }
+//
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+//        switch (requestCode) {
+//            case MY_PERMISSIONS_REQUEST_READ_MEDIA: {
+//                // If request is cancelled, the result arrays are empty.
+//                if (grantResults.length > 0
+//                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                } else {
+//                    Toast.makeText(getApplicationContext(), "Permission Denied", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        }
+//    }
 
     public void populateUserHeadline () {
         if (getIntent().hasExtra("itemId")) {
@@ -390,6 +421,8 @@ public class ProfileActivity extends AppCompatActivity implements ItemsListFragm
         startActivity(i_home);
     }
 
+//    public void addProfileImage(View view) {
+
     /* @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         // Store instance of the menu item containing progress
@@ -414,37 +447,40 @@ public class ProfileActivity extends AppCompatActivity implements ItemsListFragm
             miActionProgressItem.setVisible(false);
         }
     }
-    public void addProfileImage(View view) {
+//    public void addProfileImage(View view) {
+//
+//        final CharSequence[] items = {"Camera", "Gallery", "Cancel"};
 
-        final CharSequence[] items = {"Camera", "Gallery", "Cancel"};
 
-        AlertDialog.Builder builder= new AlertDialog.Builder(ProfileActivity.this);
-        builder.setTitle("Add Image");
-        builder.setItems(items, new DialogInterface.OnClickListener()
-        {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i)
-            {
-                if(items[i].equals("Camera"))
-                {
-                    Intent callCamera = new Intent();
-                    callCamera.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(callCamera, ACTIVITY_START_CAMERA);
-                }
-                else if(items[i].equals("Gallery"))
-                {
-//                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//                    intent.setType("image/*");
-                    startActivityForResult(galleryPhoto.openGalleryIntent(), ACTIVITY_SELECT_FILE);
-                }
-                else if (items[i].equals("Cancel"))
-                {
-                    dialogInterface.dismiss();
-                }
-            }
-        });
-        builder.show();
-    }
+//        final CharSequence[] items = {"Camera", "Gallery", "Cancel"};
+//
+//        AlertDialog.Builder builder= new AlertDialog.Builder(ProfileActivity.this);
+//        builder.setTitle("Add Image");
+//        builder.setItems(items, new DialogInterface.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i)
+//            {
+//                if(items[i].equals("Camera"))
+//                {
+//                    Intent callCamera = new Intent();
+//                    callCamera.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+//                    startActivityForResult(callCamera, ACTIVITY_START_CAMERA);
+//                }
+//                else if(items[i].equals("Gallery"))
+//                {
+////                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+////                    intent.setType("image/*");
+//                    startActivityForResult(galleryPhoto.openGalleryIntent(), ACTIVITY_SELECT_FILE);
+//                }
+//                else if (items[i].equals("Cancel"))
+//                {
+//                    dialogInterface.dismiss();
+//                }
+//            }
+//        });
+//        builder.show();
+  //  }
 
 
     @Override
@@ -453,95 +489,95 @@ public class ProfileActivity extends AppCompatActivity implements ItemsListFragm
         ItemsListFragment fragment = (ItemsListFragment) adapter.getRegisteredFragment(viewPager.getCurrentItem());
         fragment.activityResult(requestCode, resultCode, data);
 
-        if(resultCode == Activity.RESULT_OK)
-        {
-            if(requestCode == ACTIVITY_START_CAMERA)
-            {
-                //Toast.makeText(this, "picture was taken", Toast.LENGTH_SHORT).show();
-                Bundle extras = data.getExtras();
-                Bitmap photoCaptured = (Bitmap) extras.get("data");
-                ivProfileImage.setImageBitmap(photoCaptured);
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                photoCaptured.compress(Bitmap.CompressFormat.PNG, 50, stream);
-                byte[] image = stream.toByteArray();
-                file = new ParseFile("itemimage.png", image);
-                //file.saveInBackground();
-                user.put("image", file);
-                user.saveInBackground();
-                Toast.makeText(ProfileActivity.this, "Image Uploaded",
-                        Toast.LENGTH_SHORT).show();
-
-
-//                ivEditImage.setVisibility(View.VISIBLE);
-//                ivEditImage.setClickable(true);
+//        if(resultCode == Activity.RESULT_OK)
+//        {
+//            if(requestCode == ACTIVITY_START_CAMERA)
+//            {
+//                //Toast.makeText(this, "picture was taken", Toast.LENGTH_SHORT).show();
+//                Bundle extras = data.getExtras();
+//                Bitmap photoCaptured = (Bitmap) extras.get("data");
+//                ivProfileImage.setImageBitmap(photoCaptured);
+//                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//                photoCaptured.compress(Bitmap.CompressFormat.PNG, 50, stream);
+//                byte[] image = stream.toByteArray();
+//                file = new ParseFile("itemimage.png", image);
+//                //file.saveInBackground();
+//                user.put("image", file);
+//                user.saveInBackground();
+//                Toast.makeText(ProfileActivity.this, "Image Uploaded",
+//                        Toast.LENGTH_SHORT).show();
 //
-//                ivAddImage.setVisibility(View.INVISIBLE);
-//                ivAddImage.setClickable(false);
-            }
-            else if(requestCode == ACTIVITY_SELECT_FILE)
-            {
-                Uri uri = data.getData();
-                galleryPhoto.setPhotoUri(uri);
-
-                String photoPath = galleryPhoto.getPath();
-                selectedPhoto = photoPath;
-                try
-                {
-                    Bitmap bitmap = ImageLoader.init().from(photoPath).requestSize(300,300).getBitmap();
-                    ivProfileImage.setImageBitmap(rotateBitmapOrientation(photoPath));
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 50, stream);
-                    byte[] image = stream.toByteArray();
-                    file = new ParseFile("itemimage.png", image);
-                    file.saveInBackground();
-                    user.put("image", file);
-                    user.saveInBackground();
-                    Toast.makeText(ProfileActivity.this, "Image Uploaded",
-                            Toast.LENGTH_SHORT).show();
 //
-//                    ivEditImage.setVisibility(View.VISIBLE);
-//                    ivEditImage.setClickable(true);
+////                ivEditImage.setVisibility(View.VISIBLE);
+////                ivEditImage.setClickable(true);
+////
+////                ivAddImage.setVisibility(View.INVISIBLE);
+////                ivAddImage.setClickable(false);
+//            }
+//            else if(requestCode == ACTIVITY_SELECT_FILE)
+//            {
+//                Uri uri = data.getData();
+//                galleryPhoto.setPhotoUri(uri);
 //
-//                    ivAddImage.setVisibility(View.INVISIBLE);
-//                    ivAddImage.setClickable(false);
-                }
-                catch (FileNotFoundException e)
-                {
-                    Toast.makeText(getApplicationContext(), "Something went wrong while uploading photo", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-
-        }
+//                String photoPath = galleryPhoto.getPath();
+//                selectedPhoto = photoPath;
+//                try
+//                {
+//                    Bitmap bitmap = ImageLoader.init().from(photoPath).requestSize(300,300).getBitmap();
+//                    ivProfileImage.setImageBitmap(rotateBitmapOrientation(photoPath));
+//                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//                    bitmap.compress(Bitmap.CompressFormat.PNG, 50, stream);
+//                    byte[] image = stream.toByteArray();
+//                    file = new ParseFile("itemimage.png", image);
+//                    file.saveInBackground();
+//                    user.put("image", file);
+//                    user.saveInBackground();
+//                    Toast.makeText(ProfileActivity.this, "Image Uploaded",
+//                            Toast.LENGTH_SHORT).show();
+////
+////                    ivEditImage.setVisibility(View.VISIBLE);
+////                    ivEditImage.setClickable(true);
+////
+////                    ivAddImage.setVisibility(View.INVISIBLE);
+////                    ivAddImage.setClickable(false);
+//                }
+//                catch (FileNotFoundException e)
+//                {
+//                    Toast.makeText(getApplicationContext(), "Something went wrong while uploading photo", Toast.LENGTH_SHORT).show();
+//                }
+//
+//            }
+//
+//        }
     }
 
 
 
-    public Bitmap rotateBitmapOrientation(String photoFilePath) {
-        // Create and configure BitmapFactory
-        BitmapFactory.Options bounds = new BitmapFactory.Options();
-        bounds.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(photoFilePath, bounds);
-        BitmapFactory.Options opts = new BitmapFactory.Options();
-        Bitmap bm = BitmapFactory.decodeFile(photoFilePath, opts);
-        // Read EXIF Data
-        ExifInterface exif = null;
-        try {
-            exif = new ExifInterface(photoFilePath);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        String orientString = exif.getAttribute(ExifInterface.TAG_ORIENTATION);
-        int orientation = orientString != null ? Integer.parseInt(orientString) : ExifInterface.ORIENTATION_NORMAL;
-        int rotationAngle = 0;
-        if (orientation == ExifInterface.ORIENTATION_ROTATE_90) rotationAngle = 90;
-        if (orientation == ExifInterface.ORIENTATION_ROTATE_180) rotationAngle = 180;
-        if (orientation == ExifInterface.ORIENTATION_ROTATE_270) rotationAngle = 270;
-        // Rotate Bitmap
-        Matrix matrix = new Matrix();
-        matrix.setRotate(rotationAngle, (float) bm.getWidth() / 2, (float) bm.getHeight() / 2);
-        Bitmap rotatedBitmap = Bitmap.createBitmap(bm, 0, 0, bounds.outWidth, bounds.outHeight, matrix, true);
-        // Return result
-        return rotatedBitmap;
-    }
+//    public Bitmap rotateBitmapOrientation(String photoFilePath) {
+//        // Create and configure BitmapFactory
+//        BitmapFactory.Options bounds = new BitmapFactory.Options();
+//        bounds.inJustDecodeBounds = true;
+//        BitmapFactory.decodeFile(photoFilePath, bounds);
+//        BitmapFactory.Options opts = new BitmapFactory.Options();
+//        Bitmap bm = BitmapFactory.decodeFile(photoFilePath, opts);
+//        // Read EXIF Data
+//        ExifInterface exif = null;
+//        try {
+//            exif = new ExifInterface(photoFilePath);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        String orientString = exif.getAttribute(ExifInterface.TAG_ORIENTATION);
+//        int orientation = orientString != null ? Integer.parseInt(orientString) : ExifInterface.ORIENTATION_NORMAL;
+//        int rotationAngle = 0;
+//        if (orientation == ExifInterface.ORIENTATION_ROTATE_90) rotationAngle = 90;
+//        if (orientation == ExifInterface.ORIENTATION_ROTATE_180) rotationAngle = 180;
+//        if (orientation == ExifInterface.ORIENTATION_ROTATE_270) rotationAngle = 270;
+//        // Rotate Bitmap
+//        Matrix matrix = new Matrix();
+//        matrix.setRotate(rotationAngle, (float) bm.getWidth() / 2, (float) bm.getHeight() / 2);
+//        Bitmap rotatedBitmap = Bitmap.createBitmap(bm, 0, 0, bounds.outWidth, bounds.outHeight, matrix, true);
+//        // Return result
+//        return rotatedBitmap;
+//    }
 }

@@ -12,6 +12,15 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
@@ -27,6 +36,7 @@ import static com.example.gabbygiordano.marketplace.R.layout.notification;
  */
 
 public class AppNotificationAdapter extends RecyclerView.Adapter<AppNotificationAdapter.ViewHolder> {
+
 
     private List<AppNotification> mAppNotifications;
     AppNotification appNotification;
@@ -49,6 +59,8 @@ public class AppNotificationAdapter extends RecyclerView.Adapter<AppNotification
 
         View itemView = inflater.inflate(notification, parent, false);
         ViewHolder viewHolder = new ViewHolder(itemView);
+
+
 
         return viewHolder;
     }
@@ -85,7 +97,9 @@ public class AppNotificationAdapter extends RecyclerView.Adapter<AppNotification
                 replyToBuyer();
             }
         });
-    }
+
+        }
+
 
     private void replyToBuyer()
     {
@@ -180,5 +194,6 @@ public class AppNotificationAdapter extends RecyclerView.Adapter<AppNotification
             ibReply = itemView.findViewById(R.id.ibReply);
         }
     }
+
 }
 

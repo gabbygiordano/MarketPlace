@@ -19,6 +19,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -27,6 +29,8 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class AppNotificationsActivity extends AppCompatActivity {
 
@@ -83,7 +87,7 @@ public class AppNotificationsActivity extends AppCompatActivity {
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
 
         Menu menu = bottomNavigationView.getMenu();
-        MenuItem menuitem = menu.getItem(1);
+        MenuItem menuitem = menu.getItem(2);
         menuitem.setChecked(true);
 
         mContext = ItemAdapter.getContext();
@@ -99,6 +103,11 @@ public class AppNotificationsActivity extends AppCompatActivity {
                         Intent i_home = new Intent(AppNotificationsActivity.this, HomeActivity.class);
                         startActivity(i_home);
                         finish();
+                        break;
+
+                    case R.id.action_maps:
+                        Intent i_maps = new Intent(AppNotificationsActivity.this, MapsActivity.class);
+                        startActivity(i_maps);
                         break;
 
                     case R.id.action_notifications:
@@ -208,4 +217,6 @@ public class AppNotificationsActivity extends AppCompatActivity {
         i_home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i_home);
     }
+
+
 }

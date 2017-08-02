@@ -32,6 +32,7 @@ import com.parse.ParseUser;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class HomeActivity extends AppCompatActivity implements ItemsListFragment.ProgressListener {
 
@@ -126,7 +127,10 @@ public class HomeActivity extends AppCompatActivity implements ItemsListFragment
                         Toast.makeText(HomeActivity.this, "Home Tab Selected", Toast.LENGTH_SHORT).show();
                         break;
 
-
+                    case R.id.action_maps:
+                        Intent i_maps = new Intent(HomeActivity.this, MapsActivity.class);
+                        startActivity(i_maps);
+                        break;
                     case R.id.action_notifications:
                         Intent i_notifications = new Intent(HomeActivity.this, AppNotificationsActivity.class);
                         startActivity(i_notifications);
@@ -175,7 +179,7 @@ public class HomeActivity extends AppCompatActivity implements ItemsListFragment
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_home, menu);
         MenuItem searchItem = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
@@ -187,7 +191,7 @@ public class HomeActivity extends AppCompatActivity implements ItemsListFragment
                 ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
                 query.include("owner");
                 query.include("favoritesList");
-                query.whereMatches("item_name", "("+text+")", "i");
+                query.whereMatches("item_name", "(" + text + ")", "i");
                 query.orderByDescending("_created_at");
                 query.findInBackground(new FindCallback<Item>() {
                     public void done(List<Item> itemsList, ParseException e) {
@@ -223,19 +227,6 @@ public class HomeActivity extends AppCompatActivity implements ItemsListFragment
 
         });
 
-        MenuItem mapItem = menu.findItem(R.id.miActionMap);
-        mapItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                Intent i = new Intent(HomeActivity.this, MapsActivity.class);
-                startActivity(i);
-
-                return true;
-            }
-        });
-
-
-        // return super.onCreateOptionsMenu(menu);
         return true;
     }
 

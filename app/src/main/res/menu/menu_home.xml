@@ -2,11 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/miActionMap"
-        android:icon="@drawable/ic_action_explore"
-        android:orderInCategory="6"
-        app:showAsAction="always" />
-    <item
         android:id="@+id/miActionProgress"
         android:orderInCategory="100"
         android:title="Loading..."
