@@ -23,15 +23,10 @@
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:layout_margin="5dp"
-            app:srcCompat="@drawable/ic_profile_tab"
             tools:layout_editor_absoluteX="-2dp"
-<<<<<<< HEAD
             tools:layout_editor_absoluteY="2dp"
             app:srcCompat="@drawable/ic_profile_tab"
         />
-=======
-            tools:layout_editor_absoluteY="2dp" />
->>>>>>> 9506ddb095657564bca35c8277fc43efbfed19b8
 
        <!-- <ImageButton
             android:id="@+id/ibAddProfileImage"

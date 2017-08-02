@@ -19,6 +19,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -27,6 +29,8 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class AppNotificationsActivity extends AppCompatActivity {
 
@@ -208,4 +212,6 @@ public class AppNotificationsActivity extends AppCompatActivity {
         i_home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i_home);
     }
+
+
 }

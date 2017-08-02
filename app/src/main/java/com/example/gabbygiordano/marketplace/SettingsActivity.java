@@ -338,12 +338,6 @@ public class SettingsActivity extends AppCompatActivity {
                 user.notify();
                 Toast.makeText(SettingsActivity.this, "Image Uploaded",
                         Toast.LENGTH_SHORT).show();
-
-                ivEditImage.setVisibility(View.VISIBLE);
-                ivEditImage.setClickable(true);
-
-                ibUploadProf.setVisibility(View.INVISIBLE);
-                ibUploadProf.setClickable(false);
             }
             else if(requestCode == ACTIVITY_SELECT_FILE)
             {
@@ -363,12 +357,6 @@ public class SettingsActivity extends AppCompatActivity {
                     file.saveInBackground();
                     Toast.makeText(SettingsActivity.this, "Image Uploaded",
                             Toast.LENGTH_SHORT).show();
-
-                    ivEditImage.setVisibility(View.VISIBLE);
-                    ivEditImage.setClickable(true);
-
-                    ibUploadProf.setVisibility(View.INVISIBLE);
-                    ibUploadProf.setClickable(false);
                 }
                 catch (FileNotFoundException e)
                 {
