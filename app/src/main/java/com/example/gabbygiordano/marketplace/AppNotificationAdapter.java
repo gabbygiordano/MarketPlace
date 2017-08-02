@@ -12,15 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
@@ -94,18 +85,20 @@ public class AppNotificationAdapter extends RecyclerView.Adapter<AppNotification
         holder.ibReply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                replyToBuyer();
+                replyToBuyer(holder);
             }
         });
 
         }
 
 
-    private void replyToBuyer()
+    private void replyToBuyer(RecyclerView.ViewHolder holder)
     {
+        final AppNotification notif = mAppNotifications.get(holder.getAdapterPosition());
         final CharSequence[] items = {"Message", "Email", "Cancel"};
 
-        AlertDialog.Builder builder= new AlertDialog.Builder(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Reply to " + notif.getBuyer().getString("name"));
         builder.setItems(items, new DialogInterface.OnClickListener()
         {
             @Override
@@ -113,7 +106,7 @@ public class AppNotificationAdapter extends RecyclerView.Adapter<AppNotification
             {
                 if(items[i].equals("Message"))
                 {
-                    String buyerPhone = appNotification.getBuyer().get("phone").toString();
+                    String buyerPhone = notif.getBuyer().get("phone").toString();
 
                     Uri smsUri = Uri.parse("tel:" + buyerPhone);
                     Intent intent = new Intent(Intent.ACTION_VIEW, smsUri);
@@ -129,8 +122,8 @@ public class AppNotificationAdapter extends RecyclerView.Adapter<AppNotification
                     Intent intent = new Intent(Intent.ACTION_SEND);
                     intent.setType("plain/text");
 
-                    String buyerEmail = appNotification.getBuyer().getString("publicEmail");
-                    String itemName = appNotification.getItem().getItemName();
+                    String buyerEmail = notif.getBuyer().getString("publicEmail");
+                    String itemName = notif.getItem().getItemName();
 
                     intent.putExtra(Intent.EXTRA_EMAIL, new String[] {buyerEmail});
                     intent.putExtra(Intent.EXTRA_SUBJECT, "MarketPlace request for " + itemName);
