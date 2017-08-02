@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
+import android.location.Location;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -31,12 +32,13 @@ import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.kosalgeek.android.photoutil.CameraPhoto;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.kosalgeek.android.photoutil.GalleryPhoto;
 import com.kosalgeek.android.photoutil.ImageLoader;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -50,7 +52,7 @@ import static com.example.gabbygiordano.marketplace.R.color.colorGold;
 
 public class AddItemActivity extends AppCompatActivity {
 
-    private static final int MY_PERMISSIONS_REQUEST_READ_MEDIA = 1 ;
+    private static final int MY_PERMISSIONS_REQUEST_READ_MEDIA = 1;
     final int ACTIVITY_START_CAMERA = 1100;
     final int ACTIVITY_SELECT_FILE = 2200;
     private final String TAG = this.getClass().getName();
@@ -82,11 +84,17 @@ public class AddItemActivity extends AppCompatActivity {
 
     Item item;
 
+    private FusedLocationProviderClient mFusedLocationClient;
+    double latitude;
+    double longitude;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
         getSupportActionBar().setTitle("Add Item to Marketplace");
+
+        getLastLocation();
 
         galleryPhoto = new GalleryPhoto(getApplicationContext());
 
@@ -101,8 +109,8 @@ public class AddItemActivity extends AppCompatActivity {
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
 
-      //  ivAddImage.bringToFront();
-      //  ivEditImage.bringToFront();
+        //  ivAddImage.bringToFront();
+        //  ivEditImage.bringToFront();
 
         LayerDrawable stars = (LayerDrawable) ratingBar.getProgressDrawable();
         stars.getDrawable(2).setColorFilter(getResources().getColor(colorGold), PorterDuff.Mode.SRC_ATOP);
@@ -128,7 +136,7 @@ public class AddItemActivity extends AppCompatActivity {
                 } else if (Double.valueOf(price) > 5000.0) {
                     Toast.makeText(getApplicationContext(), "Maximum price $5000", Toast.LENGTH_LONG).show();
                     flag = true;
-                } else if (file == null ) {
+                } else if (file == null) {
                     Toast.makeText(getApplicationContext(), "Upload image file", Toast.LENGTH_LONG).show();
                     flag = true;
                 } else if ((int) ratingBar.getRating() == 0) {
@@ -138,7 +146,7 @@ public class AddItemActivity extends AppCompatActivity {
                     int con = (int) ratingBar.getRating();
                     ParseUser currentUser = ParseUser.getCurrentUser();
 
-                    item = new Item(name, description, price, con, currentUser, type, file);
+                    item = new Item(name, description, price, con, currentUser, type, file, latitude, longitude);
                     item.setOwner(ParseUser.getCurrentUser());
                 }
 
@@ -166,13 +174,10 @@ public class AddItemActivity extends AppCompatActivity {
 
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
-        {
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item)
-            {
-                switch (item.getItemId())
-                {
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
                     case R.id.action_home:
                         //Toast.makeText(HomeActivity.this, "Home Tab Selected", Toast.LENGTH_SHORT).show();
                         Intent i_home = new Intent(AddItemActivity.this, HomeActivity.class);
@@ -223,6 +228,28 @@ public class AddItemActivity extends AppCompatActivity {
         }
     }
 
+    public void getLastLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            latitude = Double.NaN;
+            longitude = Double.NaN;
+        }
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        mFusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        // Got last known location. In some rare situations this can be null.
+                        if (location != null) {
+                            latitude = location.getLatitude();
+                            longitude = location.getLongitude();
+                        } else {
+                            latitude = Double.NaN;
+                            longitude = Double.NaN;
+                        }
+                    }
+                });
+    }
 
     public void onPostSuccess() {
         // save the item

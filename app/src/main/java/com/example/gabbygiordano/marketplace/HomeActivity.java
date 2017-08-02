@@ -222,6 +222,19 @@ public class HomeActivity extends AppCompatActivity implements ItemsListFragment
             //}
 
         });
+
+        MenuItem mapItem = menu.findItem(R.id.miActionMap);
+        mapItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                Intent i = new Intent(HomeActivity.this, MapsActivity.class);
+                startActivity(i);
+
+                return true;
+            }
+        });
+
+
         // return super.onCreateOptionsMenu(menu);
         return true;
     }

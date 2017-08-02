@@ -41,12 +41,16 @@ dependencies {
     compile files('PhotoUtil.jar')
 
     // live queries
-    compile 'com.parse:parse-livequery-android:1.0.4'
+    
 
     // picasso
-    compile 'com.squareup.picasso:picasso:2.5.2'
-
+    
     compile 'com.parse:parse-livequery-android:1.0.4'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    
+    
+    compile 'com.parse:parse-livequery-android:1.0.4'
+    compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.parse.bolts:bolts-android:1.4.0'
@@ -59,8 +63,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-location:11.0.1'
     compile 'com.github.bumptech.glide:glide:3.8.0'
     compile 'jp.wasabeef:glide-transformations:2.0.2'
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    annotationProcessor 'org.parceler:parceler:1.1.6'
-
     compile 'com.github.jd-alexander:LikeButton:0.2.1'
+    compile 'com.google.android.gms:play-services-maps:11.0.1'
+    annotationProcessor 'org.parceler:parceler:1.1.6'
 }

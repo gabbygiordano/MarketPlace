@@ -13,7 +13,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 import static com.example.gabbygiordano.marketplace.R.layout.notification;
 
@@ -28,8 +33,6 @@ public class AppNotificationAdapter extends RecyclerView.Adapter<AppNotification
 
     Context context;
     static Context mContext;
-
-    String buyer;
 
     // pass Items array into constructor
     public AppNotificationAdapter(List<AppNotification> appNotifications, Context context) {
@@ -60,7 +63,21 @@ public class AppNotificationAdapter extends RecyclerView.Adapter<AppNotification
         holder.tvBuyerName.setText(appNotification.getBuyer().getString("name"));
         holder.tvInterestItem.setText(appNotification.getItem().getString("item_name"));
 
-        buyer = appNotification.getBuyer().getString("name");
+        if (appNotification.getBuyer().getParseFile("image") != null) {
+            String imgUri = appNotification.getBuyer().getParseFile("image").getUrl();
+            Glide
+                    .with(context)
+                    .load(imgUri)
+                    .bitmapTransform(new CenterCrop(context), new RoundedCornersTransformation(context, 20, 0))
+                    .into(holder.ivProfileImage);
+        } else {
+            Glide
+                    .with(context)
+                    .load(R.drawable.ic_profile_tab)
+                    .error(R.drawable.ic_profile_tab)
+                    .placeholder(R.drawable.ic_profile_tab)
+                    .into(holder.ivProfileImage);
+        }
 
         holder.ibReply.setOnClickListener(new View.OnClickListener() {
             @Override

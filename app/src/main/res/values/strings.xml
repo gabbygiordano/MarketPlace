@@ -9,6 +9,8 @@
     <string name="message_hint">Type message here</string>
     <string name="send">Send</string>
 
+    <string name="google_maps_api_key">AIzaSyAWcaI7Wzr0yF2gSozRvnbaJ5-p8QPbot8</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
