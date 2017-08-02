@@ -71,6 +71,7 @@ public class FavoritesFragment extends ItemsListFragment {
         ParseUser user = ParseUser.getCurrentUser();
         ArrayList<String> favs = (ArrayList<String>) user.get("favoriteItems");
 
+
         ParseQuery<Item> query = ParseQuery.getQuery("Item");
         query.include("owner");
         query.include("image");
