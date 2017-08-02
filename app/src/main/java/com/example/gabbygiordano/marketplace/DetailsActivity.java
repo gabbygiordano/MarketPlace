@@ -204,7 +204,7 @@ public class DetailsActivity extends AppCompatActivity {
                     // something went wrong
                 }
 
-                //hideProgressBar();
+                hideProgressBar();
 
 
             }

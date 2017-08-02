@@ -24,10 +24,14 @@ import java.util.List;
 
 public class AllTimelineFragment extends ItemsListFragment {
 
+    MenuItem miActionProgressItem;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
 
         setRetainInstance(true);
 
@@ -36,6 +40,7 @@ public class AllTimelineFragment extends ItemsListFragment {
 
     @Override
     public void populateTimeline() {
+        ((ProgressListener) getActivity()).showProgressBar();
         ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
         query.include("owner");
         query.include("image");
@@ -44,6 +49,7 @@ public class AllTimelineFragment extends ItemsListFragment {
         query.setSkip(page * limit); // skip first (page * 20) items
         query.findInBackground(new FindCallback<Item>() {
             public void done(List<Item> itemsList, ParseException e) {
+                ((ProgressListener) getActivity()).hideProgressBar();
                 if (e == null) {
                     if (itemsList != null && !itemsList.isEmpty()) {
                         addItems(itemsList);
@@ -54,11 +60,11 @@ public class AllTimelineFragment extends ItemsListFragment {
                 }
             }
         });
-
     }
 
     @Override
     public void fetchTimelineAsync(int page) {
+        ((ProgressListener) getActivity()).showProgressBar();
         ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
         query.include("owner");
         query.include("image");
@@ -67,6 +73,7 @@ public class AllTimelineFragment extends ItemsListFragment {
         query.setSkip(page * limit); // skip first (page * 20) items
         query.findInBackground(new FindCallback<Item>() {
             public void done(List<Item> itemsList, ParseException e) {
+                ((ProgressListener) getActivity()).hideProgressBar();
                 if (e == null) {
                     if (itemsList != null && !itemsList.isEmpty()) {
                         refreshItems(itemsList);
@@ -79,8 +86,6 @@ public class AllTimelineFragment extends ItemsListFragment {
             }
         });
     }
-
-    MenuItem miActionProgressItem;
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
