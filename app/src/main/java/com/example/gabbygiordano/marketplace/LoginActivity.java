@@ -68,6 +68,7 @@ public class LoginActivity extends AppCompatActivity {
                     // Hooray! The user is logged in.
                     Intent i = new Intent(getApplicationContext(), HomeActivity.class);
                     startActivity(i);
+                    overridePendingTransition(R.anim.right_in, R.anim.left_out);
                 } else {
                     // Signup failed. Look at the ParseException to see what happened.
                      Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
