@@ -108,6 +108,7 @@ public class AppNotificationsActivity extends AppCompatActivity {
                     case R.id.action_maps:
                         Intent i_maps = new Intent(AppNotificationsActivity.this, MapsActivity.class);
                         startActivity(i_maps);
+                        finish();
                         break;
 
                     case R.id.action_notifications:
