@@ -1,7 +1,6 @@
 package com.example.gabbygiordano.marketplace;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -165,6 +164,8 @@ public class MapsActivity extends AppCompatActivity {
                         LatLng listingPosition = new LatLng(objects.get(i).getLatitute(), objects.get(i).getLongitude());
                         // Create the marker on the fragment
                         Marker marker = googleMap.addMarker(new MarkerOptions().position(listingPosition));
+                        marker.setTitle(objects.get(i).getItemName());
+                        marker.setSnippet(objects.get(i).getDescription());
                         dropPinEffect(marker);
                     }
                 }
