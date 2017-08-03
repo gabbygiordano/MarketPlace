@@ -27,18 +27,7 @@
             tools:layout_editor_absoluteY="2dp"
             app:srcCompat="@drawable/ic_profile_tab"
         />
-
-       <!-- <ImageButton
-            android:id="@+id/ibAddProfileImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:onClick="addProfileImage"
-            app:srcCompat="@drawable/ic_add_img"
-            android:layout_margin="2dp"
-            android:layout_alignBottom="@+id/ivProfileImage"
-            android:layout_alignRight="@+id/ivProfileImage"
-            android:layout_alignEnd="@+id/ivProfileImage" />-->
+        
 
         <ImageButton
             android:id="@+id/ibEdit"
