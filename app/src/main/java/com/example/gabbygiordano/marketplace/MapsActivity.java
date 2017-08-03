@@ -13,10 +13,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.animation.BounceInterpolator;
 import android.widget.Toast;
 
@@ -222,19 +220,14 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMapLo
     // Fires when a long press happens on the map
     @Override
     public void onMapLongClick(final LatLng point) {
-        Toast.makeText(this, "Long Press", Toast.LENGTH_LONG).show();
         showAlertDialogForPoint(point);
     }
 
     // Display the alert that adds the marker
     private void showAlertDialogForPoint(final LatLng point) {
-        // inflate alert_item.xml view
-        View messageView = LayoutInflater.from(MapsActivity.this).inflate(R.layout.alert_item, null);
-
         // Create alert dialog builder
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        // set message_item.xml to AlertDialog builder
-        alertDialogBuilder.setView(messageView);
+        alertDialogBuilder.setTitle("Add item here?");
 
         // Create alert dialog
         final AlertDialog alertDialog = alertDialogBuilder.create();

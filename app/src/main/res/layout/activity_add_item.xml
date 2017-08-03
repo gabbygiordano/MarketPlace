@@ -203,6 +203,12 @@
             android:text="Add Item"
             android:textColor="#ffffff" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_above="@id/bottomNavigation"
+            android:background="@drawable/shadow"/>
+
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/bottomNavigation"
             android:layout_width="match_parent"

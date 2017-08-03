@@ -219,7 +219,6 @@ public class DetailsActivity extends AppCompatActivity {
                 ParseUser current = ParseUser.getCurrentUser();
                 if (owner.getObjectId().equals(current.getObjectId())) {
                     Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
-                    i.putExtra("itemId", parseItem.getObjectId());
                     startActivity(i);
                     finish();
                 } else {
