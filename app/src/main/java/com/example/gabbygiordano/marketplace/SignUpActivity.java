@@ -397,6 +397,7 @@ public class SignUpActivity extends AppCompatActivity {
                     // Hooray! Let them use the app now.
                     Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                     startActivity(intent);
+                    overridePendingTransition(R.anim.right_in, R.anim.left_out);
                 } else {
                     // Sign up didn't succeed. Look at the ParseException
                     // to figure out what went wrong
