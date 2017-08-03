@@ -25,6 +25,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.kosalgeek.android.photoutil.CameraPhoto;
 import com.kosalgeek.android.photoutil.GalleryPhoto;
 import com.kosalgeek.android.photoutil.ImageLoader;
 import com.parse.FindCallback;
@@ -38,6 +40,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
+
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -96,9 +101,9 @@ public class SettingsActivity extends AppCompatActivity {
         tvName = (TextView) findViewById(R.id.tvName);
         tvPhone = (TextView) findViewById(R.id.tvPhone);
         tvEmail = (TextView) findViewById(R.id.tvEmail);
+        ivImage = (ImageView) findViewById(R.id.ivImage);
         ibUploadProf = (ImageButton) findViewById(R.id.ibUploadProf);
         ivEditImage = (ImageView) findViewById(R.id.ivEditImage);
-        ivImage = (ImageView) findViewById(R.id.ivImage);
         tvUsername = (TextView) findViewById(R.id.tvUsername);
 //        tvUploadProf = (TextView) findViewById(R.id.tvUploadProf);
 //        ibUploadProf = (ImageButton) findViewById(R.id.ibUploadProf);
@@ -215,39 +220,6 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
 
-    private void queryImagesFromParse(){
-        ParseQuery<ParseObject> imagesQuery = new ParseQuery<>("User");
-        imagesQuery.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> imagesItems, ParseException e) {
-                if(e == null){
-
-                    ParseUser userCurrentOfParse = ParseUser.getCurrentUser();
-                    if(userCurrentOfParse != null) {
-                        if(userCurrentOfParse.getParseFile("image") != null) {
-                            final String imgUrl = userCurrentOfParse.getParseFile("image").getUrl();
-                            Glide.with(getApplicationContext()).load(imgUrl).into(ivImage);
-                        }
-                        else
-                        {
-
-                            Glide.with(getApplicationContext()).load(R.drawable.ic_profile_tab).into(ivImage);
-                        }
-
-                        //imageUploadPassed.pinInBackground();
-
-                        // profileImageId = imageUploadPassed.getObjectId();
-                        //Log.d(TAG, "The object id is: " + profileImageId);
-                    }
-
-                }else{
-                    Toast.makeText(SettingsActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-    }
-
-
     public void addProfilePhoto(View view) {
         final CharSequence[] items = {"Camera", "Gallery", "Cancel"};
 
@@ -314,10 +286,8 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
 
-        if(resultCode == Activity.RESULT_OK)
-        {
-            if(requestCode == ACTIVITY_START_CAMERA)
-            {
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == ACTIVITY_START_CAMERA) {
                 //Toast.makeText(this, "picture was taken", Toast.LENGTH_SHORT).show();
                 Bundle extras = data.getExtras();
                 Bitmap photoCaptured = (Bitmap) extras.get("data");
@@ -326,41 +296,50 @@ public class SettingsActivity extends AppCompatActivity {
                 photoCaptured.compress(Bitmap.CompressFormat.PNG, 50, stream);
                 byte[] image = stream.toByteArray();
                 file = new ParseFile("itemimage.png", image);
-                file.saveInBackground();
-                user.put("image", image);
+                //file.saveInBackground();
+                user.put("image", file);
                 user.saveInBackground();
-                user.notify();
                 Toast.makeText(SettingsActivity.this, "Image Uploaded",
                         Toast.LENGTH_SHORT).show();
-            }
-            else if(requestCode == ACTIVITY_SELECT_FILE)
-            {
+
+
+//                ivEditImage.setVisibility(View.VISIBLE);
+//                ivEditImage.setClickable(true);
+//
+//                ivAddImage.setVisibility(View.INVISIBLE);
+//                ivAddImage.setClickable(false);
+            } else if (requestCode == ACTIVITY_SELECT_FILE) {
                 Uri uri = data.getData();
                 galleryPhoto.setPhotoUri(uri);
 
                 String photoPath = galleryPhoto.getPath();
                 selectedPhoto = photoPath;
-                try
-                {
-                    Bitmap bitmap = ImageLoader.init().from(photoPath).requestSize(300,300).getBitmap();
+                try {
+                    Bitmap bitmap = ImageLoader.init().from(photoPath).requestSize(300, 300).getBitmap();
                     ivImage.setImageBitmap(rotateBitmapOrientation(photoPath));
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.PNG, 50, stream);
                     byte[] image = stream.toByteArray();
                     file = new ParseFile("itemimage.png", image);
                     file.saveInBackground();
+                    user.put("image", file);
+                    user.saveInBackground();
                     Toast.makeText(SettingsActivity.this, "Image Uploaded",
                             Toast.LENGTH_SHORT).show();
-                }
-                catch (FileNotFoundException e)
-                {
-                    Toast.makeText(getApplicationContext(), "Something went wrong while uploading photo", Toast.LENGTH_SHORT).show();
-                }
 
+//                    ivEditImage.setVisibility(View.VISIBLE);
+//                    ivEditImage.setClickable(true);
+//
+//                    ivAddImage.setVisibility(View.INVISIBLE);
+//                    ivAddImage.setClickable(false);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    {
+                        // Toast.makeText(getApplicationContext(), "Something went wrong while uploading photo", Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
-
         }
-
     }
 
     public Bitmap rotateBitmapOrientation(String photoFilePath) {
@@ -391,6 +370,41 @@ public class SettingsActivity extends AppCompatActivity {
         return rotatedBitmap;
     }
 
+    private void queryImagesFromParse(){
+        ParseQuery<ParseObject> imagesQuery = new ParseQuery<>("User");
+        imagesQuery.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> imagesItems, ParseException e) {
+                if(e == null){
+
+                    ParseUser userCurrentOfParse = ParseUser.getCurrentUser();
+                    if(userCurrentOfParse != null) {
+                        if(userCurrentOfParse.getParseFile("image") != null) {
+                            final String imgUrl = userCurrentOfParse.getParseFile("image").getUrl();
+                            ivImage = (ImageView) findViewById(R.id.ivImage);
+                            Glide
+                                    .with(context)
+                                    .load(imgUrl)
+                                    .bitmapTransform(new CenterCrop(context), new RoundedCornersTransformation(context, 20, 0))
+                                    .into(ivImage);
+                        }
+                        else
+                        {
+                            ivImage = (ImageView) findViewById(R.id.ivImage);
+                        }
+
+                        //imageUploadPassed.pinInBackground();
+
+                        // profileImageId = imageUploadPassed.getObjectId();
+                        //Log.d(TAG, "The object id is: " + profileImageId);
+                    }
+
+                }else{
+                    Toast.makeText(SettingsActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
 }
 
 
