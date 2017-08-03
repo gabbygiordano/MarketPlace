@@ -150,6 +150,15 @@
             app:itemTextColor="@drawable/item_color_state"
             app:menu="@menu/bottom_navigation_main" />
 
+        <TextView
+            android:id="@+id/tvEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/linearLayout"
+            android:layout_alignEnd="@+id/ibEdit"
+            android:layout_alignRight="@+id/ibEdit"
+            android:text="Email" />
+
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -48,6 +48,7 @@ public class FavoritesFragment extends ItemsListFragment {
             query.include("owner");
             query.include("image");
             query.whereContainedIn("objectId", favs);
+            query.orderByDescending("created_at");
             query.setLimit(limit); // 20 items per page
             query.setSkip(page * limit); // skip first (page * 20) items
             query.findInBackground(new FindCallback<Item>() {
@@ -76,6 +77,7 @@ public class FavoritesFragment extends ItemsListFragment {
         query.include("owner");
         query.include("image");
         query.whereContainedIn("objectId", favs);
+        query.orderByDescending("created_at");
         query.setLimit(limit); // 20 items per page
         query.setSkip(page * limit); // skip first (page * 20) items
         query.findInBackground(new FindCallback<Item>() {

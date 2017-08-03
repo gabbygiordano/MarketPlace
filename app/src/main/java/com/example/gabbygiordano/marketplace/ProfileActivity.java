@@ -52,6 +52,7 @@ public class ProfileActivity extends AppCompatActivity implements ItemsListFragm
     TextView tvUsername;
     TextView tvCollege;
     TextView tvPhone;
+    TextView tvEmail;
     ImageButton ibEdit;
     ViewPager viewPager;
     ImageButton ibAdd;
@@ -119,6 +120,7 @@ public class ProfileActivity extends AppCompatActivity implements ItemsListFragm
         tvCollege = (TextView) findViewById(R.id.tvCollege);
         tvPhone = (TextView) findViewById(R.id.tvContact);
         ibEdit = (ImageButton) findViewById(R.id.ibEdit);
+        tvEmail = (TextView) findViewById(R.id.tvEmail);
 
         ibEdit.setColorFilter(Color.rgb(255, 87, 34));
 
@@ -279,7 +281,8 @@ public class ProfileActivity extends AppCompatActivity implements ItemsListFragm
                 tvCollege.setText(user.getString("college"));
                 String formattedNumber = PhoneNumberUtils.formatNumber(String.valueOf(user.getLong("phone")));
                 String email = user.getEmail();
-                tvPhone.setText(email + ", " + formattedNumber);
+                tvPhone.setText(formattedNumber);
+                tvEmail.setText(email);
             }
         }
     }
