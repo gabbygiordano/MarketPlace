@@ -47,6 +47,10 @@
         android:layout_weight="1"
         android:background="@android:color/white" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@drawable/shadow"/>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottomNavigation"
@@ -56,8 +60,7 @@
         app:itemIconTint="@drawable/item_color_state"
         app:itemTextColor="@drawable/item_color_state"
         app:menu="@menu/bottom_navigation_main"
-        android:layout_alignBottom="@+id/floa"
-
+        app:elevation="12dp"
         />
 </LinearLayout>
 

@@ -60,7 +60,6 @@
         <!-- android:theme="@style/ProfileTheme"/> -->
         <activity android:name=".DetailsActivity" />
         <activity android:name=".SettingsActivity" />
-        <activity android:name=".InboxActivity" />
 
         <service
             android:name=".NotificationService"

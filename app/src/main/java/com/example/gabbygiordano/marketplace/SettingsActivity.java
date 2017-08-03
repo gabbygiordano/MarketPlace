@@ -1,6 +1,5 @@
 package com.example.gabbygiordano.marketplace;
 
-import android.content.Context;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
@@ -36,12 +35,10 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -222,7 +219,6 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
     }
-
 
     public void addProfilePhoto(View view) {
         final CharSequence[] items = {"Camera", "Gallery", "Cancel"};
