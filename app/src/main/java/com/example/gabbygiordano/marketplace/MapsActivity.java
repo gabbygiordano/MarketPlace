@@ -129,8 +129,9 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMapLo
             mMap.getUiSettings().setCompassEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(true);
             mMap.getUiSettings().setRotateGesturesEnabled(true);
-            mMap.getUiSettings().setZoomControlsEnabled(true);
+            //mMap.getUiSettings().setZoomControlsEnabled(true);
             mMap.getUiSettings().setTiltGesturesEnabled(true);
+            //mMap.getUiSettings().setMapToolbarEnabled(true);
 
             mMap.setOnMapLongClickListener(this);
             mMap.setOnInfoWindowClickListener(this);

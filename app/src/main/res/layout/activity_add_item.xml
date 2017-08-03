@@ -35,13 +35,12 @@
                     android:id="@+id/ivAddImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_above="@+id/tvItemName"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_margin="5dp"
                     android:background="@android:color/transparent"
                     android:onClick="addImage"
-                    app:srcCompat="@drawable/ic_add_img" />
+                    app:srcCompat="@drawable/ic_add_img"
+                    android:layout_alignBottom="@+id/ivEditImage"
+                    android:layout_alignLeft="@+id/ivEditImage"
+                    android:layout_alignStart="@+id/ivEditImage" />
 
                 <ImageView
                     android:id="@+id/ivEditImage"
@@ -62,56 +61,57 @@
                     android:id="@+id/tvItemName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
                     android:layout_alignParentLeft="true"
-                    android:layout_alignParentRight="true"
                     android:layout_alignParentStart="true"
                     android:layout_below="@+id/ivImage"
-                    android:layout_margin="5dp"
-                    android:backgroundTint="@color/SecondaryDark"
+                    android:backgroundTint="@color/Secondary500"
                     android:ems="10"
                     android:hint="Item Name"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
 
                 <EditText
                     android:id="@+id/tvItemDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
                     android:layout_alignParentLeft="true"
-                    android:layout_alignParentRight="true"
                     android:layout_alignParentStart="true"
                     android:layout_below="@+id/tvItemName"
                     android:layout_marginBottom="5dp"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:backgroundTint="@color/SecondaryDark"
+                    android:backgroundTint="@color/Secondary500"
                     android:ems="10"
                     android:hint="Item Description"
-                    android:inputType="textMultiLine" />
+                    android:inputType="textMultiLine"
+                    android:layout_alignRight="@+id/tvItemName"
+                    android:layout_alignEnd="@+id/tvItemName" />
 
                 <EditText
                     android:id="@+id/tvItemPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
                     android:layout_alignParentLeft="true"
-                    android:layout_alignParentRight="true"
                     android:layout_alignParentStart="true"
                     android:layout_below="@+id/tvItemDescription"
                     android:layout_marginBottom="5dp"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:backgroundTint="@color/SecondaryDark"
+                    android:backgroundTint="@color/Secondary500"
                     android:ems="10"
                     android:hint="Item Price"
-                    android:inputType="numberDecimal" />
+                    android:inputType="numberDecimal"
+                    android:layout_alignRight="@+id/tvItemDescription"
+                    android:layout_alignEnd="@+id/tvItemDescription" />
 
                 <TextView
                     android:id="@+id/tvCondition"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/SecondaryDark"
+                    android:backgroundTint="@color/Secondary500"
                     android:text="Condition:"
                     android:textColor="@android:color/black"
                     android:textSize="18sp"
@@ -131,22 +131,8 @@
                     android:layout_below="@+id/tvCondition"
                     android:layout_marginLeft="5dp"
                     android:layout_toStartOf="@+id/conditionOptions"
-                    android:backgroundTint="@color/SecondaryDark"
+                    android:backgroundTint="@color/Secondary500"
                     android:text="1 = poor, 5 = like new"
-                    android:textSize="10sp" />
-
-                <Spinner
-                    android:id="@+id/conditionOptions"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tvItemPrice"
-                    android:layout_toEndOf="@+id/tvCondition"
-                    android:layout_toRightOf="@+id/tvCondition"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:backgroundTint="@color/SecondaryDark"
-                    android:text="1: poor, 5: like new"
                     android:textSize="10sp" />
 
                 <Spinner
@@ -156,8 +142,9 @@
                     android:layout_alignLeft="@+id/ratingBar"
                     android:layout_alignStart="@+id/ratingBar"
                     android:layout_below="@+id/ratingBar"
-                    android:layout_toEndOf="@+id/textView3"
-                    android:backgroundTint="@color/SecondaryDark" />
+                    android:backgroundTint="@color/Secondary500"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
 
                 <TextView
                     android:id="@+id/textView"
@@ -171,8 +158,7 @@
                     android:layout_marginBottom="5dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
-
-                    android:backgroundTint="@color/SecondaryDark"
+                    android:backgroundTint="@color/Secondary500"
                     android:text="Category:"
                     android:textColor="@android:color/black"
                     android:textSize="18sp" />
@@ -192,21 +178,10 @@
 
         </ScrollView>
 
-        <Button
-            android:id="@+id/ibPostItem"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/bottomNavigation"
-            android:layout_alignParentRight="true"
-            android:backgroundTint="@color/Secondary500"
-            android:clickable="true"
-            android:text="Add Item"
-            android:textColor="#ffffff" />
-
         <View
             android:layout_width="match_parent"
             android:layout_height="4dp"
-            android:layout_above="@id/bottomNavigation"
+            android:layout_above="@+id/bottomNavigation"
             android:background="@drawable/shadow"/>
 
         <android.support.design.widget.BottomNavigationView
@@ -220,5 +195,16 @@
             app:menu="@menu/bottom_navigation_main" />
 
     </RelativeLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:src="@drawable/ic_add_white_horn"
+        app:backgroundTint="@color/Secondary500"
+        app:layout_anchor="@id/ivImage"
+        app:layout_anchorGravity="bottom|right|end" />
 
 </android.support.design.widget.CoordinatorLayout>

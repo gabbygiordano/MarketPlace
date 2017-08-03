@@ -1,27 +1,14 @@
 package com.example.gabbygiordano.marketplace;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.Matrix;
-import android.media.ExifInterface;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
@@ -42,19 +29,13 @@ import com.example.gabbygiordano.marketplace.fragments.InterestedFragment;
 import com.example.gabbygiordano.marketplace.fragments.ItemsListFragment;
 import com.example.gabbygiordano.marketplace.fragments.ProfilePagerAdapter;
 import com.example.gabbygiordano.marketplace.fragments.ProfileTimelineFragment;
-import com.kosalgeek.android.photoutil.GalleryPhoto;
-import com.kosalgeek.android.photoutil.ImageLoader;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -346,7 +327,7 @@ public class ProfileActivity extends AppCompatActivity implements ItemsListFragm
 
     public void addItem(View view) {
         Intent i_add = new Intent(context, AddItemActivity.class);
-        ((HomeActivity) mContext).startActivityForResult(i_add, ADD_ITEM_REQUEST);
+        startActivityForResult(i_add, ADD_ITEM_REQUEST);
     }
 
     @Override
