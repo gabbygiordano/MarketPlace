@@ -34,11 +34,12 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
+import java.util.HashMap;
 import java.util.List;
 
 import static com.example.gabbygiordano.marketplace.R.id.map;
 
-public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMapLongClickListener{
+public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMapLongClickListener, GoogleMap.OnInfoWindowClickListener{
 
     MapFragment mapFragment;
     FusedLocationProviderClient mFusedLocationClient;
@@ -47,6 +48,8 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMapLo
     int ADD_ITEM_REQUEST = 10;
 
     GoogleMap mMap;
+
+    private HashMap<String, Item> markers= new HashMap<String, Item>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,8 +129,12 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMapLo
             mMap.getUiSettings().setCompassEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(true);
             mMap.getUiSettings().setRotateGesturesEnabled(true);
+            //mMap.getUiSettings().setZoomControlsEnabled(true);
+            mMap.getUiSettings().setTiltGesturesEnabled(true);
+            //mMap.getUiSettings().setMapToolbarEnabled(true);
 
             mMap.setOnMapLongClickListener(this);
+            mMap.setOnInfoWindowClickListener(this);
 
             getCurrentLocation();
         }
@@ -177,8 +184,9 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMapLo
                         // Create the marker on the fragment
                         Marker marker = mMap.addMarker(new MarkerOptions().position(listingPosition));
                         marker.setTitle(objects.get(i).getItemName());
-                        marker.setSnippet(objects.get(i).getDescription());
+                        // marker.setSnippet(objects.get(i).getDescription());
                         dropPinEffect(marker);
+                        markers.put(marker.getId(), objects.get(i));
                     }
                 }
             }
@@ -215,6 +223,15 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMapLo
                 }
             }
         });
+    }
+
+    // Fires when info window for a marker is clicked
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        Item mapItem = (Item) markers.get(marker.getId());
+        Intent i = new Intent(MapsActivity.this, DetailsActivity.class);
+        i.putExtra("ID", mapItem.getObjectId());
+        startActivity(i);
     }
 
     // Fires when a long press happens on the map
