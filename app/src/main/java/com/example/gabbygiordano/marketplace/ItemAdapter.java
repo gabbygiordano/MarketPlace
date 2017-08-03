@@ -1,11 +1,9 @@
 package com.example.gabbygiordano.marketplace;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -250,9 +248,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             String id = thisItem.getObjectId();
             Intent i = new Intent(context, DetailsActivity.class);
             i.putExtra("ID", id);
-
-            String name = "sharedActivityTransition";
-            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context, ivItemImage, name);
 
             context.startActivity(i);
         }

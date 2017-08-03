@@ -1,6 +1,8 @@
 package com.example.gabbygiordano.marketplace;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,15 +19,17 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -65,9 +69,9 @@ public class AddItemActivity extends AppCompatActivity {
     EditText etItemPrice;
     ImageView ivAddImage;
     ImageView ivEditImage;
-    Button ibPostItem;
     ImageView ivImage;
     RatingBar ratingBar;
+    FloatingActionButton fab;
 
     BottomNavigationView bottomNavigationView;
 
@@ -87,6 +91,8 @@ public class AddItemActivity extends AppCompatActivity {
     private FusedLocationProviderClient mFusedLocationClient;
     double latitude;
     double longitude;
+
+    //private Transition.TransitionListener mEnterTransitionListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,10 +115,10 @@ public class AddItemActivity extends AppCompatActivity {
         etItemPrice = (EditText) findViewById(R.id.tvItemPrice);
         ivAddImage = (ImageView) findViewById(R.id.ivAddImage);
         ivEditImage = (ImageView) findViewById(R.id.ivEditImage);
-        ibPostItem = (Button) findViewById(R.id.ibPostItem);
         ivImage = (ImageView) findViewById(R.id.ivImage);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
 
         //  ivAddImage.bringToFront();
         //  ivEditImage.bringToFront();
@@ -120,7 +126,17 @@ public class AddItemActivity extends AppCompatActivity {
         LayerDrawable stars = (LayerDrawable) ratingBar.getProgressDrawable();
         stars.getDrawable(2).setColorFilter(getResources().getColor(colorGold), PorterDuff.Mode.SRC_ATOP);
 
-        ibPostItem.setOnClickListener(new View.OnClickListener() {
+        fab.setVisibility(View.INVISIBLE);
+
+        fab.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //start your animation here
+                enterReveal();
+            }
+        }, 750);
+
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 boolean flag = false;
@@ -186,6 +202,7 @@ public class AddItemActivity extends AppCompatActivity {
                     case R.id.action_home:
                         //Toast.makeText(HomeActivity.this, "Home Tab Selected", Toast.LENGTH_SHORT).show();
                         Intent i_home = new Intent(AddItemActivity.this, HomeActivity.class);
+                        exitReveal();
                         startActivity(i_home);
                         break;
 
@@ -193,13 +210,13 @@ public class AddItemActivity extends AppCompatActivity {
                     case R.id.action_notifications:
                         Intent i_notifications = new Intent(AddItemActivity.this, AppNotificationsActivity.class);
                         startActivity(i_notifications);
-                        // Toast.makeText(HomeActivity.this, "Notifications Tab Selected", Toast.LENGTH_SHORT).show();
+                        exitReveal();
                         break;
 
                     case R.id.action_profile:
                         Intent i_profile = new Intent(AddItemActivity.this, ProfileActivity.class);
                         startActivity(i_profile);
-                        //Toast.makeText(AddItemActivity.this, "Profile Tab Selected", Toast.LENGTH_SHORT).show();
+                        exitReveal();
                         break;
                 }
 
@@ -256,6 +273,49 @@ public class AddItemActivity extends AppCompatActivity {
                 });
     }
 
+    void enterReveal() {
+        Log.e("AddItem", "Fab reveal Start");
+        // get the center for the clipping circle
+        int cx = fab.getMeasuredWidth() / 2;
+        int cy = fab.getMeasuredHeight() / 2;
+
+        // get the final radius for the clipping circle
+        int finalRadius = Math.max(fab.getWidth(), fab.getHeight()) / 2;
+
+        // create the animator for this view (the start radius is zero)
+        Animator anim =
+                ViewAnimationUtils.createCircularReveal(fab, cx, cy, 0, finalRadius);
+
+        // make the view visible and start the animation
+        fab.setVisibility(View.VISIBLE);
+        anim.start();
+    }
+
+    void exitReveal() {
+        // get the center for the clipping circle
+        int cx = fab.getMeasuredWidth() / 2;
+        int cy = fab.getMeasuredHeight() / 2;
+
+        // get the initial radius for the clipping circle
+        int initialRadius = fab.getWidth() / 2;
+
+        // create the animation (the final radius is zero)
+        Animator anim =
+                ViewAnimationUtils.createCircularReveal(fab, cx, cy, initialRadius, 0);
+
+        // make the view invisible when the animation is done
+        anim.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                fab.setVisibility(View.INVISIBLE);
+            }
+        });
+
+        // start the animation
+        anim.start();
+    }
+
     public void onPostSuccess() {
         // save the item
         item.saveInBackground(new SaveCallback() {
@@ -270,6 +330,7 @@ public class AddItemActivity extends AppCompatActivity {
                 //intent.putExtra("resource", item.getResource());
 
                 setResult(RESULT_OK, intent);
+                exitReveal();
                 finish();
             }
         });
@@ -435,6 +496,7 @@ public class AddItemActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent i_home = new Intent(AddItemActivity.this, HomeActivity.class);
         i_home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        exitReveal();
         startActivity(i_home);
     }
 

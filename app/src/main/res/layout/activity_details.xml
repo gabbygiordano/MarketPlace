@@ -113,7 +113,7 @@
 
     </ScrollView>
 
-    <Button
+    <ImageButton
         android:id="@+id/btnInterested"
         style="@style/Widget.AppCompat.Button"
         android:layout_width="wrap_content"
@@ -121,9 +121,13 @@
         android:layout_above="@+id/bottomNavigation"
         android:layout_alignParentRight="true"
         android:backgroundTint="@color/Secondary500"
+        android:background="@android:color/transparent"
+        android:paddingBottom="18dp"
+        android:paddingLeft="0dp"
         android:onClick="onInterestedClick"
         android:text="Interested"
-        android:textColor="@android:color/white" />
+        app:srcCompat="@mipmap/ic_launcher"
+        />
 
     <View
         android:layout_width="match_parent"

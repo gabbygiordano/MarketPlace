@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
@@ -50,7 +51,7 @@ public class DetailsActivity extends AppCompatActivity {
     RatingBar rbItemCondition;
     ImageView ivImage;
     TextView tvItemOwner;
-    Button btnInterested;
+    ImageButton btnInterested;
     BottomNavigationView bottomNavigationView;
     TextView tvTimeAgo;
     LikeButton likeButton;
@@ -81,7 +82,7 @@ public class DetailsActivity extends AppCompatActivity {
         rbItemCondition = (RatingBar) findViewById(R.id.rbItemCondition);
         ivImage = (ImageView) findViewById(R.id.ivItemImage);
         tvItemOwner = (TextView) findViewById(R.id.tvItemOwner);
-        btnInterested = (Button) findViewById(R.id.btnInterested);
+        btnInterested = (ImageButton) findViewById(R.id.btnInterested);
         tvTimeAgo = (TextView) findViewById(R.id.tvTimeAgo);
         likeButton = (LikeButton) findViewById(R.id.likeBtn);
 
@@ -103,6 +104,12 @@ public class DetailsActivity extends AppCompatActivity {
                         Intent i_home = new Intent(DetailsActivity.this, HomeActivity.class);
                         i_home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(i_home);
+                        finish();
+                        break;
+
+                    case R.id.action_maps:
+                        Intent i_maps = new Intent(DetailsActivity.this, MapsActivity.class);
+                        startActivity(i_maps);
                         finish();
                         break;
 

@@ -327,7 +327,7 @@ public class ProfileActivity extends AppCompatActivity implements ItemsListFragm
 
     public void addItem(View view) {
         Intent i_add = new Intent(context, AddItemActivity.class);
-        ((HomeActivity) mContext).startActivityForResult(i_add, ADD_ITEM_REQUEST);
+        startActivityForResult(i_add, ADD_ITEM_REQUEST);
     }
 
     @Override
