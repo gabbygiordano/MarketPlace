@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,7 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,6 +52,7 @@ public class ProfileActivity extends AppCompatActivity implements ItemsListFragm
     TextView tvUsername;
     TextView tvCollege;
     TextView tvPhone;
+    TextView tvEmail;
     ImageButton ibEdit;
     ViewPager viewPager;
     ImageButton ibAdd;
@@ -121,6 +120,7 @@ public class ProfileActivity extends AppCompatActivity implements ItemsListFragm
         tvCollege = (TextView) findViewById(R.id.tvCollege);
         tvPhone = (TextView) findViewById(R.id.tvContact);
         ibEdit = (ImageButton) findViewById(R.id.ibEdit);
+        tvEmail = (TextView) findViewById(R.id.tvEmail);
 
         ibEdit.setColorFilter(Color.rgb(255, 87, 34));
 
@@ -281,7 +281,8 @@ public class ProfileActivity extends AppCompatActivity implements ItemsListFragm
                 tvCollege.setText(user.getString("college"));
                 String formattedNumber = PhoneNumberUtils.formatNumber(String.valueOf(user.getLong("phone")));
                 String email = user.getEmail();
-                tvPhone.setText(email + ", " + formattedNumber);
+                tvPhone.setText(formattedNumber);
+                tvEmail.setText(email);
             }
         }
     }
@@ -339,7 +340,7 @@ public class ProfileActivity extends AppCompatActivity implements ItemsListFragm
         startActivity(i_home);
     }
 
-    @Override
+    /*@Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         // Store instance of the menu item containing progress
         miActionProgressItem = menu.findItem(R.id.miActionProgress);
@@ -348,7 +349,7 @@ public class ProfileActivity extends AppCompatActivity implements ItemsListFragm
         // Return to finish
         miActionProgressItem.setVisible(true);
         return true;
-    }
+    }*/
 
 
     @Override
