@@ -1,6 +1,7 @@
 package com.example.gabbygiordano.marketplace;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -9,9 +10,13 @@ import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.animation.BounceInterpolator;
 import android.widget.Toast;
 
@@ -27,6 +32,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
@@ -34,11 +40,15 @@ import java.util.List;
 
 import static com.example.gabbygiordano.marketplace.R.id.map;
 
-public class MapsActivity extends AppCompatActivity {
+public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMapLongClickListener{
 
     MapFragment mapFragment;
     FusedLocationProviderClient mFusedLocationClient;
     BottomNavigationView bottomNavigationView;
+
+    int ADD_ITEM_REQUEST = 10;
+
+    GoogleMap mMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,22 +116,26 @@ public class MapsActivity extends AppCompatActivity {
     protected void loadMap(GoogleMap googleMap) {
         if (googleMap != null) {
             // ... use map here
+            mMap = googleMap;
+
             Toast.makeText(this, "Map loaded successfully!", Toast.LENGTH_LONG).show();
 
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                     && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
-            googleMap.setMyLocationEnabled(true); // false to disable
-            googleMap.getUiSettings().setCompassEnabled(true);
-            googleMap.getUiSettings().setMyLocationButtonEnabled(true);
-            googleMap.getUiSettings().setRotateGesturesEnabled(true);
+            mMap.setMyLocationEnabled(true); // false to disable
+            mMap.getUiSettings().setCompassEnabled(true);
+            mMap.getUiSettings().setMyLocationButtonEnabled(true);
+            mMap.getUiSettings().setRotateGesturesEnabled(true);
 
-            getCurrentLocation(googleMap);
+            mMap.setOnMapLongClickListener(this);
+
+            getCurrentLocation();
         }
     }
 
-    public void getCurrentLocation(final GoogleMap googleMap) {
+    public void getCurrentLocation() {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         //noinspection MissingPermission
         mFusedLocationClient.getLastLocation()
@@ -132,24 +146,24 @@ public class MapsActivity extends AppCompatActivity {
                         if (location != null) {
                             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
                             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
-                            googleMap.animateCamera(cameraUpdate);
+                            mMap.animateCamera(cameraUpdate);
 
-                            googleMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
+                            mMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
                                 @Override
                                 public void onCameraIdle() {
-                                    loadData(googleMap);
-                                    googleMap.setOnCameraIdleListener(null);
+                                    loadData();
+                                    mMap.setOnCameraIdleListener(null);
                                 }
                             });
 
                         } else {
-                            loadData(googleMap);
+                            loadData();
                         }
                     }
                 });
     }
 
-    public void loadData(final GoogleMap googleMap) {
+    public void loadData() {
         ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
         query.whereExists("lat");
         query.whereExists("long");
@@ -163,7 +177,7 @@ public class MapsActivity extends AppCompatActivity {
                         // listingPosition is a LatLng point
                         LatLng listingPosition = new LatLng(objects.get(i).getLatitute(), objects.get(i).getLongitude());
                         // Create the marker on the fragment
-                        Marker marker = googleMap.addMarker(new MarkerOptions().position(listingPosition));
+                        Marker marker = mMap.addMarker(new MarkerOptions().position(listingPosition));
                         marker.setTitle(objects.get(i).getItemName());
                         marker.setSnippet(objects.get(i).getDescription());
                         dropPinEffect(marker);
@@ -203,5 +217,78 @@ public class MapsActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    // Fires when a long press happens on the map
+    @Override
+    public void onMapLongClick(final LatLng point) {
+        Toast.makeText(this, "Long Press", Toast.LENGTH_LONG).show();
+        showAlertDialogForPoint(point);
+    }
+
+    // Display the alert that adds the marker
+    private void showAlertDialogForPoint(final LatLng point) {
+        // inflate alert_item.xml view
+        View messageView = LayoutInflater.from(MapsActivity.this).inflate(R.layout.alert_item, null);
+
+        // Create alert dialog builder
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        // set message_item.xml to AlertDialog builder
+        alertDialogBuilder.setView(messageView);
+
+        // Create alert dialog
+        final AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // Configure dialog button (OK)
+        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Go to add item with these coordinates
+                        Intent i_add = new Intent(MapsActivity.this, AddItemActivity.class);
+                        i_add.putExtra("lat", point.latitude);
+                        i_add.putExtra("long", point.longitude);
+                        startActivityForResult(i_add, ADD_ITEM_REQUEST);
+                    }
+                });
+
+        // Configure dialog button (Cancel)
+        alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) { dialog.cancel(); }
+                });
+
+        // Display the dialog
+        alertDialog.show();
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == ADD_ITEM_REQUEST && resultCode == RESULT_OK) {
+            // drop new marker
+            String id = data.getStringExtra("item_id");
+
+            // Execute the query to find the object with ID
+            ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
+            query.include("owner");
+            query.include("image");
+            query.getInBackground(id, new GetCallback<Item>() {
+                public void done(Item item, ParseException e) {
+                    if (e == null) {
+                        Log.e("ItemsListFragment", "Query successful");
+                        // listingPosition is a LatLng point
+                        LatLng listingPosition = new LatLng(item.getLatitute(), item.getLongitude());
+                        // Create the marker on the fragment
+                        Marker marker = mMap.addMarker(new MarkerOptions().position(listingPosition));
+                        marker.setTitle(item.getItemName());
+                        marker.setSnippet(item.getDescription());
+                        dropPinEffect(marker);
+                    } else {
+                        Log.e("ItemsListFragment", e.getMessage());
+                    }
+                }
+            });
+        }
     }
 }

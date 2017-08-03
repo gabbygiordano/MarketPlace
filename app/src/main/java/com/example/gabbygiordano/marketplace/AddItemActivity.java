@@ -27,7 +27,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.Spinner;
@@ -95,7 +94,12 @@ public class AddItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_item);
         getSupportActionBar().setTitle("Add Item to Marketplace");
 
-        getLastLocation();
+        if (getIntent().hasExtra("lat")) {
+            latitude = getIntent().getDoubleExtra("lat", Double.NaN);
+            longitude = getIntent().getDoubleExtra("long", Double.NaN);
+        } else {
+            getLastLocation();
+        }
 
         galleryPhoto = new GalleryPhoto(getApplicationContext());
 

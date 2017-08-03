@@ -1,6 +1,5 @@
 package com.example.gabbygiordano.marketplace;
 
-import android.content.Context;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
@@ -26,7 +25,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.kosalgeek.android.photoutil.CameraPhoto;
 import com.kosalgeek.android.photoutil.GalleryPhoto;
 import com.kosalgeek.android.photoutil.ImageLoader;
 import com.parse.FindCallback;
@@ -35,12 +33,10 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -227,11 +223,9 @@ public class SettingsActivity extends AppCompatActivity {
                 if(e == null){
 
                     ParseUser userCurrentOfParse = ParseUser.getCurrentUser();
-                    final String imgUrl = userCurrentOfParse.getParseFile("image").getUrl();
                     if(userCurrentOfParse != null) {
                         if(userCurrentOfParse.getParseFile("image") != null) {
-
-
+                            final String imgUrl = userCurrentOfParse.getParseFile("image").getUrl();
                             Glide.with(getApplicationContext()).load(imgUrl).into(ivImage);
                         }
                         else
