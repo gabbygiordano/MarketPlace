@@ -206,12 +206,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         return mContext;
     }
 
-
     // create ViewHolder class
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         public ImageView ivItemImage;
-        public TextView tvItemName;
+        public TightTextView tvItemName;
         public TextView tvSeller;
         public TextView tvPrice;
         public TextView tvTimeAgo;
