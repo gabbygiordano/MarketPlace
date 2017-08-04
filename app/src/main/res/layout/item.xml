@@ -18,7 +18,7 @@
         app:srcCompat="@android:drawable/ic_menu_camera"
         tools:ignore="VectorDrawableCompat" />
 
-    <TextView
+    <com.example.gabbygiordano.marketplace.TightTextView
         android:id="@+id/tvItemName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,6 +27,7 @@
         android:layout_marginTop="2dp"
         android:layout_toEndOf="@+id/ivItemImage"
         android:layout_toRightOf="@+id/ivItemImage"
+        android:maxWidth="200dp"
         android:text="Item Name"
         android:textColor="@android:color/black"
         android:textSize="20sp"
@@ -51,9 +52,9 @@
         android:text="n"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:layout_marginBottom="2dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="8dp"
         android:textColor="?android:attr/textColorHint"
-        android:layout_alignBottom="@+id/tvItemName"
         android:layout_toRightOf="@+id/tvItemName"
         android:layout_toEndOf="@+id/tvItemName" />
 

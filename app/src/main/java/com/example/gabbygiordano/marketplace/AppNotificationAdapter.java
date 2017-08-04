@@ -217,7 +217,7 @@ public class AppNotificationAdapter extends RecyclerView.Adapter<AppNotification
                             }
                         };
 
-                        Snackbar.make(view, "Item Deleted!", Snackbar.LENGTH_LONG)
+                        Snackbar.make(view, "Notification Deleted!", Snackbar.LENGTH_LONG)
                                 .setAction("UNDO", myOnClickListener)
                                 .setActionTextColor(Color.rgb(255, 87, 34))
                                 .addCallback(new Snackbar.Callback() {
