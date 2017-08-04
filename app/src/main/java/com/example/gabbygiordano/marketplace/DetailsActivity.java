@@ -55,6 +55,7 @@ public class DetailsActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     TextView tvTimeAgo;
     LikeButton likeButton;
+    Button btBought;
 
     private Item parseItem;
 
@@ -85,6 +86,7 @@ public class DetailsActivity extends AppCompatActivity {
         btnInterested = (ImageButton) findViewById(R.id.btnInterested);
         tvTimeAgo = (TextView) findViewById(R.id.tvTimeAgo);
         likeButton = (LikeButton) findViewById(R.id.likeBtn);
+        btBought = (Button) findViewById(R.id.btBought);
 
         LayerDrawable stars = (LayerDrawable) rbItemCondition.getProgressDrawable();
         stars.getDrawable(2).setColorFilter(getResources().getColor(colorGold), PorterDuff.Mode.SRC_ATOP);
@@ -286,6 +288,11 @@ public class DetailsActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void onBoughtClicked(View view){
+        Intent i = new Intent(this, RatingActivity.class);
+        startActivity(i);
     }
 
     public boolean onCreateOptionsMenu(Menu menu){
