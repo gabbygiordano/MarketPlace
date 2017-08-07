@@ -87,6 +87,25 @@
             android:layout_marginLeft="5dp"
             android:text="Phone" />
 
+        <TextView
+            android:id="@+id/tvEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/linearLayout"
+            android:layout_alignEnd="@+id/ibEdit"
+            android:layout_alignRight="@+id/ibEdit"
+            android:text="Email" />
+
+        <TextView
+            android:id="@+id/tvRating"
+            android:layout_marginRight="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tvCollege"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/tvUsername"
+            android:text="Rating" />
+
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/floatingActionButton5"
             android:layout_width="wrap_content"
@@ -149,24 +168,6 @@
             app:itemIconTint="@drawable/item_color_state"
             app:itemTextColor="@drawable/item_color_state"
             app:menu="@menu/bottom_navigation_main" />
-
-        <TextView
-            android:id="@+id/tvEmail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/linearLayout"
-            android:layout_alignEnd="@+id/ibEdit"
-            android:layout_alignRight="@+id/ibEdit"
-            android:text="Email" />
-
-        <TextView
-            android:id="@+id/tvRating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/tvCollege"
-            android:layout_alignParentRight="true"
-            android:text="Rating"
-            android:layout_below="@+id/tvUsername" />
 
     </RelativeLayout>
 
