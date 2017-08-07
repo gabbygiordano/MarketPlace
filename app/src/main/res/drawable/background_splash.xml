@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:drawable="@color/colorWhiteLogo"/>
+
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/college_market_place_logo"/>
+    </item>
+
+</layer-list>

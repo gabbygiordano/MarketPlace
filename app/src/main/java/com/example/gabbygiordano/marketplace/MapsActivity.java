@@ -276,6 +276,13 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMapLo
                     public void onClick(DialogInterface dialog, int id) { dialog.cancel(); }
                 });
 
+        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.Secondary500));
+            }
+        });
+
         // Display the dialog
         alertDialog.show();
     }

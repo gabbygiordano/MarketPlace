@@ -35,13 +35,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".SignUpActivity"
-            android:noHistory="true">
+            android:name=".SplashActivity"
+            android:noHistory="true"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".SignUpActivity"
+            android:noHistory="true">
         </activity>
         <activity
             android:name=".LoginActivity"
@@ -57,7 +62,6 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity android:name=".AppNotificationsActivity" />
         <activity android:name=".ProfileActivity" />
-        <!-- android:theme="@style/ProfileTheme"/> -->
         <activity android:name=".DetailsActivity" />
         <activity android:name=".SettingsActivity" />
 
@@ -65,7 +69,6 @@
             android:name=".NotificationService"
             android:exported="false" />
 
-        <activity android:name=".fragments.FavoritesFragment" />
         <activity android:name=".UserProfileActivity" />
 
         <meta-data
@@ -73,7 +76,7 @@
             android:value="@string/google_maps_api_key" />
 
         <activity android:name=".MapsActivity" />
-        <activity android:name=".RatingActivity"></activity>
+        <activity android:name=".RatingActivity"/>
     </application>
 
 </manifest>
