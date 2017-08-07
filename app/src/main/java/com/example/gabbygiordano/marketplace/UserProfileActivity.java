@@ -114,6 +114,11 @@ public class UserProfileActivity extends AppCompatActivity {
                         finish();
                         break;
 
+                    case R.id.action_maps:
+                        Intent i_maps = new Intent(UserProfileActivity.this, MapsActivity.class);
+                        startActivity(i_maps);
+                        finish();
+                        break;
 
                     case R.id.action_notifications:
                         Intent i_notifications = new Intent(UserProfileActivity.this, AppNotificationsActivity.class);

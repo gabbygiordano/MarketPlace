@@ -222,7 +222,7 @@ public class AppNotificationsActivity extends AppCompatActivity {
                                 // make push notification here
                                 NotificationCompat.Builder mBuilder =
                                         new NotificationCompat.Builder(context)
-                                                .setSmallIcon(R.drawable.homeicon)
+                                                .setSmallIcon(R.drawable.home_icon)
                                                 .setContentTitle("New item request!")
                                                 .setAutoCancel(true)
                                                 .setContentText("Tap to view");
