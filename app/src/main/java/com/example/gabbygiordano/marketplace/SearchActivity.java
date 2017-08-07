@@ -62,7 +62,7 @@ public class SearchActivity extends AppCompatActivity {
 
         ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
         query.include("owner");
-        query.whereContains("item_name".toLowerCase(), search.toLowerCase());
+        query.whereMatches("item_name", "(" + search + ")", "i");
         query.orderByDescending("_created_at");
         query.findInBackground(new FindCallback<Item>() {
             public void done(List<Item> itemsList, ParseException e) {
