@@ -1,6 +1,7 @@
 package com.example.gabbygiordano.marketplace;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -16,6 +18,7 @@ import android.text.format.DateUtils;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -209,6 +212,14 @@ public class DetailsActivity extends AppCompatActivity {
                                 .load(imageUri)
                                 .into(ivImage);
                     }
+
+                    // check if user already interested in this item
+                    ArrayList<String> interests = (ArrayList<String>) ParseUser.getCurrentUser().get("interestedItems");
+                    if (interests != null && !interests.isEmpty() && interests.contains(item.getObjectId())) {
+                        btBought.setVisibility(View.VISIBLE);
+                    } else {
+                        btBought.setVisibility(View.GONE);
+                    }
                 } else
                     {
                     // something went wrong
@@ -291,9 +302,60 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     public void onBoughtClicked(View view){
-        Intent i = new Intent(this, RatingActivity.class);
-        i.putExtra("itemId", mItem.getObjectId());
-        startActivity(i);
+        // inflate message_item.xml view
+        View  ratingView = LayoutInflater.from(DetailsActivity.this).inflate(R.layout.feedback_alert, null);
+        // Create alert dialog builder
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        // set message_item.xml to AlertDialog builder
+        alertDialogBuilder.setView(ratingView);
+
+        final RatingBar rbSellerRating = ratingView.findViewById(R.id.rbSellerRating);
+        LayerDrawable stars = (LayerDrawable) rbSellerRating.getProgressDrawable();
+        stars.getDrawable(2).setColorFilter(getResources().getColor(colorGold), PorterDuff.Mode.SRC_ATOP);
+
+        // Create alert dialog
+        final AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // Configure dialog button (OK)
+        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if ((int) rbSellerRating.getRating() == 0) {
+                            Toast.makeText(context, "Rating cannot be empty", Toast.LENGTH_LONG).show();
+                        } else {
+                            // get owner
+                            owner = mItem.getOwner();
+
+                            // add rating to owner's list
+                            ArrayList<Integer> rating_list = (ArrayList<Integer>) owner.get("rating_list");
+                            rating_list.add((int) rbSellerRating.getRating());
+                            owner.put("rating_list", rating_list);
+                            owner.saveInBackground();
+
+                            // make toast
+                            Toast.makeText(context, "Feedback received!", Toast.LENGTH_LONG).show();
+
+                            btBought.setVisibility(View.GONE);
+                        }
+                    }
+                });
+
+        // Configure dialog button (Cancel)
+        alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) { dialog.cancel(); }
+                });
+
+        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.Secondary500));
+            }
+        });
+
+        // Display the dialog
+        alertDialog.show();
     }
 
     public boolean onCreateOptionsMenu(Menu menu){
