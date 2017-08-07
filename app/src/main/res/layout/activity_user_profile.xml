@@ -70,22 +70,22 @@
             app:itemTextColor="@drawable/item_color_state"
             app:menu="@menu/bottom_navigation_main" />
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/floatingActionButton5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_gravity="right"
-            android:layout_marginBottom="75dp"
-            android:layout_marginEnd="10dp"
-            android:onClick="addItem"
-            app:background="@drawable/circle"
-            app:backgroundTint="@color/Secondary500"
-            app:borderWidth="0dp"
-            android:src="@drawable/ic_add_item"
-            app:elevation="12dp"
-            app:fabSize="normal" />
+        <!--<android.support.design.widget.FloatingActionButton-->
+            <!--android:id="@+id/floatingActionButton5"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_alignParentEnd="true"-->
+            <!--android:layout_gravity="right"-->
+            <!--android:layout_marginBottom="75dp"-->
+            <!--android:layout_marginEnd="10dp"-->
+            <!--android:onClick="addItem"-->
+            <!--app:background="@drawable/circle"-->
+            <!--app:backgroundTint="@color/Secondary500"-->
+            <!--app:borderWidth="0dp"-->
+            <!--android:src="@drawable/ic_add_item"-->
+            <!--app:elevation="12dp"-->
+            <!--app:fabSize="normal" />-->
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvProfileItems"

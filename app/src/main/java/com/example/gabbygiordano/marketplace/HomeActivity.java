@@ -32,7 +32,6 @@ import com.parse.ParseUser;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 public class HomeActivity extends AppCompatActivity implements ItemsListFragment.ProgressListener {
 
@@ -266,7 +265,7 @@ public class HomeActivity extends AppCompatActivity implements ItemsListFragment
                                 // make push notification here
                                 NotificationCompat.Builder mBuilder =
                                         new NotificationCompat.Builder(getApplicationContext())
-                                                .setSmallIcon(R.drawable.homeicon)
+                                                .setSmallIcon(R.drawable.home_icon)
                                                 .setContentTitle("New item request from " + name + "!")
                                                 .setAutoCancel(true)
                                                 .setContentText("Tap to view");
