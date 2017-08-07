@@ -1,18 +1,14 @@
 package com.example.gabbygiordano.marketplace;
 
-import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RatingBar;
+import android.widget.Toast;
 
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -54,7 +50,8 @@ public class RatingActivity extends AppCompatActivity {
     }
 
     public void onSubmitClicked(View view){
-        itemId = getIntent().getStringExtra("itemId");
+        Toast.makeText(this, "button clicked", Toast.LENGTH_LONG).show();
+        /* itemId = getIntent().getStringExtra("itemId");
         ParseQuery<Item> query = ParseQuery.getQuery(Item.class);
         query.include("owner");
         query.whereEqualTo("itemId", itemId);
@@ -75,7 +72,7 @@ public class RatingActivity extends AppCompatActivity {
         con = (int) ratingBar.getRating();
         mUser.put("rating_list", con);
         Intent i = new Intent(this, ProfileActivity.class);
-        startActivity(i);
+        startActivity(i); */
     }
 
     public void addItems(List<Item> list){
