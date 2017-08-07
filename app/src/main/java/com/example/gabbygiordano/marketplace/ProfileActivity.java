@@ -288,15 +288,16 @@ public class ProfileActivity extends AppCompatActivity implements ItemsListFragm
                 tvPhone.setText(formattedNumber);
                 tvEmail.setText(email);
 
-                /* List ratings = user.getList("rating_list");
-                int total =0;
-                for(int i =0; i<ratings.size()-1; i++){
-                    total = total + (int) ratings.get(i);
+                ArrayList<Integer> ratings = (ArrayList<Integer>) user.get("rating_list");
+                float total = 0;
+                float avg = 0;
+                if (ratings != null && !ratings.isEmpty()) {
+                    for (int i = 0; i < ratings.size(); i++) {
+                        total = total + (float) ratings.get(i);
+                    }
+                    avg = total / ratings.size();
                 }
-                float avg = (float) total / ratings.size();
-
-                tvRating.setText(String.valueOf(avg) + "/5"); */
-
+                tvRating.setText(String.format("%.1f/5", avg));
             }
         }
     }
