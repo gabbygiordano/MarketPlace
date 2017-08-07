@@ -7,7 +7,10 @@
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="fill_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -57,13 +60,17 @@
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/ivItemImage"
                 android:ems="10"
-                android:inputType="textPersonName"
+                android:inputType="textPersonName|textMultiLine"
                 android:text="Name"
                 android:textAlignment="viewStart"
                 android:textColor="@android:color/black"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                android:layout_margin="5dp" />
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_alignRight="@+id/tvItemPrice"
+                android:layout_alignEnd="@+id/tvItemPrice" />
 
             <TextView
                 android:id="@+id/tvItemPrice"

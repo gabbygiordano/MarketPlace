@@ -225,6 +225,7 @@ public class ProfileActivity extends AppCompatActivity implements ItemsListFragm
                     case R.id.action_maps:
                         Intent i_maps = new Intent(ProfileActivity.this, MapsActivity.class);
                         startActivity(i_maps);
+                        finish();
                         break;
 
 

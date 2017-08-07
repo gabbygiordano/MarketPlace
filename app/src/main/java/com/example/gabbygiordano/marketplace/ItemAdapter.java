@@ -1,9 +1,11 @@
 package com.example.gabbygiordano.marketplace;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -206,12 +208,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         return mContext;
     }
 
-
     // create ViewHolder class
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         public ImageView ivItemImage;
-        public TextView tvItemName;
+        public TightTextView tvItemName;
         public TextView tvSeller;
         public TextView tvPrice;
         public TextView tvTimeAgo;
@@ -253,53 +254,74 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         }
 
         @Override
-        public boolean onLongClick(View view){
+        public boolean onLongClick(final View view){
             final int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION){
                 thisItem = mItems.get(position);
             }
             if (thisItem.getOwner().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())){
-                mItems.remove(position);
-                notifyItemRemoved(position);
+                // Create alert dialog builder
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+                alertDialogBuilder.setTitle("Delete this item?");
 
-                // Define the click listener as a member
-                View.OnClickListener myOnClickListener = new View.OnClickListener() {
+                // Create alert dialog
+                final AlertDialog alertDialog = alertDialogBuilder.create();
+
+                alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
-                        // Restore item to list
-                        flag = false;
-                        mItems.add(position, thisItem);
-                        notifyItemInserted(position);
-                    }
-                };
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        mItems.remove(position);
+                        notifyItemRemoved(position);
 
-                Snackbar.make(view, "Item Deleted!", Snackbar.LENGTH_LONG)
-                        .setAction("UNDO", myOnClickListener)
-                        .setActionTextColor(Color.rgb(255, 87, 34))
-                        .addCallback(new Snackbar.Callback() {
+                        // Define the click listener as a member
+                        View.OnClickListener myOnClickListener = new View.OnClickListener() {
                             @Override
-                            public void onDismissed(Snackbar transientBottomBar, int event) {
-                                if (flag) {
-                                    // remove corresponding notification if exists
-                                    ParseQuery<AppNotification> query = ParseQuery.getQuery(AppNotification.class);
-                                    query.include("owner");
-                                    query.include("image");
-                                    query.whereEqualTo("item", thisItem);
-                                    query.findInBackground(new FindCallback<AppNotification>() {
-                                        @Override
-                                        public void done(List<AppNotification> objects, ParseException e) {
-                                            if (objects != null && !objects.isEmpty()) {
-                                                objects.get(0).deleteInBackground();
-                                            }
-                                        }
-                                    });
-
-                                    thisItem.deleteInBackground();
-                                    // Toast.makeText(context, "Item deleted from database!", Toast.LENGTH_LONG).show();
-                                }
+                            public void onClick(View v) {
+                                // Restore item to list
+                                flag = false;
+                                mItems.add(position, thisItem);
+                                notifyDataSetChanged();
                             }
-                        })
-                        .show();
+                        };
+
+                        Snackbar.make(view, "Item Deleted!", Snackbar.LENGTH_LONG)
+                                .setAction("UNDO", myOnClickListener)
+                                .setActionTextColor(Color.rgb(255, 87, 34))
+                                .addCallback(new Snackbar.Callback() {
+                                    @Override
+                                    public void onDismissed(Snackbar transientBottomBar, int event) {
+                                        if (flag) {
+                                            // remove corresponding notification if exists
+                                            ParseQuery<AppNotification> query = ParseQuery.getQuery(AppNotification.class);
+                                            query.include("owner");
+                                            query.include("image");
+                                            query.whereEqualTo("item", thisItem);
+                                            query.findInBackground(new FindCallback<AppNotification>() {
+                                                @Override
+                                                public void done(List<AppNotification> objects, ParseException e) {
+                                                    if (objects != null && !objects.isEmpty()) {
+                                                        objects.get(0).deleteInBackground();
+                                                    }
+                                                }
+                                            });
+
+                                            thisItem.deleteInBackground();
+                                            // Toast.makeText(context, "Item deleted from database!", Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                })
+                                .show();
+                    }
+                });
+
+                alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+
+                alertDialog.show();
             }
             return true;
         }

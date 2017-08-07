@@ -1,6 +1,7 @@
 package com.example.gabbygiordano.marketplace;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -51,10 +52,14 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMapLo
 
     private HashMap<String, Item> markers= new HashMap<String, Item>();
 
+    Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        context = this;
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
@@ -119,19 +124,21 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMapLo
             // ... use map here
             mMap = googleMap;
 
-            Toast.makeText(this, "Map loaded successfully!", Toast.LENGTH_LONG).show();
+            Log.e("MapsActivity", "Map loaded successfully!");
 
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                     && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
+            mMap.setPadding(0, 0, 0, 175);
+
             mMap.setMyLocationEnabled(true); // false to disable
             mMap.getUiSettings().setCompassEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(true);
             mMap.getUiSettings().setRotateGesturesEnabled(true);
-            //mMap.getUiSettings().setZoomControlsEnabled(true);
+            mMap.getUiSettings().setZoomControlsEnabled(true);
             mMap.getUiSettings().setTiltGesturesEnabled(true);
-            //mMap.getUiSettings().setMapToolbarEnabled(true);
+            mMap.getUiSettings().setMapToolbarEnabled(true);
 
             mMap.setOnMapLongClickListener(this);
             mMap.setOnInfoWindowClickListener(this);
@@ -189,6 +196,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMapLo
                         markers.put(marker.getId(), objects.get(i));
                     }
                 }
+                Toast.makeText(context, "Long click to add item", Toast.LENGTH_LONG).show();
             }
         });
     }

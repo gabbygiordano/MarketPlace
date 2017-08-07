@@ -15,22 +15,21 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class AppNotificationsActivity extends AppCompatActivity {
 
@@ -151,6 +150,56 @@ public class AppNotificationsActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_notifications, menu);
+        MenuItem sortItem = menu.findItem(R.id.action_sort);
+
+        sortItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                appNotifications.clear();
+                appNotificationAdapter.notifyDataSetChanged();
+
+                ParseQuery<AppNotification> query = ParseQuery.getQuery(AppNotification.class);
+                query.include("owner");
+                query.include("buyer");
+                query.include("item");
+                query.whereEqualTo("owner", ParseUser.getCurrentUser());
+                query.orderByDescending("item_name");
+                query.findInBackground(new FindCallback<AppNotification>() {
+                    public void done(List<AppNotification> notificationsList, ParseException e) {
+                        if (e == null) {
+                            if (notificationsList != null && !notificationsList.isEmpty()) {
+                                lastNotif = (Date) notificationsList.get(0).get("date");
+
+                                if (notificationsList.size() > 0) {
+                                    Collections.sort(notificationsList, new Comparator<AppNotification>() {
+                                        @Override
+                                        public int compare(final AppNotification notif1, final AppNotification notif2) {
+                                            return notif1.getItem().getItemName().compareTo(notif2.getItem().getItemName());
+                                        }
+                                    });
+                                }
+
+                                for (int i = 0; i < notificationsList.size(); i++) {
+                                    appNotifications.add(notificationsList.get(i));
+                                    appNotificationAdapter.notifyItemInserted(appNotifications.size()-1);
+                                }
+                            }
+                        } else {
+                            Log.d("NotificationsActivity", e.getMessage());
+                        }
+                    }
+                });
+                return false;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
     void refreshMessages() {
         // make the query
         ParseQuery<AppNotification> parseQuery = ParseQuery.getQuery(AppNotification.class);;
@@ -173,7 +222,7 @@ public class AppNotificationsActivity extends AppCompatActivity {
                                 // make push notification here
                                 NotificationCompat.Builder mBuilder =
                                         new NotificationCompat.Builder(context)
-                                                .setSmallIcon(R.drawable.homeicon)
+                                                .setSmallIcon(R.drawable.home_icon)
                                                 .setContentTitle("New item request!")
                                                 .setAutoCancel(true)
                                                 .setContentText("Tap to view");
