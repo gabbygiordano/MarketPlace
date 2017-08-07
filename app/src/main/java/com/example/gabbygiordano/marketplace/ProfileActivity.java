@@ -56,6 +56,7 @@ public class ProfileActivity extends AppCompatActivity implements ItemsListFragm
     ImageButton ibEdit;
     ViewPager viewPager;
     ImageButton ibAdd;
+    TextView tvRating;
 //    ImageView ivItemImage;
 //    ImageButton ibFavoriteOff;
 //    ImageButton ibFavoriteOn;
@@ -121,6 +122,8 @@ public class ProfileActivity extends AppCompatActivity implements ItemsListFragm
         tvPhone = (TextView) findViewById(R.id.tvContact);
         ibEdit = (ImageButton) findViewById(R.id.ibEdit);
         tvEmail = (TextView) findViewById(R.id.tvEmail);
+        tvRating = (TextView) findViewById(R.id.tvRating);
+
 
         ibEdit.setColorFilter(Color.rgb(255, 87, 34));
 
@@ -284,6 +287,16 @@ public class ProfileActivity extends AppCompatActivity implements ItemsListFragm
                 String email = user.getEmail();
                 tvPhone.setText(formattedNumber);
                 tvEmail.setText(email);
+
+                /* List ratings = user.getList("rating_list");
+                int total =0;
+                for(int i =0; i<ratings.size()-1; i++){
+                    total = total + (int) ratings.get(i);
+                }
+                float avg = (float) total / ratings.size();
+
+                tvRating.setText(String.valueOf(avg) + "/5"); */
+
             }
         }
     }
