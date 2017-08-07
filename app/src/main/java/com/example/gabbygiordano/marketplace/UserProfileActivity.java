@@ -39,6 +39,7 @@ public class UserProfileActivity extends AppCompatActivity {
     TextView tvUsername;
     TextView tvCollege;
     TextView tvPhone;
+    TextView tvRating;
     RecyclerView rvProfileItems;
 
     Button btFavorites;
@@ -88,6 +89,7 @@ public class UserProfileActivity extends AppCompatActivity {
         tvUsername = (TextView) findViewById(R.id.tvUsername);
         tvCollege = (TextView) findViewById(R.id.tvCollege);
         tvPhone = (TextView) findViewById(R.id.tvPhone);
+        tvRating = (TextView) findViewById(R.id.tvRating);
 
         fetchTimelineAsync();
         
@@ -173,6 +175,16 @@ public class UserProfileActivity extends AppCompatActivity {
                         tvName.setText(item.getOwner().getString("name"));
                         tvUsername.setText(item.getOwner().getUsername());
                         tvCollege.setText(item.getOwner().getString("college"));
+                        ArrayList<Integer> ratings = (ArrayList<Integer>) item.getOwner().get("rating_list");
+                        float total = 0;
+                        float avg = 0;
+                        if (ratings != null && !ratings.isEmpty()) {
+                            for (int i = 0; i < ratings.size(); i++) {
+                                total = total + (float) ratings.get(i);
+                            }
+                            avg = total / ratings.size();
+                        }
+                        tvRating.setText(String.format("%.1f/5", avg));
 
                         if (item.getOwner().getParseFile("image") != null) {
                             String imgUri = item.getOwner().getParseFile("image").getUrl();
