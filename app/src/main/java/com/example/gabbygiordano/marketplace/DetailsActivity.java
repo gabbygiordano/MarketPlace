@@ -292,6 +292,7 @@ public class DetailsActivity extends AppCompatActivity {
 
     public void onBoughtClicked(View view){
         Intent i = new Intent(this, RatingActivity.class);
+        i.putExtra("itemId", mItem.getObjectId());
         startActivity(i);
     }
 

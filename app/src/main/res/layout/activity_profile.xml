@@ -159,6 +159,15 @@
             android:layout_alignRight="@+id/ibEdit"
             android:text="Email" />
 
+        <TextView
+            android:id="@+id/tvRating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tvCollege"
+            android:layout_alignParentRight="true"
+            android:text="Rating"
+            android:layout_below="@+id/tvUsername" />
+
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>
