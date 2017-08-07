@@ -74,9 +74,12 @@ public class DetailsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        showProgressBar();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
         getSupportActionBar().setTitle("Item Details");
+
+
 
         context = this;
 
@@ -145,7 +148,9 @@ public class DetailsActivity extends AppCompatActivity {
         query.include("owner");
         query.getInBackground(itemId, new GetCallback<Item>() {
             public void done(Item item, ParseException e) {
+                showProgressBar();
                 if (e == null) {
+                    showProgressBar();
                     mItem = item;
                     // now we have an item object, need to define fields
                     tvItemName.setText(item.getItemName());
@@ -204,6 +209,7 @@ public class DetailsActivity extends AppCompatActivity {
                     parseItem = item;
 
                     getSupportActionBar().setTitle(item.getItemName());
+                    showProgressBar();
 
                     if (item.getImage() != null) {
                         String imageUri = item.getImage().getUrl();
@@ -226,8 +232,14 @@ public class DetailsActivity extends AppCompatActivity {
                 }
                 hideProgressBar();
 
+
             }
+
         });
+        hideProgressBar();
+
+
+
 
 
 
@@ -249,6 +261,7 @@ public class DetailsActivity extends AppCompatActivity {
                 }
             }
         });
+        hideProgressBar();
     }
 
     // getRelativeTimeAgo("Mon Apr 01 21:16:23 +0000 2014");
@@ -299,6 +312,7 @@ public class DetailsActivity extends AppCompatActivity {
                 }
             }
         });
+        hideProgressBar();
     }
 
     public void onBoughtClicked(View view){
@@ -377,13 +391,15 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     public void showProgressBar() {
-        // Show progress item
-        miActionProgressItem.setVisible(true);
+        if (miActionProgressItem != null) {
+            miActionProgressItem.setVisible(true);
+        }
     }
 
     public void hideProgressBar() {
-        // Hide progress item
-        miActionProgressItem.setVisible(false);
+        if (miActionProgressItem != null) {
+            miActionProgressItem.setVisible(false);
+        }
     }
 
 

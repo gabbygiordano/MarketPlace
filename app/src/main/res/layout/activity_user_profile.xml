@@ -54,6 +54,16 @@
             android:textColor="@android:color/black"
             android:textSize="16sp" />
 
+        <TextView
+            android:id="@+id/tvRating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tvCollege"
+            android:layout_alignParentRight="true"
+            android:text="Rating"
+            android:layout_marginRight="5dp"
+            android:layout_below="@+id/tvUsername" />
+
         <View
             android:layout_width="match_parent"
             android:layout_above="@id/bottomNavigation"
