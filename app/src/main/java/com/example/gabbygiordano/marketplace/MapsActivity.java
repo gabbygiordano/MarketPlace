@@ -11,8 +11,10 @@ import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -50,7 +52,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMapLo
 
     GoogleMap mMap;
 
-    private HashMap<String, Item> markers= new HashMap<String, Item>();
+    private HashMap<Marker, Item> markers= new HashMap<Marker, Item>();
 
     Context context;
 
@@ -193,7 +195,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMapLo
                         marker.setTitle(objects.get(i).getItemName());
                         // marker.setSnippet(objects.get(i).getDescription());
                         dropPinEffect(marker);
-                        markers.put(marker.getId(), objects.get(i));
+                        markers.put(marker, objects.get(i));
                     }
                 }
                 Toast.makeText(context, "Long click to add item", Toast.LENGTH_LONG).show();
@@ -236,7 +238,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMapLo
     // Fires when info window for a marker is clicked
     @Override
     public void onInfoWindowClick(Marker marker) {
-        Item mapItem = (Item) markers.get(marker.getId());
+        Item mapItem = (Item) markers.get(marker);
         Intent i = new Intent(MapsActivity.this, DetailsActivity.class);
         i.putExtra("ID", mapItem.getObjectId());
         startActivity(i);
@@ -307,7 +309,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMapLo
                         // Create the marker on the fragment
                         Marker marker = mMap.addMarker(new MarkerOptions().position(listingPosition));
                         marker.setTitle(item.getItemName());
-                        marker.setSnippet(item.getDescription());
+                        markers.put(marker, item);
                         dropPinEffect(marker);
                     } else {
                         Log.e("ItemsListFragment", e.getMessage());
@@ -315,5 +317,36 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMapLo
                 }
             });
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_maps, menu);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(final String text) {
+                for (Marker marker : markers.keySet()) {
+                    Item item = markers.get(marker);
+                    if (item.getItemName().toLowerCase().contains(text.toLowerCase())) {
+                        marker.showInfoWindow();
+                        mMap.animateCamera(CameraUpdateFactory.newLatLng(marker.getPosition()), 250, null);
+                    }
+                }
+
+                searchView.clearFocus();
+
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        return true;
     }
 }
