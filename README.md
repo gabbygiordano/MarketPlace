@@ -5,23 +5,25 @@ Marketplace is an easy way for college students to buy and sell items on their c
 
 **User Stories**
 
-- [x] Fragmented Home Timeline
-- [x] Search
-- [x] Item
-  - [x] Add Item
-  - [x] Favorite Item
-  - [x] Interest Item
-  - [x] Detail View of Item
-  - [x] View of Owner Profile of certain Item
-- [x] Map View
-  - [x] Pin of every item on map
-  - [x] Can search map for an item and then get directions to it
-- [x] Notifications
-- [x] Fragmented User Profile
-  - [x] Settings
-    - [x] Change Profile Picture and other User Info
-  - [x] Delete Items
-    - [x] Undo Delete
-  - [x] Current user has 3 fragments: Selling, Favorited, Interested
-  - [x] Other users just show selling
-  
+- Fragmented Home Timeline
+  - Shows items being sold at user's college/university
+  - Tabs sorted by item type (Books, Clothes, Electronics, Misc)
+- Search by item name
+- Item
+  - Post item to market
+  - "Favorite" item to save for later
+  - "Interest" item to notify owner you want to buy it
+  - Detail view links to item owner's profile
+- Map view
+  - Nearby items shown by pins
+  - Search map by item name to view location
+  - Integrated with Google Maps to get directions to pins
+  - Long press to add item at arbitrary location on map
+- Notifications
+  - Expressing interest in buying item sends Android push notification to owner
+  - Owner can reply to buyer via text or email
+- Fragmented User Profile
+  - Settings - edit profile picture and other user info
+  - Long press to delete item, can undo
+  - Own profile shows 3 fragments: Selling, Favorited, Interested
+  - Other users' profiles show items for sale
