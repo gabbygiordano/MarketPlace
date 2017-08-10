@@ -27,3 +27,7 @@ Marketplace is an easy way for college students to buy and sell items on their c
   - Long press to delete item, can undo
   - Own profile shows 3 fragments: Selling, Favorited, Interested
   - Other users' profiles show items for sale
+
+**Video Walkthrough**
+
+![Walkthrough](walkthrough.gif)
